@@ -1,5 +1,5 @@
 import urllib.parse
-
+import mysql.connector
 
 def UrlParse(url):
     
@@ -17,4 +17,40 @@ def UrlParse(url):
 
 
 def Log_In(username, password):
+    '''
+    This is the method to connect the database and check the username and password,
+    if it is existed, then we get the user id and return back
+    else we send back bad error code
+    '''
+    
+    STATUS = 200
+    
+    USERID = 0
+    
+    CONNECTIONS = mysql.connector.connect(user='root', 
+    password='jizhongce123', 
+    host='127.0.0.1', 
+    database='Web_Data')
+    
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT User_ID FROM Users WHERE User_Name = \'{}\' ').format(username)
+
+    CURSOR.execute(QUERYSQL)
+    
+    QUERYLIST = CURSOR.fetchall()
+    
+    if not QUERYLIST:
+        STATUS = 405
+    
+    else:
+        (USERID,) = QUERYLIST[0]
+        
+    CURSOR.close()
+    
+    CONNECTIONS.commit()
+    
+    CONNECTIONS.close()
+    
+    return(STATUS, USERID)
     
