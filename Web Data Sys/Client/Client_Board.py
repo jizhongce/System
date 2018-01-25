@@ -1,4 +1,4 @@
-from Client_utli import LOG_IN, Error_Code_Handler
+from Client_utli import LOG_IN, SIGN_UP, Error_Code_Handler
 import getch
 
 '''
@@ -28,13 +28,34 @@ while True:
     SELECTION = getch.getch()
     
     if SELECTION == '1':
-        '''HERE ASK FOR THE USERNAME AND PASSWORD
+        '''
+        HERE ASK FOR THE USERNAME AND PASSWORD
         THEN PASSED IN TO LOG IN FUNCTION,
-        THEN FUNCTION RETURN THE STATUS AND USER'''
+        THEN FUNCTION RETURN THE STATUS AND USER
+        '''
+        
         print('Log In is selected!')
         USER_NAME = input('\nUser Name: ')
         PASSWORD = input('\nPassword :')
         (RESPONSE_STATUS, RESPONSE_DATA) = LOG_IN(USER_NAME, PASSWORD)
+        if RESPONSE_STATUS == 200:
+            USER_ID = RESPONSE_DATA
+            break
+        else:
+            # Here create a new function to handle the error code
+            Error_Code_Handler(RESPONSE_STATUS)
+    
+    elif SELECTION == '2':
+        '''
+        HERE ASK FOR SIGN IN USERNAME, PASSWORD AND PHONE NUMBER,
+        THEN PASSED INTO SIGN UP FUNCTION, AFTER SERVER CHECK THE USERNAME AND PHONE NUMBER,
+        ASK FOR THE VERIF THE PHONE NUMBER. 
+        '''
+        print('Sign Up is selected!')
+        USER_NAME = input('\nUser Name : ')
+        PASSWORD = input('\nPassword : ')
+        PHONE_NUMBER = input('\nPhone Number : ')
+        (RESPONSE_STATUS, RESPONSE_DATA) = SIGN_UP(USER_NAME, PASSWORD, PHONE_NUMBER)
         if RESPONSE_STATUS == 200:
             USER_ID = RESPONSE_DATA
             break
