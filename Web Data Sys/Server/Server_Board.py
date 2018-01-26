@@ -1,9 +1,9 @@
-import mysql.connector
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 from Server_utli import UrlParse, Log_In, Sign_Up
 import json
 import hashlib, uuid
+
 
 
 class MyNewhandler(BaseHTTPRequestHandler):
