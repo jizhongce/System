@@ -65,11 +65,15 @@ import requests
 # '''
 #
 
-def SendSMS(PhoneNum):
+def SendSMS(PhoneNum, CODE):
     # This is the accesskey and accessSecret
     accessKeyId = "LTAIWAFaI2a8kv8n"
 
     accessSecret = "PX0FiQFOTauO0rt7WAtZR4l7s7FILw"
+
+    PARAMETER = "{\"Code\":" + "\"" + str(CODE) + "\"}"
+
+    print(PARAMETER)
 
     QueryDict = {
                 "SignatureMethod" : "HMAC-SHA1",
@@ -83,7 +87,7 @@ def SendSMS(PhoneNum):
                 "RegionId" : "cn-hangzhou",
                 "PhoneNumbers" : PhoneNum,
                 "SignName" :  "季中策",
-                "TemplateParam" : "{\"Code\":\"1234\"}",
+                "TemplateParam" : PARAMETER,
                 "TemplateCode" : "SMS_122299912",
                 "OutId" : "123"
                 }
@@ -112,13 +116,7 @@ def SendSMS(PhoneNum):
 
     RESPONSE = requests.get(url)
 
-
-    # print(urllib.parse.quote("/"))
-
-    # print(ulrsignature)
-
-    print(RESPONSE.text)
-    print(RESPONSE.status_code)
+    return((RESPONSE.status_code, RESPONSE.text))
 
 
 def Construct_Parameter(QueryDict):
@@ -138,8 +136,3 @@ def Construct_Parameter(QueryDict):
     parameterStr.replace("%7E", "~")
 
     return(parameterStr)
-
-
-
-
-SendSMS("13857788887")

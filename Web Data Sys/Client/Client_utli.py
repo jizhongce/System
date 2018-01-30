@@ -13,12 +13,12 @@ def LOG_IN(USERNAME, PASSWORD):
     return((RESPONSE.status_code,RESPONSE.json()))
 
 # payload = {'username': 'jizhongce', 'password': 'jizhongce123123'}
-# 
+#
 # r = requests.get('http://localhost:8080/log_in', params=payload)
-# 
+#
 # print(r.url)
-# 
-# 
+#
+#
 # print(r.json())
 
 def SIGN_UP(USERNAME, PASSWORD, PHONENUM):
@@ -28,8 +28,17 @@ def SIGN_UP(USERNAME, PASSWORD, PHONENUM):
     SIGN_UP = {'User_Name' : USERNAME, 'Password' : PASSWORD, 'Phone_Number' : PHONENUM}
     HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
     RESPONSE = requests.post('http://localhost:8080/sign_up', headers=HEARDER , data = json.dumps(SIGN_UP))
-    return((RESPONSE.status_code,RESPONSE.json()))
+    return(RESPONSE.status_code)
 
+
+def SEND_VERIFY_CODE(PHONENUM, CODE):
+    '''
+    HERE SEND_VERIFY_CODE IS A FUNCTION WILL SEND SERVER TO CHECK THE VERIFY CODE
+    '''
+    SEND_VERIFY_CODE = {'Phone_Number' : PHONENUM, 'TEMPCODE' : CODE}
+    HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
+    RESPONSE = requests.get('http://localhost:8080/phone_verify', headers=HEARDER , data = json.dumps(SEND_VERIFY_CODE))
+    return((RESPONSE.status_code,RESPONSE.json()))
 
 
 def Error_Code_Handler(STATUS_CODE):
