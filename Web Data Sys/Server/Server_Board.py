@@ -19,13 +19,58 @@ class MyNewhandler(BaseHTTPRequestHandler):
             USER_NAME = USER_DATA['User_Name']
             USER_PASS = USER_DATA['Password']
 
-            (STATUS_CODE, USERID) = Log_In(USER_NAME, USER_PASS)
+            (STATUS_CODE, DATA) = Log_In(USER_NAME, USER_PASS)
 
-            self.send_response(STATUS_CODE)
+            if STATUS_CODE == 200:
+                USERID = DATA
+                self.send_response(STATUS_CODE)
+                self.end_headers()
+                self.wfile.write(json.dumps(USERID).encode())
 
-            self.end_headers()
+            elif STATUS_CODE == 403:
+                self.send_response(STATUS_CODE)
+                self.end_headers()
+                self.wfile.write(json.dumps(DATA).encode())
 
-            self.wfile.write(json.dumps(USERID).encode())
+            elif STATUS_CODE == 404:
+                self.send_response(STATUS_CODE)
+                self.end_headers()
+                self.wfile.write(json.dumps(DATA).encode())
+
+            elif STATUS_CODE == 405:
+                PHONENUM = DATA
+
+                STATUS = ServerSMS(PHONENUM)
+
+                if STATUS == 200:
+                    self.send_response(STATUS_CODE)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+                else:
+                    self.send_response(STATUS)
+
+                    self.end_headers()
+
+
+            else:
+                self.send_response(STATUS_CODE)
+
+                self.end_headers()
+
+                self.wfile.write(json.dumps(DATA).encode())
+
+
+
+            # Next deal with STATUS_CODE AND DATA
+            #
+            # self.send_response(STATUS_CODE)
+            #
+            # self.end_headers()
+            #
+            # self.wfile.write(json.dumps(USERID).encode())
 
 
         elif URL_PATH == '/phone_verify':
@@ -59,7 +104,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
             if STATUS_CODE ==200:
 
-                (STATUS, MESSAGE) = ServerSMS(USER_PHONE)
+                STATUS = ServerSMS(USER_PHONE)
 
                 self.send_response(STATUS)
 

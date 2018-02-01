@@ -116,7 +116,7 @@ def SendSMS(PhoneNum, CODE):
 
     RESPONSE = requests.get(url)
 
-    return((RESPONSE.status_code, RESPONSE.text))
+    return(RESPONSE.status_code)
 
 
 def Construct_Parameter(QueryDict):

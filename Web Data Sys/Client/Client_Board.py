@@ -41,6 +41,19 @@ while True:
         if RESPONSE_STATUS == 200:
             USER_ID = RESPONSE_DATA
             break
+
+        elif RESPONSE_STATUS == 405:
+            PHONE_NUMBER = RESPONSE_DATA
+            print('\nThe Phone has not been Verified\n')
+            VERIFY_CODE = input('\nPlease Input the 6-digits Verify Code:\n')
+            (RESPONSE_STATUS, RESPONSE_DATA) = SEND_VERIFY_CODE(PHONE_NUMBER, VERIFY_CODE)
+            print(PHONE_NUMBER)
+            if RESPONSE_STATUS == 200:
+                USER_ID = RESPONSE_DATA
+                break
+            else:
+                Error_Code_Handler(RESPONSE_STATUS)
+
         else:
             # Here create a new function to handle the error code
             Error_Code_Handler(RESPONSE_STATUS)
