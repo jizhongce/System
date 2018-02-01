@@ -1,5 +1,6 @@
 from Client_utli import LOG_IN, SIGN_UP, Error_Code_Handler, SEND_VERIFY_CODE
 import getch
+import getpass
 
 '''
 First will Enter the system with welcome center:
@@ -36,7 +37,7 @@ while True:
 
         print('Log In is selected!')
         USER_NAME = input('\nUser Name: ')
-        PASSWORD = input('\nPassword :')
+        PASSWORD = getpass.getpass('\nPassword : ')
         (RESPONSE_STATUS, RESPONSE_DATA) = LOG_IN(USER_NAME, PASSWORD)
         if RESPONSE_STATUS == 200:
             USER_ID = RESPONSE_DATA
@@ -66,7 +67,8 @@ while True:
         '''
         print('Sign Up is selected!')
         USER_NAME = input('\nUser Name : ')
-        PASSWORD = input('\nPassword : ')
+        print('\nPassword should at least contain one Number, one Captial letter and 6 characters and no space\n')
+        PASSWORD = getpass.getpass('\nPassword : ')
         PHONE_NUMBER = input('\nPhone Number : ')
         RESPONSE_STATUS = SIGN_UP(USER_NAME, PASSWORD, PHONE_NUMBER)
         if RESPONSE_STATUS == 200:

@@ -70,6 +70,8 @@ def Error_Code_Handler(STATUS_CODE):
     406 - USER ALREADY EXIST
 
     407 - THE PHONE NUMBER IS ALREADY SIGNED UP
+
+    408 - THE PASSWORD SCHEMA IS NOT CORRECT
     -------------
 
     VERIFY ERROR
@@ -91,6 +93,9 @@ def Error_Code_Handler(STATUS_CODE):
 
     elif STATUS_CODE == 407:
         print('\nThe Phone Number already exist, Please Sign up with another phone number!\n')
+
+    elif STATUS_CODE == 408:
+        print('\nThe Password Schema is not correct, Please follow the password requirement!\n')
 
     elif STATUS_CODE == 409:
         print('\nThe Verification Code is not correct or the code is expried, Please enter again or request again!\n')

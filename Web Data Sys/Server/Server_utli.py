@@ -4,6 +4,7 @@ import uuid
 from SMS_utli import SendSMS
 from random import randint
 import passlib.hash
+import re
 
 
 '''
@@ -145,10 +146,19 @@ def Log_In(username, password):
     CONNECTIONS.commit()
 
     CONNECTIONS.close()
-    
+
     return(STATUS, DATA)
 
 # End of Log In
+
+# Password Schame check function
+
+def Pass_Schame_Check(Password):
+    return(bool(re.search(r'[A-Z]',Password)) and bool(re.search(r'[0-9]',Password)) and len(Password) > 6 and not bool(re.search(r'\s',Password)))
+
+# End of Pass_Schame_Check
+
+
 
 
 # Start of Sign Up
@@ -191,15 +201,19 @@ def Sign_Up(username, password, phonenum):
 
     else:
 
-        CURSOR = CONNECTIONS.cursor(buffered=True)
+        if not Pass_Schame_Check(password):
+            STATUS = 408
 
-        USERID = CreateUserID()
+        else:
+            CURSOR = CONNECTIONS.cursor(buffered=True)
 
-        PASSWORD = passlib.hash.sha256_crypt.hash(password)
+            USERID = CreateUserID()
 
-        QUERYSQL = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE);').format(USERID, username, PASSWORD, phonenum)
+            PASSWORD = passlib.hash.sha256_crypt.hash(password)
 
-        CURSOR.execute(QUERYSQL)
+            QUERYSQL = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE);').format(USERID, username, PASSWORD, phonenum)
+
+            CURSOR.execute(QUERYSQL)
 
     CURSOR.close()
 
