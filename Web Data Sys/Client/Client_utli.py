@@ -1,6 +1,7 @@
 import requests
 import hashlib
 import json
+import ErrorCode
 
 # # HASH FUNCTION
 # def HASH_PASS(DATA):
@@ -96,63 +97,66 @@ def CHANGE_PHONE_UNVERIFIED(USERID, NEW_PHONE, PASSWORD):
 def Error_Code_Handler(STATUS_CODE):
 
     '''
-    SUCCESS_CODE - SUCCESS
-
+    SUCCESS_CODE - SUCCESS - 200
 
     SIGN IN ERROR
     -------------
-    403 - NO SUCH USER
+    601 - NO SUCH USER
 
-    404 - PASSWORD IS NOT CORRECT
+    602 - PASSWORD IS NOT CORRECT
 
-    405 - PHONE IS NOT VERIFIED
+    603 - PHONE IS NOT VERIFIED
 
     -------------
 
     SIGN UP ERROR
     -------------
-    406 - USER ALREADY EXIST
+    604 - USER ALREADY EXIST
 
-    407 - THE PHONE NUMBER IS ALREADY SIGNED UP
+    605 - THE PHONE NUMBER IS ALREADY SIGNED UP
 
-    408 - THE PASSWORD IS NOT CORRECT Schema
+    606 - THE PASSWORD IS NOT CORRECT Schema
 
-    409 - THE PHONE NUMBER IS NOT CORRECT SHCEMA
-
-    410 - THE USER IS NOT CORRECT SHCEMA
+    607 - THE PHONE NUMBER IS NOT CORRECT SHCEMA
     -------------
 
     VERIFY ERROR
     -------------
-    500 - THE CODE IS NOT SAME OR THE CODE IS EXPIRED
+    608 - THE CODE IS NOT SAME OR THE CODE IS EXPIRED
 
-    501 - THE PHONE NUMBER IS NOT CORRECT
+    609 - THE PHONE NUMBER IS NOT CORRECT
     -------------
     '''
 
-    if STATUS_CODE == 403:
+    if STATUS_CODE == ErrorCode.NO_SUCH_USER_CODE:
         print('\nNo Such User, Please Sign up or Log in with another account!\n')
 
-    elif STATUS_CODE == 404:
+    elif STATUS_CODE == ErrorCode.WORNG_PASSWORD_CODE:
         print('\nThe Password is not correct, Please Log in with correct Password!\n')
 
-    elif STATUS_CODE == 406:
+    elif STATUS_CODE == ErrorCode.USER_EXIST_CODE:
         print('\nUser already exist, Please Log in or Sign up with another user name!\n')
 
-    elif STATUS_CODE == 407:
+    elif STATUS_CODE == ErrorCode.PHONE_EXIST_CODE:
         print('\nThe Phone Number already exist, Please Sign up with another phone number!\n')
 
-    elif STATUS_CODE == 408:
+    elif STATUS_CODE == ErrorCode.WRONG_PASSWORD_SCHEMA_CODE:
         print('\nThe Password Schema is not correct, Please follow the password requirement!\n')
 
-    elif STATUS_CODE == 409:
+    elif STATUS_CODE == ErrorCode.WRONG_PHONE_SCHEMA_CODE:
         print('\nThe Phone Schema is not correct, Please enter correct phone!\n')
 
-    elif STATUS_CODE == 500:
+    elif STATUS_CODE == ErrorCode.WRONG_VERIFY_CODE:
         print('\nThe Verification Code is not correct or the code is expried, Please enter again or request again!\n')
 
-    elif STATUS_CODE == 501:
+    elif STATUS_CODE == ErrorCode.PHONENUM_NOT_CORRECT:
         print('\nThe Phone Number is Wrong!\n')
+
+    elif STATUS_CODE == ErrorCode.DATABASE_CHANGE_PASSWORD_ERROR:
+        print('\nThere is error in database change password, Please try again!\n')
+
+    elif STATUS_CODE == ErrorCode.DATABASE_CHANGE_PHONE_ERROR:
+        print('\nThere is error in database change phone, Please try again!\n')
 
     else:
         print('\n{}:There is an error!\n'.format(STATUS_CODE))
