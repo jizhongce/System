@@ -94,6 +94,22 @@ def CHANGE_PHONE_UNVERIFIED(USERID, NEW_PHONE, PASSWORD):
     return((RESPONSE.status_code,RESPONSE.json()))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# HANDEL THE ERROR CODE
+
+
 def Error_Code_Handler(STATUS_CODE):
 
     '''
