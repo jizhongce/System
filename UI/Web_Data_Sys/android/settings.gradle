@@ -1,0 +1,3 @@
+rootProject.name = 'Web_Data_Sys'
+
+include ':app'
