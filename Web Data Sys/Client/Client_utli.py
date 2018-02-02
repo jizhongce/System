@@ -2,9 +2,9 @@ import requests
 import hashlib
 import json
 
-# HASH FUNCTION
-def HASH_PASS(DATA):
-    return(hashlib.sha1(DATA.encode()).hexdigest())
+# # HASH FUNCTION
+# def HASH_PASS(DATA):
+#     return(hashlib.sha1(DATA.encode()).hexdigest())
 
 
 def LOG_IN(USERNAME, PASSWORD):
@@ -13,7 +13,7 @@ def LOG_IN(USERNAME, PASSWORD):
     Here LOG_IN is parameters passed into the url and the HEADER will include the information
     HERE USE SHA1 TO HASH THE PASSWORD
     '''
-    LOG_IN = {'User_Name' : USERNAME, 'Password' : HASH_PASS(PASSWORD)}
+    LOG_IN = {'User_Name' : USERNAME, 'Password' : PASSWORD}
     HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
     RESPONSE = requests.get('http://localhost:8080/log_in', headers=HEARDER ,data = json.dumps(LOG_IN))
     return((RESPONSE.status_code,RESPONSE.json()))
@@ -31,7 +31,7 @@ def SIGN_UP(USERNAME, PASSWORD, PHONENUM):
     '''
     HERE SIGN_UP IS A FUNCTION THAT WILL SEND HTTP POST REQUEST FOR THE SERVER AND WAIT FOR THE RESPONSE_DATA
     '''
-    SIGN_UP = {'User_Name' : USERNAME, 'Password' : HASH_PASS(PASSWORD), 'Phone_Number' : PHONENUM}
+    SIGN_UP = {'User_Name' : USERNAME, 'Password' : PASSWORD, 'Phone_Number' : PHONENUM}
     HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
     RESPONSE = requests.post('http://localhost:8080/sign_up', headers=HEARDER , data = json.dumps(SIGN_UP))
     return(RESPONSE.status_code)
@@ -47,12 +47,56 @@ def SEND_VERIFY_CODE(PHONENUM, CODE):
     return((RESPONSE.status_code,RESPONSE.json()))
 
 
+def PASS_CHANGE_USER(USERNAME):
+    '''
+    HERE PASS_CHANGE_USER IS A FUNCTION WILL SEND SERVER TO CHECK GET THE INFORMATION FOR CHANGING PASSWORD
+    '''
+    PASS_CHANGE_USER = {'User_Name' : USERNAME}
+    HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
+    RESPONSE = requests.get('http://localhost:8080/pass_change_user', headers=HEARDER , data = json.dumps(PASS_CHANGE_USER))
+    return((RESPONSE.status_code,RESPONSE.json()))
+
+def CHANGE_PASS(USERID, NEW_PASSWORD):
+    '''
+    HERE CHANGE_PASS IS A FUNCTION WILL SEND SERVER THE NEW PASSWORD AND USERID TO CHANGE THE PASSWORD
+    '''
+    CHANGE_PASS = {'User_ID' : USERID, 'New_Password' : NEW_PASSWORD}
+    HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
+    RESPONSE = requests.post('http://localhost:8080/change_pass', headers=HEARDER , data = json.dumps(CHANGE_PASS))
+    return(RESPONSE.status_code)
+
+def PHONE_CHANGE_USER(USERNAME):
+    '''
+    HERE PASS_CHANGE_USER IS A FUNCTION WILL SEND SERVER TO CHECK GET THE INFORMATION FOR CHANGING PHONENUM
+    '''
+    PHONE_CHANGE_USER = {'User_Name' : USERNAME}
+    HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
+    RESPONSE = requests.get('http://localhost:8080/phone_change_user', headers=HEARDER , data = json.dumps(PHONE_CHANGE_USER))
+    return((RESPONSE.status_code,RESPONSE.json()))
+
+def CHANGE_PHONE(USERID, NEW_PHONE):
+    '''
+    HERE CHANGE_PASS IS A FUNCTION WILL SEND SERVER THE NEW PHONE AND USERID TO CHANGE THE PHONE
+    '''
+    CHANGE_PHONE = {'User_ID' : USERID, 'New_Phone' : NEW_PHONE}
+    HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
+    RESPONSE = requests.post('http://localhost:8080/change_phone', headers=HEARDER , data = json.dumps(CHANGE_PHONE))
+    return((RESPONSE.status_code,RESPONSE.json()))
+
+def CHANGE_PHONE_UNVERIFIED(USERID, NEW_PHONE, PASSWORD):
+    '''
+    HERE CHANGE_PHONE_UNVERIFIED IS A FUNCTION WILL SEND SERVER THE NEW PHONE AND USERID AND PASSWORD TO CHANGE THE PHONE
+    '''
+    CHANGE_PHONE_UNVERIFIED = {'User_ID' : USERID, 'New_Phone' : NEW_PHONE, 'Password' : PASSWORD}
+    HEARDER = {'Content-Type' : 'application/json;charset=UTF-8'}
+    RESPONSE = requests.post('http://localhost:8080/change_phone_unverified', headers=HEARDER , data = json.dumps(CHANGE_PHONE_UNVERIFIED))
+    return((RESPONSE.status_code,RESPONSE.json()))
 
 
 def Error_Code_Handler(STATUS_CODE):
 
     '''
-    200 - SUCCESS
+    SUCCESS_CODE - SUCCESS
 
 
     SIGN IN ERROR
@@ -71,14 +115,18 @@ def Error_Code_Handler(STATUS_CODE):
 
     407 - THE PHONE NUMBER IS ALREADY SIGNED UP
 
-    408 - THE PASSWORD SCHEMA IS NOT CORRECT
+    408 - THE PASSWORD IS NOT CORRECT Schema
+
+    409 - THE PHONE NUMBER IS NOT CORRECT SHCEMA
+
+    410 - THE USER IS NOT CORRECT SHCEMA
     -------------
 
     VERIFY ERROR
     -------------
-    409 - THE CODE IS NOT SAME OR THE CODE IS EXPIRED
+    500 - THE CODE IS NOT SAME OR THE CODE IS EXPIRED
 
-    500 - THE PHONE NUMBER IS NOT CORRECT
+    501 - THE PHONE NUMBER IS NOT CORRECT
     -------------
     '''
 
@@ -98,9 +146,12 @@ def Error_Code_Handler(STATUS_CODE):
         print('\nThe Password Schema is not correct, Please follow the password requirement!\n')
 
     elif STATUS_CODE == 409:
-        print('\nThe Verification Code is not correct or the code is expried, Please enter again or request again!\n')
+        print('\nThe Phone Schema is not correct, Please enter correct phone!\n')
 
     elif STATUS_CODE == 500:
+        print('\nThe Verification Code is not correct or the code is expried, Please enter again or request again!\n')
+
+    elif STATUS_CODE == 501:
         print('\nThe Phone Number is Wrong!\n')
 
     else:
