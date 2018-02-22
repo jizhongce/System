@@ -101,7 +101,7 @@ def Log_In(username, password):
                 DATA = USERID
             else:
                 STATUS = ErrorCode.PHONE_NOT_VERIFIED_CODE
-                DATA = int(PHONENUM)
+                DATA = PHONENUM
 
         else:
             STATUS = ErrorCode.WORNG_PASSWORD_CODE
@@ -362,7 +362,7 @@ def Pass_Change_User(username):
 
     else:
         (USERID, PHONENUM, VERIFIED, ) = QUERYLIST[0]
-        DATA = int(PHONENUM)
+        DATA = PHONENUM
 
     CURSOR.close()
 
@@ -542,7 +542,7 @@ def Change_Phone(userid, newphone):
 
                     CONNECTIONS.commit()
 
-                    DATA = int(newphone)
+                    DATA = newphone
 
     return(STATUS, DATA)
 
@@ -611,7 +611,7 @@ def Change_Phone_Unverified(userid, newphone, password):
 
                         CONNECTIONS.commit()
 
-                        DATA = int(newphone)
+                        DATA = newphone
 
 
             else:

@@ -29,9 +29,8 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {login} from '../../server.js';
+import {changepass} from '../../server.js';
 import React, { Component } from 'react';
-import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
 import {
   Platform,
@@ -57,16 +56,15 @@ const NavLeftButton = {
   icon: require('../../../img/platform3.png')
 }
 
-export default class Log_In_Board extends Component<{}> {
+export default class Pass_Change_New_Pass_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '登 录',
+    title: '新密码',
   };
 
   constructor(props) {
     super(props);
     this.state = {text: '',
-                  username: '123',
                   password: '123',
                   InputStyle: {
                     marginTop: 20,
@@ -79,13 +77,26 @@ export default class Log_In_Board extends Component<{}> {
                   };
   }
 
-  log_in(e){
-    var status = login(this.state.username,this.state.password,(response) => {
-      const code = response[0]
-      const statusText = response[1]
 
-      if (code != 200 & code != 603) {
+  passwordHandler(text){
+    this.setState({
+      password: text
+    });
+  }
 
+  pass_change(e, id){
+    changepass(id, this.state.password,(code) =>{
+      if (code == 200) {
+        Alert.alert(
+            'success',
+            'change success',
+          [
+            {text: 'OK', style: 'cancel'},
+          ],
+        )
+        this.props.navigation.navigate('User_Home');
+      }
+      else {
         var errormsg = ErrorCodePrase(code)[1]
 
         var title = ErrorCodePrase(code)[0]
@@ -100,52 +111,19 @@ export default class Log_In_Board extends Component<{}> {
           ],
         )
       }
-      else if (code == 603) {
-        console.log(statusText)
-        this.props.navigation.navigate('Log_In_Phone_Verify_Board',{
-          PhoneNum : statusText,
-        });
-      }
-
-      else {
-        this.props.navigation.navigate('User_Home',{
-          Id : statusText,
-        });
-      }
-
-    });
-
-  }
-
-
-  usernameHandler(text){
-    this.setState({
-      username: text
     });
   }
-
-  passwordHandler(text){
-    this.setState({
-      password: text
-    });
-  }
-
-
 
   render() {
+    const { params } = this.props.navigation.state;
+    const Id = params ? params.Id : null;
+
       return (
         <View style={{flex: 1}} >
 
-          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'green'}}>
-            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
-              用户名：
-            </Text>
-            <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.usernameHandler(text)}  autoCapitalize='none' />
-          </View>
-
           <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'yellow'}}>
             <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
-              密码：
+              新密码：
             </Text>
             <TextInput style={{
               marginTop: 20,
@@ -171,8 +149,8 @@ export default class Log_In_Board extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={(e)=> { this.log_in(e)} }>
-              <Text style={{ fontSize: 25, textAlign: 'center'} }>登     录</Text>
+            <TouchableOpacity onPress={(e)=> { this.pass_change(e, Id)} }>
+              <Text style={{ fontSize: 25, textAlign: 'center'} }>提     交</Text>
             </TouchableOpacity>
 
             </View>
@@ -196,7 +174,7 @@ export default class Log_In_Board extends Component<{}> {
             }}>
 
 
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>{this.state.text}</Text>
+            <Text style={{ fontSize: 25, textAlign: 'center'} }>{Id}</Text>
 
 
             </View>

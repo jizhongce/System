@@ -33,8 +33,11 @@ rightButton = {<TouchableOpacity>
 import User_Home from './apps/components/User_Home/User_Home.js';
 import Log_In_Board from './apps/components/User_Home/Log_In_Board.js';
 import Sign_Up_Board from './apps/components/User_Home/Sign_Up_Board.js';
+import Pass_Change_Board from './apps/components/User_Home/Pass_Change_Board.js';
 import Sign_Up_Phone_Verify_Board from './apps/components/User_Home/Sign_Up_Phone_Verify_Board.js';
 import Log_In_Phone_Verify_Board from './apps/components/User_Home/Log_In_Phone_Verify_Board.js';
+import Pass_Change_Phone_Verify_Board from './apps/components/User_Home/Pass_Change_Phone_Verify_Board.js';
+import Pass_Change_New_Pass_Board from './apps/components/User_Home/Pass_Change_New_Pass_Board.js';
 import Home1 from './apps/components/Home1/Home1.js';
 import Home2 from './apps/components/Home2/Home2.js';
 import Home3 from './apps/components/Home3/Home3.js';
@@ -61,27 +64,33 @@ const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
   Log_In_Board: { screen: Log_In_Board },
   Sign_Up_Board: { screen: Sign_Up_Board },
+  Pass_Change_Board: { screen: Pass_Change_Board },
   Sign_Up_Phone_Verify_Board: { screen: Sign_Up_Phone_Verify_Board },
   Log_In_Phone_Verify_Board: { screen: Log_In_Phone_Verify_Board },
+  Pass_Change_Phone_Verify_Board: { screen: Pass_Change_Phone_Verify_Board },
+  Pass_Change_New_Pass_Board: { screen: Pass_Change_New_Pass_Board },
 });
 
 
 export default TabNavigator({
   Home1: {
     screen: Home1,
+    navigationOptions: { tabBarLabel:  'Home1'  },
   },
   Home2: {
     screen: Home2,
+    navigationOptions: { tabBarLabel:  'Home2'  },
   },
   Home3: {
     screen: Home3,
+    navigationOptions: { tabBarLabel:  'Home3'  },
   },
   User_Home: {
     screen: User_Home_Stack,
+    navigationOptions: { tabBarLabel:  'User_Home'  },
   },
 }
 );
-
 
 
 

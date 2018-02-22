@@ -12,7 +12,7 @@ export function login(username, password, cb) {
     var statusText = xhr.statusText;
     console.log(parseFloat(xhr.responseText));
     console.log(typeof(xhr.responseText));
-    cb([statusCode, xhr.responseText]);
+    cb([statusCode, JSON.parse(xhr.responseText)]);
   });
 
 }
@@ -48,8 +48,46 @@ export function sendverifycode(phonenum, code, cb){
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;
     var statusText = xhr.statusText;
+    console.log(JSON.parse(xhr.responseText));
+    cb([statusCode, JSON.parse(xhr.responseText)]);
+  });
+}
+
+export function changepassgetphone(username, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/pass_change_user", true);
+  var body = {User_Name: username};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
     console.log(xhr.responseText);
-    cb([statusCode, xhr.responseText]);
+    console.log(JSON.parse(xhr.responseText));
+    cb([statusCode, JSON.parse(xhr.responseText)]);
+  });
+}
+
+export function changepass(id, newpassword, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/change_pass", true);
+  var body = {User_ID: id, New_Password : newpassword};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    cb(statusCode);
   });
 }
 

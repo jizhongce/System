@@ -73,39 +73,9 @@ class MyNewhandler(BaseHTTPRequestHandler):
             # self.wfile.write(json.dumps(USERID).encode())
 
 
-        if URL_PATH == '/pass_change_user':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_NAME = USER_DATA['User_Name']
 
-            (STATUS_CODE, DATA) = Pass_Change_User(USER_NAME)
 
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == 200:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-                else:
-                    self.send_response(STATUS)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-            else:
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
-
-        elif URL_PATH == '/phone_change_user':
+        if URL_PATH == '/phone_change_user':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
             USER_NAME = USER_DATA['User_Name']
 
@@ -301,6 +271,41 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             self.wfile.write(json.dumps(USERID).encode())
+
+
+        elif URL_PATH == '/pass_change_user':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+            USER_NAME = USER_DATA['User_Name']
+
+            (STATUS_CODE, DATA) = Pass_Change_User(USER_NAME)
+
+            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+                PHONENUM = DATA
+
+                STATUS = ServerSMS(PHONENUM)
+
+                if STATUS == 200:
+                    self.send_response(STATUS_CODE)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+                else:
+                    self.send_response(STATUS)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+            else:
+                self.send_response(STATUS_CODE)
+
+                self.end_headers()
+
+                self.wfile.write(json.dumps(DATA).encode())
+
+
 
 
         elif URL_PATH == '/change_pass':

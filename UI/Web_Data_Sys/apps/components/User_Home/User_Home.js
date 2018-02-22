@@ -56,7 +56,7 @@ export default class User_Home extends Component<{}> {
 
 
   static navigationOptions = {
-    header: null
+    header: null,
 }
 
   render() {
@@ -113,6 +113,49 @@ export default class User_Home extends Component<{}> {
 
           </View>
 
+          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+            <View style={{
+
+              marginTop: 25,
+              height: '50%',
+              width: '60%',
+              left: '85%',
+              borderWidth: 2,
+              justifyContent: 'center',
+              borderRadius: 10,
+
+            }}>
+
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Pass_Change_Board')}>
+              <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 密 码</Text>
+            </TouchableOpacity>
+
+            </View>
+
+          </View>
+
+          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+            <View style={{
+
+              marginTop: 25,
+              height: '50%',
+              width: '60%',
+              left: '85%',
+              borderWidth: 2,
+              justifyContent: 'center',
+              borderRadius: 10,
+
+            }}>
+
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Pass_Change_Board')}>
+              <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 手 机</Text>
+            </TouchableOpacity>
+
+            </View>
+
+          </View>
 
         </View>
 
