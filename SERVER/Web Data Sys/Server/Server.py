@@ -73,21 +73,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
             # self.wfile.write(json.dumps(USERID).encode())
 
 
-        if URL_PATH == '/phone_verify':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_PHONE = USER_DATA['Phone_Number']
-            USER_TEMPCODE = USER_DATA['TEMPCODE']
-
-            (STATUS_CODE, USERID) = Verify_Code(USER_PHONE, USER_TEMPCODE)
-
-            self.send_response(STATUS_CODE)
-
-            self.end_headers()
-
-            self.wfile.write(json.dumps(USERID).encode())
-
-
-        elif URL_PATH == '/pass_change_user':
+        if URL_PATH == '/pass_change_user':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
             USER_NAME = USER_DATA['User_Name']
 
@@ -279,109 +265,124 @@ class MyNewhandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(DATA).encode())
 
 
-        # if URL_PATH == '/sign_up':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #
-        #     USER_NAME = USER_DATA['User_Name']
-        #     USER_PASS = USER_DATA['Password']
-        #     USER_PHONE = USER_DATA['Phone_Number']
-        #
-        #     (STATUS_CODE, USERID) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE)
-        #
-        #     if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-        #
-        #         STATUS = ServerSMS(USER_PHONE)
-        #
-        #         self.send_response(STATUS)
-        #
-        #         self.end_headers()
-        #
-        #     else:
-        #
-        #         self.send_response(STATUS_CODE)
-        #
-        #         self.end_headers()
-        #
-        # elif URL_PATH == '/change_pass':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #
-        #     USER_ID = USER_DATA['User_ID']
-        #     USER_PASS = USER_DATA['New_Password']
-        #
-        #     STATUS_CODE = Change_Pass(USER_ID, USER_PASS)
-        #
-        #     self.send_response(STATUS_CODE)
-        #
-        #     self.end_headers()
-        #
-        # elif URL_PATH == '/change_phone':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #
-        #     USER_ID = USER_DATA['User_ID']
-        #     NEW_PHONE = USER_DATA['New_Phone']
-        #
-        #     (STATUS_CODE, DATA)  = Change_Phone(USER_ID, NEW_PHONE)
-        #
-        #     if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-        #         PHONENUM = DATA
-        #
-        #         STATUS = ServerSMS(PHONENUM)
-        #
-        #         if STATUS == ErrorCode.SUCCESS_CODE:
-        #             self.send_response(STATUS_CODE)
-        #
-        #             self.end_headers()
-        #
-        #             self.wfile.write(json.dumps(PHONENUM).encode())
-        #
-        #         else:
-        #             self.send_response(STATUS)
-        #
-        #             self.end_headers()
-        #
-        #             self.wfile.write(json.dumps(PHONENUM).encode())
-        #
-        #     else:
-        #         self.send_response(STATUS_CODE)
-        #
-        #         self.end_headers()
-        #
-        #         self.wfile.write(json.dumps(DATA).encode())
-        #
-        # elif URL_PATH == '/change_phone_unverified':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #
-        #     USER_ID = USER_DATA['User_ID']
-        #     NEW_PHONE = USER_DATA['New_Phone']
-        #     PASSWORD = USER_DATA['Password']
-        #
-        #     (STATUS_CODE, DATA) = Change_Phone_Unverified(USER_ID, NEW_PHONE, PASSWORD)
-        #
-        #     if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-        #         PHONENUM = DATA
-        #
-        #         STATUS = ServerSMS(PHONENUM)
-        #
-        #         if STATUS == ErrorCode.SUCCESS_CODE:
-        #             self.send_response(STATUS_CODE)
-        #
-        #             self.end_headers()
-        #
-        #             self.wfile.write(json.dumps(PHONENUM).encode())
-        #
-        #         else:
-        #             self.send_response(STATUS)
-        #
-        #             self.end_headers()
-        #
-        #             self.wfile.write(json.dumps(PHONENUM).encode())
-        #
-        #     else:
-        #         self.send_response(STATUS_CODE)
-        #
-        #         self.end_headers()
-        #
-        #         self.wfile.write(json.dumps(DATA).encode())
+        elif URL_PATH == '/sign_up':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_NAME = USER_DATA['User_Name']
+            USER_PASS = USER_DATA['Password']
+            USER_PHONE = USER_DATA['Phone_Number']
+
+            (STATUS_CODE, USERID) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE)
+
+            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+
+                STATUS = ServerSMS(USER_PHONE)
+
+                self.send_response(STATUS)
+
+                self.end_headers()
+
+            else:
+
+                self.send_response(STATUS_CODE)
+
+                self.end_headers()
+
+
+        elif URL_PATH == '/phone_verify':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+            USER_PHONE = USER_DATA['Phone_Number']
+            USER_TEMPCODE = USER_DATA['TempCode']
+
+            (STATUS_CODE, USERID) = Verify_Code(USER_PHONE, USER_TEMPCODE)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(USERID).encode())
+
+
+        elif URL_PATH == '/change_pass':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            USER_PASS = USER_DATA['New_Password']
+
+            STATUS_CODE = Change_Pass(USER_ID, USER_PASS)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+        elif URL_PATH == '/change_phone':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            NEW_PHONE = USER_DATA['New_Phone']
+
+            (STATUS_CODE, DATA)  = Change_Phone(USER_ID, NEW_PHONE)
+
+            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+                PHONENUM = DATA
+
+                STATUS = ServerSMS(PHONENUM)
+
+                if STATUS == ErrorCode.SUCCESS_CODE:
+                    self.send_response(STATUS_CODE)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+                else:
+                    self.send_response(STATUS)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+            else:
+                self.send_response(STATUS_CODE)
+
+                self.end_headers()
+
+                self.wfile.write(json.dumps(DATA).encode())
+
+        elif URL_PATH == '/change_phone_unverified':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            NEW_PHONE = USER_DATA['New_Phone']
+            PASSWORD = USER_DATA['Password']
+
+            (STATUS_CODE, DATA) = Change_Phone_Unverified(USER_ID, NEW_PHONE, PASSWORD)
+
+            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+                PHONENUM = DATA
+
+                STATUS = ServerSMS(PHONENUM)
+
+                if STATUS == ErrorCode.SUCCESS_CODE:
+                    self.send_response(STATUS_CODE)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+                else:
+                    self.send_response(STATUS)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+            else:
+                self.send_response(STATUS_CODE)
+
+                self.end_headers()
+
+                self.wfile.write(json.dumps(DATA).encode())
 
         return
     #

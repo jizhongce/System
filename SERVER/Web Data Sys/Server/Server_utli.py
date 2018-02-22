@@ -101,7 +101,7 @@ def Log_In(username, password):
                 DATA = USERID
             else:
                 STATUS = ErrorCode.PHONE_NOT_VERIFIED_CODE
-                DATA = PHONENUM
+                DATA = int(PHONENUM)
 
         else:
             STATUS = ErrorCode.WORNG_PASSWORD_CODE
@@ -301,7 +301,7 @@ def Verify_Code(PhoneNum, CODE):
     CONNECTIONS.commit()
 
     if not QUERYLIST:
-        STATUS = ErrorCode.WRONG_VERIFY_CODE
+        STATUS = ErrorCode.PHONENUM_NOT_CORRECT
 
     else:
 
@@ -317,7 +317,7 @@ def Verify_Code(PhoneNum, CODE):
             CURSOR.execute(QUERYSQL)
 
         else:
-            STATUS = ErrorCode.PHONENUM_NOT_CORRECT
+            STATUS = ErrorCode.WRONG_VERIFY_CODE
 
 
     CURSOR.close()
@@ -362,7 +362,7 @@ def Pass_Change_User(username):
 
     else:
         (USERID, PHONENUM, VERIFIED, ) = QUERYLIST[0]
-        DATA = PHONENUM
+        DATA = int(PHONENUM)
 
     CURSOR.close()
 
@@ -542,7 +542,7 @@ def Change_Phone(userid, newphone):
 
                     CONNECTIONS.commit()
 
-                    DATA = newphone
+                    DATA = int(newphone)
 
     return(STATUS, DATA)
 
@@ -611,7 +611,7 @@ def Change_Phone_Unverified(userid, newphone, password):
 
                         CONNECTIONS.commit()
 
-                        DATA = newphone
+                        DATA = int(newphone)
 
 
             else:

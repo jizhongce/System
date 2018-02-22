@@ -31,6 +31,8 @@ rightButton = {<TouchableOpacity>
 */
 import {login} from '../../server.js';
 import React, { Component } from 'react';
+import DropdownAlert from 'react-native-dropdownalert';
+import {ErrorCodePrase} from '../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -58,19 +60,51 @@ const NavLeftButton = {
 export default class Log_In_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: 'Log In',
+    title: '登 录',
   };
 
   constructor(props) {
     super(props);
-    this.state = {text: '', username: '123', password: '123'};
+    this.state = {text: '',
+                  username: '123',
+                  password: '123',
+                  InputStyle: {
+                    marginTop: 20,
+                    height: '50%',
+                    width: '50%',
+                    borderWidth: 2,
+                    borderRadius: 10,
+                  }
+
+                  };
   }
 
   log_in(e){
-    var status = login(this.state.username,this.state.password,(code) => {
+    var status = login(this.state.username,this.state.password,(response) => {
+      const code = response[0]
+      const statusText = response[1]
 
-      if (code != 0) {
-        this.props.navigation.navigate('User_Home',{code : code});
+      if (code != 200 & code != 603) {
+
+        var errormsg = ErrorCodePrase(code)[1]
+
+        var title = ErrorCodePrase(code)[0]
+
+        console.log(ErrorCodePrase(code))
+
+        Alert.alert(
+            title,
+            errormsg,
+          [
+            {text: 'OK', style: 'cancel'},
+          ],
+        )
+      }
+      else if (code == 603) {
+        console.log(statusText)
+        this.props.navigation.navigate('Log_In_Phone_Verify_Board',{
+          PhoneNum : statusText,
+        });
       }
 
       else {
@@ -106,14 +140,7 @@ export default class Log_In_Board extends Component<{}> {
             <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
               用户名：
             </Text>
-            <TextInput style={{
-              marginTop: 20,
-              height: '50%',
-              width: '50%',
-              borderWidth: 2,
-              borderRadius: 10,
-
-            }}  onChangeText = {(text) => this.usernameHandler(text)}  autoCapitalize='none' />
+            <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.usernameHandler(text)}  autoCapitalize='none' />
           </View>
 
           <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'yellow'}}>
@@ -176,7 +203,6 @@ export default class Log_In_Board extends Component<{}> {
 
           </View>
           {/*end  */}
-
 
 
         </View>

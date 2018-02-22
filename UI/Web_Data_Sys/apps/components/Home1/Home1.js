@@ -30,6 +30,7 @@ rightButton = {<TouchableOpacity>
 
 */
 import React, { Component } from 'react';
+import DropdownAlert from 'react-native-dropdownalert';
 import {
   Platform,
   StyleSheet,
@@ -47,13 +48,42 @@ import NavigationBar from 'react-native-navbar';
 
 export default class Home1 extends Component<{}> {
 
+  onError = error => {
+    if (error) {
+      this.dropdown.alertWithType('error', 'Error', error);
+    }
+  };
+  // ...
+  onClose(data) {
+    // data = {type, title, message, action}
+    // action means how the alert was closed.
+    // returns: automatic, programmatic, tap, pan or cancel
+  }
+
 
   render() {
     return (
       <View style={{flex: 1}} >
 
+        <View style={{
+          flex: 0.15,
+          marginTop: 25,
+          borderWidth: 2,
+          justifyContent: 'center',
+          borderRadius: 10,
+
+        }}>
+        <TouchableOpacity onPress={() => this.onError("hello")}>
+          <Text style={{ fontSize: 25, textAlign: 'center'} }>登     录</Text>
+        </TouchableOpacity>
+        </View>
+
 
       </View>
+
+
+
+
 
 
     );

@@ -61,10 +61,10 @@ export default class User_Home extends Component<{}> {
 
   render() {
     const { params } = this.props.navigation.state;
-    const code = params ? params.code : null;
+    const Id = params ? params.Id : null;
 
 
-    if (code == null) {
+    if (Id == null) {
       return (
         <View style={{flex: 1}} >
 
@@ -91,6 +91,28 @@ export default class User_Home extends Component<{}> {
 
           </View>
 
+          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+            <View style={{
+
+              marginTop: 25,
+              height: '50%',
+              width: '60%',
+              left: '85%',
+              borderWidth: 2,
+              justifyContent: 'center',
+              borderRadius: 10,
+
+            }}>
+
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Sign_Up_Board')}>
+              <Text style={{ fontSize: 25, textAlign: 'center'} }>注     册</Text>
+            </TouchableOpacity>
+
+            </View>
+
+          </View>
+
 
         </View>
 
@@ -104,34 +126,12 @@ export default class User_Home extends Component<{}> {
             <View style={{flex: 1}} >
 
 
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                <View style={{
-
-                  marginTop: 25,
-                  height: '50%',
-                  width: '60%',
-                  left: '85%',
-                  borderWidth: 2,
-                  justifyContent: 'center',
-                  borderRadius: 10,
-
-                }}>
-
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Log_In_Board')}>
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>登     录</Text>
-                </TouchableOpacity>
-
-                </View>
-
-              </View>
-
 
               {/*start  */}
 
               <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
 
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{code}</Text>
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{Id}</Text>
 
               </View>
 

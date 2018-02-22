@@ -30,14 +30,17 @@ rightButton = {<TouchableOpacity>
 
 */
 
-import User_Home from './util/components/User_Home/User_Home.js';
-import Log_In_Board from './util/components/User_Home/Log_In_Board.js';
-import Home1 from './util/components/Home1/Home1.js';
-import Home2 from './util/components/Home2/Home2.js';
-import Home3 from './util/components/Home3/Home3.js';
+import User_Home from './apps/components/User_Home/User_Home.js';
+import Log_In_Board from './apps/components/User_Home/Log_In_Board.js';
+import Sign_Up_Board from './apps/components/User_Home/Sign_Up_Board.js';
+import Sign_Up_Phone_Verify_Board from './apps/components/User_Home/Sign_Up_Phone_Verify_Board.js';
+import Log_In_Phone_Verify_Board from './apps/components/User_Home/Log_In_Phone_Verify_Board.js';
+import Home1 from './apps/components/Home1/Home1.js';
+import Home2 from './apps/components/Home2/Home2.js';
+import Home3 from './apps/components/Home3/Home3.js';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 
-import {login} from './util/server.js';
+import {login} from './apps/server.js';
 import React, { Component } from 'react';
 import {
   Platform,
@@ -57,6 +60,9 @@ import NavigationBar from 'react-native-navbar';
 const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
   Log_In_Board: { screen: Log_In_Board },
+  Sign_Up_Board: { screen: Sign_Up_Board },
+  Sign_Up_Phone_Verify_Board: { screen: Sign_Up_Phone_Verify_Board },
+  Log_In_Phone_Verify_Board: { screen: Log_In_Phone_Verify_Board },
 });
 
 
