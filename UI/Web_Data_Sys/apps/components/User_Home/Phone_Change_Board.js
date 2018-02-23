@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {changepass} from '../../server.js';
+import {phonechangelogin} from '../../server.js';
 import React, { Component } from 'react';
 import {ErrorCodePrase} from '../../util.js'
 import {
@@ -56,15 +56,16 @@ const NavLeftButton = {
   icon: require('../../../img/platform3.png')
 }
 
-export default class Pass_Change_New_Pass_Board extends Component<{}> {
+export default class Phone_Change_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '新密码',
+    title: '手机修改',
   };
 
   constructor(props) {
     super(props);
     this.state = {text: '',
+                  username: '123',
                   password: '123',
                   InputStyle: {
                     marginTop: 20,
@@ -78,25 +79,32 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
   }
 
 
+  usernameHandler(text){
+    this.setState({
+      username: text
+    });
+  }
+
   passwordHandler(text){
     this.setState({
       password: text
     });
   }
 
-  pass_change(e, id){
-    changepass(id, this.state.password,(code) =>{
-
-      
+  phone_change_log_in(){
+    phonechangelogin(this.state.username,this.state.password,(response) =>{
+      const code = response[0]
+      const statusText = response[1]
       if (code == 200) {
-        Alert.alert(
-            'success',
-            'change success',
-          [
-            {text: 'OK', style: 'cancel'},
-          ],
-        )
-        this.props.navigation.navigate('User_Home');
+        this.props.navigation.navigate('Phone_Change_Phone_Verify_Board',{
+          PhoneNum : statusText,
+        });
+      }
+      else if (code == 603) {
+        this.props.navigation.navigate('Phone_Change_New_Phone_Board',{
+          Id : statusText,
+        });
+
       }
       else {
         var errormsg = ErrorCodePrase(code)[1]
@@ -117,24 +125,21 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
   }
 
   render() {
-    const { params } = this.props.navigation.state;
-    const Id = params ? params.Id : null;
-
       return (
         <View style={{flex: 1}} >
 
-          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'yellow'}}>
-            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
-              新密码：
+          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'green'}}>
+            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+              用户名：
             </Text>
-            <TextInput style={{
-              marginTop: 20,
-              height: '50%',
-              width: '50%',
-              borderWidth: 2,
-              borderRadius: 10,
+            <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.usernameHandler(text)}  autoCapitalize='none' />
+          </View>
 
-            }}  onChangeText = {(text) => this.passwordHandler(text)} autoCapitalize='none'  secureTextEntry={true}/>
+          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'green'}}>
+            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+              密码：
+            </Text>
+            <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.passwordHandler(text)} autoCapitalize='none'  secureTextEntry={true} />
           </View>
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
@@ -151,7 +156,7 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={(e)=> { this.pass_change(e, Id)} }>
+            <TouchableOpacity onPress={(e)=> { this.phone_change_log_in(e)} }>
               <Text style={{ fontSize: 25, textAlign: 'center'} }>提     交</Text>
             </TouchableOpacity>
 
@@ -176,7 +181,7 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
             }}>
 
 
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>{Id}</Text>
+            <Text style={{ fontSize: 25, textAlign: 'center'} }>{this.state.text}</Text>
 
 
             </View>

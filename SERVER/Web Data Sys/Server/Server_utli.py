@@ -434,7 +434,7 @@ def Change_Pass(userid, newpassword):
 
 
 # Start of Phone_Change_User
-def Phone_Change_User(username):
+def Phone_Change_User(username, password):
     '''
     This is the function to get the user information for changing phone number
     First it will check whether the username is exist or not
@@ -451,7 +451,7 @@ def Phone_Change_User(username):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT User_ID, PhoneNum, Verified FROM Users WHERE User_Name = \'{}\' ').format(username)
+    QUERYSQL = ('SELECT User_ID, Password, PhoneNum, Verified FROM Users WHERE User_Name = \'{}\' ').format(username)
 
     CURSOR.execute(QUERYSQL)
 
@@ -461,13 +461,17 @@ def Phone_Change_User(username):
         STATUS = ErrorCode.NO_SUCH_USER_CODE
 
     else:
-        (USERID, PHONENUM, VERIFIED, ) = QUERYLIST[0]
+        (USERID, PASSWORD, PHONENUM, VERIFIED, ) = QUERYLIST[0]
 
-        if VERIFIED:
-            DATA = PHONENUM
+        if passlib.hash.sha256_crypt.verify(password, PASSWORD):
+            pass
+            if VERIFIED:
+                DATA = PHONENUM
+            else:
+                STATUS = ErrorCode.PHONE_NOT_VERIFIED_CODE
+                DATA = USERID
         else:
-            STATUS = ErrorCode.PHONE_NOT_VERIFIED_CODE
-            DATA = USERID
+            STATUS = ErrorCode.WORNG_PASSWORD_CODE
 
 
     CURSOR.close()

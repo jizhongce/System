@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {changepass} from '../../server.js';
+import {changephone} from '../../server.js';
 import React, { Component } from 'react';
 import {ErrorCodePrase} from '../../util.js'
 import {
@@ -56,16 +56,16 @@ const NavLeftButton = {
   icon: require('../../../img/platform3.png')
 }
 
-export default class Pass_Change_New_Pass_Board extends Component<{}> {
+export default class Phone_Change_New_Phone_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '新密码',
+    title: '新手机',
   };
 
   constructor(props) {
     super(props);
     this.state = {text: '',
-                  password: '123',
+                  phonenum: '123',
                   InputStyle: {
                     marginTop: 20,
                     height: '50%',
@@ -78,25 +78,21 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
   }
 
 
-  passwordHandler(text){
+  phonenumHandler(text){
     this.setState({
-      password: text
+      phonenum: text
     });
   }
 
-  pass_change(e, id){
-    changepass(id, this.state.password,(code) =>{
+  phone_change(e, id){
+    changephone(id, this.state.phonenum,(response) =>{
+      const code = response[0]
+      const statusText = response[1]
 
-      
       if (code == 200) {
-        Alert.alert(
-            'success',
-            'change success',
-          [
-            {text: 'OK', style: 'cancel'},
-          ],
-        )
-        this.props.navigation.navigate('User_Home');
+        this.props.navigation.navigate('Phone_Change_New_Phone_Verify_Board',{
+          PhoneNum : statusText,
+        });
       }
       else {
         var errormsg = ErrorCodePrase(code)[1]
@@ -125,7 +121,7 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
 
           <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'yellow'}}>
             <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
-              新密码：
+              新手机：
             </Text>
             <TextInput style={{
               marginTop: 20,
@@ -134,7 +130,7 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
               borderWidth: 2,
               borderRadius: 10,
 
-            }}  onChangeText = {(text) => this.passwordHandler(text)} autoCapitalize='none'  secureTextEntry={true}/>
+            }}  onChangeText = {(text) => this.phonenumHandler(text)} autoCapitalize='none' />
           </View>
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
@@ -151,7 +147,7 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={(e)=> { this.pass_change(e, Id)} }>
+            <TouchableOpacity onPress={(e)=> { this.phone_change(e, Id)} }>
               <Text style={{ fontSize: 25, textAlign: 'center'} }>提     交</Text>
             </TouchableOpacity>
 

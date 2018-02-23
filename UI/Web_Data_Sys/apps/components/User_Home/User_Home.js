@@ -149,7 +149,7 @@ export default class User_Home extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Pass_Change_Board')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Phone_Change_Board')}>
               <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 手 机</Text>
             </TouchableOpacity>
 

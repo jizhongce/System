@@ -91,5 +91,42 @@ export function changepass(id, newpassword, cb){
   });
 }
 
+export function phonechangelogin(username, password, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/phone_change_log_in", true);
+  var body = {User_Name: username, Password : password};
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    console.log(parseFloat(xhr.responseText));
+    console.log(typeof(xhr.responseText));
+    cb([statusCode, JSON.parse(xhr.responseText)]);
+  });
+
+}
+
+export function changephone(id, newphone, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/change_phone", true);
+  var body = {User_ID: id, New_Phone : newphone};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    cb([statusCode, JSON.parse(xhr.responseText)]);
+  });
+}
+
 
 // This is the function for send the message to the server

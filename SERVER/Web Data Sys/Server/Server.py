@@ -75,43 +75,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
 
 
-        if URL_PATH == '/phone_change_user':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_NAME = USER_DATA['User_Name']
-
-            (STATUS_CODE, DATA) = Phone_Change_User(USER_NAME)
-
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == ErrorCode.SUCCESS_CODE:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-                else:
-                    self.send_response(STATUS)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-            else:
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
-
-
-
-
-
-
 
             # if STATUS_CODE == ErrorCode.SUCCESS_CODE:
             #     PHONENUM = DATA
@@ -284,7 +247,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                 STATUS = ServerSMS(PHONENUM)
 
-                if STATUS == 200:
+                if STATUS == ErrorCode.SUCCESS_CODE:
                     self.send_response(STATUS_CODE)
 
                     self.end_headers()
@@ -307,7 +270,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
 
 
-
         elif URL_PATH == '/change_pass':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
 
@@ -319,6 +281,41 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.send_response(STATUS_CODE)
 
             self.end_headers()
+
+
+        elif URL_PATH == '/phone_change_log_in':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+            USER_NAME = USER_DATA['User_Name']
+            USER_PASS = USER_DATA['Password']
+
+            (STATUS_CODE, DATA) = Phone_Change_User(USER_NAME, USER_PASS)
+
+            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+                PHONENUM = DATA
+
+                STATUS = ServerSMS(PHONENUM)
+
+                if STATUS == ErrorCode.SUCCESS_CODE:
+                    self.send_response(STATUS_CODE)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+                else:
+                    self.send_response(STATUS)
+
+                    self.end_headers()
+
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
+            else:
+                self.send_response(STATUS_CODE)
+
+                self.end_headers()
+
+                self.wfile.write(json.dumps(DATA).encode())
+
 
         elif URL_PATH == '/change_phone':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
@@ -354,40 +351,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                 self.wfile.write(json.dumps(DATA).encode())
 
-        elif URL_PATH == '/change_phone_unverified':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-
-            USER_ID = USER_DATA['User_ID']
-            NEW_PHONE = USER_DATA['New_Phone']
-            PASSWORD = USER_DATA['Password']
-
-            (STATUS_CODE, DATA) = Change_Phone_Unverified(USER_ID, NEW_PHONE, PASSWORD)
-
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == ErrorCode.SUCCESS_CODE:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-                else:
-                    self.send_response(STATUS)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-            else:
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
 
         return
     #
