@@ -8,22 +8,22 @@ import re
 import ErrorCode
 
 
-# This is urlParse function
-def UrlParse(url):
-
-    '''
-    This is the method to parse the url passed into the function
-    and return an dictionary that indicates each parts
-    '''
-
-    # First get the path
-    path = urllib.parse.urlparse(url).path
-    # Then get the query
-    query = urllib.parse.urlparse(url).query
-
-    return({'path' : path, 'query' : urllib.parse.parse_qs(query)})
-
-# End of UrlParse
+# # This is urlParse function
+# def UrlParse(url):
+#
+#     '''
+#     This is the method to parse the url passed into the function
+#     and return an dictionary that indicates each parts
+#     '''
+#
+#     # First get the path
+#     path = urllib.parse.urlparse(url).path
+#     # Then get the query
+#     query = urllib.parse.urlparse(url).query
+#
+#     return({'path' : path, 'query' : urllib.parse.parse_qs(query)})
+#
+# # End of UrlParse
 
 
 # Start of create uuid
@@ -64,6 +64,7 @@ def CreateUserID():
 # End of create uuid
 
 
+
 # Start of Log In
 
 def Log_In(username, password):
@@ -71,6 +72,25 @@ def Log_In(username, password):
     This is the method to connect the database and check the username and password,
     if it is existed, then we get the user id and return back
     else we send back bad error code
+
+    Condition:
+    1. username not exist
+        -CODE: NO_SUCH_USER_CODE
+        -DATA: 0
+
+    2. password not correct
+        -CODE: WORNG_PASSWORD_CODE
+        -DATA: 0
+
+    3. Phone not verified
+        -CODE: PHONE_NOT_VERIFIED_CODE
+        -DATA: PHONENUM
+
+    4. Phone verified, log in success
+        -CODE: SUCCESS_CODE
+        -DATA: USERID
+
+
     '''
 
     STATUS = ErrorCode.SUCCESS_CODE
@@ -116,6 +136,8 @@ def Log_In(username, password):
 
 # End of Log In
 
+
+
 # Password Schame check function
 
 def Pass_Schame_Check(Password):
@@ -138,6 +160,28 @@ def Sign_Up(username, password, phonenum):
     '''
     This is method for sign up, it first need to check the data base with username and phone number
     If the username is already exists, return the status code 406
+
+    Condition:
+    1. username is already exist
+        -CODE: USER_EXIST_CODE
+        -DATA: 0
+
+    2. phone is already exist
+        -CODE: PHONE_EXIST_CODE
+        -DATA: 0
+
+    3. password schema is not correct
+        -CODE: WRONG_PASSWORD_SCHEMA_CODE
+        -DATA: 0
+
+    4. password schema is not correct
+        -CODE: WRONG_PHONE_SCHEMA_CODE
+        -DATA: 0
+
+    5. sign up success
+        -CODE: SUCCESS_CODE
+        -DATA: USERID
+
     '''
     STATUS = ErrorCode.SUCCESS_CODE
 
@@ -277,7 +321,6 @@ def Verify_Code(PhoneNum, CODE):
     This is the function for verify the code, if it is same, return the status code SUCCESS_CODE and id
     if it is not same, then status code
 
-    409 - THE CODE IS NOT SAME OR CODE IS EXPIRED
     '''
     STATUS = ErrorCode.SUCCESS_CODE
 
@@ -331,13 +374,23 @@ def Verify_Code(PhoneNum, CODE):
 
 # End of Verify_Codes
 
-# Start of Pass_Change_User
+# Start of Pass_Change_Get_User
 
-def Pass_Change_User(username):
+def Pass_Change_Get_User(username):
     '''
     This is the function to get the user information for changing passowrd
     First it will check whether the username is exist or not
     If it is existed, then check the phone is verified or not
+
+    Condition:
+    1. username is already exist
+        -CODE: NO_SUCH_USER_CODE
+        -DATA: 0
+
+    2. get phone number success
+        -CODE: SUCCESS_CODE
+        -DATA: PHONENUM
+
     '''
 
     STATUS = ErrorCode.SUCCESS_CODE
@@ -374,13 +427,27 @@ def Pass_Change_User(username):
 
 
 
-# End of Pass_Change_User
+# End of Pass_Change_Get_User
 
 # Start of Change_Pass
 
 def Change_Pass(userid, newpassword):
     '''
     This is function to change the password, we should check the password schema
+
+    Condition:
+    1. password schema is not correct
+    -CODE: WRONG_PASSWORD_SCHEMA_CODE
+    -DATA: none
+
+    2. change password success
+    -CODE: SUCCESS_CODE
+    -DATA: none
+
+    3. database change error
+    -CODE: DATABASE_CHANGE_PASSWORD_ERROR
+    -DATA: none
+
 
     '''
     STATUS = ErrorCode.SUCCESS_CODE
@@ -434,11 +501,29 @@ def Change_Pass(userid, newpassword):
 
 
 # Start of Phone_Change_User
-def Phone_Change_User(username, password):
+def Phone_Change_Log_In(username, password):
     '''
     This is the function to get the user information for changing phone number
     First it will check whether the username is exist or not
     If it is existed, then check the phone is verified or not
+
+    Condition:
+    1. username not exist
+    -CODE: NO_SUCH_USER_CODE
+    -DATA: 0
+
+    2. password not correct
+    -CODE: WORNG_PASSWORD_CODE
+    -DATA: 0
+
+    3. Phone not verified
+    -CODE: PHONE_NOT_VERIFIED_CODE
+    -DATA: USERID
+
+    4. Phone verified, log in success
+    -CODE: SUCCESS_CODE
+    -DATA: PHONENUM
+
     '''
     STATUS = ErrorCode.SUCCESS_CODE
 
@@ -552,82 +637,82 @@ def Change_Phone(userid, newphone):
 
 
 
-# Start of Change_Phone_Unverified
-
-def Change_Phone_Unverified(userid, newphone, password):
-    '''
-    This is function to change the phone, we should check the phone schema
-    '''
-    STATUS = ErrorCode.SUCCESS_CODE
-
-    DATA = 0
-
-    if not Phone_Schame_Check(newphone):
-        STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
-
-    else:
-        CONNECTIONS = mysql.connector.connect(user='root',
-        password='jizhongce123',
-        host='127.0.0.1',
-        database='Web_Data')
-
-        CURSOR = CONNECTIONS.cursor(buffered=True)
-
-        QUERYSQL = ('SELECT User_ID, Password, PhoneNum FROM Users WHERE User_ID = \'{}\' ').format(userid)
-
-        CURSOR.execute(QUERYSQL)
-
-        QUERYLIST = CURSOR.fetchall()
-
-        if not QUERYLIST:
-            STATUS = ErrorCode.DATABASE_CHANGE_PHONE_ERROR
-
-        else:
-            (USERID, PASSWORD, PHONENUM, ) = QUERYLIST[0]
-
-            if passlib.hash.sha256_crypt.verify(password, PASSWORD):
-                if PHONENUM == newphone:
-                    STATUS = ErrorCode.SAME_PHONE_ERROR
-                else:
-                    QUERYSQL = ('SELECT User_ID FROM Users WHERE PhoneNum = \'{}\' ').format(newphone)
-
-                    CURSOR.execute(QUERYSQL)
-
-                    QUERYLIST = CURSOR.fetchall()
-
-                    if QUERYLIST:
-
-                        (USERID, ) = QUERYLIST[0]
-
-                        if USERID != userid:
-
-                            STATUS = ErrorCode.PHONE_EXIST_CODE
-
-                        else:
-                            STATUS = ErrorCode.SAME_PHONE_ERROR
-
-                    else:
-                        UPDATEQUERY = ('UPDATE Users SET PhoneNum = \'{}\', Verified = FALSE WHERE User_ID = \'{}\';'.format(newphone, userid))
-
-                        CURSOR.execute(UPDATEQUERY)
-
-                        CURSOR.close()
-
-                        CONNECTIONS.commit()
-
-                        DATA = newphone
-
-
-            else:
-                STATUS = ErrorCode.WORNG_PASSWORD_CODE
-
-    return(STATUS, DATA)
-
-
-
-
-
-# End of Change_Phone_Unverified
+# # Start of Change_Phone_Unverified
+#
+# def Change_Phone_Unverified(userid, newphone, password):
+#     '''
+#     This is function to change the phone, we should check the phone schema
+#     '''
+#     STATUS = ErrorCode.SUCCESS_CODE
+#
+#     DATA = 0
+#
+#     if not Phone_Schame_Check(newphone):
+#         STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
+#
+#     else:
+#         CONNECTIONS = mysql.connector.connect(user='root',
+#         password='jizhongce123',
+#         host='127.0.0.1',
+#         database='Web_Data')
+#
+#         CURSOR = CONNECTIONS.cursor(buffered=True)
+#
+#         QUERYSQL = ('SELECT User_ID, Password, PhoneNum FROM Users WHERE User_ID = \'{}\' ').format(userid)
+#
+#         CURSOR.execute(QUERYSQL)
+#
+#         QUERYLIST = CURSOR.fetchall()
+#
+#         if not QUERYLIST:
+#             STATUS = ErrorCode.DATABASE_CHANGE_PHONE_ERROR
+#
+#         else:
+#             (USERID, PASSWORD, PHONENUM, ) = QUERYLIST[0]
+#
+#             if passlib.hash.sha256_crypt.verify(password, PASSWORD):
+#                 if PHONENUM == newphone:
+#                     STATUS = ErrorCode.SAME_PHONE_ERROR
+#                 else:
+#                     QUERYSQL = ('SELECT User_ID FROM Users WHERE PhoneNum = \'{}\' ').format(newphone)
+#
+#                     CURSOR.execute(QUERYSQL)
+#
+#                     QUERYLIST = CURSOR.fetchall()
+#
+#                     if QUERYLIST:
+#
+#                         (USERID, ) = QUERYLIST[0]
+#
+#                         if USERID != userid:
+#
+#                             STATUS = ErrorCode.PHONE_EXIST_CODE
+#
+#                         else:
+#                             STATUS = ErrorCode.SAME_PHONE_ERROR
+#
+#                     else:
+#                         UPDATEQUERY = ('UPDATE Users SET PhoneNum = \'{}\', Verified = FALSE WHERE User_ID = \'{}\';'.format(newphone, userid))
+#
+#                         CURSOR.execute(UPDATEQUERY)
+#
+#                         CURSOR.close()
+#
+#                         CONNECTIONS.commit()
+#
+#                         DATA = newphone
+#
+#
+#             else:
+#                 STATUS = ErrorCode.WORNG_PASSWORD_CODE
+#
+#     return(STATUS, DATA)
+#
+#
+#
+#
+#
+# # End of Change_Phone_Unverified
 
 
     #
