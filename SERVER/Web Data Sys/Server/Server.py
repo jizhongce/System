@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone
+from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products
 import json
 import hashlib, uuid
 import ErrorCode
@@ -12,7 +12,12 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
         URL_PATH = self.path
 
-        print(URL_PATH)
+        if URL_PATH == '/get_all_products':
+            (STATUS_CODE, DATA) = Get_All_Products()
+            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+                self.send_response(STATUS_CODE)
+                self.end_headers()
+                self.wfile.write(json.dumps(DATA).encode())
 
         # if URL_PATH == '/log_in':
         #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
@@ -210,7 +215,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
             USER_PASS = USER_DATA['Password']
             USER_PHONE = USER_DATA['Phone_Number']
 
-            (STATUS_CODE, USERID) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE)
+            (STATUS_CODE, DATA) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE)
 
             if STATUS_CODE == ErrorCode.SUCCESS_CODE:
 

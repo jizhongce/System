@@ -42,7 +42,7 @@ import Pass_Change_New_Pass_Board from './apps/components/User_Home/Pass_Change_
 import Phone_Change_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_Phone_Verify_Board.js';
 import Phone_Change_New_Phone_Board from './apps/components/User_Home/Phone_Change_New_Phone_Board.js';
 import Phone_Change_New_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_New_Phone_Verify_Board.js';
-import Home1 from './apps/components/Home1/Home1.js';
+import Product_Home from './apps/components/Product_Home/Product_Home.js';
 import Home2 from './apps/components/Home2/Home2.js';
 import Home3 from './apps/components/Home3/Home3.js';
 import {TabNavigator, StackNavigator} from 'react-navigation';
@@ -79,11 +79,15 @@ const User_Home_Stack = StackNavigator({
   Phone_Change_New_Phone_Verify_Board: { screen: Phone_Change_New_Phone_Verify_Board },
 });
 
+const Product_Home_Stack = StackNavigator({
+  Product_Home: { screen: Product_Home },
+});
+
 
 export default TabNavigator({
   Home1: {
-    screen: Home1,
-    navigationOptions: { tabBarLabel:  'Home1'  },
+    screen: Product_Home_Stack,
+    navigationOptions: { tabBarLabel:  'Product_Home'  },
   },
   Home2: {
     screen: Home2,

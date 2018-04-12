@@ -178,6 +178,32 @@ export default class User_Home extends Component<{}> {
 
               </View>
 
+              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+                <View style={{
+
+                  marginTop: 25,
+                  height: '50%',
+                  width: '60%',
+                  left: '85%',
+                  borderWidth: 2,
+                  justifyContent: 'center',
+                  borderRadius: 10,
+
+                }}>
+
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Home',{
+                          Id : null,
+                        })}>
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Sign Out</Text>
+                  </TouchableOpacity>
+
+                </View>
+
+              </View>
+
+
+
               {/*end  */}
 
 

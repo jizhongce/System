@@ -877,3 +877,42 @@ def Change_Phone(userid, newphone):
 #
 #
 # # End of Change_Pass
+
+
+
+# Start the Get_All_Products function
+
+def Get_All_Products():
+    '''
+    This is function to change the phone, we should check the phone schema
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Products')
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Product_List = []
+
+    for product in QUERYLIST:
+        (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
+        Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
+
+    DATA = Product_List
+
+    return(STATUS, Product_List)
+
+
+
+#End of the

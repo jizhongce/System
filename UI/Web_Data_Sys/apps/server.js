@@ -1,3 +1,17 @@
+/*
+
+start of User_Home function
+
+login,
+signup,
+sendverifycode,
+changepassgetphone,
+changepass,
+phonechangelogin,
+changephone,
+
+*/
+
 export function login(username, password, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/log_in", true);
@@ -10,8 +24,6 @@ export function login(username, password, cb) {
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;
     var statusText = xhr.statusText;
-    console.log(parseFloat(xhr.responseText));
-    console.log(typeof(xhr.responseText));
     cb([statusCode, JSON.parse(xhr.responseText)]);
   });
 
@@ -67,8 +79,6 @@ export function changepassgetphone(username, cb){
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;
     var statusText = xhr.statusText;
-    console.log(xhr.responseText);
-    console.log(JSON.parse(xhr.responseText));
     cb([statusCode, JSON.parse(xhr.responseText)]);
   });
 }
@@ -103,8 +113,6 @@ export function phonechangelogin(username, password, cb) {
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;
     var statusText = xhr.statusText;
-    console.log(parseFloat(xhr.responseText));
-    console.log(typeof(xhr.responseText));
     cb([statusCode, JSON.parse(xhr.responseText)]);
   });
 
@@ -128,5 +136,33 @@ export function changephone(id, newphone, cb){
   });
 }
 
-
 // This is the function for send the message to the server
+
+/*
+End of User_Home function
+*/
+
+
+/*
+
+start of Home1 function
+
+getAllproducts
+
+*/
+
+export function getAllproducts(cb){
+  var xhr = new XMLHttpRequest();
+  console.log("haha");
+  xhr.open("GET", "http://localhost:8080/get_all_products", true);
+  console.log("hihi");
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
