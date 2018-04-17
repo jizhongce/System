@@ -46,12 +46,12 @@ import {
   Alert,
   ScrollView
 } from 'react-native';
-import NavigationBar from 'react-native-navbar';
+
 
 export default class Product_Home extends Component<{}> {
 
 
-    static navigationOptions = {
+  static navigationOptions = {
       header: null,
   }
 
@@ -60,6 +60,12 @@ export default class Product_Home extends Component<{}> {
     this.state = {
       products : []
     };
+  }
+
+  moreproduct(){
+    this.setState({
+      products : []
+    });
   }
 
   componentWillMount(){
@@ -78,13 +84,13 @@ export default class Product_Home extends Component<{}> {
 
   render() {
     return (
-      <ScrollView style={{flex: 1}} >
+      <ScrollView style={{flex: 1}}  onScrollEndDrag={() => this.moreproduct()}>
 
 
         {
           this.state.products.map((product, i) => {
             return(
-            <TouchableOpacity key={i} >
+            <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ product : product})}>
               <View style={{
                 flex: 0.15,
                 marginTop: 25,

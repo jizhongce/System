@@ -153,9 +153,7 @@ getAllproducts
 
 export function getAllproducts(cb){
   var xhr = new XMLHttpRequest();
-  console.log("haha");
   xhr.open("GET", "http://localhost:8080/get_all_products", true);
-  console.log("hihi");
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send();
 

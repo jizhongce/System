@@ -43,6 +43,7 @@ import Phone_Change_Phone_Verify_Board from './apps/components/User_Home/Phone_C
 import Phone_Change_New_Phone_Board from './apps/components/User_Home/Phone_Change_New_Phone_Board.js';
 import Phone_Change_New_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_New_Phone_Verify_Board.js';
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
+import Single_Product_Home from './apps/components/Product_Home/Single_Product_Home.js';
 import Home2 from './apps/components/Home2/Home2.js';
 import Home3 from './apps/components/Home3/Home3.js';
 import {TabNavigator, StackNavigator} from 'react-navigation';
@@ -81,6 +82,7 @@ const User_Home_Stack = StackNavigator({
 
 const Product_Home_Stack = StackNavigator({
   Product_Home: { screen: Product_Home },
+  Single_Product_Home: { screen: Single_Product_Home},
 });
 
 
