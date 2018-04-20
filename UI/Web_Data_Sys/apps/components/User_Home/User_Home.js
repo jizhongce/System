@@ -46,7 +46,8 @@ import {
   TouchableOpacity,
   TabBarIOS,
   Button,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -59,10 +60,15 @@ export default class User_Home extends Component<{}> {
     header: null,
 }
 
-  render() {
+   render() {
     const { params } = this.props.navigation.state;
     const Id = params ? params.Id : null;
-
+    // var userid = null;
+    //
+    // AsyncStorage.getItem('UID123', (err, result) => {
+    //   userid = result;
+    //   console.log(userid);
+    // });
 
     if (Id == null) {
       return (

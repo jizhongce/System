@@ -44,7 +44,8 @@ import {
   TabBarIOS,
   Button,
   Alert,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 
 
@@ -69,6 +70,9 @@ export default class Product_Home extends Component<{}> {
   }
 
   componentWillMount(){
+    // AsyncStorage.setItem('UID123', 'hello', () => {
+    //
+    // });
     getAllproducts((response) =>{
       const code = response["StatusCode"]
       const statusText = response["ResponseText"]

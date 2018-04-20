@@ -45,7 +45,7 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
-export default class Home3 extends Component<{}> {
+export default class Shooping_Cart_Home extends Component<{}> {
 
   render() {
     return (

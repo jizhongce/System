@@ -30,6 +30,7 @@ rightButton = {<TouchableOpacity>
 
 */
 
+// Start from here we import the screen for user home
 import User_Home from './apps/components/User_Home/User_Home.js';
 import Log_In_Board from './apps/components/User_Home/Log_In_Board.js';
 import Sign_Up_Board from './apps/components/User_Home/Sign_Up_Board.js';
@@ -42,10 +43,17 @@ import Pass_Change_New_Pass_Board from './apps/components/User_Home/Pass_Change_
 import Phone_Change_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_Phone_Verify_Board.js';
 import Phone_Change_New_Phone_Board from './apps/components/User_Home/Phone_Change_New_Phone_Board.js';
 import Phone_Change_New_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_New_Phone_Verify_Board.js';
+
+// Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
 import Single_Product_Home from './apps/components/Product_Home/Single_Product_Home.js';
+
+// Start from here we import the screen for the shopping cart home
+import Shooping_Cart_Home from './apps/components/Shooping_Cart_Home/Shooping_Cart_Home.js';
+
 import Home2 from './apps/components/Home2/Home2.js';
-import Home3 from './apps/components/Home3/Home3.js';
+
+
 import {TabNavigator, StackNavigator} from 'react-navigation';
 
 import {login} from './apps/server.js';
@@ -87,21 +95,21 @@ const Product_Home_Stack = StackNavigator({
 
 
 export default TabNavigator({
-  Home1: {
+  Product_Home_Stack: {
     screen: Product_Home_Stack,
-    navigationOptions: { tabBarLabel:  'Product_Home'  },
+    navigationOptions: { tabBarLabel:  'Product'  },
   },
   Home2: {
     screen: Home2,
     navigationOptions: { tabBarLabel:  'Home2'  },
   },
-  Home3: {
-    screen: Home3,
-    navigationOptions: { tabBarLabel:  'Home3'  },
+  Shooping_Cart_Home: {
+    screen: Shooping_Cart_Home,
+    navigationOptions: { tabBarLabel:  'Shooping Cart'  },
   },
   User_Home: {
     screen: User_Home_Stack,
-    navigationOptions: { tabBarLabel:  'User_Home'  },
+    navigationOptions: { tabBarLabel:  'User Home'  },
   },
 }
 );
