@@ -44,7 +44,8 @@ import {
   TouchableOpacity,
   TabBarIOS,
   Button,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -108,9 +109,13 @@ export default class Log_In_Board extends Component<{}> {
       }
 
       else {
-        this.props.navigation.navigate('User_Home',{
-          Id : statusText,
+
+        AsyncStorage.setItem('User_ID', statusText, () => {
+
+          this.props.navigation.navigate('User_Home');
+
         });
+
       }
 
     });

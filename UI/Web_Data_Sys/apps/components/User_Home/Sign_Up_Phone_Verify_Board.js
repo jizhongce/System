@@ -91,9 +91,10 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
       }
 
       else {
-        console.log(statusText)
-        this.props.navigation.navigate('User_Home',{
-          Id : statusText,
+        AsyncStorage.setItem('User_ID', statusText, () => {
+
+          this.props.navigation.navigate('User_Home');
+
         });
       }
     });

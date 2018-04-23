@@ -60,17 +60,59 @@ export default class User_Home extends Component<{}> {
     header: null,
 }
 
-   render() {
-    const { params } = this.props.navigation.state;
-    const Id = params ? params.Id : null;
-    // var userid = null;
-    //
-    // AsyncStorage.getItem('UID123', (err, result) => {
-    //   userid = result;
-    //   console.log(userid);
-    // });
+constructor(props) {
+  super(props);
+  this.state = {
+    User_Flag : false,
+    User_Info: ''
 
-    if (Id == null) {
+  };
+}
+
+
+sign_out(e){
+  AsyncStorage.removeItem('User_ID', (error) => {
+    if (error) {
+      console.log(error);
+    }
+
+    this.props.navigation.navigate('User_Home');
+
+  });
+}
+
+
+componentWillMount(){
+  //AsyncStorage.clear()
+  // AsyncStorage.setItem('UID123', 'hello', () => {
+  //
+  // });
+
+  this.props.navigation.addListener('willFocus', ()=>{
+    AsyncStorage.getItem('User_ID', (err, result) => {
+      if (result == null) {
+        this.setState({
+          User_Flag : false
+        });
+      }
+      else {
+        this.setState({
+          User_Flag : true,
+          User_Info : result
+        });
+      }
+
+    });
+
+  });
+
+
+}
+
+
+   render() {
+
+    if (this.state.User_Flag == false) {
       return (
         <View style={{flex: 1}} >
 
@@ -180,7 +222,7 @@ export default class User_Home extends Component<{}> {
 
               <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
 
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{Id}</Text>
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{this.state.User_Info}</Text>
 
               </View>
 
@@ -198,9 +240,7 @@ export default class User_Home extends Component<{}> {
 
                 }}>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Home',{
-                          Id : null,
-                        })}>
+                <TouchableOpacity onPress={(e)=> { this.sign_out(e)} }>
                   <Text style={{ fontSize: 25, textAlign: 'center'} }>Sign Out</Text>
                   </TouchableOpacity>
 

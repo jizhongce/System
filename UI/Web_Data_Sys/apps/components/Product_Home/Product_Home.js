@@ -70,6 +70,7 @@ export default class Product_Home extends Component<{}> {
   }
 
   componentWillMount(){
+    //AsyncStorage.clear()
     // AsyncStorage.setItem('UID123', 'hello', () => {
     //
     // });
