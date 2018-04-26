@@ -915,4 +915,42 @@ def Get_All_Products():
 
 
 
-#End of the
+#End of the Get_All_Products function
+
+
+# Start the Get_Shopping_Cart function
+
+def Get_Shopping_Cart(userid):
+    '''
+    This is function to change the phone, we should check the phone schema
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Status, Products.Products_Spec, Products.Products_Price FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Product_List = []
+
+    for product in QUERYLIST:
+        (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
+        Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
+
+    DATA = Product_List
+
+    return(STATUS, Product_List)
+
+
+
+# End of the Get_Shopping_Cart function

@@ -24,7 +24,8 @@ export function login(username, password, cb) {
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;
     var statusText = xhr.statusText;
-    cb([statusCode, JSON.parse(xhr.responseText)]);
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
   });
 
 }
@@ -46,6 +47,7 @@ export function signup(username, password, phonenum, cb){
   });
 }
 
+
 export function sendverifycode(phonenum, code, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/phone_verify", true);
@@ -64,6 +66,7 @@ export function sendverifycode(phonenum, code, cb){
     cb([statusCode, JSON.parse(xhr.responseText)]);
   });
 }
+
 
 export function changepassgetphone(username, cb){
   var xhr = new XMLHttpRequest();
@@ -101,6 +104,7 @@ export function changepass(id, newpassword, cb){
   });
 }
 
+
 export function phonechangelogin(username, password, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/phone_change_log_in", true);
@@ -117,6 +121,7 @@ export function phonechangelogin(username, password, cb) {
   });
 
 }
+
 
 export function changephone(id, newphone, cb){
   var xhr = new XMLHttpRequest();
@@ -141,6 +146,45 @@ export function changephone(id, newphone, cb){
 /*
 End of User_Home function
 */
+
+
+/*
+Start of User_Home function after log in
+
+getshoppingcart
+
+*/
+
+export function getshoppingcart(User_ID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/get_shopping_cart", true);
+  var body = {User_ID: User_ID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+
+
+
+/*
+End of User_Home function after log in
+*/
+
+
+
+
 
 
 /*

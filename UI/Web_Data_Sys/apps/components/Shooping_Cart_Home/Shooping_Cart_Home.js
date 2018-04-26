@@ -65,8 +65,10 @@ export default class Shooping_Cart_Home extends Component<{}> {
     // });
     this.props.navigation.addListener('willFocus', ()=>{
 
-      AsyncStorage.getItem('User_ID', (err, result) => {
-        if (result == null) {
+      AsyncStorage.multiGet(['User_ID','Shopping_Cart'], (err, result) => {
+        var User_ID = result[0][1]
+        var Shopping_Cart = result[1][1]
+        if (User_ID == null) {
           this.setState({
             User_Flag : false,
           });
@@ -74,7 +76,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
         else {
           this.setState({
             User_Flag : true,
-            Shopping_Cart : result
+            Shopping_Cart : JSON.parse(Shopping_Cart)
           });
         }
 

@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {login} from '../../server.js';
+import {login, getshoppingcart} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
@@ -82,16 +82,16 @@ export default class Log_In_Board extends Component<{}> {
 
   log_in(e){
     var status = login(this.state.username,this.state.password,(response) => {
-      const code = response[0]
-      const statusText = response[1]
+      const log_in_code = response["StatusCode"]
+      const User_ID = response["ResponseText"]
 
-      if (code != 200 & code != 603) {
+      if (log_in_code != 200 & log_in_code != 603) {
 
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(log_in_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(log_in_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(log_in_code))
 
         Alert.alert(
             title,
@@ -101,7 +101,7 @@ export default class Log_In_Board extends Component<{}> {
           ],
         )
       }
-      else if (code == 603) {
+      else if (log_in_code == 603) {
         console.log(statusText)
         this.props.navigation.navigate('Log_In_Phone_Verify_Board',{
           PhoneNum : statusText,
@@ -110,11 +110,34 @@ export default class Log_In_Board extends Component<{}> {
 
       else {
 
-        AsyncStorage.setItem('User_ID', statusText, () => {
+        // now we have User_ID, so we need to call the get shopping cart function
+        // return the shopping cart for user
+        // input with the User_ID
+        getshoppingcart(User_ID, (response) => {
 
-          this.props.navigation.navigate('User_Home');
+          console.log(response);
+
+          const get_shopping_cart_code = response["StatusCode"]
+
+          const Products = response["ResponseText"]
+
+
+          // next create array to store the products object
+
+          Shopping_Cart = [
+            {}
+          ]
+
+          AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
+
+            this.props.navigation.navigate('User_Home');
+
+          });
 
         });
+
+
+
 
       }
 

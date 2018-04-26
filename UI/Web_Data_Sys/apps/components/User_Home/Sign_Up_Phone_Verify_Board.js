@@ -91,11 +91,26 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
       }
 
       else {
-        AsyncStorage.setItem('User_ID', statusText, () => {
 
-          this.props.navigation.navigate('User_Home');
+        // now we have User_ID, so we need to call the get shopping cart function
+        // return the shopping cart for user
+        // input with the User_ID
+        getshoppingcart(User_ID, (response) => {
+
+          console.log(response);
+
+          const get_shopping_cart_code = response["StatusCode"]
+
+          const Shopping_Cart = response["ResponseText"]
+
+          AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
+
+            this.props.navigation.navigate('User_Home');
+
+          });
 
         });
+
       }
     });
   }

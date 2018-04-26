@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products
+from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart
 import json
 import hashlib, uuid
 import ErrorCode
@@ -360,8 +360,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
             USER_ID = USER_DATA['User_ID']
             NEW_PHONE = USER_DATA['New_Phone']
 
-            (STATUS_CODE, DATA)  = Change_Phone
-            (USER_ID, NEW_PHONE)
+            (STATUS_CODE, DATA)  = Change_Phone(USER_ID, NEW_PHONE)
 
             if STATUS_CODE == ErrorCode.SUCCESS_CODE:
                 PHONENUM = DATA
@@ -388,6 +387,24 @@ class MyNewhandler(BaseHTTPRequestHandler):
                 self.end_headers()
 
                 self.wfile.write(json.dumps(DATA).encode())
+
+
+        #GET THE SPECIFIC USER'S SHOPPING CART FROM THE DATABASE
+        #FUNCTION USED:
+        #Get_Shopping_Cart
+        elif URL_PATH == '/get_shopping_cart':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+
+            (STATUS_CODE, DATA) = Get_Shopping_Cart(USER_ID)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
 
 
         return

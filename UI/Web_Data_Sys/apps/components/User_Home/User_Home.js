@@ -71,7 +71,7 @@ constructor(props) {
 
 
 sign_out(e){
-  AsyncStorage.removeItem('User_ID', (error) => {
+  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart'], (error) => {
     if (error) {
       console.log(error);
     }
