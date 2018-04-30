@@ -115,7 +115,6 @@ export default class Log_In_Board extends Component<{}> {
         // input with the User_ID
         getshoppingcart(User_ID, (response) => {
 
-          console.log(response);
 
           const get_shopping_cart_code = response["StatusCode"]
 
@@ -123,10 +122,11 @@ export default class Log_In_Board extends Component<{}> {
 
 
           // next create array to store the products object
-
-          Shopping_Cart = [
-            {}
-          ]
+          var Shopping_Cart = []
+          for (var product in Products) {
+              console.log(Products[product]);
+              Shopping_Cart.push(Products[product])
+          }
 
           AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
 

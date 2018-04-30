@@ -935,7 +935,7 @@ def Get_Shopping_Cart(userid):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Status, Products.Products_Spec, Products.Products_Price FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Status, Products.Products_Spec, Products.Products_Price, Shopping_Cart.Products_Units FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
 
     CURSOR.execute(QUERYSQL)
 
@@ -944,8 +944,8 @@ def Get_Shopping_Cart(userid):
     Product_List = []
 
     for product in QUERYLIST:
-        (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
-        Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
+        (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
+        Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
 
     DATA = Product_List
 

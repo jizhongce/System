@@ -54,7 +54,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
     super(props);
     this.state = {
       User_Flag : true,
-      Shopping_Cart : ''
+      Shopping_Cart : []
     };
   }
 
@@ -78,6 +78,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
             User_Flag : true,
             Shopping_Cart : JSON.parse(Shopping_Cart)
           });
+
         }
 
       });
@@ -127,16 +128,11 @@ export default class Shooping_Cart_Home extends Component<{}> {
 
 
               {/*start  */}
-
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>{this.state.Shopping_Cart}</Text>
-
-              </View>
-
-
-
-
+              {
+                this.state.Shopping_Cart.map((product) =>{
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{product}</Text>
+                })
+              }
               {/*end  */}
 
 
