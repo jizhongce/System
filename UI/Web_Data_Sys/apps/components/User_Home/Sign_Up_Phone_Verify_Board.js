@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {sendverifycode} from '../../server.js';
+import {sendverifycode, getshoppingcart} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
@@ -44,7 +44,8 @@ import {
   TouchableOpacity,
   TabBarIOS,
   Button,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -70,16 +71,16 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
 
   send_verify_code(e, phonenum){
     sendverifycode(phonenum, this.state.code, (response) =>{
-      const code = response[0]
-      const statusText = response[1]
+      const verify_status_code = response["StatusCode"]
+      const statusText = response["ResponseText"]
       console.log(response)
-      if (code != 200) {
+      if (verify_status_code != 200) {
 
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(verify_status_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(verify_status_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(verify_status_code))
 
         Alert.alert(
             title,
@@ -95,7 +96,7 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
         // now we have User_ID, so we need to call the get shopping cart function
         // return the shopping cart for user
         // input with the User_ID
-        getshoppingcart(User_ID, (response) => {
+        getshoppingcart(statusText, (response) => {
 
           console.log(response);
 
@@ -103,7 +104,7 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
 
           const Shopping_Cart = response["ResponseText"]
 
-          AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
+          AsyncStorage.multiSet([['User_ID', statusText],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
 
             this.props.navigation.navigate('User_Home');
 

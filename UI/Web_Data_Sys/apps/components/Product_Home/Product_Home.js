@@ -75,10 +75,10 @@ export default class Product_Home extends Component<{}> {
     //
     // });
     getAllproducts((response) =>{
-      const code = response["StatusCode"]
+      const get_all_products_code = response["StatusCode"]
       const statusText = response["ResponseText"]
 
-      if (code == 200) {
+      if (get_all_products_code == 200) {
         this.setState({
           products : statusText
         });

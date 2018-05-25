@@ -85,10 +85,11 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
   }
 
   pass_change(e, id){
-    changepass(id, this.state.password,(code) =>{
+    changepass(id, this.state.password,(response) =>{
 
-      
-      if (code == 200) {
+      const change_pass_status_code = response["StatusCode"]
+
+      if (change_pass_status_code == 200) {
         Alert.alert(
             'success',
             'change success',
@@ -99,11 +100,11 @@ export default class Pass_Change_New_Pass_Board extends Component<{}> {
         this.props.navigation.navigate('User_Home');
       }
       else {
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(change_pass_status_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(change_pass_status_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(change_pass_status_code))
 
         Alert.alert(
             title,

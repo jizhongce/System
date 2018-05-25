@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {getAllproducts} from '../../server.js';
+import {getAllproducts, addToshoppingcart} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {
@@ -75,61 +75,85 @@ export default class Single_Product_Home extends Component<{}> {
     });
   }
 
-  addToshoppingcart(){
+  add_To_shopping_cart(){
     var TempProduct = {
-      prodcutID : this.state.product.ProdcutID,
-      productQuntity : this.state.quantity
+      ProdcutID : this.state.product.ProdcutID,
+      ProductStatus : this.state.product.ProductStatus,
+      ProductSpec : this.state.product.ProductSpec,
+      ProductPrice : this.state.product.ProductPrice,
+      ProductUnits : this.state.quantity
     }
 
     // console.log(TempProduct);
 
-    AsyncStorage.getItem('Shopping_Cart', (err, result) =>{
+    AsyncStorage.multiGet(['User_ID','Shopping_Cart'], (err, result) =>{
+
       if (err) {
         console.log(error);
       }
 
-      else if (result == null) {
-        console.log(result);
-        Alert.alert(
-            'Error',
-            'please log in first',
-          [
-            {text: 'OK', style: 'cancel'},
-          ],
-        )
 
-        this.props.navigation.navigate('User_Home');
-
-      }
 
       else {
 
-        Shopping_Cart = JSON.parse(result)
+        var User_ID = result[0][1]
 
-        // now we need to add result as array
-        Shopping_Cart.push(TempProduct)
-
-        console.log(Shopping_Cart);
-
-        // console.log(Object.keys(Shopping_Cart));
-        AsyncStorage.setItem('Shopping_Cart', JSON.stringify(Shopping_Cart), () =>{
-          // Here we need call add to shooping cart function to add the items into shopping cart in database
+        var Shopping_Cart = result[1][1]
 
 
-
-
+        if(User_ID == null) {
+          console.log(result);
           Alert.alert(
-            'Success!',
-            'Item' + this.state.product.ProdcutID + 'has been added!',
+              'Error',
+              'please log in first',
             [
               {text: 'OK', style: 'cancel'},
             ],
           )
 
+          this.props.navigation.navigate('User_Home');
+
+        }
+
+        else {
+          Shopping_Cart = JSON.parse(Shopping_Cart)
+
+          // now we need to add result as array
+          Shopping_Cart.push(TempProduct)
+
+          console.log(Shopping_Cart);
+
+          // console.log(Object.keys(Shopping_Cart));
+
+          // First we need to add the product into the shopping cart in the database
+
+
+          addToshoppingcart(User_ID, TempProduct, (response) =>{
+
+          })
+
+        //   AsyncStorage.setItem('Shopping_Cart', JSON.stringify(Shopping_Cart), () =>{
+        //     // Here we need call add to shooping cart function to add the items into shopping cart in database
+        //
+        //
+        //
+        //
+        //     Alert.alert(
+        //       'Success!',
+        //       'Item' + this.state.product.ProdcutID + 'has been added!',
+        //       [
+        //         {text: 'OK', style: 'cancel'},
+        //       ],
+        //     )
+        //
+        //
+        //
+        //
+        // });
 
 
 
-      });
+        }
 
     }
 
@@ -166,8 +190,9 @@ export default class Single_Product_Home extends Component<{}> {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(text) => this.productQuantityhandler(text)}
+          value={this.state.text}
           />
-        <TouchableOpacity onPress = {() => this.addToshoppingcart()}>
+        <TouchableOpacity onPress = {() => this.add_To_shopping_cart()}>
           <Text style={{ fontSize: 25, textAlign: 'center'} }>加入购物车</Text>
         </TouchableOpacity>
 

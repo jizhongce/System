@@ -58,7 +58,7 @@ def CreateUserID():
 
     CONNECTIONS.close()
 
-    return(UserID)
+    return(str(UserID))
 
 
 # End of create uuid
@@ -152,7 +152,80 @@ def Phone_Schame_Check(Phonenum):
 
 # End of Phone_Schame_Check
 
+# Start of create shopping cart id
 
+def CreateShoppingCartID():
+    '''
+    This is function to create unique shopping cart id
+    '''
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    while True:
+        ShoppingCartID = uuid.uuid4()
+
+        QUERYSQL = ('SELECT * FROM Shopping_Cart_User WHERE Shopping_Cart_ID = \'{}\' ').format(ShoppingCartID)
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        if not QUERYLIST:
+            break
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(str(ShoppingCartID))
+
+
+# End of create shopping cart id
+
+
+# # Start of create address id
+#
+# def CreateAddressID():
+#     '''
+#     This is function to create unique address id
+#     '''
+#
+#     CONNECTIONS = mysql.connector.connect(user='root',
+#     password='jizhongce123',
+#     host='127.0.0.1',
+#     database='Web_Data')
+#
+#     CURSOR = CONNECTIONS.cursor(buffered=True)
+#
+#     while True:
+#         AddressID = uuid.uuid4()
+#
+#         QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\' ').format(AddressID)
+#
+#         CURSOR.execute(QUERYSQL)
+#
+#         QUERYLIST = CURSOR.fetchall()
+#
+#         if not QUERYLIST:
+#             break
+#
+#     CURSOR.close()
+#
+#     CONNECTIONS.commit()
+#
+#     CONNECTIONS.close()
+#
+#     return(str(AddressID))
+#
+#
+# # End of create address id
 
 # Start of Sign Up
 
@@ -227,11 +300,22 @@ def Sign_Up(username, password, phonenum):
 
             USERID = CreateUserID()
 
+            SHOPPINGCARTID = CreateShoppingCartID()
+
             PASSWORD = passlib.hash.sha256_crypt.hash(password)
 
-            QUERYSQL = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE);').format(USERID, username, PASSWORD, phonenum)
+            QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE);').format(USERID, username, PASSWORD, phonenum)
 
-            CURSOR.execute(QUERYSQL)
+            QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
+
+            QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID) VALUES (\'{}\');').format(USERID)
+
+            CURSOR.execute(QUERYSQL_USER)
+
+            CURSOR.execute(QUERYSQL_SHOPPINGCART)
+
+            CURSOR.execute(QUERYSQL_PROFILE)
+
 
     CURSOR.close()
 
@@ -884,7 +968,7 @@ def Change_Phone(userid, newphone):
 
 def Get_All_Products():
     '''
-    This is function to change the phone, we should check the phone schema
+    This is function to get all products from the database
     '''
     STATUS = ErrorCode.SUCCESS_CODE
 
@@ -905,11 +989,10 @@ def Get_All_Products():
 
     Product_List = []
 
-    for product in QUERYLIST:
-        (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
-        Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
-
-    DATA = Product_List
+    if QUERYLIST:
+        for product in QUERYLIST:
+            (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
+            Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
 
     return(STATUS, Product_List)
 
@@ -922,7 +1005,7 @@ def Get_All_Products():
 
 def Get_Shopping_Cart(userid):
     '''
-    This is function to change the phone, we should check the phone schema
+    This is function to get all the items in the shopping cart
     '''
     STATUS = ErrorCode.SUCCESS_CODE
 
@@ -943,14 +1026,109 @@ def Get_Shopping_Cart(userid):
 
     Product_List = []
 
-    for product in QUERYLIST:
-        (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
-        Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
-
-    DATA = Product_List
+    if QUERYLIST:
+        for product in QUERYLIST:
+            (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
+            Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
 
     return(STATUS, Product_List)
 
 
 
 # End of the Get_Shopping_Cart function
+
+# Start of the helper function Check_Porduct_Units_Schema
+
+def Check_Product_Units_Schema(Product_Units):
+    '''
+    Here we will change the product units into int, and if it can not be changed than the schema is wrong return -1
+    else return the converted value
+    '''
+    try:
+        return(int(Product_Units))
+    except ValueError as e:
+        return(-1)
+        raise
+
+
+# End of the helper function Check_Porduct_Units_Schema
+
+
+# Start of the Add_To_Shopping_Cart function
+
+def Add_To_Shopping_Cart(USER_ID, PRODUCT):
+    '''
+    This is function to add the product into the shopooing cart
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    if Check_Product_Units_Schema(PRODUCT['ProductUnits']) == -1:
+        STATUS = ErrorCode.PRODUCT_SCHEMA_ERROR
+        return(STATUS, DATA)
+
+    Temp_Product_Units = Check_Product_Units_Schema(PRODUCT['ProductUnits'])
+
+    Temp_Prodcut_ID = PRODUCT['ProductID']
+
+    QUERYSQL = ('SELECT User_ID, Shopping_Cart_ID FROM Shopping_Cart_User WHERE User_ID = \'{}\' ;'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (User_ID, Shopping_Cart_ID,) = QUERYLIST[0]
+
+        QUERYSQL = ('SELECT * FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' ;'.format(Shopping_Cart_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        # if QUERYLIST:
+
+
+            # Product_Flag = False
+            # for Product in QUERYLIST:
+            #     (Shopping_Cart_ID, Products_ID, Products_Units) = Product
+            #     if Products_ID == Temp_Prodcut_ID:
+            #         new_Product_Units = Temp_Product_Units + Products_Units
+            #         # Here we need to update the value in the shopping cart with new units
+            #         QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Products_ID = \'{}\';'.format(new_Product_Units, Products_ID))
+            #
+            #         CURSOR.execute(QUERYSQL)
+            #
+            #         CURSOR.close()
+            #
+            #         CONNECTIONS.commit()
+            #
+            #         Product_Flag = True
+            #
+            #         break
+
+
+
+
+
+
+    # Here means the user has no shopping cart, which means there is an error during the sign up
+    # Here we return the error code
+    else:
+        # Here we need to create new uuid for the shopping cart
+        Temp_Shopping_Cart_ID = CreateShoppingCartID()
+
+
+
+
+
+
+# End of the Add_To_Shopping_Cart function

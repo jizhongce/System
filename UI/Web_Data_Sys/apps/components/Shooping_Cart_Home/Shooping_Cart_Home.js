@@ -42,7 +42,8 @@ import {
   TabBarIOS,
   Button,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -68,16 +69,20 @@ export default class Shooping_Cart_Home extends Component<{}> {
       AsyncStorage.multiGet(['User_ID','Shopping_Cart'], (err, result) => {
         var User_ID = result[0][1]
         var Shopping_Cart = result[1][1]
+
         if (User_ID == null) {
           this.setState({
             User_Flag : false,
           });
         }
         else {
+          console.log(JSON.parse(Shopping_Cart));
+          console.log(typeof(JSON.parse(Shopping_Cart)));
           this.setState({
             User_Flag : true,
             Shopping_Cart : JSON.parse(Shopping_Cart)
           });
+          console.log(this.state.Shopping_Cart);
 
         }
 
@@ -123,21 +128,37 @@ export default class Shooping_Cart_Home extends Component<{}> {
 
 
           return (
-            <View style={{flex: 1}} >
+            <ScrollView style={{flex: 1}} style={{flex: 1}} >
 
 
 
               {/*start  */}
               {
-                this.state.Shopping_Cart.map((product) =>{
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{product}</Text>
+                this.state.Shopping_Cart.map((product, i) =>{
+                  return(
+                    <View key={i} style={{
+                      flex: 0.2,
+                      marginTop: 25,
+                      borderWidth: 2,
+                      justifyContent: 'center',
+                      borderRadius: 10,
+
+                    }}>
+                      <Text>key : {i}</Text>
+                      <Text>ID : {product.ProdcutID}</Text>
+                      <Text>Status : {product.ProductStatus}</Text>
+                      <Text>Specification : {product.ProductSpec}</Text>
+                      <Text>Price : {product.ProductPrice}</Text>
+                      <Text>Units : {product.ProductUnits}</Text>
+                    </View>
+                  );
                 })
               }
               {/*end  */}
 
 
 
-            </View>
+            </ScrollView>
 
 
           );

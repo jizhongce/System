@@ -86,19 +86,19 @@ export default class Pass_Change_Board extends Component<{}> {
 
   pass_change_get_phone(){
     changepassgetphone(this.state.username,(response) =>{
-      const code = response[0]
-      const statusText = response[1]
-      if (code == 200) {
+      const change_pass_get_phone_status_code = response["StatusCode"]
+      const statusText = response["ResponseText"]
+      if (change_pass_get_phone_status_code == 200) {
         this.props.navigation.navigate('Pass_Change_Phone_Verify_Board',{
           PhoneNum : statusText,
         });
       }
       else {
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(change_pass_get_phone_status_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(change_pass_get_phone_status_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(change_pass_get_phone_status_code))
 
         Alert.alert(
             title,

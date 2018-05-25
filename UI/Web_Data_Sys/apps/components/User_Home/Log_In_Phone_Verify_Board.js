@@ -44,7 +44,8 @@ import {
   TouchableOpacity,
   TabBarIOS,
   Button,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -70,17 +71,17 @@ export default class Log_In_Phone_Verify_Board extends Component<{}> {
 
   send_verify_code(e, phonenum){
     sendverifycode(phonenum, this.state.code, (response) =>{
-      const code = response[0]
-      const statusText = response[1]
+      const verify_status_code = response["StatusCode"]
+      const statusText = response["ResponseText"]
 
       console.log(response)
-      if (code != 200) {
+      if (verify_status_code != 200) {
 
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(verify_status_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(verify_status_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(verify_status_code))
 
         Alert.alert(
             title,

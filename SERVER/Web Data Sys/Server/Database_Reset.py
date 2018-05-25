@@ -8,8 +8,8 @@ passlib.hash.sha256_crypt.hash("jizhongce123")
 
 '''
 
-USER1 = uuid.uuid4()
-USER2 = uuid.uuid4()
+USER1 = str(uuid.uuid4())
+USER2 = str(uuid.uuid4())
 
 PASSWORD1 = passlib.hash.sha256_crypt.hash("jizhongce123")
 PASSWORD2 = passlib.hash.sha256_crypt.hash("jizhongce123")

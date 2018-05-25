@@ -93,25 +93,25 @@ export default class Phone_Change_Board extends Component<{}> {
 
   phone_change_log_in(){
     phonechangelogin(this.state.username,this.state.password,(response) =>{
-      const code = response[0]
-      const statusText = response[1]
-      if (code == 200) {
+      const phone_change_log_in_status_code = response["StatusCode"]
+      const statusText = response["ResponseText"]
+      if (phone_change_log_in_status_code == 200) {
         this.props.navigation.navigate('Phone_Change_Phone_Verify_Board',{
           PhoneNum : statusText,
         });
       }
-      else if (code == 603) {
+      else if (phone_change_log_in_status_code == 603) {
         this.props.navigation.navigate('Phone_Change_New_Phone_Board',{
           Id : statusText,
         });
 
       }
       else {
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(phone_change_log_in_status_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(phone_change_log_in_status_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(phone_change_log_in_status_code))
 
         Alert.alert(
             title,

@@ -69,18 +69,20 @@ export default class Sign_Up_Board extends Component<{}> {
   }
 
   sign_up(e){
-    signup(this.state.username, this.state.password, this.state.phonenum, (code) =>{
-      if (code == 200) {
+    signup(this.state.username, this.state.password, this.state.phonenum, (response) =>{
+      const sign_up_status_code = response["StatusCode"]
+      const statusText = response["ResponseText"]
+      if (sign_up_status_code == 200) {
         this.props.navigation.navigate('Sign_Up_Phone_Verify_Board',{
           PhoneNum : this.state.phonenum,
         });
       }
       else {
-        var errormsg = ErrorCodePrase(code)[1]
+        var errormsg = ErrorCodePrase(sign_up_status_code)[1]
 
-        var title = ErrorCodePrase(code)[0]
+        var title = ErrorCodePrase(sign_up_status_code)[0]
 
-        console.log(ErrorCodePrase(code))
+        console.log(ErrorCodePrase(sign_up_status_code))
 
         Alert.alert(
             title,

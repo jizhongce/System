@@ -192,6 +192,8 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                     self.end_headers()
 
+                    self.wfile.write(json.dumps(PHONENUM).encode())
+
 
             else:
                 self.send_response(STATUS_CODE)
@@ -221,15 +223,23 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                 STATUS = ServerSMS(USER_PHONE)
 
+                print(DATA)
+
                 self.send_response(STATUS)
 
                 self.end_headers()
+
+
+
+                self.wfile.write(json.dumps(DATA).encode())
 
             else:
 
                 self.send_response(STATUS_CODE)
 
                 self.end_headers()
+
+                self.wfile.write(json.dumps(DATA).encode())
 
 
 
@@ -404,6 +414,26 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             self.wfile.write(json.dumps(DATA).encode())
+
+
+        #ADD THE PRODUCT INTO THE SPECIFIC USER'S DATABASE
+        #FUNCTION USED:
+        #Add_To_Shopping_Cart
+        elif URL_PATH == '/add_to_shopping_cart':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            PRODUCT = USER_DATA['TempProduct']
+
+            (STATUS_CODE, DATA) = Add_To_Shopping_Cart(USER_ID, PRODUCT)
+
+            # print()
+
+            # self.send_response(STATUS_CODE)
+            #
+            # self.end_headers()
+            #
+            # self.wfile.write(json.dumps(DATA).encode())
 
 
 

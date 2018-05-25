@@ -81,17 +81,17 @@ export default class Log_In_Board extends Component<{}> {
   }
 
   log_in(e){
-    var status = login(this.state.username,this.state.password,(response) => {
-      const log_in_code = response["StatusCode"]
+    login(this.state.username,this.state.password,(response) => {
+      const log_in_status_code = response["StatusCode"]
       const User_ID = response["ResponseText"]
 
-      if (log_in_code != 200 & log_in_code != 603) {
+      if (log_in_status_code != 200 & log_in_status_code != 603) {
 
-        var errormsg = ErrorCodePrase(log_in_code)[1]
+        var errormsg = ErrorCodePrase(log_in_status_code)[1]
 
-        var title = ErrorCodePrase(log_in_code)[0]
+        var title = ErrorCodePrase(log_in_status_code)[0]
 
-        console.log(ErrorCodePrase(log_in_code))
+        console.log(ErrorCodePrase(log_in_status_code))
 
         Alert.alert(
             title,
@@ -101,10 +101,10 @@ export default class Log_In_Board extends Component<{}> {
           ],
         )
       }
-      else if (log_in_code == 603) {
-        console.log(statusText)
+      else if (log_in_status_code == 603) {
+        console.log(User_ID)
         this.props.navigation.navigate('Log_In_Phone_Verify_Board',{
-          PhoneNum : statusText,
+          PhoneNum : User_ID,
         });
       }
 
