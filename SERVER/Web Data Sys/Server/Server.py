@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart
+from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart
 import json
 import hashlib, uuid
 import ErrorCode
@@ -424,8 +424,15 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
             USER_ID = USER_DATA['User_ID']
             PRODUCT = USER_DATA['TempProduct']
-
+            print(PRODUCT)
             (STATUS_CODE, DATA) = Add_To_Shopping_Cart(USER_ID, PRODUCT)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
 
             # print()
 

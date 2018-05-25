@@ -145,7 +145,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
 
                     }}>
                       <Text>key : {i}</Text>
-                      <Text>ID : {product.ProdcutID}</Text>
+                      <Text>ID : {product.ProductID}</Text>
                       <Text>Status : {product.ProductStatus}</Text>
                       <Text>Specification : {product.ProductSpec}</Text>
                       <Text>Price : {product.ProductPrice}</Text>

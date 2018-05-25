@@ -77,6 +77,7 @@ export default class Product_Home extends Component<{}> {
     getAllproducts((response) =>{
       const get_all_products_code = response["StatusCode"]
       const statusText = response["ResponseText"]
+      console.log(statusText);
 
       if (get_all_products_code == 200) {
         this.setState({
@@ -105,7 +106,7 @@ export default class Product_Home extends Component<{}> {
 
               }}>
               <Text>key : {i}</Text>
-              <Text>ID : {product.ProdcutID}</Text>
+              <Text>ID : {product.ProductID}</Text>
               <Text>Status : {product.ProductStatus}</Text>
               <Text>Specification : {product.ProductSpec}</Text>
               <Text>Price : {product.ProductPrice}</Text>

@@ -30,6 +30,7 @@ rightButton = {<TouchableOpacity>
 
 */
 import {getAllproducts, addToshoppingcart} from '../../server.js';
+import {ErrorCodePrase} from '../../util.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {
@@ -77,7 +78,7 @@ export default class Single_Product_Home extends Component<{}> {
 
   add_To_shopping_cart(){
     var TempProduct = {
-      ProdcutID : this.state.product.ProdcutID,
+      ProductID : this.state.product.ProductID,
       ProductStatus : this.state.product.ProductStatus,
       ProductSpec : this.state.product.ProductSpec,
       ProductPrice : this.state.product.ProductPrice,
@@ -118,39 +119,71 @@ export default class Single_Product_Home extends Component<{}> {
         else {
           Shopping_Cart = JSON.parse(Shopping_Cart)
 
-          // now we need to add result as array
-          Shopping_Cart.push(TempProduct)
-
-          console.log(Shopping_Cart);
-
-          // console.log(Object.keys(Shopping_Cart));
+          // here we can not just push the product into the AsyncStorage, instead we need to check if it is already in the shopping cart
 
           // First we need to add the product into the shopping cart in the database
 
-
           addToshoppingcart(User_ID, TempProduct, (response) =>{
+            const add_to_shopping_cart_status_code = response["StatusCode"]
+            const statusText = response["ResponseText"]
+
+            Shopping_Cart_FLAG = false
+            for (var product in Shopping_Cart) {
+              console.log(typeof(Shopping_Cart[product].ProductID));
+              if (Shopping_Cart[product].ProductID == TempProduct.ProductID) {
+                Shopping_Cart[product].ProductUnits = Shopping_Cart[product].ProductUnits + TempProduct.ProductUnits
+                Shopping_Cart_FLAG = true
+
+                break
+              }
+            }
+
+            if (Shopping_Cart_FLAG == false) {
+              // now we need to add result as array
+              Shopping_Cart.push(TempProduct)
+
+            }
+
+
+            if (add_to_shopping_cart_status_code == 200) {
+
+              AsyncStorage.setItem('Shopping_Cart', JSON.stringify(Shopping_Cart), () =>{
+                // Here we need call add to shooping cart function to add the items into shopping cart in database
+                // here we need a flag to indicate end or not
+
+                Alert.alert(
+                  'Success!',
+                  'Item' + this.state.product.ProductID + 'has been added!',
+                  [
+                    {text: 'OK', style: 'cancel'},
+                  ],
+                )
+
+              });
+
+
+
+
+
+            } else {
+
+              var errormsg = ErrorCodePrase(add_to_shopping_cart_status_code)[1]
+
+              var title = ErrorCodePrase(add_to_shopping_cart_status_code)[0]
+
+              console.log(ErrorCodePrase(add_to_shopping_cart_status_code))
+
+              Alert.alert(
+                  title,
+                  errormsg,
+                [
+                  {text: 'OK', style: 'cancel'},
+                ],
+              )
+
+            }
 
           })
-
-        //   AsyncStorage.setItem('Shopping_Cart', JSON.stringify(Shopping_Cart), () =>{
-        //     // Here we need call add to shooping cart function to add the items into shopping cart in database
-        //
-        //
-        //
-        //
-        //     Alert.alert(
-        //       'Success!',
-        //       'Item' + this.state.product.ProdcutID + 'has been added!',
-        //       [
-        //         {text: 'OK', style: 'cancel'},
-        //       ],
-        //     )
-        //
-        //
-        //
-        //
-        // });
-
 
 
         }
@@ -183,12 +216,14 @@ export default class Single_Product_Home extends Component<{}> {
           borderRadius: 10,
 
         }}>
-        <Text>ID : {this.state.product.ProdcutID}</Text>
+        <Text>ID : {this.state.product.ProductID}</Text>
         <Text>Status : {this.state.product.ProductStatus}</Text>
         <Text>Specification : {this.state.product.ProductSpec}</Text>
         <Text>Price : {this.state.product.ProductPrice}</Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          placeholder="1"
+          placeholderTextColor="black"
           onChangeText={(text) => this.productQuantityhandler(text)}
           value={this.state.text}
           />

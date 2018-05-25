@@ -717,6 +717,8 @@ def Change_Phone(userid, newphone):
 
                     DATA = newphone
 
+    CONNECTIONS.close()
+
     return(STATUS, DATA)
 
 
@@ -992,7 +994,7 @@ def Get_All_Products():
     if QUERYLIST:
         for product in QUERYLIST:
             (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
-            Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
+            Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
 
     return(STATUS, Product_List)
 
@@ -1029,7 +1031,7 @@ def Get_Shopping_Cart(userid):
     if QUERYLIST:
         for product in QUERYLIST:
             (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
-            Product_List.append({"ProdcutID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
+            Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
 
     return(STATUS, Product_List)
 
@@ -1073,7 +1075,16 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
 
     if Check_Product_Units_Schema(PRODUCT['ProductUnits']) == -1:
         STATUS = ErrorCode.PRODUCT_SCHEMA_ERROR
+
+        CURSOR.close()
+
+        CONNECTIONS.commit()
+
+        CONNECTIONS.close()
+
         return(STATUS, DATA)
+
+    print(PRODUCT)
 
     Temp_Product_Units = Check_Product_Units_Schema(PRODUCT['ProductUnits'])
 
@@ -1094,40 +1105,58 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
 
         QUERYLIST = CURSOR.fetchall()
 
-        # if QUERYLIST:
+        if QUERYLIST:
+
+            Prodcut_Exist_Flag = False
+            for Product in QUERYLIST:
+                print(Product)
+                (Shopping_Cart_ID, Products_ID, Products_Units) = Product
+                if Products_ID == Temp_Prodcut_ID:
+
+                    new_Product_Units = Temp_Product_Units + Products_Units
+                    # Here we need to update the value in the shopping cart with new units
+                    QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(new_Product_Units, Shopping_Cart_ID, Products_ID))
+
+                    CURSOR.execute(QUERYSQL)
+
+                    Prodcut_Exist_Flag = True
+
+                    break
 
 
-            # Product_Flag = False
-            # for Product in QUERYLIST:
-            #     (Shopping_Cart_ID, Products_ID, Products_Units) = Product
-            #     if Products_ID == Temp_Prodcut_ID:
-            #         new_Product_Units = Temp_Product_Units + Products_Units
-            #         # Here we need to update the value in the shopping cart with new units
-            #         QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Products_ID = \'{}\';'.format(new_Product_Units, Products_ID))
-            #
-            #         CURSOR.execute(QUERYSQL)
-            #
-            #         CURSOR.close()
-            #
-            #         CONNECTIONS.commit()
-            #
-            #         Product_Flag = True
-            #
-            #         break
+            if Prodcut_Exist_Flag == False:
+                QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Shopping_Cart_ID, Temp_Prodcut_ID, Temp_Product_Units))
 
+                CURSOR.execute(QUERYSQL)
 
+        else:
+            QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Shopping_Cart_ID, Temp_Prodcut_ID, Temp_Product_Units))
 
-
+            CURSOR.execute(QUERYSQL)
 
 
     # Here means the user has no shopping cart, which means there is an error during the sign up
     # Here we return the error code
     else:
-        # Here we need to create new uuid for the shopping cart
-        Temp_Shopping_Cart_ID = CreateShoppingCartID()
+        # Here we need to return the error with shopping cart SHOPPING_CART_ADDING_ERROR
+        STATUS = ErrorCode.SHOPPING_CART_ADDING_ERROR
+
+        CURSOR.close()
+
+        CONNECTIONS.commit()
+
+        CONNECTIONS.close()
+
+        return(STATUS, DATA)
 
 
+    CURSOR.close()
 
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
 
 
 
