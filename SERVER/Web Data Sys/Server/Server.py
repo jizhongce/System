@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart
+from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Get_User_Profile
 import json
 import hashlib, uuid
 import ErrorCode
@@ -18,6 +18,22 @@ class MyNewhandler(BaseHTTPRequestHandler):
                 self.send_response(STATUS_CODE)
                 self.end_headers()
                 self.wfile.write(json.dumps(DATA).encode())
+
+
+        # elif URL_PATH == '/get_user_profile':
+        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+        #
+        #     USER_ID = USER_DATA['User_ID']
+        #
+        #     (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
+        #
+        #     print(DATA)
+        #
+        #     self.send_response(STATUS_CODE)
+        #     self.end_headers()
+        #     self.wfile.write(json.dumps(DATA).encode())
+
+
 
         # if URL_PATH == '/log_in':
         #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
@@ -216,8 +232,10 @@ class MyNewhandler(BaseHTTPRequestHandler):
             USER_NAME = USER_DATA['User_Name']
             USER_PASS = USER_DATA['Password']
             USER_PHONE = USER_DATA['Phone_Number']
+            USER_FIRSTNAME = USER_DATA['First_Name']
+            USER_LASTNAME = USER_DATA['Last_Name']
 
-            (STATUS_CODE, DATA) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE)
+            (STATUS_CODE, DATA) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE, USER_FIRSTNAME, USER_LASTNAME)
 
             if STATUS_CODE == ErrorCode.SUCCESS_CODE:
 
@@ -442,6 +460,18 @@ class MyNewhandler(BaseHTTPRequestHandler):
             #
             # self.wfile.write(json.dumps(DATA).encode())
 
+        elif URL_PATH == '/get_user_profile':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+
+            (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
 
 
         return

@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {login, getshoppingcart} from '../../server.js';
+import {login, getshoppingcart, getuserprofile} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
@@ -128,11 +128,24 @@ export default class Log_In_Board extends Component<{}> {
               Shopping_Cart.push(Products[product])
           }
 
-          AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
+          // Next we need to use getuserprofile function to get the profile of the user
 
-            this.props.navigation.navigate('User_Home');
+          getuserprofile(User_ID, (response) => {
+
+            const get_profile_code = response["StatusCode"]
+
+            const Profile = response["ResponseText"]
+
+            console.log(Profile);
+            AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ] ], () => {
+
+              this.props.navigation.navigate('User_Home');
+
+            });
+
 
           });
+
 
         });
 

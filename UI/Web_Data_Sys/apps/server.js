@@ -30,10 +30,10 @@ export function login(username, password, cb) {
 
 }
 
-export function signup(username, password, phonenum, cb){
+export function signup(username, password, phonenum, firstname, lastname, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/sign_up", true);
-  var body = {User_Name: username, Password : password, Phone_Number: phonenum};
+  var body = {User_Name: username, Password : password, Phone_Number: phonenum, First_Name: firstname, Last_Name: lastname};
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
@@ -161,7 +161,31 @@ getshoppingcart
 
 addToshoppingcart
 
+getuserprofile
+
 */
+
+
+export function getuserprofile(User_ID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/get_user_profile", true);
+  var body = {User_ID: User_ID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
 
 export function getshoppingcart(User_ID, cb){
   var xhr = new XMLHttpRequest();

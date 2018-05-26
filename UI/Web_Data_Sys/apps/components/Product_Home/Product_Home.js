@@ -63,11 +63,12 @@ export default class Product_Home extends Component<{}> {
     };
   }
 
-  moreproduct(){
-    this.setState({
-      products : []
-    });
-  }
+  // moreproduct(){
+  //   this.setState({
+  //     products : []
+  //   });
+  // }
+  // onScrollEndDrag={() => this.moreproduct()}
 
   componentWillMount(){
     //AsyncStorage.clear()
@@ -90,7 +91,7 @@ export default class Product_Home extends Component<{}> {
 
   render() {
     return (
-      <ScrollView style={{flex: 1}}  onScrollEndDrag={() => this.moreproduct()}>
+      <ScrollView style={{flex: 1}}  >
 
 
         {

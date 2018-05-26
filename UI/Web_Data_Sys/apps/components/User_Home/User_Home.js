@@ -64,14 +64,14 @@ constructor(props) {
   super(props);
   this.state = {
     User_Flag : false,
-    User_Info: ''
+    User_Profile: ''
 
   };
 }
 
 
 sign_out(e){
-  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart'], (error) => {
+  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile'], (error) => {
     if (error) {
       console.log(error);
     }
@@ -89,16 +89,22 @@ componentWillMount(){
   // });
 
   this.props.navigation.addListener('willFocus', ()=>{
-    AsyncStorage.getItem('User_ID', (err, result) => {
-      if (result == null) {
-        this.setState({
-          User_Flag : false
+    AsyncStorage.multiGet(['User_ID','User_Profile'], (err, result) => {
+      console.log(result);
+      var User_ID = result[0][1]
+      var Profile = result[1][1]
+      if (User_ID == null || Profile == null) {
+        AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile'], (error) => {
+          this.setState({
+            User_Flag : false
+          });
         });
+
       }
       else {
         this.setState({
           User_Flag : true,
-          User_Info : result
+          User_Profile : JSON.parse(Profile)
         });
       }
 
@@ -222,7 +228,25 @@ componentWillMount(){
 
               <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
 
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>{this.state.User_Info}</Text>
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>User ID: {this.state.User_Profile.User_ID}</Text>
+
+              </View>
+
+              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>First Name: {this.state.User_Profile.First_Name}</Text>
+
+              </View>
+
+              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Last Name: {this.state.User_Profile.Last_Name}</Text>
+
+              </View>
+
+              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Level: {this.state.User_Profile.Level}</Text>
 
               </View>
 

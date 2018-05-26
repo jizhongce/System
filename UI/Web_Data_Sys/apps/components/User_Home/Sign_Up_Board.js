@@ -65,11 +65,11 @@ export default class Sign_Up_Board extends Component<{}> {
 
   constructor(props) {
     super(props);
-    this.state = {text: '', username: '123', password: '123', phonenum: '123'};
+    this.state = {text: '', username: '123', password: '123', phonenum: '123', firstname: '', lastname: '' };
   }
 
   sign_up(e){
-    signup(this.state.username, this.state.password, this.state.phonenum, (response) =>{
+    signup(this.state.username, this.state.password, this.state.phonenum, this.state.firstname, this.state.lastname, (response) =>{
       const sign_up_status_code = response["StatusCode"]
       const statusText = response["ResponseText"]
       if (sign_up_status_code == 200) {
@@ -111,6 +111,18 @@ export default class Sign_Up_Board extends Component<{}> {
   phonenumHandler(text){
     this.setState({
       phonenum: text
+    });
+  }
+
+  lastnameHandler(text){
+    this.setState({
+      lastname: text
+    });
+  }
+
+  firstnameHandler(text){
+    this.setState({
+      firstname: text
     });
   }
 
@@ -160,6 +172,36 @@ export default class Sign_Up_Board extends Component<{}> {
               borderRadius: 10,
 
             }}  onChangeText = {(text) => this.phonenumHandler(text)} autoCapitalize='none' />
+          </View>
+
+
+          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'lightblue'}}>
+            <Text style={{width:120, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
+              Last Name：
+            </Text>
+            <TextInput style={{
+              marginTop: 20,
+              height: '50%',
+              width: '50%',
+              borderWidth: 2,
+              borderRadius: 10,
+
+            }}  onChangeText = {(text) => this.lastnameHandler(text)} autoCapitalize='none' />
+          </View>
+
+
+          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'lightblue'}}>
+            <Text style={{width:120, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
+              First Name:
+            </Text>
+            <TextInput style={{
+              marginTop: 20,
+              height: '50%',
+              width: '50%',
+              borderWidth: 2,
+              borderRadius: 10,
+
+            }}  onChangeText = {(text) => this.firstnameHandler(text)} autoCapitalize='none' />
           </View>
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>

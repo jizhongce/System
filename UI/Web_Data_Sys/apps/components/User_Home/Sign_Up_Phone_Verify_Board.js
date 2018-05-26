@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {sendverifycode, getshoppingcart} from '../../server.js';
+import {sendverifycode, getshoppingcart, getuserprofile} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
@@ -102,11 +102,32 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
 
           const get_shopping_cart_code = response["StatusCode"]
 
-          const Shopping_Cart = response["ResponseText"]
+          const Products = response["ResponseText"]
 
-          AsyncStorage.multiSet([['User_ID', statusText],['Shopping_Cart', JSON.stringify(Shopping_Cart) ] ], () => {
+          console.log(Products);
+          console.log(statusText);
+          // next create array to store the products object
+          var Shopping_Cart = []
+          for (var product in Products) {
+              console.log(Products[product]);
+              Shopping_Cart.push(Products[product])
+          }
 
-            this.props.navigation.navigate('User_Home');
+          // Next we need to use getuserprofile function to get the profile of the user
+
+          getuserprofile(statusText, (response) => {
+
+            const get_profile_code = response["StatusCode"]
+
+            const Profile = response["ResponseText"]
+
+            console.log(Profile);
+            AsyncStorage.multiSet([['User_ID', statusText],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ] ], () => {
+
+              this.props.navigation.navigate('User_Home');
+
+            });
+
 
           });
 

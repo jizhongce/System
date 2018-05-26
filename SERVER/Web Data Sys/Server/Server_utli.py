@@ -229,7 +229,7 @@ def CreateShoppingCartID():
 
 # Start of Sign Up
 
-def Sign_Up(username, password, phonenum):
+def Sign_Up(username, password, phonenum, firstname, lastname):
     '''
     This is method for sign up, it first need to check the data base with username and phone number
     If the username is already exists, return the status code 406
@@ -308,7 +308,7 @@ def Sign_Up(username, password, phonenum):
 
             QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
 
-            QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID) VALUES (\'{}\');').format(USERID)
+            QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VALUES (\'{}\', \'{}\', \'{}\', 1);').format(USERID, firstname, lastname)
 
             CURSOR.execute(QUERYSQL_USER)
 
@@ -1033,6 +1033,7 @@ def Get_Shopping_Cart(userid):
             (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
             Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
 
+
     return(STATUS, Product_List)
 
 
@@ -1161,3 +1162,40 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
 
 
 # End of the Add_To_Shopping_Cart function
+
+
+# Start of the Get_User_Profile function
+
+def Get_User_Profile(USER_ID):
+    '''
+    This is function to get user profile and info
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Profiles WHERE User_ID = \'{}\' ;'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (User_ID, First_Name, Last_Name, Level) = QUERYLIST[0]
+        DATA = {"User_ID": User_ID, "First_Name": First_Name, "Last_Name": Last_Name, "Level": Level}
+
+    else:
+        STATUS = ErrorCode.FETCH_PROFILE_ERROR
+        DATA = 0
+
+    return(STATUS, DATA)
+
+
+# End of the Get_User_Profile function
