@@ -72,7 +72,7 @@ export default class Log_In_Phone_Verify_Board extends Component<{}> {
   send_verify_code(e, phonenum){
     sendverifycode(phonenum, this.state.code, (response) =>{
       const verify_status_code = response["StatusCode"]
-      const statusText = response["ResponseText"]
+      const User_ID = response["ResponseText"]
 
       console.log(response)
       if (verify_status_code != 200) {
@@ -93,42 +93,101 @@ export default class Log_In_Phone_Verify_Board extends Component<{}> {
       }
 
       else {
-        getshoppingcart(statusText, (response) => {
+        getshoppingcart(User_ID, (response) => {
 
-          console.log(response);
 
           const get_shopping_cart_code = response["StatusCode"]
 
           const Products = response["ResponseText"]
 
-          console.log(Products);
-          console.log(statusText);
-          // next create array to store the products object
-          var Shopping_Cart = []
-          for (var product in Products) {
+          if (get_shopping_cart_code == 200) {
+
+            // next create array to store the products object
+            var Shopping_Cart = []
+            for (var product in Products) {
               console.log(Products[product]);
               Shopping_Cart.push(Products[product])
-          }
+            }
 
-          // Next we need to use getuserprofile function to get the profile of the user
+            // Next we need to use getuserprofile function to get the profile of the user
 
-          getuserprofile(statusText, (response) => {
+            getuserprofile(User_ID, (response) => {
 
-            const get_profile_code = response["StatusCode"]
+              const get_profile_code = response["StatusCode"]
 
-            const Profile = response["ResponseText"]
+              const Profile = response["ResponseText"]
 
-            console.log(Profile);
-            AsyncStorage.multiSet([['User_ID', statusText],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ] ], () => {
 
-              this.props.navigation.navigate('User_Home');
+              if (get_profile_code == 200) {
 
+                console.log(Profile);
+                AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ] ], () => {
+
+                  this.props.navigation.navigate('User_Home');
+
+                  // AsyncStorage End
+                });
+
+
+              } else {
+
+                var errormsg = ErrorCodePrase(get_profile_code)[1]
+
+                var title = ErrorCodePrase(get_profile_code)[0]
+
+                console.log(ErrorCodePrase(get_profile_code))
+
+                Alert.alert(
+                    title,
+                    errormsg,
+                  [
+                    {text: 'OK', style: 'cancel'},
+                  ],
+                )
+
+                this.props.navigation.navigate('User_Home');
+
+
+
+              }
+
+
+              // Get User Profile End
             });
 
 
-          });
 
+
+          } else {
+
+
+            var errormsg = ErrorCodePrase(get_shopping_cart_code)[1]
+
+            var title = ErrorCodePrase(get_shopping_cart_code)[0]
+
+            console.log(ErrorCodePrase(get_shopping_cart_code))
+
+            Alert.alert(
+                title,
+                errormsg,
+              [
+                {text: 'OK', style: 'cancel'},
+              ],
+            )
+
+            this.props.navigation.navigate('User_Home');
+
+
+
+          }
+
+
+
+        // Get Shopping Cart End
         });
+
+
+
       }
     });
   }

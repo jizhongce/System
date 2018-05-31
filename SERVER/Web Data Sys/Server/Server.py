@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Get_User_Profile
+from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile
 import json
 import hashlib, uuid
 import ErrorCode
@@ -466,6 +466,22 @@ class MyNewhandler(BaseHTTPRequestHandler):
             USER_ID = USER_DATA['User_ID']
 
             (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+
+        elif URL_PATH == '/add_to_favorite_product':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            PRODUCT_ID = USER_DATA['TempProductID']
+
+            (STATUS_CODE, DATA) = Add_To_Favorite_Product(USER_ID, PRODUCT_ID)
 
             print(DATA)
 

@@ -229,6 +229,29 @@ export function addToshoppingcart(User_ID, TempProduct, cb){
 
 
 
+export function addTofavoriteproduct(User_ID, TempProductID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/add_to_favorite_product", true);
+  var body = {User_ID: User_ID, TempProductID : TempProductID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+
+
+
 /*
 End of User_Home function after log in
 */

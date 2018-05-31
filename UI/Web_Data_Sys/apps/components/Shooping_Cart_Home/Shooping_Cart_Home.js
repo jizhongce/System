@@ -76,6 +76,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
           });
         }
         else {
+
           console.log(JSON.parse(Shopping_Cart));
           console.log(typeof(JSON.parse(Shopping_Cart)));
           this.setState({

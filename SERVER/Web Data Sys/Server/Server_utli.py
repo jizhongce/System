@@ -996,6 +996,12 @@ def Get_All_Products():
             (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
             Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
 
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
     return(STATUS, Product_List)
 
 
@@ -1033,6 +1039,12 @@ def Get_Shopping_Cart(userid):
             (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
             Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
 
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
 
     return(STATUS, Product_List)
 
@@ -1100,7 +1112,7 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
     if QUERYLIST:
         (User_ID, Shopping_Cart_ID,) = QUERYLIST[0]
 
-        QUERYSQL = ('SELECT * FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' ;'.format(Shopping_Cart_ID))
+        QUERYSQL = ('SELECT * FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\' ;'.format(Shopping_Cart_ID, Temp_Prodcut_ID))
 
         CURSOR.execute(QUERYSQL)
 
@@ -1108,30 +1120,42 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
 
         if QUERYLIST:
 
-            Prodcut_Exist_Flag = False
-            for Product in QUERYLIST:
-                print(Product)
-                (Shopping_Cart_ID, Products_ID, Products_Units) = Product
-                if Products_ID == Temp_Prodcut_ID:
+            (Shopping_Cart_ID, Products_ID, Products_Units) = QUERYLIST[0]
 
-                    new_Product_Units = Temp_Product_Units + Products_Units
-                    # Here we need to update the value in the shopping cart with new units
-                    QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(new_Product_Units, Shopping_Cart_ID, Products_ID))
+            new_Product_Units = Temp_Product_Units + Products_Units
 
-                    CURSOR.execute(QUERYSQL)
+            QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(new_Product_Units, Shopping_Cart_ID, Products_ID))
 
-                    Prodcut_Exist_Flag = True
+            DATA = {"Products_Units": new_Product_Units}
 
-                    break
-
-
-            if Prodcut_Exist_Flag == False:
-                QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Shopping_Cart_ID, Temp_Prodcut_ID, Temp_Product_Units))
-
-                CURSOR.execute(QUERYSQL)
+            CURSOR.execute(QUERYSQL)
+            #
+            # Prodcut_Exist_Flag = False
+            # for Product in QUERYLIST:
+            #     print(Product)
+            #     (Shopping_Cart_ID, Products_ID, Products_Units) = Product
+            #     if Products_ID == Temp_Prodcut_ID:
+            #
+            #         new_Product_Units = Temp_Product_Units + Products_Units
+            #         # Here we need to update the value in the shopping cart with new units
+            #         QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(new_Product_Units, Shopping_Cart_ID, Products_ID))
+            #
+            #         CURSOR.execute(QUERYSQL)
+            #
+            #         Prodcut_Exist_Flag = True
+            #
+            #         break
+            #
+            #
+            # if Prodcut_Exist_Flag == False:
+            #     QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Shopping_Cart_ID, Temp_Prodcut_ID, Temp_Product_Units))
+            #
+            #     CURSOR.execute(QUERYSQL)
 
         else:
             QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Shopping_Cart_ID, Temp_Prodcut_ID, Temp_Product_Units))
+
+            DATA = {"Products_Units": Temp_Product_Units}
 
             CURSOR.execute(QUERYSQL)
 
@@ -1195,7 +1219,58 @@ def Get_User_Profile(USER_ID):
         STATUS = ErrorCode.FETCH_PROFILE_ERROR
         DATA = 0
 
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
     return(STATUS, DATA)
 
 
 # End of the Get_User_Profile function
+
+
+
+# Start of the Add_To_Favorite_Product function
+
+def Add_To_Favorite_Product(USER_ID, PRODUCT_ID):
+    '''
+    This is function to add the product into the favorite list
+    we need to check whether it already existed in the list
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Favorite_Products WHERE User_ID = \'{}\' AND Products_ID = \'{}\';'.format(USER_ID, PRODUCT_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        STATUS = ErrorCode.PRODUCT_EXISTED_FAVORITE_ERROR
+        DATA = 0
+
+    else:
+        QUERYSQL = ("INSERT INTO Favorite_Products(User_ID, Products_ID) VALUE (\'{}\', \'{}\');".format(USER_ID, PRODUCT_ID))
+        CURSOR.execute(QUERYSQL)
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of the Add_To_Favorite_Product function

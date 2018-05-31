@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {getAllproducts, addToshoppingcart} from '../../server.js';
+import {getAllproducts, addToshoppingcart, addTofavoriteproduct} from '../../server.js';
 import {ErrorCodePrase} from '../../util.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
@@ -76,6 +76,96 @@ export default class Single_Product_Home extends Component<{}> {
     });
   }
 
+  add_To_favorite_product(){
+    var TempProduct_ID = this.state.product.ProductID
+
+    AsyncStorage.getItem('User_ID', (err, result) =>{
+      if (err) {
+        console.log(err);
+      }
+
+      else {
+        var User_ID = result
+
+        if(User_ID == null) {
+          console.log(result);
+          Alert.alert(
+              'Error',
+              'please log in first',
+            [
+              {text: 'OK', style: 'cancel'},
+            ],
+          )
+
+          this.props.navigation.navigate('User_Home');
+
+        }
+
+
+        else {
+
+          addTofavoriteproduct(User_ID, TempProduct_ID, (response) => {
+            const add_to_favorite_product_status_code = response["StatusCode"]
+            const statusText = response["ResponseText"]
+
+
+            if (add_to_favorite_product_status_code == 200) {
+
+              Alert.alert(
+                  'Success',
+                  'Item has been added to favorite list',
+                [
+                  {text: 'OK', style: 'cancel'},
+                ],
+              )
+
+            }
+
+            else {
+
+              var errormsg = ErrorCodePrase(add_to_favorite_product_status_code)[1]
+
+              var title = ErrorCodePrase(add_to_favorite_product_status_code)[0]
+
+              console.log(ErrorCodePrase(add_to_favorite_product_status_code))
+
+              Alert.alert(
+                  title,
+                  errormsg,
+                [
+                  {text: 'OK', style: 'cancel'},
+                ],
+              )
+
+
+
+
+            }
+
+
+
+
+          });
+
+
+
+        }
+
+
+
+
+      }
+
+
+    });
+
+
+
+  }
+
+
+
+
   add_To_shopping_cart(){
     var TempProduct = {
       ProductID : this.state.product.ProductID,
@@ -90,7 +180,7 @@ export default class Single_Product_Home extends Component<{}> {
     AsyncStorage.multiGet(['User_ID','Shopping_Cart'], (err, result) =>{
 
       if (err) {
-        console.log(error);
+        console.log(err);
       }
 
 
@@ -131,7 +221,7 @@ export default class Single_Product_Home extends Component<{}> {
             for (var product in Shopping_Cart) {
               console.log(typeof(Shopping_Cart[product].ProductID));
               if (Shopping_Cart[product].ProductID == TempProduct.ProductID) {
-                Shopping_Cart[product].ProductUnits = Shopping_Cart[product].ProductUnits + TempProduct.ProductUnits
+                Shopping_Cart[product].ProductUnits = statusText.Products_Units
                 Shopping_Cart_FLAG = true
 
                 break
@@ -183,7 +273,7 @@ export default class Single_Product_Home extends Component<{}> {
 
             }
 
-          })
+          });
 
 
         }
@@ -227,8 +317,13 @@ export default class Single_Product_Home extends Component<{}> {
           onChangeText={(text) => this.productQuantityhandler(text)}
           value={this.state.text}
           />
+
         <TouchableOpacity onPress = {() => this.add_To_shopping_cart()}>
           <Text style={{ fontSize: 25, textAlign: 'center'} }>加入购物车</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress = {() => this.add_To_favorite_product()}>
+          <Text style={{ fontSize: 25, textAlign: 'center'} }>Add to Favorite</Text>
         </TouchableOpacity>
 
         </View>
