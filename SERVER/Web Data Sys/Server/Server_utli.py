@@ -1274,3 +1274,46 @@ def Add_To_Favorite_Product(USER_ID, PRODUCT_ID):
 
 
 # End of the Add_To_Favorite_Product function
+
+
+
+# Start of the Get_Favorite_Product function
+
+def Get_Favorite_Product(USER_ID):
+    '''
+    This is the function which will get the favorite product list of specific user in the database
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Price, Products.Products_Spec, Products.Products_Status FROM Products, Favorite_Products WHERE Favorite_Products.Products_ID = Products.Products_ID AND User_ID = \'{}\';'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Favorite_Product_List = list()
+
+    if QUERYLIST:
+        for product in QUERYLIST:
+            (Product_ID, Product_Price, Product_Spec, Product_Status) = product
+            Favorite_Product_List.append({"Product_ID": Product_ID, "Product_Price": Product_Price, "Product_Spec": Product_Spec, "Product_Status": Product_Status})
+
+        DATA = Favorite_Product_List
+
+    else:
+        STATUS = ErrorCode.GET_FAVORITE_PRODUCT_ERROR
+        DATA = 0
+
+    return(STATUS, DATA)
+
+
+# End of the Get_Favorite_Product function

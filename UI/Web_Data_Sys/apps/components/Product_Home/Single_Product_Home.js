@@ -77,15 +77,25 @@ export default class Single_Product_Home extends Component<{}> {
   }
 
   add_To_favorite_product(){
-    var TempProduct_ID = this.state.product.ProductID
+    var TempProduct = {
+      Product_ID : this.state.product.ProductID,
+      Product_Price : this.state.product.ProductPrice,
+      Product_Spec : this.state.product.ProductSpec,
+      Product_Status : this.state.product.ProductStatus
 
-    AsyncStorage.getItem('User_ID', (err, result) =>{
+    }
+
+    console.log(TempProduct.Product_ID);
+
+    AsyncStorage.multiGet(['User_ID', 'Favorite_Products'], (err, result) =>{
       if (err) {
         console.log(err);
       }
 
       else {
-        var User_ID = result
+        var User_ID = result[0][1]
+
+        var Favorite_Products = result[1][1]
 
         if(User_ID == null) {
           console.log(result);
@@ -104,20 +114,33 @@ export default class Single_Product_Home extends Component<{}> {
 
         else {
 
-          addTofavoriteproduct(User_ID, TempProduct_ID, (response) => {
+          addTofavoriteproduct(User_ID, TempProduct.Product_ID, (response) => {
             const add_to_favorite_product_status_code = response["StatusCode"]
             const statusText = response["ResponseText"]
 
 
             if (add_to_favorite_product_status_code == 200) {
 
-              Alert.alert(
-                  'Success',
-                  'Item has been added to favorite list',
-                [
-                  {text: 'OK', style: 'cancel'},
-                ],
-              )
+              Favorite_Products = JSON.parse(Favorite_Products)
+
+              Favorite_Products.push(TempProduct)
+
+              console.log(Favorite_Products);
+
+              AsyncStorage.setItem('Favorite_Products', JSON.stringify(Favorite_Products), () =>{
+                // Here we need call add to shooping cart function to add the items into shopping cart in database
+                // here we need a flag to indicate end or not
+
+                Alert.alert(
+                    'Success',
+                    'Item has been added to favorite list',
+                  [
+                    {text: 'OK', style: 'cancel'},
+                  ],
+                )
+
+              });
+
 
             }
 

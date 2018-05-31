@@ -41,6 +41,7 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
   Image,
   StatusBar,
   TouchableOpacity,
@@ -64,14 +65,15 @@ constructor(props) {
   super(props);
   this.state = {
     User_Flag : false,
-    User_Profile: ''
+    User_Profile: '',
+    Favorite_Products: ''
 
   };
 }
 
 
 sign_out(e){
-  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile'], (error) => {
+  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products'], (error) => {
     if (error) {
       console.log(error);
     }
@@ -89,12 +91,13 @@ componentWillMount(){
   // });
 
   this.props.navigation.addListener('willFocus', ()=>{
-    AsyncStorage.multiGet(['User_ID','User_Profile'], (err, result) => {
+    AsyncStorage.multiGet(['User_ID','User_Profile', 'Favorite_Products'], (err, result) => {
       console.log(result);
       var User_ID = result[0][1]
       var Profile = result[1][1]
+      var Favorite_Products = result[2][1]
       if (User_ID == null || Profile == null) {
-        AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile'], (error) => {
+        AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products'], (error) => {
           this.setState({
             User_Flag : false
           });
@@ -104,7 +107,8 @@ componentWillMount(){
       else {
         this.setState({
           User_Flag : true,
-          User_Profile : JSON.parse(Profile)
+          User_Profile : JSON.parse(Profile),
+          Favorite_Products : JSON.parse(Favorite_Products)
         });
       }
 
@@ -120,7 +124,7 @@ componentWillMount(){
 
     if (this.state.User_Flag == false) {
       return (
-        <View style={{flex: 1}} >
+        <ScrollView style={{flex: 1}} >
 
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
@@ -211,7 +215,7 @@ componentWillMount(){
 
           </View>
 
-        </View>
+        </ScrollView>
 
 
       );
@@ -220,7 +224,7 @@ componentWillMount(){
     else {
 
           return (
-            <View style={{flex: 1}} >
+            <ScrollView style={{flex: 1}} >
 
 
 
@@ -272,13 +276,37 @@ componentWillMount(){
 
               </View>
 
+              {
+                this.state.Favorite_Products.map((product, i) => {
+                  return(
+
+                    <View style={{
+                      flex: 0.15,
+                      marginTop: 25,
+                      borderWidth: 2,
+                      justifyContent: 'center',
+                      borderRadius: 10,
+
+                    }}>
+                    <Text>key : {i}</Text>
+                    <Text>ID : {product.Product_ID}</Text>
+                    <Text>Status : {product.Product_Status}</Text>
+                    <Text>Specification : {product.Product_Spec}</Text>
+                    <Text>Price : {product.Product_Price}</Text>
+                    </View>
+
+
+                  );
+                })
+              }
+
 
 
               {/*end  */}
 
 
 
-            </View>
+            </ScrollView>
 
 
           );

@@ -249,7 +249,24 @@ export function addTofavoriteproduct(User_ID, TempProductID, cb){
 }
 
 
+export function getfavoriteproduct(User_ID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/get_favorite_product", true);
+  var body = {User_ID: User_ID};
 
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
 
 
 /*

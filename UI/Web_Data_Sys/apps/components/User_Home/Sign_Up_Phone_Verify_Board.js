@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {sendverifycode, getshoppingcart, getuserprofile} from '../../server.js';
+import {sendverifycode, getshoppingcart, getuserprofile, getfavoriteproduct} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
@@ -123,13 +123,59 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
 
               if (get_profile_code == 200) {
 
-                console.log(Profile);
-                AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ] ], () => {
 
-                  this.props.navigation.navigate('User_Home');
 
-                  // AsyncStorage End
+                // Next we need to getfavoriteproduct function to get the favorite product of the user
+
+                getfavoriteproduct(User_ID, (response) => {
+
+                  const get_favorite_product_code = response["StatusCode"]
+
+                  const Favorite_Products = response["ResponseText"]
+
+                  if (get_favorite_product_code == 200) {
+
+                    // next create array to store the products object
+                    var Favorite_Product_list = []
+                    for (var product in Favorite_Products) {
+                      console.log(Favorite_Products[product]);
+                      Favorite_Product_list.push(Favorite_Products[product])
+                    }
+
+
+
+                    console.log(Profile);
+                    AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ], ['Favorite_Products', JSON.stringify(Favorite_Product_list) ], ], () => {
+
+                      this.props.navigation.navigate('User_Home');
+
+                      // AsyncStorage End
+                    });
+
+                  } else {
+
+                    var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
+
+                    var title = ErrorCodePrase(get_favorite_product_code)[0]
+
+                    console.log(ErrorCodePrase(get_favorite_product_code))
+
+                    Alert.alert(
+                        title,
+                        errormsg,
+                      [
+                        {text: 'OK', style: 'cancel'},
+                      ],
+                    )
+
+                    this.props.navigation.navigate('User_Home');
+
+
+                  }
+
+                  // Get favorite product list End
                 });
+
 
 
               } else {
