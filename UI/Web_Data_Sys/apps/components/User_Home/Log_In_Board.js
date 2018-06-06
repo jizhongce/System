@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {login, getshoppingcart, getuserprofile, getfavoriteproduct} from '../../server.js';
+import {login, getshoppingcart, getuserprofile, getfavoriteproduct, getuserorder} from '../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {ErrorCodePrase} from '../../util.js'
@@ -150,24 +150,74 @@ export default class Log_In_Board extends Component<{}> {
 
                   const Favorite_Products = response["ResponseText"]
 
-                  if (get_favorite_product_code == 200) {
+                  if (get_favorite_product_code == 200 || get_favorite_product_code == 617) {
 
                     // next create array to store the products object
-                    var Favorite_Product_list = []
+                    var Favorite_Product_List = []
+
                     for (var product in Favorite_Products) {
                       console.log(Favorite_Products[product]);
-                      Favorite_Product_list.push(Favorite_Products[product])
+                      Favorite_Product_List.push(Favorite_Products[product])
                     }
 
+                    // Here we need to call the getuserorder function to get user's all order list
+                    getuserorder(User_ID, (response) => {
 
-                    AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ], ['Favorite_Products', JSON.stringify(Favorite_Product_list) ], ], () => {
+                      const get_user_order_code = response["StatusCode"]
 
-                      this.props.navigation.navigate('User_Home');
+                      const Orders = response["ResponseText"]
 
-                      // AsyncStorage End
+                      if (get_user_order_code == 200 || get_user_order_code == 618) {
+
+
+                        // Next we need to create array to store the order list
+                        var Order_List = []
+
+                        for (var order in Orders) {
+                          console.log(Orders[order]);
+                          Order_List.push(Orders[order])
+                        }
+
+
+                        AsyncStorage.multiSet([['User_ID', User_ID],['Shopping_Cart', JSON.stringify(Shopping_Cart) ], ['User_Profile', JSON.stringify(Profile) ], ['Favorite_Products', JSON.stringify(Favorite_Product_List) ], ['Order_List', JSON.stringify(Order_List) ]], () => {
+
+                          this.props.navigation.navigate('User_Home');
+
+                          // AsyncStorage End
+                        });
+
+                      }
+
+                      else {
+
+                        var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
+
+                        var title = ErrorCodePrase(get_favorite_product_code)[0]
+
+                        console.log(ErrorCodePrase(get_favorite_product_code))
+
+                        Alert.alert(
+                            title,
+                            errormsg,
+                          [
+                            {text: 'OK', style: 'cancel'},
+                          ],
+                        )
+
+                        this.props.navigation.navigate('User_Home');
+
+
+                      }
+
+
+
+                      //  End of getuserorder
                     });
 
-                  } else {
+                    // End of if statement in getfavoriteproduct
+                  }
+
+                  else {
 
                     var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
 
@@ -252,7 +302,7 @@ export default class Log_In_Board extends Component<{}> {
 
 
 
-
+        // End of else in the log in function
       }
 
     });

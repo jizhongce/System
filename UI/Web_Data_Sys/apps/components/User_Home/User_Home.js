@@ -66,14 +66,15 @@ constructor(props) {
   this.state = {
     User_Flag : false,
     User_Profile: '',
-    Favorite_Products: ''
+    Favorite_Products: '',
+    Order_List: ''
 
   };
 }
 
 
 sign_out(e){
-  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products'], (error) => {
+  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products','Order_List'], (error) => {
     if (error) {
       console.log(error);
     }
@@ -91,13 +92,14 @@ componentWillMount(){
   // });
 
   this.props.navigation.addListener('willFocus', ()=>{
-    AsyncStorage.multiGet(['User_ID','User_Profile', 'Favorite_Products'], (err, result) => {
+    AsyncStorage.multiGet(['User_ID','User_Profile', 'Favorite_Products', 'Order_List'], (err, result) => {
       console.log(result);
       var User_ID = result[0][1]
       var Profile = result[1][1]
       var Favorite_Products = result[2][1]
+      var Order_List = result[3][1]
       if (User_ID == null || Profile == null) {
-        AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products'], (error) => {
+        AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products', 'Order_List'], (error) => {
           this.setState({
             User_Flag : false
           });
@@ -108,7 +110,8 @@ componentWillMount(){
         this.setState({
           User_Flag : true,
           User_Profile : JSON.parse(Profile),
-          Favorite_Products : JSON.parse(Favorite_Products)
+          Favorite_Products : JSON.parse(Favorite_Products),
+          Order_List : JSON.parse(Order_List),
         });
       }
 
@@ -276,31 +279,61 @@ componentWillMount(){
 
               </View>
 
-              {
-                this.state.Favorite_Products.map((product, i) => {
-                  return(
+              <View style={{backgroundColor:'green'}}>
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>Favorite Product</Text>
 
-                    <View style={{
-                      flex: 0.15,
-                      marginTop: 25,
-                      borderWidth: 2,
-                      justifyContent: 'center',
-                      borderRadius: 10,
+                {
+                  this.state.Favorite_Products.map((product, i) => {
+                    return(
 
-                    }}>
-                    <Text>key : {i}</Text>
-                    <Text>ID : {product.Product_ID}</Text>
-                    <Text>Status : {product.Product_Status}</Text>
-                    <Text>Specification : {product.Product_Spec}</Text>
-                    <Text>Price : {product.Product_Price}</Text>
-                    </View>
+                      <View key={i} style={{
+                          flex: 0.15,
+                          marginTop: 25,
+                          borderWidth: 2,
+                          justifyContent: 'center',
+                          borderRadius: 10,
 
-
-                  );
-                })
-              }
+                        }}>
+                        <Text>key : {i}</Text>
+                        <Text>ID : {product.Product_ID}</Text>
+                        <Text>Status : {product.Product_Status}</Text>
+                        <Text>Specification : {product.Product_Spec}</Text>
+                        <Text>Price : {product.Product_Price}</Text>
+                      </View>
 
 
+                    );
+                  })
+                }
+              </View>
+
+              <View style={{backgroundColor:'white'}}>
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>Order List</Text>
+                  {
+                    this.state.Order_List.map((order, i) => {
+                      return(
+
+                        <View key={i} style={{
+                            flex: 0.15,
+                            marginTop: 25,
+                            borderWidth: 2,
+                            justifyContent: 'center',
+                            borderRadius: 10,
+
+                          }}>
+                          <Text>key : {i}</Text>
+                          <Text>ID : {order.Order_ID}</Text>
+                          <Text>Status : {order.Order_Status}</Text>
+                          <Text>Order Time : {order.Order_Time}</Text>
+                          <Text>Address : {order.Order_Shipping_Address_ID}</Text>
+                        </View>
+
+
+                      );
+                    })
+                  }
+
+              </View>
 
               {/*end  */}
 

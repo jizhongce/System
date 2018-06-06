@@ -133,7 +133,7 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
 
                   const Favorite_Products = response["ResponseText"]
 
-                  if (get_favorite_product_code == 200) {
+                  if (get_favorite_product_code == 200 || get_favorite_product_code == 617) {
 
                     // next create array to store the products object
                     var Favorite_Product_list = []
@@ -141,7 +141,6 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
                       console.log(Favorite_Products[product]);
                       Favorite_Product_list.push(Favorite_Products[product])
                     }
-
 
 
                     console.log(Profile);
@@ -152,7 +151,10 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
                       // AsyncStorage End
                     });
 
-                  } else {
+                  }
+
+
+                  else {
 
                     var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
 

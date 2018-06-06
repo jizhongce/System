@@ -1310,10 +1310,53 @@ def Get_Favorite_Product(USER_ID):
         DATA = Favorite_Product_List
 
     else:
-        STATUS = ErrorCode.GET_FAVORITE_PRODUCT_ERROR
+        STATUS = ErrorCode.NO_FAVORITE_PRODUCT_EXIST_ERROR
         DATA = 0
 
     return(STATUS, DATA)
 
 
 # End of the Get_Favorite_Product function
+
+
+
+# Start of the Get_User_Order function
+
+def Get_User_Order(USER_ID):
+    '''
+    This is the function which will get the order list of specific user in the database
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\';'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Orders = list()
+
+    if QUERYLIST:
+        for order in QUERYLIST:
+            (Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID) = order
+            Orders.append({"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Time": str(Order_Time), "Order_Shipping_Address_ID": Order_Shipping_Address_ID})
+
+        DATA = Orders
+
+    else:
+        STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+        DATA = 0
+
+    return(STATUS, DATA)
+
+
+# End of the Get_User_Order function
