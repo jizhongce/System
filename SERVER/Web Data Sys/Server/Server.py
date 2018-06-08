@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Clear_TEMPCODE
+from Server_utli import UrlParse, Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
+from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info
 import json
 import time
 import hashlib, uuid
@@ -12,7 +12,10 @@ class MyNewhandler(BaseHTTPRequestHandler):
     """docstring for MyNewhandler."""
     def do_GET(self):
 
-        URL_PATH = self.path
+        UrlParse_Res = UrlParse(self.path)
+
+        URL_PATH = UrlParse_Res['path']
+
 
         if URL_PATH == '/get_all_products':
             (STATUS_CODE, DATA) = Get_All_Products()
@@ -22,18 +25,23 @@ class MyNewhandler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(DATA).encode())
 
 
-        # elif URL_PATH == '/get_user_profile':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #
-        #     USER_ID = USER_DATA['User_ID']
-        #
-        #     (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
-        #
-        #     print(DATA)
-        #
-        #     self.send_response(STATUS_CODE)
-        #     self.end_headers()
-        #     self.wfile.write(json.dumps(DATA).encode())
+        elif URL_PATH == '/get_single_product_info':
+
+            URL_QUERY = UrlParse_Res['query']
+
+            Product_ID = URL_QUERY['Product_ID'][0]
+
+            (STATUS_CODE, DATA) = Get_Single_Product_Info(Product_ID)
+
+            print(STATUS_CODE)
+            print(DATA)
+
+            #
+            # print(DATA)
+            #
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
 
 
 
@@ -420,7 +428,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
 
-                    
+
 
             else:
                 self.send_response(STATUS_CODE)
@@ -526,6 +534,37 @@ class MyNewhandler(BaseHTTPRequestHandler):
             PRODUCT_ID = USER_DATA['TempProductID']
 
             (STATUS_CODE, DATA) = Add_To_Favorite_Product(USER_ID, PRODUCT_ID)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+            
+
+        elif URL_PATH == '/delete_From_favorite_product':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            PRODUCT_ID = USER_DATA['TempProductID']
+
+            (STATUS_CODE, DATA) = Delete_From_Favorite_Product(USER_ID, PRODUCT_ID)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        elif URL_PATH == '/check_favorite_exist':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            PRODUCT_ID = USER_DATA['Product_ID']
+
+            (STATUS_CODE, DATA) = Check_Favorite_Exist(USER_ID, PRODUCT_ID)
 
             print(DATA)
 

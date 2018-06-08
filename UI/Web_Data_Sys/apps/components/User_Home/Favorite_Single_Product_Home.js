@@ -51,7 +51,7 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
-export default class Single_Product_Home extends Component<{}> {
+export default class Favorite_Single_Product_Home extends Component<{}> {
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -130,7 +130,7 @@ export default class Single_Product_Home extends Component<{}> {
                   ],
                 )
 
-                this.Single_Product_Home_Refresh()
+                this.Favorite_Single_Product_Home_Refresh()
 
             }
 
@@ -223,7 +223,7 @@ export default class Single_Product_Home extends Component<{}> {
                   ],
                 )
 
-                this.Single_Product_Home_Refresh()
+                this.Favorite_Single_Product_Home_Refresh()
 
             }
 
@@ -264,8 +264,6 @@ export default class Single_Product_Home extends Component<{}> {
 
 
   }
-
-
 
 
   add_To_shopping_cart(){
@@ -339,7 +337,7 @@ export default class Single_Product_Home extends Component<{}> {
                     ],
                   )
 
-                  this.Single_Product_Home_Refresh()
+                  this.Favorite_Single_Product_Home_Refresh()
 
 
               } else {
@@ -369,6 +367,7 @@ export default class Single_Product_Home extends Component<{}> {
 
       });
 
+
     }
 
 
@@ -376,7 +375,7 @@ export default class Single_Product_Home extends Component<{}> {
   }
 
 
-  Single_Product_Home_Refresh(){
+  Favorite_Single_Product_Home_Refresh(){
     const { params } = this.props.navigation.state;
     const Product_ID = params ? params.Product_ID : null;
 
@@ -453,7 +452,7 @@ export default class Single_Product_Home extends Component<{}> {
             ],
           )
 
-          this.props.navigation.navigate('Product_Home');
+          this.props.navigation.navigate('User_Home');
 
         }
 
@@ -471,7 +470,7 @@ export default class Single_Product_Home extends Component<{}> {
         ],
       )
 
-      this.props.navigation.navigate('Product_Home');
+      this.props.navigation.navigate('User_Home');
 
 
     }
@@ -479,11 +478,11 @@ export default class Single_Product_Home extends Component<{}> {
 
   }
 
-  Single_Product_Home_On_Refresh(){
+  Favorite_Single_Product_Home_On_Refresh(){
     this.setState({
       Refreshing_Flag : true
     },
-    () => {this.Single_Product_Home_Refresh()}
+    () => {this.Favorite_Single_Product_Home_Refresh()}
   );
   }
 
@@ -491,7 +490,7 @@ export default class Single_Product_Home extends Component<{}> {
   componentWillMount(){
     this.props.navigation.addListener('willFocus', ()=>{
 
-      this.Single_Product_Home_Refresh()
+      this.Favorite_Single_Product_Home_Refresh()
 
     });
 
@@ -505,7 +504,7 @@ export default class Single_Product_Home extends Component<{}> {
         refreshControl={
         <RefreshControl
           refreshing = {this.state.Refreshing_Flag}
-          onRefresh={this.Single_Product_Home_On_Refresh.bind(this)}
+          onRefresh={this.Favorite_Single_Product_Home_On_Refresh.bind(this)}
         />
       }
         style={{flex: 1}} >
@@ -533,7 +532,6 @@ export default class Single_Product_Home extends Component<{}> {
         <TouchableOpacity onPress = {() => this.add_To_shopping_cart()}>
           <Text style={{ fontSize: 25, textAlign: 'center'} }>加入购物车</Text>
         </TouchableOpacity>
-
 
         {/*This is when product exist in the favorite list */}
         <TouchableOpacity style={FavoriteExistStyle(this.state.favorite_exist)} onPress = {() => this.add_To_favorite_product()}>

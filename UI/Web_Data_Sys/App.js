@@ -32,6 +32,7 @@ rightButton = {<TouchableOpacity>
 
 // Start from here we import the screen for user home
 import User_Home from './apps/components/User_Home/User_Home.js';
+import Favorite_Single_Product_Home from './apps/components/User_Home/Favorite_Single_Product_Home.js';
 import Log_In_Board from './apps/components/User_Home/Log_In_Board.js';
 import Sign_Up_Board from './apps/components/User_Home/Sign_Up_Board.js';
 import Pass_Change_Board from './apps/components/User_Home/Pass_Change_Board.js';
@@ -76,6 +77,7 @@ import NavigationBar from 'react-native-navbar';
 const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
   Log_In_Board: { screen: Log_In_Board },
+  Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },
   Sign_Up_Board: { screen: Sign_Up_Board },
   Pass_Change_Board: { screen: Pass_Change_Board },
   Phone_Change_Board: { screen: Phone_Change_Board },

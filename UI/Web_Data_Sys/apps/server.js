@@ -1,3 +1,5 @@
+
+import {CreateParametersForRequest} from './util.js'
 /*
 
 start of User_Home function
@@ -249,6 +251,26 @@ export function addTofavoriteproduct(User_ID, TempProductID, cb){
 }
 
 
+export function deleteFromfavoriteproduct(User_ID, TempProductID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/delete_From_favorite_product", true);
+  var body = {User_ID: User_ID, TempProductID : TempProductID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
 export function getfavoriteproduct(User_ID, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/get_favorite_product", true);
@@ -289,6 +311,26 @@ export function getuserorder(User_ID, cb){
 }
 
 
+export function checkfavoriteexist(User_ID, Product_ID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/check_favorite_exist", true);
+  var body = {User_ID: User_ID, Product_ID: Product_ID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
 /*
 End of User_Home function after log in
 */
@@ -310,6 +352,27 @@ export function getAllproducts(cb){
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "http://localhost:8080/get_all_products", true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+export function getsingleproductinfo(Product_ID, cb){
+  var xhr = new XMLHttpRequest();
+  // Next create a parameters
+  var parameters = CreateParametersForRequest("Product_ID", Product_ID)
+  console.log("http://localhost:8080/get_single_product_info" + "?" + parameters);
+  xhr.open("GET", "http://localhost:8080/get_single_product_info" + "?" + parameters , true);
+
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
   xhr.send();
 
   xhr.addEventListener('load', function() {

@@ -8,22 +8,22 @@ import re
 import ErrorCode
 
 
-# # This is urlParse function
-# def UrlParse(url):
-#
-#     '''
-#     This is the method to parse the url passed into the function
-#     and return an dictionary that indicates each parts
-#     '''
-#
-#     # First get the path
-#     path = urllib.parse.urlparse(url).path
-#     # Then get the query
-#     query = urllib.parse.urlparse(url).query
-#
-#     return({'path' : path, 'query' : urllib.parse.parse_qs(query)})
-#
-# # End of UrlParse
+# This is urlParse function
+def UrlParse(url):
+
+    '''
+    This is the method to parse the url passed into the function
+    and return an dictionary that indicates each parts
+    '''
+
+    # First get the path
+    path = urllib.parse.urlparse(url).path
+    # Then get the query
+    query = urllib.parse.urlparse(url).query
+
+    return({'path' : path, 'query' : urllib.parse.parse_qs(query)})
+
+# End of UrlParse
 
 
 # Start of create uuid
@@ -1052,6 +1052,49 @@ def Get_All_Products():
 #End of the Get_All_Products function
 
 
+# Start the Get_Single_Product_Info function
+
+def Get_Single_Product_Info(Product_ID):
+    '''
+    This is function to get single products from the database
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Products WHERE Products_ID = \'{}\' '.format(Product_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (ProductID, ProductStatus, ProductSpec, ProductPrice) = QUERYLIST[0]
+        DATA = {"Product_ID": ProductID, "Product_Status": ProductStatus, "Product_Spec": ProductSpec, "Product_Price": ProductPrice}
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_PRODUCT_ERROR
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+
+#End of the Get_Single_Product_Info function
+
+
 # Start the Get_Shopping_Cart function
 
 def Get_Shopping_Cart(userid):
@@ -1403,3 +1446,83 @@ def Get_User_Order(USER_ID):
 
 
 # End of the Get_User_Order function
+
+
+# Start of the Check_Favorite_Exist function
+
+def Check_Favorite_Exist(USER_ID, PRODUCT_ID):
+    '''
+    This will check whether the product is existed in database or not
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Favorite_Products WHERE User_ID = \'{}\' AND Products_ID = \'{}\';'.format(USER_ID, PRODUCT_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_FAVORITE_PRODUCT_ERROR
+
+    return(STATUS, DATA)
+
+
+# End of the Check_Favorite_Exist function
+
+
+
+
+# Start of the Delete_From_Favorite_Product function
+
+def Delete_From_Favorite_Product(USER_ID, PRODUCT_ID):
+    '''
+    This will check whether the product is existed in database or not
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Favorite_Products WHERE User_ID = \'{}\' AND Products_ID = \'{}\';'.format(USER_ID, PRODUCT_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        QUERYSQL = ('DELETE FROM Favorite_Products WHERE User_ID = \'{}\' AND Products_ID = \'{}\';'.format(USER_ID, PRODUCT_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_FAVORITE_PRODUCT_ERROR
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    return(STATUS, DATA)
+
+
+# End of the Delete_From_Favorite_Product function

@@ -437,8 +437,8 @@ componentWillMount(){
                 {
                   this.state.Favorite_Products.map((product, i) => {
                     return(
-
-                      <View key={i} style={{
+                    <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Favorite_Single_Product_Home', { Product_ID : product.Product_ID, Product_Spec : product.Product_Spec})}>
+                      <View style={{
                           flex: 0.15,
                           marginTop: 25,
                           borderWidth: 2,
@@ -452,6 +452,7 @@ componentWillMount(){
                         <Text>Specification : {product.Product_Spec}</Text>
                         <Text>Price : {product.Product_Price}</Text>
                       </View>
+                    </TouchableOpacity>
 
 
                     );

@@ -128,7 +128,7 @@ export default class Product_Home extends Component<{}> {
         {
           this.state.products.map((product, i) => {
             return(
-            <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ product : product})}>
+            <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Product_ID : product.ProductID, Product_Spec : product.ProductSpec})}>
               <View style={{
                 flex: 0.15,
                 marginTop: 25,

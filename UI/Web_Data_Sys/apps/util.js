@@ -80,3 +80,20 @@ export function ErrorCodePrase(code) {
   return([title, message])
 
 }
+
+
+export function FavoriteExistStyle(Existed) {
+  if (Existed == true) {
+
+    return({display: 'none'})
+
+  } else {
+    return({})
+  }
+
+}
+
+
+export function CreateParametersForRequest(Parameter_Name, Parameter) {
+  return(Parameter_Name + "=" +  Parameter)
+}
