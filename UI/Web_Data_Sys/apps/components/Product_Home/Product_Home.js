@@ -45,7 +45,8 @@ import {
   Button,
   Alert,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  RefreshControl
 } from 'react-native';
 
 
@@ -59,7 +60,8 @@ export default class Product_Home extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-      products : []
+      products : [],
+      Refreshing_Flag: false
     };
   }
 
@@ -69,29 +71,58 @@ export default class Product_Home extends Component<{}> {
   //   });
   // }
   // onScrollEndDrag={() => this.moreproduct()}
-
-  componentWillMount(){
-    //AsyncStorage.clear()
-    // AsyncStorage.setItem('UID123', 'hello', () => {
-    //
-    // });
+  //
+  Refresh_All_Product(){
     getAllproducts((response) =>{
       const get_all_products_code = response["StatusCode"]
-      const statusText = response["ResponseText"]
-      console.log(statusText);
+      const Products = response["ResponseText"]
+      console.log(Products);
 
       if (get_all_products_code == 200) {
         this.setState({
-          products : statusText
+          products : Products,
+          Refreshing_Flag: false
         });
       }
 
     });
   }
 
+  All_Products_On_Refresh(){
+    this.setState({
+      Refreshing_Flag : true
+    },
+    () => {this.Refresh_All_Product()}
+  );
+  }
+
+
+
+  componentWillMount(){
+    //AsyncStorage.clear()
+    // AsyncStorage.setItem('UID123', 'hello', () => {
+    //
+    // });
+    this.props.navigation.addListener('willFocus', ()=>{
+
+      this.Refresh_All_Product()
+
+    });
+
+
+
+  }
+
   render() {
     return (
-      <ScrollView style={{flex: 1}}  >
+      <ScrollView
+        refreshControl={
+        <RefreshControl
+          refreshing = {this.state.Refreshing_Flag}
+          onRefresh={this.All_Products_On_Refresh.bind(this)}
+        />
+      }
+        style={{flex: 1}}  >
 
 
         {

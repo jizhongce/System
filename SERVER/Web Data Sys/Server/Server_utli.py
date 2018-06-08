@@ -335,6 +335,46 @@ def RandCode():
 # End of RandCode
 
 
+# This fucntion Clear_TEMPCODE
+
+def Clear_TEMPCODE(PHONENUM):
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('UPDATE Users SET TEMPCODE = NULL WHERE PhoneNum = \'{}\'; ').format(PHONENUM)
+
+    CURSOR.execute(QUERYSQL)
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    #First, we need to check whether the TEMPCODE is already exist in the database
+
+    QUERYSQL = ('SELECT TEMPCODE FROM Users WHERE PhoneNum = \'{}\' ').format(PHONENUM)
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    (TEMPCODE, ) = QUERYLIST[0]
+
+    print(TEMPCODE)
+
+    CONNECTIONS.close()
+
+
+# End of Clear_TEMPCODE
+
+
+
+
 # This the start of create SMS function
 
 def ServerSMS(PhoneNum):
@@ -379,16 +419,19 @@ def ServerSMS(PhoneNum):
 
     STATUS = SendSMS(PhoneNum, VERIFY_CODE)
 
-    if STATUS == ErrorCode.SUCCESS_CODE:
-        CURSOR = CONNECTIONS.cursor(buffered=True)
+    CURSOR = CONNECTIONS.cursor(buffered=True)
 
-        DELQUERY = ('CREATE EVENT {} ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 MINUTE DO UPDATE Users SET TEMPCODE = NULL WHERE PhoneNum = \'{}\'; '.format((str(RandCode())+'_delete_code'), PhoneNum))
+    EVENTQUERY = ('SET GLOBAL event_scheduler = ON;')
 
-        CURSOR.execute(DELQUERY)
+    DELQUERY = ('CREATE EVENT {} ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 2 MINUTE DO UPDATE Users SET TEMPCODE = NULL WHERE PhoneNum = \'{}\'; '.format((str(RandCode())+'_delete_code'), PhoneNum))
 
-        CURSOR.close()
+    CURSOR.execute(EVENTQUERY)
 
-        CONNECTIONS.commit()
+    CURSOR.execute(DELQUERY)
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
 
     CONNECTIONS.close()
 

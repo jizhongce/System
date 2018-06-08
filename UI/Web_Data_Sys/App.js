@@ -49,7 +49,7 @@ import Product_Home from './apps/components/Product_Home/Product_Home.js';
 import Single_Product_Home from './apps/components/Product_Home/Single_Product_Home.js';
 
 // Start from here we import the screen for the shopping cart home
-import Shooping_Cart_Home from './apps/components/Shooping_Cart_Home/Shooping_Cart_Home.js';
+import Shopping_Cart_Home from './apps/components/Shopping_Cart_Home/Shopping_Cart_Home.js';
 
 import Home2 from './apps/components/Home2/Home2.js';
 
@@ -104,8 +104,8 @@ export default TabNavigator({
     navigationOptions: { tabBarLabel:  'Home2'  },
   },
   Shooping_Cart_Home: {
-    screen: Shooping_Cart_Home,
-    navigationOptions: { tabBarLabel:  'Shooping Cart'  },
+    screen: Shopping_Cart_Home,
+    navigationOptions: { tabBarLabel:  'Shopping Cart'  },
   },
   User_Home: {
     screen: User_Home_Stack,

@@ -1,7 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 from Server_utli import Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
+from Server_utli import Clear_TEMPCODE
 import json
+import time
 import hashlib, uuid
 import ErrorCode
 
@@ -203,6 +205,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
 
+
                 else:
                     self.send_response(STATUS)
 
@@ -246,8 +249,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
                 self.send_response(STATUS)
 
                 self.end_headers()
-
-
 
                 self.wfile.write(json.dumps(DATA).encode())
 
@@ -304,12 +305,16 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
 
+
+
                 else:
                     self.send_response(STATUS)
 
                     self.end_headers()
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
+
+
 
             else:
                 self.send_response(STATUS_CODE)
@@ -362,12 +367,16 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
 
+
+
                 else:
                     self.send_response(STATUS)
 
                     self.end_headers()
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
+
+
 
             else:
                 self.send_response(STATUS_CODE)
@@ -402,12 +411,16 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
 
+
+
                 else:
                     self.send_response(STATUS)
 
                     self.end_headers()
 
                     self.wfile.write(json.dumps(PHONENUM).encode())
+
+                    
 
             else:
                 self.send_response(STATUS_CODE)

@@ -29,6 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
+import {getshoppingcart} from '../../server.js';
 import React, { Component } from 'react';
 import {
   Platform,
@@ -43,20 +44,97 @@ import {
   Button,
   Alert,
   AsyncStorage,
-  ScrollView
+  ScrollView,
+  RefreshControl
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
-export default class Shooping_Cart_Home extends Component<{}> {
-
+export default class Shopping_Cart_Home extends Component<{}> {
 
 
   constructor(props) {
     super(props);
     this.state = {
       User_Flag : true,
-      Shopping_Cart : []
+      Shopping_Cart : [],
+      Refreshing_Flag : false
     };
+  }
+
+
+  Refresh_Shopping_Cart(){
+    AsyncStorage.getItem('User_ID', (err, result) => {
+      var User_ID = result
+      console.log(User_ID);
+
+      if (User_ID == null) {
+        this.setState({
+          User_Flag : false,
+          Refreshing_Flag : false
+        });
+      }
+
+      else {
+
+        getshoppingcart(User_ID, (response) => {
+
+
+          const get_shopping_cart_code = response["StatusCode"]
+
+          const Products = response["ResponseText"]
+
+          if (get_shopping_cart_code == 200) {
+
+            // next create array to store the products object
+            var Shopping_Cart = []
+            for (var product in Products) {
+              console.log(Products[product]);
+              Shopping_Cart.push(Products[product])
+            }
+            console.log(Shopping_Cart);
+
+            this.setState({
+              User_Flag : true,
+              Shopping_Cart : Shopping_Cart,
+              Refreshing_Flag : false
+            });
+
+          } else {
+
+
+            var errormsg = ErrorCodePrase(get_shopping_cart_code)[1]
+
+            var title = ErrorCodePrase(get_shopping_cart_code)[0]
+
+            console.log(ErrorCodePrase(get_shopping_cart_code))
+
+            Alert.alert(
+                title,
+                errormsg,
+              [
+                {text: 'OK', style: 'cancel'},
+              ],
+            )
+
+            this.props.navigation.navigate('User_Home');
+
+          }
+
+        // Get Shopping Cart End
+        });
+
+      }
+
+    });
+
+  }
+
+  OnRefresh(){
+    this.setState({
+      refreshing : true
+    },
+    () => {this.Refresh_Shopping_Cart()}
+  );
   }
 
   componentWillMount(){
@@ -66,28 +144,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
     // });
     this.props.navigation.addListener('willFocus', ()=>{
 
-      AsyncStorage.multiGet(['User_ID','Shopping_Cart'], (err, result) => {
-        var User_ID = result[0][1]
-        var Shopping_Cart = result[1][1]
-
-        if (User_ID == null) {
-          this.setState({
-            User_Flag : false,
-          });
-        }
-        else {
-
-          console.log(JSON.parse(Shopping_Cart));
-          console.log(typeof(JSON.parse(Shopping_Cart)));
-          this.setState({
-            User_Flag : true,
-            Shopping_Cart : JSON.parse(Shopping_Cart)
-          });
-          console.log(this.state.Shopping_Cart);
-
-        }
-
-      });
+      this.Refresh_Shopping_Cart()
     });
 
 
@@ -97,7 +154,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
 
     if (this.state.User_Flag == false) {
       return (
-        <View style={{flex: 1}} >
+        <ScrollView style={{flex: 1}} >
 
 
 
@@ -116,7 +173,7 @@ export default class Shooping_Cart_Home extends Component<{}> {
 
 
 
-        </View>
+        </ScrollView>
 
 
       );
@@ -129,7 +186,14 @@ export default class Shooping_Cart_Home extends Component<{}> {
 
 
           return (
-            <ScrollView style={{flex: 1}} style={{flex: 1}} >
+            <ScrollView
+              refreshControl={
+              <RefreshControl
+                onRefresh={this.OnRefresh.bind(this)}
+                refreshing = {this.state.Refreshing_Flag}
+              />
+            }
+              style={{flex: 1}}>
 
 
 

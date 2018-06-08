@@ -35,6 +35,7 @@ rightButton = {<TouchableOpacity>
 
 */
 import React, { Component } from 'react';
+import {getuserprofile, getfavoriteproduct, getuserorder} from '../../server.js';
 import {
   Platform,
   StyleSheet,
@@ -48,7 +49,8 @@ import {
   TabBarIOS,
   Button,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  RefreshControl
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -65,6 +67,7 @@ constructor(props) {
   super(props);
   this.state = {
     User_Flag : false,
+    Refreshing_Flag : false,
     User_Profile: '',
     Favorite_Products: '',
     Order_List: ''
@@ -73,8 +76,8 @@ constructor(props) {
 }
 
 
-sign_out(e){
-  AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products','Order_List'], (error) => {
+sign_out(){
+  AsyncStorage.removeItem('User_ID', (error) => {
     if (error) {
       console.log(error);
     }
@@ -82,6 +85,170 @@ sign_out(e){
     this.props.navigation.navigate('User_Home');
 
   });
+}
+
+Refresh_User_Info(){
+  AsyncStorage.getItem('User_ID', (err, result) => {
+    var User_ID = result
+    console.log(User_ID);
+
+    if (User_ID == null) {
+      this.setState({
+        User_Flag : false,
+        Refreshing_Flag : false
+      });
+    }
+
+    else {
+
+      getuserprofile(User_ID, (response) => {
+
+        const get_profile_code = response["StatusCode"]
+
+        const Profile = response["ResponseText"]
+
+
+        if (get_profile_code == 200) {
+
+
+
+          // Next we need to getfavoriteproduct function to get the favorite product of the user
+
+          getfavoriteproduct(User_ID, (response) => {
+
+            const get_favorite_product_code = response["StatusCode"]
+
+            const Favorite_Products = response["ResponseText"]
+
+            if (get_favorite_product_code == 200 || get_favorite_product_code == 617) {
+
+              // next create array to store the products object
+              var Favorite_Product_List = []
+
+              for (var product in Favorite_Products) {
+                console.log(Favorite_Products[product]);
+                Favorite_Product_List.push(Favorite_Products[product])
+              }
+
+              // Here we need to call the getuserorder function to get user's all order list
+              getuserorder(User_ID, (response) => {
+
+                const get_user_order_code = response["StatusCode"]
+
+                const Orders = response["ResponseText"]
+
+                if (get_user_order_code == 200 || get_user_order_code == 618) {
+
+
+                  // Next we need to create array to store the order list
+                  var Order_List = []
+
+                  for (var order in Orders) {
+                    console.log(Orders[order]);
+                    Order_List.push(Orders[order])
+                  }
+
+                  this.setState({
+                    User_Flag : true,
+                    User_Profile : Profile,
+                    Favorite_Products : Favorite_Product_List,
+                    Order_List : Order_List,
+                    Refreshing_Flag : false
+                  });
+
+                }
+
+                else {
+
+                  var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
+
+                  var title = ErrorCodePrase(get_favorite_product_code)[0]
+
+                  console.log(ErrorCodePrase(get_favorite_product_code))
+
+                  Alert.alert(
+                      title,
+                      errormsg,
+                    [
+                      {text: 'OK', style: 'cancel'},
+                    ],
+                  )
+
+                  this.sign_out()
+
+
+                }
+
+
+
+                //  End of getuserorder
+              });
+
+              // End of if statement in getfavoriteproduct
+            }
+
+            else {
+
+              var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
+
+              var title = ErrorCodePrase(get_favorite_product_code)[0]
+
+              console.log(ErrorCodePrase(get_favorite_product_code))
+
+              Alert.alert(
+                  title,
+                  errormsg,
+                [
+                  {text: 'OK', style: 'cancel'},
+                ],
+              )
+
+              this.sign_out()
+
+
+            }
+
+            // Get favorite product list End
+          });
+
+
+
+        } else {
+
+          var errormsg = ErrorCodePrase(get_profile_code)[1]
+
+          var title = ErrorCodePrase(get_profile_code)[0]
+
+          console.log(ErrorCodePrase(get_profile_code))
+
+          Alert.alert(
+              title,
+              errormsg,
+            [
+              {text: 'OK', style: 'cancel'},
+            ],
+          )
+
+          this.sign_out()
+
+
+        }
+
+
+        // Get User Profile End
+      });
+
+    }
+
+  });
+}
+
+User_Home_On_Refresh(){
+  this.setState({
+    Refreshing_Flag : true
+  },
+  () => {this.Refresh_User_Info()}
+);
 }
 
 
@@ -92,30 +259,8 @@ componentWillMount(){
   // });
 
   this.props.navigation.addListener('willFocus', ()=>{
-    AsyncStorage.multiGet(['User_ID','User_Profile', 'Favorite_Products', 'Order_List'], (err, result) => {
-      console.log(result);
-      var User_ID = result[0][1]
-      var Profile = result[1][1]
-      var Favorite_Products = result[2][1]
-      var Order_List = result[3][1]
-      if (User_ID == null || Profile == null) {
-        AsyncStorage.multiRemove(['User_ID', 'Shopping_Cart', 'User_Profile', 'Favorite_Products', 'Order_List'], (error) => {
-          this.setState({
-            User_Flag : false
-          });
-        });
 
-      }
-      else {
-        this.setState({
-          User_Flag : true,
-          User_Profile : JSON.parse(Profile),
-          Favorite_Products : JSON.parse(Favorite_Products),
-          Order_List : JSON.parse(Order_List),
-        });
-      }
-
-    });
+    this.Refresh_User_Info()
 
   });
 
@@ -227,7 +372,14 @@ componentWillMount(){
     else {
 
           return (
-            <ScrollView style={{flex: 1}} >
+            <ScrollView
+              refreshControl={
+              <RefreshControl
+                refreshing = {this.state.Refreshing_Flag}
+                onRefresh={this.User_Home_On_Refresh.bind(this)}
+              />
+            }
+              style={{flex: 1}} >
 
 
 
@@ -271,7 +423,7 @@ componentWillMount(){
 
                 }}>
 
-                <TouchableOpacity onPress={(e)=> { this.sign_out(e)} }>
+                <TouchableOpacity onPress={()=> { this.sign_out()} }>
                   <Text style={{ fontSize: 25, textAlign: 'center'} }>Sign Out</Text>
                   </TouchableOpacity>
 

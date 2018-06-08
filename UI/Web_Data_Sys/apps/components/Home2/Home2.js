@@ -41,21 +41,99 @@ import {
   TouchableOpacity,
   TabBarIOS,
   Button,
-  Alert
+  Alert,
+  ScrollView,
+  AsyncStorage,
+  RefreshControl
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
 export default class Home2 extends Component<{}> {
 
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      Indicate_Flag : false,
+      refreshing : false
+    };
+  }
+
+  cancelicon(){
+    this.setState({
+      refreshing : false
+    });
+  }
+
+  RefreshInfo1(){
+    this.setState({
+      Indicate_Flag: true,
+      refreshing : true
+    },
+    () => {this.cancelicon()}
+  );
+  }
+
+  RefreshInfo2(){
+    this.setState({
+      Indicate_Flag: false,
+      refreshing : true
+    },
+    () => {this.cancelicon()}
+  );
+  }
+
+  componentWillMount(){
+    this.props.navigation.addListener('willFocus', ()=>{
+      this.setState({
+        Indicate_Flag: false,
+        refreshing : false
+      });
+    });
+
+  }
+
+
   render() {
-    return (
-      <View style={{flex: 1}} >
+    if (this.state.Indicate_Flag == false) {
+      return (
+        <ScrollView
+          refreshControl={
+          <RefreshControl
+            refreshing = {this.state.refreshing}
+            onRefresh={this.RefreshInfo1.bind(this)}
+          />
+        }
+          style={{flex: 1}} >
+
+            <Text style={{ fontSize: 25, textAlign: 'center'} }>This is when user flag is false</Text>
+
+        </ScrollView>
 
 
-      </View>
+      );
+
+    }
+    else {
+
+          return (
+            <ScrollView
+              refreshControl={
+              <RefreshControl
+                refreshing = {this.state.refreshing}
+                onRefresh={this.RefreshInfo2.bind(this)}
+              />
+            }
+              style={{flex: 1}} >
+
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>This is when user flag is true</Text>
+
+            </ScrollView>
 
 
-    );
+
+          );
+
+    }
   }
 }

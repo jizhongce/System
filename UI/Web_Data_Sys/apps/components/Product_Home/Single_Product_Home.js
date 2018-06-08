@@ -87,15 +87,13 @@ export default class Single_Product_Home extends Component<{}> {
 
     console.log(TempProduct.Product_ID);
 
-    AsyncStorage.multiGet(['User_ID', 'Favorite_Products'], (err, result) =>{
+    AsyncStorage.getItem('User_ID', (err, result) =>{
       if (err) {
         console.log(err);
       }
 
       else {
-        var User_ID = result[0][1]
-
-        var Favorite_Products = result[1][1]
+        var User_ID = result
 
         if(User_ID == null) {
           console.log(result);
@@ -121,16 +119,6 @@ export default class Single_Product_Home extends Component<{}> {
 
             if (add_to_favorite_product_status_code == 200) {
 
-              Favorite_Products = JSON.parse(Favorite_Products)
-
-              Favorite_Products.push(TempProduct)
-
-              console.log(Favorite_Products);
-
-              AsyncStorage.setItem('Favorite_Products', JSON.stringify(Favorite_Products), () =>{
-                // Here we need call add to shooping cart function to add the items into shopping cart in database
-                // here we need a flag to indicate end or not
-
                 Alert.alert(
                     'Success',
                     'Item has been added to favorite list',
@@ -138,9 +126,6 @@ export default class Single_Product_Home extends Component<{}> {
                     {text: 'OK', style: 'cancel'},
                   ],
                 )
-
-              });
-
 
             }
 
@@ -161,11 +146,7 @@ export default class Single_Product_Home extends Component<{}> {
               )
 
 
-
-
             }
-
-
 
 
           });
@@ -200,7 +181,7 @@ export default class Single_Product_Home extends Component<{}> {
 
     // console.log(TempProduct);
 
-    AsyncStorage.multiGet(['User_ID','Shopping_Cart'], (err, result) =>{
+    AsyncStorage.getItem('User_ID', (err, result) =>{
 
       if (err) {
         console.log(err);
@@ -210,9 +191,7 @@ export default class Single_Product_Home extends Component<{}> {
 
       else {
 
-        var User_ID = result[0][1]
-
-        var Shopping_Cart = result[1][1]
+        var User_ID = result
 
 
         if(User_ID == null) {
@@ -230,8 +209,6 @@ export default class Single_Product_Home extends Component<{}> {
         }
 
         else {
-          Shopping_Cart = JSON.parse(Shopping_Cart)
-
           // here we can not just push the product into the AsyncStorage, instead we need to check if it is already in the shopping cart
 
           // First we need to add the product into the shopping cart in the database
@@ -240,29 +217,9 @@ export default class Single_Product_Home extends Component<{}> {
             const add_to_shopping_cart_status_code = response["StatusCode"]
             const statusText = response["ResponseText"]
 
-            Shopping_Cart_FLAG = false
-            for (var product in Shopping_Cart) {
-              console.log(typeof(Shopping_Cart[product].ProductID));
-              if (Shopping_Cart[product].ProductID == TempProduct.ProductID) {
-                Shopping_Cart[product].ProductUnits = statusText.Products_Units
-                Shopping_Cart_FLAG = true
-
-                break
-              }
-            }
-
-            if (Shopping_Cart_FLAG == false) {
-              // now we need to add result as array
-              Shopping_Cart.push(TempProduct)
-
-            }
-
 
             if (add_to_shopping_cart_status_code == 200) {
 
-              AsyncStorage.setItem('Shopping_Cart', JSON.stringify(Shopping_Cart), () =>{
-                // Here we need call add to shooping cart function to add the items into shopping cart in database
-                // here we need a flag to indicate end or not
 
                 Alert.alert(
                   'Success!',
@@ -271,11 +228,6 @@ export default class Single_Product_Home extends Component<{}> {
                     {text: 'OK', style: 'cancel'},
                   ],
                 )
-
-              });
-
-
-
 
 
             } else {
@@ -335,7 +287,7 @@ export default class Single_Product_Home extends Component<{}> {
         <Text>Price : {this.state.product.ProductPrice}</Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder="1"
+          placeholder="0"
           placeholderTextColor="black"
           onChangeText={(text) => this.productQuantityhandler(text)}
           value={this.state.text}
