@@ -1220,7 +1220,7 @@ def Delete_From_Shopping_Cart(userid, productid):
 
         QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Shopping_Cart_ID, productid))
         CURSOR.execute(QUERYSQL)
-        
+
 
     else:
         STATUS = ErrorCode.NO_SUCH_SHOPPING_CART_ERROR
@@ -1548,6 +1548,50 @@ def Get_User_Order(USER_ID):
 
 
 # End of the Get_User_Order function
+
+
+# Start of the Get_Address_Book function
+
+def Get_Address_Book(USER_ID):
+    '''
+    This is the function which will get the Address list of specific user in the database
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Address.Address_ID, Street, City, Province, Post_Code FROM Address, Address_User  WHERE Address.Address_ID = Address_User.Address_ID AND Address_User.User_ID = \'{}\';'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Address_Book = list()
+
+    if QUERYLIST:
+        for Address in QUERYLIST:
+            (Address_ID, Street, City, Province, Post_Code) = Address
+            Address_Book.append({"Address_ID": Address_ID, "Street": Street, "City": City, "Province": Province, "Post_Code": Post_Code})
+
+        DATA = Address_Book
+
+    else:
+        STATUS = ErrorCode.NO_ADDRESS_EXIST_ERROR
+        DATA = 0
+
+    return(STATUS, DATA)
+
+
+# End of the Get_Address_Book function
+
+
 
 
 # Start of the Check_Favorite_Exist function

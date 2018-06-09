@@ -387,26 +387,45 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
   Submit_Order_On_Press(Shopping_Cart){
 
-    var Shopping_Cart_Confirm = ''
+    if (Shopping_Cart.length <= 0) {
 
-    for (var Product in Shopping_Cart) {
-      var TempProduct = Shopping_Cart[Product]
-      console.log(Shopping_Cart[Product]);
-      console.log('\n');
-      Shopping_Cart_Confirm = Shopping_Cart_Confirm + TempProduct.Product_ID + ':' + TempProduct.Product_Units + '\n' + '----------' + '\n'
+      Alert.alert(
+          'Oops!',
+          'There is nothing in your shopping cart! ',
+        [
+          {text: 'OK', style: 'cancel'}
+
+        ],
+      )
+
+    } else {
+
+      var Shopping_Cart_Confirm = ''
+
+      console.log(Shopping_Cart.length);
+
+      for (var Product in Shopping_Cart) {
+        var TempProduct = Shopping_Cart[Product]
+        console.log(Shopping_Cart[Product]);
+        console.log('\n');
+        Shopping_Cart_Confirm = Shopping_Cart_Confirm + TempProduct.Product_ID + ':' + TempProduct.Product_Units + '\n' + '----------' + '\n'
+
+      }
+
+      console.log(Shopping_Cart_Confirm);
+      Alert.alert(
+        'Watch Out!',
+        'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm,
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'Confirm' },
+
+        ],
+      )
+
 
     }
 
-    console.log(Shopping_Cart_Confirm);
-    Alert.alert(
-        'Watch Out!',
-        'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm,
-      [
-        {text: 'Cancel', style: 'cancel'},
-        {text: 'Confirm' },
-
-      ],
-    )
 
     // End of Submit_Order_On_Press
   }

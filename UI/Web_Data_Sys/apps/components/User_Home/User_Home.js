@@ -68,9 +68,7 @@ constructor(props) {
   this.state = {
     User_Flag : false,
     Refreshing_Flag : false,
-    User_Profile: '',
-    Favorite_Products: '',
-    Order_List: ''
+    User_Profile: ''
 
   };
 }
@@ -110,108 +108,11 @@ Refresh_User_Info(){
 
         if (get_profile_code == 200) {
 
-
-
-          // Next we need to getfavoriteproduct function to get the favorite product of the user
-
-          getfavoriteproduct(User_ID, (response) => {
-
-            const get_favorite_product_code = response["StatusCode"]
-
-            const Favorite_Products = response["ResponseText"]
-
-            if (get_favorite_product_code == 200 || get_favorite_product_code == 617) {
-
-              // next create array to store the products object
-              var Favorite_Product_List = []
-
-              for (var product in Favorite_Products) {
-                console.log(Favorite_Products[product]);
-                Favorite_Product_List.push(Favorite_Products[product])
-              }
-
-              // Here we need to call the getuserorder function to get user's all order list
-              getuserorder(User_ID, (response) => {
-
-                const get_user_order_code = response["StatusCode"]
-
-                const Orders = response["ResponseText"]
-
-                if (get_user_order_code == 200 || get_user_order_code == 618) {
-
-
-                  // Next we need to create array to store the order list
-                  var Order_List = []
-
-                  for (var order in Orders) {
-                    console.log(Orders[order]);
-                    Order_List.push(Orders[order])
-                  }
-
-                  this.setState({
-                    User_Flag : true,
-                    User_Profile : Profile,
-                    Favorite_Products : Favorite_Product_List,
-                    Order_List : Order_List,
-                    Refreshing_Flag : false
-                  });
-
-                }
-
-                else {
-
-                  var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
-
-                  var title = ErrorCodePrase(get_favorite_product_code)[0]
-
-                  console.log(ErrorCodePrase(get_favorite_product_code))
-
-                  Alert.alert(
-                      title,
-                      errormsg,
-                    [
-                      {text: 'OK', style: 'cancel'},
-                    ],
-                  )
-
-                  this.sign_out()
-
-
-                }
-
-
-
-                //  End of getuserorder
-              });
-
-              // End of if statement in getfavoriteproduct
-            }
-
-            else {
-
-              var errormsg = ErrorCodePrase(get_favorite_product_code)[1]
-
-              var title = ErrorCodePrase(get_favorite_product_code)[0]
-
-              console.log(ErrorCodePrase(get_favorite_product_code))
-
-              Alert.alert(
-                  title,
-                  errormsg,
-                [
-                  {text: 'OK', style: 'cancel'},
-                ],
-              )
-
-              this.sign_out()
-
-
-            }
-
-            // Get favorite product list End
+          this.setState({
+            User_Flag : true,
+            User_Profile : Profile,
+            Refreshing_Flag : false
           });
-
-
 
         } else {
 
@@ -225,11 +126,13 @@ Refresh_User_Info(){
               title,
               errormsg,
             [
-              {text: 'OK', style: 'cancel'},
+              {text: 'OK', style: 'cancel', onPress: ()=>{
+                this.sign_out()
+              }},
             ],
           )
 
-          this.sign_out()
+
 
 
         }
@@ -428,63 +331,6 @@ componentWillMount(){
                   </TouchableOpacity>
 
                 </View>
-
-              </View>
-
-              <View style={{backgroundColor:'green'}}>
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>Favorite Product</Text>
-
-                {
-                  this.state.Favorite_Products.map((product, i) => {
-                    return(
-                    <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Favorite_Single_Product_Home', { Product_ID : product.Product_ID, Product_Spec : product.Product_Spec})}>
-                      <View style={{
-                          flex: 0.15,
-                          marginTop: 25,
-                          borderWidth: 2,
-                          justifyContent: 'center',
-                          borderRadius: 10,
-
-                        }}>
-                        <Text>key : {i}</Text>
-                        <Text>ID : {product.Product_ID}</Text>
-                        <Text>Status : {product.Product_Status}</Text>
-                        <Text>Specification : {product.Product_Spec}</Text>
-                        <Text>Price : {product.Product_Price}</Text>
-                      </View>
-                    </TouchableOpacity>
-
-
-                    );
-                  })
-                }
-              </View>
-
-              <View style={{backgroundColor:'white'}}>
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>Order List</Text>
-                  {
-                    this.state.Order_List.map((order, i) => {
-                      return(
-
-                        <View key={i} style={{
-                            flex: 0.15,
-                            marginTop: 25,
-                            borderWidth: 2,
-                            justifyContent: 'center',
-                            borderRadius: 10,
-
-                          }}>
-                          <Text>key : {i}</Text>
-                          <Text>ID : {order.Order_ID}</Text>
-                          <Text>Status : {order.Order_Status}</Text>
-                          <Text>Order Time : {order.Order_Time}</Text>
-                          <Text>Address : {order.Order_Shipping_Address_ID}</Text>
-                        </View>
-
-
-                      );
-                    })
-                  }
 
               </View>
 

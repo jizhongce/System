@@ -424,3 +424,24 @@ export function getsingleproductinfo(Product_ID, cb){
     cb(responseDict);
   });
 }
+
+
+export function getaddressbook(User_ID, cb){
+  var xhr = new XMLHttpRequest();
+  // Next create a parameters
+  var parameters = CreateParametersForRequest("User_ID", User_ID)
+  console.log("http://localhost:8080/get_address_book" + "?" + parameters);
+  xhr.open("GET", "http://localhost:8080/get_address_book" + "?" + parameters , true);
+
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}

@@ -44,7 +44,8 @@ import {
   Alert,
   ScrollView,
   AsyncStorage,
-  RefreshControl
+  RefreshControl,
+  Modal
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 

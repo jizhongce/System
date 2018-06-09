@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 from Server_utli import UrlParse, Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart
+from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book
 import json
 import time
 import hashlib, uuid
@@ -39,6 +39,25 @@ class MyNewhandler(BaseHTTPRequestHandler):
             #
             # print(DATA)
             #
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        elif URL_PATH == '/get_address_book':
+
+            URL_QUERY = UrlParse_Res['query']
+
+            User_ID = URL_QUERY['User_ID'][0]
+
+            print(User_ID)
+
+            (STATUS_CODE, DATA) = Get_Address_Book(User_ID)
+
+            print(STATUS_CODE)
+            print(DATA)
+
+            
             self.send_response(STATUS_CODE)
             self.end_headers()
             self.wfile.write(json.dumps(DATA).encode())
