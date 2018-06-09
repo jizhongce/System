@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 from Server_utli import UrlParse, Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info
+from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart
 import json
 import time
 import hashlib, uuid
@@ -490,6 +490,46 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(DATA).encode())
 
 
+        #UPDATE PRODUCT INTO THE SPECIFIC USER'S DATABASE
+        #FUNCTION USED:
+        #Shopping_Cart_Quantity_Change
+        elif URL_PATH == '/shopping_cart_quantity_change':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            PRODUCT = USER_DATA['TempProduct']
+
+            print(PRODUCT)
+
+            (STATUS_CODE, DATA) = Shopping_Cart_Quantity_Change(USER_ID, PRODUCT)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        #DELETE PRODUCT INTO THE SPECIFIC USER'S DATABASE
+        #FUNCTION USED:
+        #Delete_From_Shopping_Cart
+        elif URL_PATH == '/delete_from_shopping_cart':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            PRODUCT_ID = USER_DATA['Product_ID']
+
+            print(PRODUCT_ID)
+
+            (STATUS_CODE, DATA) = Delete_From_Shopping_Cart(USER_ID, PRODUCT_ID)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
+
             # print()
 
             # self.send_response(STATUS_CODE)
@@ -541,7 +581,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(DATA).encode())
 
-            
+
 
         elif URL_PATH == '/delete_From_favorite_product':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))

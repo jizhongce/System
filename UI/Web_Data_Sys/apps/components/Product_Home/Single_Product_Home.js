@@ -69,7 +69,7 @@ export default class Single_Product_Home extends Component<{}> {
       product : '',
       favorite_exist : false,
       Refreshing_Flag : false,
-      quantity : 0
+      quantity : 1
     };
   }
 
@@ -287,7 +287,21 @@ export default class Single_Product_Home extends Component<{}> {
         ],
       )
 
-    } else {
+    }
+
+    else if (TempProduct.ProductStatus > 0 && TempProduct.ProductStatus < TempProduct.ProductUnits) {
+
+      Alert.alert(
+        'Sorry',
+        'The item has no such high storage, please enter smaller amount',
+        [
+          {text: 'OK', style: 'cancel'},
+        ],
+      )
+
+    }
+
+    else {
 
       // console.log(TempProduct);
 
@@ -488,6 +502,42 @@ export default class Single_Product_Home extends Component<{}> {
   }
 
 
+  Single_Product_Home_Plus(){
+
+    if (this.state.quantity >= this.state.product.Product_Status) {
+      Alert.alert(
+          'Sorry',
+          'Requested quantity larger than status! ',
+        [
+          {text: 'OK', style: 'cancel'},
+        ],
+      )
+    } else {
+      this.setState({
+        quantity : this.state.quantity + 1
+      });
+    }
+  }
+
+
+  Single_Product_Home_Minus(){
+
+    if ( this.state.quantity <= 0) {
+      Alert.alert(
+          'Sorry',
+          'Requested quantity smaller than 0! ',
+        [
+          {text: 'OK', style: 'cancel'},
+        ],
+      )
+    } else {
+      this.setState({
+        quantity : this.state.quantity - 1
+      });
+    }
+  }
+
+
   componentWillMount(){
     this.props.navigation.addListener('willFocus', ()=>{
 
@@ -522,13 +572,22 @@ export default class Single_Product_Home extends Component<{}> {
         <Text>Status : {this.state.product.Product_Status}</Text>
         <Text>Specification : {this.state.product.Product_Spec}</Text>
         <Text>Price : {this.state.product.Product_Price}</Text>
+
+        <TouchableOpacity onPress = {() => this.Single_Product_Home_Plus()} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
+          <Text style={{fontSize: 25} }>+</Text>
+        </TouchableOpacity>
+
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder="0"
+          placeholder={String(this.state.quantity)}
           placeholderTextColor="black"
           onChangeText={(text) => this.productQuantityhandler(text)}
           value={this.state.text}
           />
+
+        <TouchableOpacity onPress = {() => this.Single_Product_Home_Minus()} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
+          <Text style={{fontSize: 25} }>-</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity onPress = {() => this.add_To_shopping_cart()}>
           <Text style={{ fontSize: 25, textAlign: 'center'} }>加入购物车</Text>

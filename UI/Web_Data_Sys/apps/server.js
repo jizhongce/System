@@ -231,6 +231,48 @@ export function addToshoppingcart(User_ID, TempProduct, cb){
 
 
 
+export function shoppingcartquantitychange(User_ID, TempProduct, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/shopping_cart_quantity_change", true);
+  var body = {User_ID: User_ID, TempProduct : TempProduct};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+
+export function deletefromshoppingcart(User_ID, Product_ID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/delete_from_shopping_cart", true);
+  var body = {User_ID: User_ID, Product_ID : Product_ID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+
 export function addTofavoriteproduct(User_ID, TempProductID, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/add_to_favorite_product", true);

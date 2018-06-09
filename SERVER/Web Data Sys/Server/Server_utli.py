@@ -1123,7 +1123,7 @@ def Get_Shopping_Cart(userid):
     if QUERYLIST:
         for product in QUERYLIST:
             (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
-            Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice, "ProductUnits": ProductUnits})
+            Product_List.append({"Product_ID": ProductID, "Product_Status": ProductStatus, "Product_Spec": ProductSpec, "Product_Price": ProductPrice, "Product_Units": ProductUnits})
 
 
     CURSOR.close()
@@ -1137,6 +1137,108 @@ def Get_Shopping_Cart(userid):
 
 
 # End of the Get_Shopping_Cart function
+
+
+# Start the Shopping_Cart_Quantity_Change function
+
+def Shopping_Cart_Quantity_Change(userid, product):
+    '''
+    This is function to change the quantity of item in the shopping cart
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Shopping_Cart_ID FROM Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' ;'.format(userid))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (Shopping_Cart_ID,) = QUERYLIST[0]
+        Product_ID = product['Product_ID']
+        Product_Units = product['Product_Units']
+        print(Shopping_Cart_ID)
+        print(Product_ID)
+        print(Product_Units)
+        QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Product_Units, Shopping_Cart_ID, Product_ID))
+        CURSOR.execute(QUERYSQL)
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_SHOPPING_CART_ERROR
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+
+# End of the Shopping_Cart_Quantity_Change function
+
+
+
+# Start the Delete_From_Shopping_Cart function
+
+def Delete_From_Shopping_Cart(userid, productid):
+    '''
+    This is function to delete item in the shopping cart
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Shopping_Cart_ID FROM Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' ;'.format(userid))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (Shopping_Cart_ID,) = QUERYLIST[0]
+
+        print(Shopping_Cart_ID)
+
+        QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Shopping_Cart_ID, productid))
+        CURSOR.execute(QUERYSQL)
+        
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_SHOPPING_CART_ERROR
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+
+# End of the Delete_From_Shopping_Cart function
+
+
 
 # Start of the helper function Check_Porduct_Units_Schema
 

@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {getshoppingcart} from '../../server.js';
+import {getshoppingcart, shoppingcartquantitychange, deletefromshoppingcart} from '../../server.js';
 import React, { Component } from 'react';
 import {
   Platform,
@@ -137,6 +137,249 @@ export default class Shopping_Cart_Home extends Component<{}> {
   );
   }
 
+
+  Shopping_Cart_Quantity_Plus(Product){
+
+    if (Product.Product_Units >= Product.Product_Status) {
+
+      Alert.alert(
+          'Sorry',
+          'Requested quantity larger than status! ',
+        [
+          {text: 'OK', style: 'cancel'},
+        ],
+      )
+
+    } else {
+
+      AsyncStorage.getItem('User_ID', (err, result) => {
+        var User_ID = result
+        console.log(User_ID);
+
+        if (User_ID == null) {
+          this.setState({
+            User_Flag : false,
+            Refreshing_Flag : false
+          });
+        }
+
+        else {
+          const TempProduct = {
+            Product_ID : Product.Product_ID,
+            Product_Units : Product.Product_Units + 1
+          }
+
+          shoppingcartquantitychange(User_ID, TempProduct, (response) =>{
+
+            const shopping_cart_quantity_plus_code = response["StatusCode"]
+
+            const Products = response["ResponseText"]
+
+            if (shopping_cart_quantity_plus_code == 200) {
+
+
+              this.Refresh_Shopping_Cart()
+
+
+            } else {
+
+              Alert.alert(
+                  'Sorry',
+                  'Something Wrong with shopping cart quantity plus! ',
+                [
+                  {text: 'OK', style: 'cancel'},
+                ],
+              )
+
+              this.Refresh_Shopping_Cart()
+
+            }
+
+
+
+          });
+
+
+
+        }
+
+      });
+
+    }
+
+    // End of Shopping_Cart_Quantity_Plus
+  }
+
+
+
+  Shopping_Cart_Quantity_Minus(Product){
+
+    if (Product.Product_Units < 1) {
+
+      Alert.alert(
+          'Sorry',
+          'Requested quantity less than 1! ',
+        [
+          {text: 'OK', style: 'cancel'},
+        ],
+      )
+
+    }
+    else if (Product.Product_Units == 1 ) {
+
+      // here we need to delete the product
+      Alert.alert(
+          'Watch Out!',
+          'you are deleting the item from the shopping cart! ',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'OK', onPress: () => {
+
+            this.Delete_From_Shopping_Cart(Product);
+
+          } },
+
+        ],
+      )
+
+    }
+     else {
+
+      AsyncStorage.getItem('User_ID', (err, result) => {
+        var User_ID = result
+        console.log(User_ID);
+
+        if (User_ID == null) {
+          this.setState({
+            User_Flag : false,
+            Refreshing_Flag : false
+          });
+        }
+
+        else {
+          const TempProduct = {
+            Product_ID : Product.Product_ID,
+            Product_Units : Product.Product_Units - 1
+          }
+
+          shoppingcartquantitychange(User_ID, TempProduct, (response) =>{
+
+            const shopping_cart_quantity_plus_code = response["StatusCode"]
+
+            const Products = response["ResponseText"]
+
+            if (shopping_cart_quantity_plus_code == 200) {
+
+
+              this.Refresh_Shopping_Cart()
+
+
+            } else {
+
+              Alert.alert(
+                  'Sorry',
+                  'Something Wrong with shopping cart quantity plus! ',
+                [
+                  {text: 'OK', style: 'cancel'},
+                ],
+              )
+
+              this.Refresh_Shopping_Cart()
+
+            }
+
+
+
+          });
+
+
+
+        }
+
+      });
+
+    }
+
+    // End of Shopping_Cart_Quantity_Minus
+  }
+
+
+  Delete_From_Shopping_Cart(Product){
+
+    AsyncStorage.getItem('User_ID', (err, result) => {
+      var User_ID = result
+      console.log(User_ID);
+
+      if (User_ID == null) {
+        this.setState({
+          User_Flag : false,
+          Refreshing_Flag : false
+        });
+      }
+
+      else {
+        const Product_ID = Product.Product_ID
+
+        deletefromshoppingcart(User_ID, Product_ID, (response) =>{
+
+          const delete_from_shopping_cart_code = response["StatusCode"]
+
+          const Products = response["ResponseText"]
+
+          if (delete_from_shopping_cart_code == 200) {
+
+            Alert.alert(
+                'Success',
+                'Item has been deleted from the shopping cart! ',
+              [
+                {text: 'OK', style: 'cancel', onPress: () =>{
+                  this.Refresh_Shopping_Cart()
+                }},
+              ],
+            )
+
+
+          } else {
+
+            Alert.alert(
+                'Sorry',
+                'Something wrong with the database, delete fail! ',
+              [
+                {text: 'OK', style: 'cancel', onPress: () =>{
+                  this.Refresh_Shopping_Cart()
+                }},
+              ],
+            )
+
+          }
+
+
+        });
+
+      }
+
+    });
+
+    // End of Delete_From_Shopping_Cart
+  }
+
+  Delete_Item_On_Press(Product){
+    Alert.alert(
+        'Watch Out!',
+        'you are deleting the item from the shopping cart! ',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => {
+
+          this.Delete_From_Shopping_Cart(Product);
+
+        } },
+
+      ],
+    )
+  }
+
+
   componentWillMount(){
     //AsyncStorage.clear()
     // AsyncStorage.setItem('UID123', 'hello', () => {
@@ -210,11 +453,26 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                     }}>
                       <Text>key : {i}</Text>
-                      <Text>ID : {product.ProductID}</Text>
-                      <Text>Status : {product.ProductStatus}</Text>
-                      <Text>Specification : {product.ProductSpec}</Text>
-                      <Text>Price : {product.ProductPrice}</Text>
-                      <Text>Units : {product.ProductUnits}</Text>
+                      <Text>ID : {product.Product_ID}</Text>
+                      <Text>Specification : {product.Product_Spec}</Text>
+                      <Text>Price : {product.Product_Price}</Text>
+                      <Text>Status : {product.Product_Status}</Text>
+                      <Text>Units :
+
+                        <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Minus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
+                          <Text style={{fontSize: 25} }>-</Text>
+                        </TouchableOpacity>
+
+                        {product.Product_Units}
+
+                        <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Plus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}}>
+                          <Text style={{fontSize: 25} }>+</Text>
+                        </TouchableOpacity>
+
+                      </Text>
+                      <TouchableOpacity onPress = {() => this.Delete_Item_On_Press(product)}>
+                        <Text style={{fontSize: 25} }>Delete Item</Text>
+                      </TouchableOpacity>
                     </View>
                   );
                 })
