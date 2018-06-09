@@ -94,6 +94,30 @@ export function FavoriteExistStyle(Existed) {
 }
 
 
+export function AddNewAddressCheck(Street_Value, City_Value, Province_Value, Post_Code_Value) {
+  console.log();
+  if (Street_Value == '') {
+    return('Street Value is empty, please check again!')
+  }
+  else if (City_Value == '') {
+    return('City Value is empty, please check again!')
+  }
+  else if (Province_Value == '') {
+    return('Province Value is empty, please check again!')
+  }
+  else if (Post_Code_Value == '') {
+    return('Post Code Value is empty, please check again!')
+  }
+  else if (isNaN(Post_Code_Value)) {
+    return('Post Code Value has wrong schema, please check again!')
+  }
+  else {
+    return('Something is wrong, please check again!')
+  }
+
+}
+
+
 export function CreateParametersForRequest(Parameter_Name, Parameter) {
   return(Parameter_Name + "=" +  Parameter)
 }

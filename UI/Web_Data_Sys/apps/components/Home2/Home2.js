@@ -45,7 +45,8 @@ import {
   ScrollView,
   AsyncStorage,
   RefreshControl,
-  Modal
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -56,7 +57,8 @@ export default class Home2 extends Component<{}> {
     super(props);
     this.state = {
       Indicate_Flag : false,
-      refreshing : false
+      refreshing : false,
+      modalVisible: false
     };
   }
 
@@ -84,6 +86,10 @@ export default class Home2 extends Component<{}> {
   );
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   componentWillMount(){
     this.props.navigation.addListener('willFocus', ()=>{
       this.setState({
@@ -109,6 +115,33 @@ export default class Home2 extends Component<{}> {
 
             <Text style={{ fontSize: 25, textAlign: 'center'} }>This is when user flag is false</Text>
 
+              <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}
+                >
+                <View style={{marginTop: 22}}>
+                  <View>
+                    <Text>Hello World!</Text>
+
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.setModalVisible(!this.state.modalVisible);
+                      }}>
+                      <Text>Hide Modal</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </Modal>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(true);
+                }}>
+                <Text>Show Modal</Text>
+              </TouchableHighlight>
+
+
         </ScrollView>
 
 
@@ -118,6 +151,12 @@ export default class Home2 extends Component<{}> {
     else {
 
           return (
+
+
+
+
+
+
             <ScrollView
               refreshControl={
               <RefreshControl
@@ -127,7 +166,38 @@ export default class Home2 extends Component<{}> {
             }
               style={{flex: 1}} >
 
+
                 <Text style={{ fontSize: 25, textAlign: 'center'} }>This is when user flag is true</Text>
+
+                  <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                      alert('Modal has been closed.');
+                    }}>
+                    <View style={{marginTop: 22}}>
+                      <View>
+                        <Text>Hello World!</Text>
+
+                        <TouchableHighlight
+                          onPress={() => {
+                            this.setModalVisible(!this.state.modalVisible);
+                          }}>
+                          <Text>Hide Modal</Text>
+                        </TouchableHighlight>
+                      </View>
+                    </View>
+                  </Modal>
+
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(true);
+                    }}>
+                    <Text>Show Modal</Text>
+                  </TouchableHighlight>
+
+
 
             </ScrollView>
 
