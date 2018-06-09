@@ -29,10 +29,10 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {sendverifycode} from '../../server.js';
+import {sendverifycode} from '../../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
-import {ErrorCodePrase} from '../../util.js'
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -54,7 +54,7 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
 export default class Phone_Change_New_Phone_Verify_Board extends Component<{}> {

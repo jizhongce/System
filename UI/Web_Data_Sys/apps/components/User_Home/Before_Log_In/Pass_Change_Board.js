@@ -29,9 +29,9 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {phonechangelogin} from '../../server.js';
+import {changepassgetphone} from '../../../server.js';
 import React, { Component } from 'react';
-import {ErrorCodePrase} from '../../util.js'
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -53,20 +53,19 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
-export default class Phone_Change_Board extends Component<{}> {
+export default class Pass_Change_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '手机修改',
+    title: '密码修改',
   };
 
   constructor(props) {
     super(props);
     this.state = {text: '',
                   username: '123',
-                  password: '123',
                   InputStyle: {
                     marginTop: 20,
                     height: '50%',
@@ -85,33 +84,21 @@ export default class Phone_Change_Board extends Component<{}> {
     });
   }
 
-  passwordHandler(text){
-    this.setState({
-      password: text
-    });
-  }
-
-  phone_change_log_in(){
-    phonechangelogin(this.state.username,this.state.password,(response) =>{
-      const phone_change_log_in_status_code = response["StatusCode"]
+  pass_change_get_phone(){
+    changepassgetphone(this.state.username,(response) =>{
+      const change_pass_get_phone_status_code = response["StatusCode"]
       const statusText = response["ResponseText"]
-      if (phone_change_log_in_status_code == 200) {
-        this.props.navigation.navigate('Phone_Change_Phone_Verify_Board',{
+      if (change_pass_get_phone_status_code == 200) {
+        this.props.navigation.navigate('Pass_Change_Phone_Verify_Board',{
           PhoneNum : statusText,
         });
       }
-      else if (phone_change_log_in_status_code == 603) {
-        this.props.navigation.navigate('Phone_Change_New_Phone_Board',{
-          Id : statusText,
-        });
-
-      }
       else {
-        var errormsg = ErrorCodePrase(phone_change_log_in_status_code)[1]
+        var errormsg = ErrorCodePrase(change_pass_get_phone_status_code)[1]
 
-        var title = ErrorCodePrase(phone_change_log_in_status_code)[0]
+        var title = ErrorCodePrase(change_pass_get_phone_status_code)[0]
 
-        console.log(ErrorCodePrase(phone_change_log_in_status_code))
+        console.log(ErrorCodePrase(change_pass_get_phone_status_code))
 
         Alert.alert(
             title,
@@ -135,13 +122,6 @@ export default class Phone_Change_Board extends Component<{}> {
             <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.usernameHandler(text)}  autoCapitalize='none' />
           </View>
 
-          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'green'}}>
-            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
-              密码：
-            </Text>
-            <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.passwordHandler(text)} autoCapitalize='none'  secureTextEntry={true} />
-          </View>
-
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
 
             <View style={{
@@ -156,7 +136,7 @@ export default class Phone_Change_Board extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={(e)=> { this.phone_change_log_in(e)} }>
+            <TouchableOpacity onPress={(e)=> { this.pass_change_get_phone(e)} }>
               <Text style={{ fontSize: 25, textAlign: 'center'} }>提     交</Text>
             </TouchableOpacity>
 

@@ -29,9 +29,10 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {changepassgetphone} from '../../server.js';
+import {sendverifycode} from '../../../server.js';
 import React, { Component } from 'react';
-import {ErrorCodePrase} from '../../util.js'
+import DropdownAlert from 'react-native-dropdownalert';
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -53,52 +54,32 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
-export default class Pass_Change_Board extends Component<{}> {
+export default class Phone_Change_Phone_Verify_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '密码修改',
+    title: '修改手机验证',
   };
 
   constructor(props) {
     super(props);
-    this.state = {text: '',
-                  username: '123',
-                  InputStyle: {
-                    marginTop: 20,
-                    height: '50%',
-                    width: '50%',
-                    borderWidth: 2,
-                    borderRadius: 10,
-                  }
-
-                  };
+    this.state = {code: '123'};
   }
 
-
-  usernameHandler(text){
-    this.setState({
-      username: text
-    });
-  }
-
-  pass_change_get_phone(){
-    changepassgetphone(this.state.username,(response) =>{
-      const change_pass_get_phone_status_code = response["StatusCode"]
+  send_verify_code(e, phonenum){
+    sendverifycode(phonenum, this.state.code, (response) =>{
+      const verify_status_code = response["StatusCode"]
       const statusText = response["ResponseText"]
-      if (change_pass_get_phone_status_code == 200) {
-        this.props.navigation.navigate('Pass_Change_Phone_Verify_Board',{
-          PhoneNum : statusText,
-        });
-      }
-      else {
-        var errormsg = ErrorCodePrase(change_pass_get_phone_status_code)[1]
+      console.log(response)
+      if (verify_status_code != 200) {
 
-        var title = ErrorCodePrase(change_pass_get_phone_status_code)[0]
+        var errormsg = ErrorCodePrase(verify_status_code)[1]
 
-        console.log(ErrorCodePrase(change_pass_get_phone_status_code))
+        var title = ErrorCodePrase(verify_status_code)[0]
+
+        console.log(ErrorCodePrase(verify_status_code))
 
         Alert.alert(
             title,
@@ -108,18 +89,45 @@ export default class Pass_Change_Board extends Component<{}> {
           ],
         )
       }
+
+      else {
+        console.log(statusText)
+        this.props.navigation.navigate('Phone_Change_New_Phone_Board',{
+          Id : statusText,
+        });
+      }
     });
   }
 
+  codeHandler(text){
+    this.setState({
+      code: text
+    });
+  }
+
+
+
+
   render() {
+    const { params } = this.props.navigation.state;
+    const PhoneNum = params ? params.PhoneNum : null;
+
       return (
         <View style={{flex: 1}} >
 
-          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'green'}}>
-            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
-              用户名：
+
+          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'lightblue'}}>
+            <Text style={{width:120, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
+              验证码：
             </Text>
-            <TextInput style={ this.state.InputStyle }  onChangeText = {(text) => this.usernameHandler(text)}  autoCapitalize='none' />
+            <TextInput style={{
+              marginTop: 20,
+              height: '50%',
+              width: '50%',
+              borderWidth: 2,
+              borderRadius: 10,
+
+            }}  onChangeText = {(text) => this.codeHandler(text)} autoCapitalize='none' />
           </View>
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
@@ -136,7 +144,7 @@ export default class Pass_Change_Board extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={(e)=> { this.pass_change_get_phone(e)} }>
+            <TouchableOpacity onPress={(e)=> { this.send_verify_code(e,PhoneNum)} }>
               <Text style={{ fontSize: 25, textAlign: 'center'} }>提     交</Text>
             </TouchableOpacity>
 
@@ -161,7 +169,7 @@ export default class Pass_Change_Board extends Component<{}> {
             }}>
 
 
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>{this.state.text}</Text>
+            <Text style={{ fontSize: 25, textAlign: 'center'} }>{PhoneNum}</Text>
 
 
             </View>

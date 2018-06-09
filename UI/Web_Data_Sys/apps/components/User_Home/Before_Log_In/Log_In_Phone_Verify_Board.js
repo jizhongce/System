@@ -29,10 +29,10 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {sendverifycode} from '../../server.js';
+import {sendverifycode} from '../../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
-import {ErrorCodePrase} from '../../util.js'
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -55,13 +55,13 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
-export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
+export default class Log_In_Phone_Verify_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '注册手机验证',
+    title: '登录手机验证',
   };
 
   constructor(props) {
@@ -73,6 +73,7 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
     sendverifycode(phonenum, this.state.code, (response) =>{
       const verify_status_code = response["StatusCode"]
       const User_ID = response["ResponseText"]
+
       console.log(response)
       if (verify_status_code != 200) {
 
@@ -100,6 +101,8 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
           // AsyncStorage End
         });
 
+
+
       }
     });
   }
@@ -116,6 +119,7 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
   render() {
     const { params } = this.props.navigation.state;
     const PhoneNum = params ? params.PhoneNum : null;
+    console.log(PhoneNum)
 
       return (
         <View style={{flex: 1}} >

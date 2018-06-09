@@ -29,9 +29,10 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {changephone} from '../../server.js';
+import {sendverifycode} from '../../../server.js';
 import React, { Component } from 'react';
-import {ErrorCodePrase} from '../../util.js'
+import DropdownAlert from 'react-native-dropdownalert';
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -43,7 +44,8 @@ import {
   TouchableOpacity,
   TabBarIOS,
   Button,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -53,53 +55,32 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
-export default class Phone_Change_New_Phone_Board extends Component<{}> {
+export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '新手机',
+    title: '注册手机验证',
   };
 
   constructor(props) {
     super(props);
-    this.state = {text: '',
-                  phonenum: '123',
-                  InputStyle: {
-                    marginTop: 20,
-                    height: '50%',
-                    width: '50%',
-                    borderWidth: 2,
-                    borderRadius: 10,
-                  }
-
-                  };
+    this.state = {code: '123'};
   }
 
+  send_verify_code(e, phonenum){
+    sendverifycode(phonenum, this.state.code, (response) =>{
+      const verify_status_code = response["StatusCode"]
+      const User_ID = response["ResponseText"]
+      console.log(response)
+      if (verify_status_code != 200) {
 
-  phonenumHandler(text){
-    this.setState({
-      phonenum: text
-    });
-  }
+        var errormsg = ErrorCodePrase(verify_status_code)[1]
 
-  phone_change(e, id){
-    changephone(id, this.state.phonenum,(response) =>{
-      const phone_change_status_code = response["StatusCode"]
-      const statusText = response["ResponseText"]
+        var title = ErrorCodePrase(verify_status_code)[0]
 
-      if (phone_change_status_code == 200) {
-        this.props.navigation.navigate('Phone_Change_New_Phone_Verify_Board',{
-          PhoneNum : statusText,
-        });
-      }
-      else {
-        var errormsg = ErrorCodePrase(phone_change_status_code)[1]
-
-        var title = ErrorCodePrase(phone_change_status_code)[0]
-
-        console.log(ErrorCodePrase(phone_change_status_code))
+        console.log(ErrorCodePrase(verify_status_code))
 
         Alert.alert(
             title,
@@ -109,19 +90,40 @@ export default class Phone_Change_New_Phone_Board extends Component<{}> {
           ],
         )
       }
+
+      else {
+
+        AsyncStorage.setItem('User_ID', User_ID, () => {
+
+          this.props.navigation.navigate('User_Home');
+
+          // AsyncStorage End
+        });
+
+      }
     });
   }
 
+  codeHandler(text){
+    this.setState({
+      code: text
+    });
+  }
+
+
+
+
   render() {
     const { params } = this.props.navigation.state;
-    const Id = params ? params.Id : null;
+    const PhoneNum = params ? params.PhoneNum : null;
 
       return (
         <View style={{flex: 1}} >
 
-          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'yellow'}}>
-            <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
-              新手机：
+
+          <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'lightblue'}}>
+            <Text style={{width:120, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333', }}>
+              验证码：
             </Text>
             <TextInput style={{
               marginTop: 20,
@@ -130,7 +132,7 @@ export default class Phone_Change_New_Phone_Board extends Component<{}> {
               borderWidth: 2,
               borderRadius: 10,
 
-            }}  onChangeText = {(text) => this.phonenumHandler(text)} autoCapitalize='none' />
+            }}  onChangeText = {(text) => this.codeHandler(text)} autoCapitalize='none' />
           </View>
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
@@ -147,7 +149,7 @@ export default class Phone_Change_New_Phone_Board extends Component<{}> {
 
             }}>
 
-            <TouchableOpacity onPress={(e)=> { this.phone_change(e, Id)} }>
+            <TouchableOpacity onPress={(e)=> { this.send_verify_code(e,PhoneNum)} }>
               <Text style={{ fontSize: 25, textAlign: 'center'} }>提     交</Text>
             </TouchableOpacity>
 
@@ -172,7 +174,7 @@ export default class Phone_Change_New_Phone_Board extends Component<{}> {
             }}>
 
 
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>{Id}</Text>
+            <Text style={{ fontSize: 25, textAlign: 'center'} }>{PhoneNum}</Text>
 
 
             </View>

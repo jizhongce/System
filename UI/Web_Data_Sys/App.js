@@ -32,18 +32,25 @@ rightButton = {<TouchableOpacity>
 
 // Start from here we import the screen for user home
 import User_Home from './apps/components/User_Home/User_Home.js';
-import Favorite_Single_Product_Home from './apps/components/User_Home/Favorite_Single_Product_Home.js';
-import Log_In_Board from './apps/components/User_Home/Log_In_Board.js';
-import Sign_Up_Board from './apps/components/User_Home/Sign_Up_Board.js';
-import Pass_Change_Board from './apps/components/User_Home/Pass_Change_Board.js';
-import Phone_Change_Board from './apps/components/User_Home/Phone_Change_Board.js';
-import Sign_Up_Phone_Verify_Board from './apps/components/User_Home/Sign_Up_Phone_Verify_Board.js';
-import Log_In_Phone_Verify_Board from './apps/components/User_Home/Log_In_Phone_Verify_Board.js';
-import Pass_Change_Phone_Verify_Board from './apps/components/User_Home/Pass_Change_Phone_Verify_Board.js';
-import Pass_Change_New_Pass_Board from './apps/components/User_Home/Pass_Change_New_Pass_Board.js';
-import Phone_Change_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_Phone_Verify_Board.js';
-import Phone_Change_New_Phone_Board from './apps/components/User_Home/Phone_Change_New_Phone_Board.js';
-import Phone_Change_New_Phone_Verify_Board from './apps/components/User_Home/Phone_Change_New_Phone_Verify_Board.js';
+
+// After_Log_In
+import Favorite_Single_Product_Home from './apps/components/User_Home/After_Log_In/Favorite_Single_Product_Home.js';
+import Favorite_Products_List from './apps/components/User_Home/After_Log_In/Favorite_Products_List.js';
+import Address_Book from './apps/components/User_Home/After_Log_In/Address_Book.js';
+import Order_List from './apps/components/User_Home/After_Log_In/Order_List.js';
+
+// Before_Log_In
+import Log_In_Board from './apps/components/User_Home/Before_Log_In/Log_In_Board.js';
+import Sign_Up_Board from './apps/components/User_Home/Before_Log_In/Sign_Up_Board.js';
+import Pass_Change_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_Board.js';
+import Phone_Change_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_Board.js';
+import Sign_Up_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Sign_Up_Phone_Verify_Board.js';
+import Log_In_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Log_In_Phone_Verify_Board.js';
+import Pass_Change_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_Phone_Verify_Board.js';
+import Pass_Change_New_Pass_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_New_Pass_Board.js';
+import Phone_Change_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_Phone_Verify_Board.js';
+import Phone_Change_New_Phone_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_New_Phone_Board.js';
+import Phone_Change_New_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_New_Phone_Verify_Board.js';
 
 // Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
@@ -76,8 +83,14 @@ import NavigationBar from 'react-native-navbar';
 
 const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
-  Log_In_Board: { screen: Log_In_Board },
+
+
   Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },
+  Favorite_Products_List: { screen: Favorite_Products_List },
+  Order_List: { screen: Order_List },
+  Address_Book: { screen: Address_Book },
+
+  Log_In_Board: { screen: Log_In_Board },
   Sign_Up_Board: { screen: Sign_Up_Board },
   Pass_Change_Board: { screen: Pass_Change_Board },
   Phone_Change_Board: { screen: Phone_Change_Board },

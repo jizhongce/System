@@ -29,10 +29,10 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {signup} from '../../server.js';
+import {signup} from '../../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
-import {ErrorCodePrase} from '../../util.js'
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -54,7 +54,7 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
 export default class Sign_Up_Board extends Component<{}> {

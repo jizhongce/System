@@ -29,10 +29,10 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {sendverifycode} from '../../server.js';
+import {sendverifycode} from '../../../server.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
-import {ErrorCodePrase} from '../../util.js'
+import {ErrorCodePrase} from '../../../util.js'
 import {
   Platform,
   StyleSheet,
@@ -54,13 +54,13 @@ const NavTitle = {
 }
 
 const NavLeftButton = {
-  icon: require('../../../img/platform3.png')
+  icon: require('../../../../img/platform3.png')
 }
 
-export default class Phone_Change_Phone_Verify_Board extends Component<{}> {
+export default class Pass_Change_Phone_Verify_Board extends Component<{}> {
 
   static navigationOptions = {
-    title: '修改手机验证',
+    title: '修改密码手机验证',
   };
 
   constructor(props) {
@@ -92,7 +92,7 @@ export default class Phone_Change_Phone_Verify_Board extends Component<{}> {
 
       else {
         console.log(statusText)
-        this.props.navigation.navigate('Phone_Change_New_Phone_Board',{
+        this.props.navigation.navigate('Pass_Change_New_Pass_Board',{
           Id : statusText,
         });
       }

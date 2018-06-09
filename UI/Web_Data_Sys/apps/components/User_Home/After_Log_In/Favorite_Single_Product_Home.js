@@ -29,8 +29,8 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {getAllproducts, addToshoppingcart, addTofavoriteproduct, checkfavoriteexist, deleteFromfavoriteproduct, getsingleproductinfo} from '../../server.js';
-import {ErrorCodePrase, FavoriteExistStyle} from '../../util.js';
+import {getAllproducts, addToshoppingcart, addTofavoriteproduct, checkfavoriteexist, deleteFromfavoriteproduct, getsingleproductinfo} from '../../../server.js';
+import {ErrorCodePrase, FavoriteExistStyle} from '../../../util.js';
 import React, { Component } from 'react';
 import DropdownAlert from 'react-native-dropdownalert';
 import {

@@ -488,6 +488,62 @@ componentWillMount(){
 
               </View>
 
+
+              {/* Favorite Product List  */}
+              <View style={{
+                backgroundColor:'grey',
+                flex: 0.15,
+                marginTop: 25,
+                borderWidth: 2,
+                justifyContent: 'center',
+                borderRadius: 10
+              }}>
+
+              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Favorite_Products_List')}>
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>Favorite Product List</Text>
+              </TouchableOpacity>
+
+              </View>
+
+              {/*end  */}
+
+
+              {/* Order List  */}
+              <View style={{
+                backgroundColor:'grey',
+                flex: 0.15,
+                marginTop: 25,
+                borderWidth: 2,
+                justifyContent: 'center',
+                borderRadius: 10
+              }}>
+
+              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Order_List')}>
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>Order List</Text>
+              </TouchableOpacity>
+
+
+              </View>
+
+              {/*end  */}
+
+
+              {/* Address Book  */}
+              <View style={{
+                backgroundColor:'grey',
+                flex: 0.15,
+                marginTop: 25,
+                borderWidth: 2,
+                justifyContent: 'center',
+                borderRadius: 10
+              }}>
+
+              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Address_Book')}>
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>Address Book</Text>
+              </TouchableOpacity>
+
+              </View>
+
               {/*end  */}
 
 
