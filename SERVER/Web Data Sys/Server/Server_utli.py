@@ -1550,6 +1550,79 @@ def Get_User_Order(USER_ID):
 # End of the Get_User_Order function
 
 
+
+# Start of the Get_Single_Order function
+
+def Get_Single_Order(Order_ID):
+    '''
+    This is the function which will get the order info in the database
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID FROM Orders WHERE Orders.Order_ID = \'{}\';'.format(Order_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
+        Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Time": str(Order_Time)}
+
+        QUERYSQL = ('SELECT Address_ID, Street, City, Province, Post_Code FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        if QUERYLIST:
+            (Address_ID, Street, City, Province, Post_Code) = QUERYLIST[0]
+            Shipping_Info = {"Address_ID": Address_ID, "Street": Street, "City": City, "Province": Province, 'Post_Code': Post_Code}
+
+            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Spec, Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Order_ID))
+
+            CURSOR.execute(QUERYSQL)
+
+            QUERYLIST = CURSOR.fetchall()
+
+            Product_List = list()
+
+            if QUERYLIST:
+                for product in QUERYLIST:
+                    (Product_ID, Product_Spec, Product_Price, Product_Units) = product
+                    Product_List.append({"Product_ID": Product_ID, "Product_Spec": Product_Spec, "Product_Price": Product_Price, "Product_Units": Product_Units})
+
+                Order_Info = {"Basic_Info": Basic_Info, "Shipping_Info": Shipping_Info, "Product_List": Product_List}
+                DATA = Order_Info
+
+            else:
+                STATUS = ErrorCode.ORDER_PRODUCTS_ERROR
+                DATA = 0
+
+        else:
+            STATUS = ErrorCode.ORDER_SHIPPING_ADDRESS_ERROR
+            DATA = 0
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_ORDER_EXIST_ERROR
+        DATA = 0
+
+
+    return(STATUS, DATA)
+
+
+# End of the Get_Single_Order function
+
+
 # Start of the Get_Address_Book function
 
 def Get_Address_Book(USER_ID):

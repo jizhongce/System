@@ -36,7 +36,7 @@ rightButton = {<TouchableOpacity>
 */
 import React, { Component } from 'react';
 import {ErrorCodePrase} from '../../../util.js';
-import {getuserprofile, getfavoriteproduct, getuserorder} from '../../../server.js';
+import {getuserorder} from '../../../server.js';
 import {
   Platform,
   StyleSheet,
@@ -133,12 +133,19 @@ Refresh_Order_List(){
             title,
             errormsg,
             [
-              {text: 'OK', style: 'cancel'},
+              {text: 'OK', onPress: ()=>{
+                AsyncStorage.removeItem('User_ID', (error) => {
+                  if (error) {
+                    console.log(error);
+                  }
+
+                  this.props.navigation.navigate('User_Home');
+
+                });
+
+              }},
             ],
           )
-
-          this.sign_out()
-
 
         }
 
@@ -192,7 +199,7 @@ componentWillMount(){
            {
              this.state.Order_List.map((order, i) => {
                return(
-                 <TouchableOpacity key={i}>
+                 <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Single_Order', { Order_ID : order.Order_ID})}>
                  <View style={{
                      flex: 0.15,
                      marginTop: 25,
@@ -219,246 +226,6 @@ componentWillMount(){
        </ScrollView>
 
      )
-
-    // if (this.state.User_Flag == false) {
-    //   return (
-    //     <ScrollView style={{flex: 1}} >
-    //
-    //
-    //       <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //         <View style={{
-    //
-    //           marginTop: 25,
-    //           height: '50%',
-    //           width: '60%',
-    //           left: '85%',
-    //           borderWidth: 2,
-    //           justifyContent: 'center',
-    //           borderRadius: 10,
-    //
-    //         }}>
-    //
-    //         <TouchableOpacity onPress={() => this.props.navigation.navigate('Log_In_Board')}>
-    //           <Text style={{ fontSize: 25, textAlign: 'center'} }>登     录</Text>
-    //         </TouchableOpacity>
-    //
-    //         </View>
-    //
-    //       </View>
-    //
-    //       <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //         <View style={{
-    //
-    //           marginTop: 25,
-    //           height: '50%',
-    //           width: '60%',
-    //           left: '85%',
-    //           borderWidth: 2,
-    //           justifyContent: 'center',
-    //           borderRadius: 10,
-    //
-    //         }}>
-    //
-    //         <TouchableOpacity onPress={() => this.props.navigation.navigate('Sign_Up_Board')}>
-    //           <Text style={{ fontSize: 25, textAlign: 'center'} }>注     册</Text>
-    //         </TouchableOpacity>
-    //
-    //         </View>
-    //
-    //       </View>
-    //
-    //       <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //         <View style={{
-    //
-    //           marginTop: 25,
-    //           height: '50%',
-    //           width: '60%',
-    //           left: '85%',
-    //           borderWidth: 2,
-    //           justifyContent: 'center',
-    //           borderRadius: 10,
-    //
-    //         }}>
-    //
-    //         <TouchableOpacity onPress={() => this.props.navigation.navigate('Pass_Change_Board')}>
-    //           <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 密 码</Text>
-    //         </TouchableOpacity>
-    //
-    //         </View>
-    //
-    //       </View>
-    //
-    //       <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //         <View style={{
-    //
-    //           marginTop: 25,
-    //           height: '50%',
-    //           width: '60%',
-    //           left: '85%',
-    //           borderWidth: 2,
-    //           justifyContent: 'center',
-    //           borderRadius: 10,
-    //
-    //         }}>
-    //
-    //         <TouchableOpacity onPress={() => this.props.navigation.navigate('Phone_Change_Board')}>
-    //           <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 手 机</Text>
-    //         </TouchableOpacity>
-    //
-    //         </View>
-    //
-    //       </View>
-    //
-    //     </ScrollView>
-    //
-    //
-    //   );
-    //
-    // }
-    // else {
-    //
-    //       return (
-    //         <ScrollView
-    //           refreshControl={
-    //           <RefreshControl
-    //             refreshing = {this.state.Refreshing_Flag}
-    //             onRefresh={this.User_Home_On_Refresh.bind(this)}
-    //           />
-    //         }
-    //           style={{flex: 1}} >
-    //
-    //
-    //
-    //           {/*start  */}
-    //
-    //           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //               <Text style={{ fontSize: 25, textAlign: 'center'} }>User ID: {this.state.User_Profile.User_ID}</Text>
-    //
-    //           </View>
-    //
-    //           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //               <Text style={{ fontSize: 25, textAlign: 'center'} }>First Name: {this.state.User_Profile.First_Name}</Text>
-    //
-    //           </View>
-    //
-    //           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //               <Text style={{ fontSize: 25, textAlign: 'center'} }>Last Name: {this.state.User_Profile.Last_Name}</Text>
-    //
-    //           </View>
-    //
-    //           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //               <Text style={{ fontSize: 25, textAlign: 'center'} }>Level: {this.state.User_Profile.Level}</Text>
-    //
-    //           </View>
-    //
-    //           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-    //
-    //             <View style={{
-    //
-    //               marginTop: 25,
-    //               height: '50%',
-    //               width: '60%',
-    //               left: '85%',
-    //               borderWidth: 2,
-    //               justifyContent: 'center',
-    //               borderRadius: 10,
-    //
-    //             }}>
-    //
-    //             <TouchableOpacity onPress={()=> { this.sign_out()} }>
-    //               <Text style={{ fontSize: 25, textAlign: 'center'} }>Sign Out</Text>
-    //               </TouchableOpacity>
-    //
-    //             </View>
-    //
-    //           </View>
-    //
-    //           <View style={{backgroundColor:'green'}}>
-    //             <Text style={{ fontSize: 25, textAlign: 'center'} }>Favorite Product</Text>
-    //
-    //             {
-    //               this.state.Favorite_Products.map((product, i) => {
-    //                 return(
-    //                 <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Favorite_Single_Product_Home', { Product_ID : product.Product_ID, Product_Spec : product.Product_Spec})}>
-    //                   <View style={{
-    //                       flex: 0.15,
-    //                       marginTop: 25,
-    //                       borderWidth: 2,
-    //                       justifyContent: 'center',
-    //                       borderRadius: 10,
-    //
-    //                     }}>
-    //                     <Text>key : {i}</Text>
-    //                     <Text>ID : {product.Product_ID}</Text>
-    //                     <Text>Status : {product.Product_Status}</Text>
-    //                     <Text>Specification : {product.Product_Spec}</Text>
-    //                     <Text>Price : {product.Product_Price}</Text>
-    //                   </View>
-    //                 </TouchableOpacity>
-    //
-    //
-    //                 );
-    //               })
-    //             }
-    //           </View>
-    //
-
-    //
-    //           <View style={{
-    //             backgroundColor:'grey',
-    //             flex: 0.15,
-    //             marginTop: 25,
-    //             borderWidth: 2,
-    //             justifyContent: 'center',
-    //             borderRadius: 10
-    //           }}>
-    //             <TouchableOpacity >
-    //               <Text style={{ fontSize: 25, textAlign: 'center'} }>Address Book</Text>
-    //             </TouchableOpacity>
-    //             {/*  {
-    //                 this.state.Order_List.map((order, i) => {
-    //                   return(
-    //
-    //                     <View key={i} style={{
-    //                         flex: 0.15,
-    //                         marginTop: 25,
-    //                         borderWidth: 2,
-    //                         justifyContent: 'center',
-    //                         borderRadius: 10,
-    //
-    //                       }}>
-    //                       <Text>key : {i}</Text>
-    //                       <Text>ID : {order.Order_ID}</Text>
-    //                       <Text>Status : {order.Order_Status}</Text>
-    //                       <Text>Order Time : {order.Order_Time}</Text>
-    //                       <Text>Address : {order.Order_Shipping_Address_ID}</Text>
-    //                     </View>
-    //
-    //
-    //                   );
-    //                 })
-    //               }
-    //               */}
-    //           </View>
-    //
-    //           {/*end  */}
-    //
-    //
-    //
-    //         </ScrollView>
-    //
-    //
-    //       );
-    //
-    // }
 
 
   }
