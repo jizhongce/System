@@ -1672,3 +1672,205 @@ def Delete_From_Favorite_Product(USER_ID, PRODUCT_ID):
 
 
 # End of the Delete_From_Favorite_Product function
+
+
+
+# Start of create Address ID
+
+def CreateAddressID():
+    '''
+    This is function to create unique shopping cart id
+    '''
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    while True:
+        AddressID = uuid.uuid4()
+
+        QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\' ').format(AddressID)
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        if not QUERYLIST:
+            break
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(str(AddressID))
+
+
+# End of create Address ID
+
+
+
+
+
+# Start of the Add_New_Address function
+
+def Add_New_Address(USER_ID, NEW_ADDRESS):
+    '''
+    This will add the new address into the address
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    New_Address_ID = CreateAddressID()
+
+    New_Address_Street = NEW_ADDRESS['Street']
+
+    New_Address_Province = NEW_ADDRESS['Province']
+
+    New_Address_City = NEW_ADDRESS['City']
+
+    New_Address_Post_Code = NEW_ADDRESS['Post_Code']
+
+    QUERYSQL = ('INSERT INTO Address(Address_ID, Street, City, Province, Post_Code) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Address_ID, New_Address_Street, New_Address_City, New_Address_Province, New_Address_Post_Code))
+
+    CURSOR.execute(QUERYSQL)
+
+    CONNECTIONS.commit()
+
+    QUERYSQL = ('INSERT INTO Address_User(User_ID, Address_ID) VALUE (\'{}\', \'{}\');'.format(USER_ID, New_Address_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of the Add_New_Address function
+
+
+
+# Start of the Delete_Address function
+
+def Delete_Address(USER_ID, ADDRESS_ID):
+    '''
+    This will delete the address into the address
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Address, Address_User WHERE Address_User.Address_ID = \'{}\' AND Address_User.Address_ID = Address.Address_ID AND Address_User.User_ID = \'{}\' ;'.format(ADDRESS_ID, USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        QUERYSQL = ('DELETE FROM Address_User WHERE User_ID = \'{}\' AND Address_ID = \'{}\';'.format(USER_ID, ADDRESS_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        CONNECTIONS.commit()
+
+        QUERYSQL = ('DELETE FROM Address WHERE Address_ID = \'{}\';'.format(ADDRESS_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        CONNECTIONS.commit()
+
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_USER_IN_ADDRESS_ERROR
+
+        CURSOR.close()
+
+        CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of the Delete_Address function
+
+
+# Start of the Edit_Address function
+
+def Edit_Address(USER_ID, NEW_ADDRESS):
+    '''
+    This will change address into the address
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    Address_ID = NEW_ADDRESS['Address_ID']
+
+    Address_Street = NEW_ADDRESS['Street']
+
+    Address_Province = NEW_ADDRESS['Province']
+
+    Address_City = NEW_ADDRESS['City']
+
+    Address_Post_Code = NEW_ADDRESS['Post_Code']
+
+    QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\';'.format(Address_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        QUERYSQL = ('UPDATE Address SET Street = \'{}\', City = \'{}\', Province = \'{}\', Post_Code = \'{}\' WHERE Address_ID = \'{}\';'.format(Address_Street, Address_City, Address_Province, Address_Post_Code, Address_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        CONNECTIONS.commit()
+
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_ADDRESS_ERROR
+
+        CURSOR.close()
+
+        CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of the Edit_Address function

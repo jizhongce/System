@@ -445,3 +445,63 @@ export function getaddressbook(User_ID, cb){
     cb(responseDict);
   });
 }
+
+
+export function addnewaddress(User_ID, New_Address, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/add_new_address", true);
+  var body = {User_ID: User_ID, New_Address: New_Address};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+export function deleteaddress(User_ID, Address_ID, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/delete_address", true);
+  var body = {User_ID: User_ID, Address_ID: Address_ID};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+export function editaddress(User_ID, New_Address, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/edit_address", true);
+  var body = {User_ID: User_ID, New_Address: New_Address};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}

@@ -46,7 +46,9 @@ import {
   AsyncStorage,
   RefreshControl,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  Picker,
+  FlatList
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
@@ -58,7 +60,9 @@ export default class Home2 extends Component<{}> {
     this.state = {
       Indicate_Flag : false,
       refreshing : false,
-      modalVisible: false
+      modalVisible: false,
+      language: '',
+      index: ''
     };
   }
 
@@ -130,6 +134,21 @@ export default class Home2 extends Component<{}> {
                       }}>
                       <Text>Hide Modal</Text>
                     </TouchableHighlight>
+
+                    <Picker
+                      selectedValue={this.state.language}
+                      style={{ height: 20, width: 100 }}
+                      onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue, index: itemIndex})}>
+                      <Picker.Item label="Java" value="java" />
+                      <Picker.Item label="JavaScript1" value="js" />
+                      <Picker.Item label="JavaScript2" value="js" />
+                      <Picker.Item label="JavaScript3" value="js" />
+                      <Picker.Item label="JavaScript4" value="js" />
+                      <Picker.Item label="JavaScript5" value="js" />
+                      <Picker.Item label="JavaScript6" value="js" />
+
+                    </Picker>
+
                   </View>
                 </View>
               </Modal>
