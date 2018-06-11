@@ -6,6 +6,16 @@ from random import randint
 import passlib.hash
 import re
 import ErrorCode
+import datetime
+
+#
+
+# This is method to create a new date and time with string format
+
+def CreateTimeNOW():
+    return(datetime.datetime.now().isoformat(timespec='seconds').replace('T', ' '))
+
+
 
 
 # This is urlParse function
@@ -1947,3 +1957,81 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
 
 
 # End of the Edit_Address function
+
+
+
+
+
+# Start of create Order id
+
+def CreateOrderID():
+    '''
+    This is function to create unique Order id
+    '''
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    while True:
+        OrderID = uuid.uuid4()
+
+        QUERYSQL = ('SELECT * FROM Orders WHERE Order_ID = \'{}\' ').format(OrderID)
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        if not QUERYLIST:
+            break
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(str(OrderID))
+
+
+# End of create Order id
+
+
+
+#
+# # Start of the Submit_Order function
+#
+# def Submit_Order(USER_ID, NEW_ADDRESS):
+#     '''
+#     This will submit the new order into the address
+#     There are couple things need to be done
+#     1. Create new order ID CreateOrderID
+#     2. Create new time CreateTimeNOW
+#     3.
+#
+#     '''
+#     STATUS = ErrorCode.SUCCESS_CODE
+#
+#     DATA = 0
+#
+#     CONNECTIONS = mysql.connector.connect(user='root',
+#     password='jizhongce123',
+#     host='127.0.0.1',
+#     database='Web_Data')
+#
+#     CURSOR = CONNECTIONS.cursor(buffered=True)
+#
+#
+#     CURSOR.close()
+#
+#     CONNECTIONS.commit()
+#
+#     CONNECTIONS.close()
+#
+#     return(STATUS, DATA)
+#
+#
+# # End of the Submit_Order function

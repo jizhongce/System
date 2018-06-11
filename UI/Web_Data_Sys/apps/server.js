@@ -506,6 +506,29 @@ export function editaddress(User_ID, New_Address, cb){
   });
 }
 
+
+// 
+// export function submitorder(User_ID, Shopping_Cart, cb){
+//   var xhr = new XMLHttpRequest();
+//   xhr.open("POST", "http://localhost:8080/submit_order", true);
+//   var body = {User_ID: User_ID, Shopping_Cart: Shopping_Cart};
+//
+//   console.log(body);
+//
+//   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+//
+//   xhr.send(JSON.stringify(body));
+//
+//   xhr.addEventListener('load', function() {
+//     var statusCode = xhr.status;
+//     var statusText = xhr.statusText;
+//     var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+//     cb(responseDict);
+//   });
+// }
+
+
+
 export function getsingleorder(Order_ID, cb){
   var xhr = new XMLHttpRequest();
   // Next create a parameters

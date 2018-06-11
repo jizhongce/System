@@ -171,7 +171,7 @@ export default class Sign_Up_Board extends Component<{}> {
               borderWidth: 2,
               borderRadius: 10,
 
-            }}  onChangeText = {(text) => this.phonenumHandler(text)} autoCapitalize='none' />
+            }} keyboardType={'phone-pad'} onChangeText = {(text) => this.phonenumHandler(text)} autoCapitalize='none' />
           </View>
 
 

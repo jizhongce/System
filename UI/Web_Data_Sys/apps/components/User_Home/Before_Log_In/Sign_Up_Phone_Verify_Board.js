@@ -132,7 +132,7 @@ export default class Sign_Up_Phone_Verify_Board extends Component<{}> {
               borderWidth: 2,
               borderRadius: 10,
 
-            }}  onChangeText = {(text) => this.codeHandler(text)} autoCapitalize='none' />
+            }} keyboardType={'phone-pad'} onChangeText = {(text) => this.codeHandler(text)} autoCapitalize='none' />
           </View>
 
           <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>

@@ -135,6 +135,18 @@ export function ErrorCodePrase(code) {
 }
 
 
+export function ShoppingCartAddressExistStyle(Address_Info_Flag) {
+  if (Address_Info_Flag == true) {
+
+    return({display: 'none'})
+
+  } else {
+    return({})
+  }
+
+}
+
+
 export function FavoriteExistStyle(Existed) {
   if (Existed == true) {
 
