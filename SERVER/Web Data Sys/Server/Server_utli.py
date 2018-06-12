@@ -1842,6 +1842,8 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
     CONNECTIONS.close()
 
+    DATA = {"Address_ID" : New_Address_ID, "Street" : New_Address_Street, "Province" : New_Address_Province, "City" : New_Address_City, "Post_Code" : New_Address_Post_Code}
+
     return(STATUS, DATA)
 
 
@@ -2001,37 +2003,87 @@ def CreateOrderID():
 
 
 
-#
-# # Start of the Submit_Order function
-#
-# def Submit_Order(USER_ID, NEW_ADDRESS):
-#     '''
-#     This will submit the new order into the address
-#     There are couple things need to be done
-#     1. Create new order ID CreateOrderID
-#     2. Create new time CreateTimeNOW
-#     3.
-#
-#     '''
-#     STATUS = ErrorCode.SUCCESS_CODE
-#
-#     DATA = 0
-#
-#     CONNECTIONS = mysql.connector.connect(user='root',
-#     password='jizhongce123',
-#     host='127.0.0.1',
-#     database='Web_Data')
-#
-#     CURSOR = CONNECTIONS.cursor(buffered=True)
-#
-#
-#     CURSOR.close()
-#
-#     CONNECTIONS.commit()
-#
-#     CONNECTIONS.close()
-#
-#     return(STATUS, DATA)
-#
-#
-# # End of the Submit_Order function
+
+# Start of the Submit_Order function
+
+def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
+    '''
+    This will submit the new order into the address
+    There are couple things need to be done
+    1. Create new order ID CreateOrderID
+    2. Create new time CreateTimeNOW
+    3. Insert into the order table
+    4. Insert into the order user table
+    5. Insert into the order product table
+    6. Clear the Shopping_Cart table
+
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    New_Order_ID = CreateOrderID()
+
+    New_Time = CreateTimeNOW()
+
+    Order_Status = 1
+
+    Order_Shipping_Address_ID = SHIPPING_ADDRESS['Address_ID']
+
+    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, New_Time, Order_Shipping_Address_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    CONNECTIONS.commit()
+
+    QUERYSQL = ('INSERT INTO Orders_User(User_ID, Order_ID) VALUE (\'{}\', \'{}\');'.format(USER_ID, New_Order_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    CONNECTIONS.commit()
+
+    for Product in SHOPPING_CART:
+        Temp_Prodcut_ID = Product['Product_ID']
+        Temp_Prodcut_Units = Product['Product_Units']
+        QUERYSQL = ('INSERT INTO Orders_Products(Order_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Temp_Prodcut_ID, Temp_Prodcut_Units))
+
+        CURSOR.execute(QUERYSQL)
+
+    QUERYSQL = ('SELECT User_ID, Shopping_Cart_ID FROM Shopping_Cart_User WHERE User_ID = \'{}\' ;'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (User_ID, Shopping_Cart_ID) = QUERYLIST[0]
+
+        QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\';'.format(Shopping_Cart_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        DATA = New_Order_ID
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_SHOPPING_CART_ERROR
+        DATA = 0
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+
+    return(STATUS, DATA)
+
+
+# End of the Submit_Order function

@@ -222,6 +222,11 @@ export function GetCityForProvince(Province_Value){
       {key: '常州', Value: 'changzhou'},
     ])
   }
+  else if (Province_Value == 'shanghai') {
+    return([
+      {key: '上海市', Value: 'shanghai'},
+    ])
+  }
   else {
     return([{key: Province_Value}])
   }

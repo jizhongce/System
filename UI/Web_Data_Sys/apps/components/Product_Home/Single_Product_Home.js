@@ -578,6 +578,7 @@ export default class Single_Product_Home extends Component<{}> {
         </TouchableOpacity>
 
         <TextInput
+          keyboardType={'phone-pad'}
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder={String(this.state.quantity)}
           placeholderTextColor="black"

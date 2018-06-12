@@ -710,22 +710,25 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(DATA).encode())
 
 
-        # 
-        # elif URL_PATH == '/submit_order':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #
-        #     USER_ID = USER_DATA['User_ID']
-        #     SHOPPING_CART = USER_DATA['Shopping_Cart']
-        #
-        #     # print(SHOPPING_CART)
-        #
-        #     (STATUS_CODE, DATA) = Submit_Order(USER_ID, SHOPPING_CART)
-        #
-        #     # print(DATA)
-        #
-        #     # self.send_response(STATUS_CODE)
-        #     # self.end_headers()
-        #     # self.wfile.write(json.dumps(DATA).encode())
+
+        elif URL_PATH == '/submit_order':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            SHOPPING_CART = USER_DATA['Shopping_Cart']
+            SHIPPING_ADDRESS = USER_DATA['Shipping_Address']
+
+            print(USER_ID)
+            print(SHOPPING_CART)
+            print(SHIPPING_ADDRESS)
+
+            (STATUS_CODE, DATA) = Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
 
 
         return
