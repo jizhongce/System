@@ -209,7 +209,7 @@ componentWillMount(){
            {
              this.state.Favorite_Products.map((product, i) => {
                return(
-                 <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Favorite_Single_Product_Home', { Product_ID : product.Product_ID, Product_Spec : product.Product_Spec})}>
+                 <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('Favorite_Single_Product_Home', { Products_ID : product.Products_ID, Products_Name : product.Products_Name})}>
                    <View style={{
                        flex: 0.15,
                        marginTop: 25,
@@ -218,11 +218,15 @@ componentWillMount(){
                        borderRadius: 10,
 
                      }}>
+
                      <Text>key : {i}</Text>
-                     <Text>ID : {product.Product_ID}</Text>
-                     <Text>Status : {product.Product_Status}</Text>
-                     <Text>Specification : {product.Product_Spec}</Text>
-                     <Text>Price : {product.Product_Price}</Text>
+                     <Text>ID : {product.Products_ID}</Text>
+                     <Text>Name : {product.Products_Name}</Text>
+                     <Text>Number : {product.Products_Number}</Text>
+                     <Text>Specification : {product.Products_Spec}</Text>
+                     <Text>Color : {product.Products_Color}</Text>
+                     <Text>Status : {product.Products_Status}</Text>
+                     <Text>Price : {product.Products_Price}</Text>
                    </View>
                  </TouchableOpacity>
 

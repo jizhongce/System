@@ -35,8 +35,8 @@ rightButton = {<TouchableOpacity>
 
 */
 import React, { Component } from 'react';
-import {ErrorCodePrase, PraseCityValue, PraseProvinceValue} from '../../../util.js';
-import {getsingleorder} from '../../../server.js';
+import {ErrorCodePrase, PraseCityValue, PraseProvinceValue, OrderStatusCheck} from '../../util.js';
+import {getsingleorder} from '../../server.js';
 import {
   Platform,
   StyleSheet,
@@ -56,14 +56,13 @@ import {
 import NavigationBar from 'react-native-navbar';
 
 
-export default class Single_Order extends Component<{}> {
+export default class Order_Confirmation extends Component<{}> {
 
 
   static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
 
     return {
-      title: params ? params.Order_ID : 'error',
+      title: 'Confirmation',
     }
 
   };
@@ -167,6 +166,7 @@ Refresh_Single_Order(){
 
 
 
+
           }
 
           //  End of getuserorder
@@ -193,6 +193,7 @@ Single_Order_On_Refresh(){
   () => {this.Refresh_Single_Order()}
 );
 }
+
 
 
 Show_Payment_Due_Amount(Order_Total_Price){
@@ -237,53 +238,60 @@ Show_Payment_Due_Amount(Order_Total_Price){
 }
 
 
+Payment_Method_Check(Payment_Method){
+  if (Payment_Method == 0) {
+
+    return(
+
+      <View>
+
+        <Text style={{ fontSize: 25, textAlign: 'center', backgroundColor:'white'} }>Please Choose the Payment method:</Text>
+
+
+          <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
+            <Text style={{fontSize: 25, textAlign: 'center'} }>Transfer</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
+            <Text style={{fontSize: 25, textAlign: 'center'} }>Alipay</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
+            <Text style={{fontSize: 25, textAlign: 'center'} }>WeChatPay</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
+            <Text style={{fontSize: 25, textAlign: 'center'} }>ApplePay</Text>
+          </TouchableOpacity>
+
+      </View>
+    )
+
+  } else {
+
+    return(
+      <View>
+
+          <Text style={{ fontSize: 25, textAlign: 'center', backgroundColor:'white'} }>Payment method: {Payment_Method}</Text>
+
+      </View>
+    )
+
+  }
+}
+
+
 OrderStatusCheck(Order_Status, Payment_Method) {
   if (Order_Status == 1) {
 
-    if (Payment_Method == 0) {
-
-      return(
-        <View>
-
-          <Text style={{ fontSize: 25, textAlign: 'center', backgroundColor:'white'} }>Please Choose the Payment method:</Text>
+    this.Show_Payment_Due_Amount(this.state.Order_Basic_Info.Order_Total_Price);
+    this.Payment_Method_Check(Payment_Method);
 
 
-            <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
-              <Text style={{fontSize: 25, textAlign: 'center'} }>Transfer</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
-              <Text style={{fontSize: 25, textAlign: 'center'} }>Alipay</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
-              <Text style={{fontSize: 25, textAlign: 'center'} }>WeChatPay</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{marginTop:10, marginBottom:10, borderWidth: 2, borderRadius: 10}}>
-              <Text style={{fontSize: 25, textAlign: 'center'} }>ApplePay</Text>
-            </TouchableOpacity>
-
-        </View>
-      )
-
-    } else {
-
-      return(
-        <View>
-
-            <Text style={{ fontSize: 25, textAlign: 'center', backgroundColor:'white'} }>Payment method: {Payment_Method}</Text>
-
-        </View>
-      )
-
-    }
 
   }
 
 }
-
-
 
 
 
@@ -376,7 +384,6 @@ componentWillMount(){
                        borderRadius: 10,
 
                      }}>
-
                      <Text>key : {i}</Text>
                      <Text>ID : {product.Products_ID}</Text>
                      <Text>Name : {product.Products_Name}</Text>
@@ -394,12 +401,10 @@ componentWillMount(){
          </View>
 
          {
-           this.Show_Payment_Due_Amount(this.state.Order_Basic_Info.Order_Total_Price)
-         }
-
-         {
            this.OrderStatusCheck(this.state.Order_Basic_Info.Order_Status, this.state.Order_Basic_Info.Order_Payment_Method_Status)
          }
+
+
 
        </ScrollView>
 

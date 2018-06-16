@@ -55,6 +55,11 @@ import NavigationBar from 'react-native-navbar';
 export default class Shopping_Cart_Home extends Component<{}> {
 
 
+  static navigationOptions = {
+    header: null,
+}
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -272,17 +277,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
   Shopping_Cart_Quantity_Plus(Product){
 
-    if (Product.Product_Units >= Product.Product_Status) {
-
-      Alert.alert(
-          'Sorry',
-          'Requested quantity larger than status! ',
-        [
-          {text: 'OK', style: 'cancel'},
-        ],
-      )
-
-    } else {
 
       AsyncStorage.getItem('User_ID', (err, result) => {
         var User_ID = result
@@ -320,8 +314,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
         else {
           const TempProduct = {
-            Product_ID : Product.Product_ID,
-            Product_Units : Product.Product_Units + 1
+            Products_ID : Product.Products_ID,
+            Products_Units : Product.Products_Units + 1
           }
 
           shoppingcartquantitychange(User_ID, TempProduct, (response) =>{
@@ -360,7 +354,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       });
 
-    }
 
     // End of Shopping_Cart_Quantity_Plus
   }
@@ -369,7 +362,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
   Shopping_Cart_Quantity_Minus(Product){
 
-    if (Product.Product_Units < 1) {
+    if (Product.Products_Units < 1) {
 
       Alert.alert(
           'Sorry',
@@ -380,7 +373,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
       )
 
     }
-    else if (Product.Product_Units == 1 ) {
+    else if (Product.Products_Units == 1 ) {
 
       // here we need to delete the product
       Alert.alert(
@@ -433,8 +426,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
         else {
           const TempProduct = {
-            Product_ID : Product.Product_ID,
-            Product_Units : Product.Product_Units - 1
+            Products_ID : Product.Products_ID,
+            Products_Units : Product.Products_Units - 1
           }
 
           shoppingcartquantitychange(User_ID, TempProduct, (response) =>{
@@ -514,9 +507,9 @@ export default class Shopping_Cart_Home extends Component<{}> {
       }
 
       else {
-        const Product_ID = Product.Product_ID
+        const Products_ID = Product.Products_ID
 
-        deletefromshoppingcart(User_ID, Product_ID, (response) =>{
+        deletefromshoppingcart(User_ID, Products_ID, (response) =>{
 
           const delete_from_shopping_cart_code = response["StatusCode"]
 
@@ -915,7 +908,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               'Your Order : ' + Order_ID + ' has been submitted! \n Next you will be directed to payments!',
               [
                 {text: 'OK', style: 'cancel', onPress: () =>{
-                  this.Refresh_Shopping_Cart()
+                  this.props.navigation.navigate('Order_Confirmation', { Order_ID : Order_ID})
                 }},
               ],
             )
@@ -982,30 +975,60 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       var Shopping_Cart_Confirm = ''
 
+      var Warning_Flag = false
+
+      var Warning_Message = 'The products: \n'
+
       console.log(Shopping_Cart_Product_List.length);
 
       for (var Product in Shopping_Cart_Product_List) {
         var TempProduct = Shopping_Cart_Product_List[Product]
+        if (TempProduct.Products_Status == 0) {
+          Warning_Flag = true
+          Warning_Message = Warning_Message + TempProduct.Products_Name + '\n'
+        }
         console.log(Shopping_Cart_Product_List[Product]);
         console.log('\n');
-        Shopping_Cart_Confirm = Shopping_Cart_Confirm + TempProduct.Product_Spec + ':' + TempProduct.Product_Units + '\n' + '----------' + '\n'
+        Shopping_Cart_Confirm = Shopping_Cart_Confirm + TempProduct.Products_Name + ':' + TempProduct.Products_Units + '\n' + '----------' + '\n'
 
       }
+
+      Warning_Message = Warning_Message + 'has no stock, it may takes few days for delievery'
+
+      Total_Price = this.Calculate_Total_Price(Shopping_Cart_Product_List)
+
+      Shopping_Cart_Confirm = Shopping_Cart_Confirm + 'Total Price: ' + Total_Price + '\n'
 
       const Shipping_Info = Shipping_Address_Info.Address_ID + '\n' + Shipping_Address_Info.Street + '\n' + Shipping_Address_Info.City + '\n' + Shipping_Address_Info.Province + '\n' + Shipping_Address_Info.Post_Code + '\n'
 
       console.log(Shopping_Cart_Confirm);
+
       Alert.alert(
         'Watch Out!',
-        'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm + 'Shipping Detail: \n' + Shipping_Info,
+        Warning_Message,
         [
           {text: 'Cancel', style: 'cancel'},
           {text: 'Confirm', onPress: ()=>{
-            this.Submit_Order(Shopping_Cart_Product_List, Shipping_Address_Info);
+
+                  Alert.alert(
+                    'Watch Out!',
+                    'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm + ' \n Shipping Detail: \n' + Shipping_Info,
+                    [
+                      {text: 'Cancel', style: 'cancel'},
+                      {text: 'Confirm', onPress: ()=>{
+                        this.Submit_Order(Shopping_Cart_Product_List, Shipping_Address_Info);
+                      } },
+
+                    ],
+                  )
+
+
           } },
 
         ],
       )
+
+
 
 
     }
@@ -1013,6 +1036,75 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
     // End of Submit_Order_On_Press
   }
+
+  // Next function will help calculate the total price of the shopping cart
+  Calculate_Total_Price(Shopping_Cart_Product_List){
+    Total_Price = 0
+    for (var Product in Shopping_Cart_Product_List) {
+      var TempProduct = Shopping_Cart_Product_List[Product]
+      console.log(Shopping_Cart_Product_List[Product]);
+      console.log('\n');
+      Total_Price = Total_Price + TempProduct.Products_Units*TempProduct.Products_Price
+
+    }
+
+    return(Total_Price)
+  }
+
+
+  // Next function will show the total price of the shopping cart
+
+  Show_Total_Price(Shopping_Cart_Product_List){
+    if (Shopping_Cart_Product_List.length > 0) {
+      Total_Price = this.Calculate_Total_Price(Shopping_Cart_Product_List)
+
+      return(
+
+        <View style={{
+          flex: 0.2,
+          marginTop: 25,
+          borderWidth: 2,
+          justifyContent: 'center',
+          borderRadius: 10,
+
+        }}>
+          <Text style={{ fontSize: 25, textAlign: 'center'} }>Total Price: {Total_Price} </Text>
+        </View>
+
+
+      )
+
+    }
+  }
+
+  // Next function will show the Deposit price of the shopping cart
+
+  Show_Deposit_Price(Shopping_Cart_Product_List){
+    if (Shopping_Cart_Product_List.length > 0) {
+      Total_Price = this.Calculate_Total_Price(Shopping_Cart_Product_List)
+
+      if (Total_Price > 50000) {
+        return(
+
+          <View style={{
+            flex: 0.2,
+            marginTop: 25,
+            borderWidth: 2,
+            justifyContent: 'center',
+            borderRadius: 10,
+
+          }}>
+            <Text style={{ fontSize: 25, textAlign: 'center'} }>Deposit Price: {Total_Price*0.2} </Text>
+          </View>
+
+
+        )
+
+      }
+
+    }
+  }
+
 
 
   componentWillMount(){
@@ -1033,8 +1125,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
     if (this.state.User_Flag == false) {
       return (
         <ScrollView style={{flex: 1}} >
-
-
 
           {/*start  */}
 
@@ -1074,8 +1164,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
               style={{flex: 1}}>
 
 
-
-
               {/*start  */}
               <Text style={{ fontSize: 25, textAlign: 'center', marginTop: 25,} }>Product List</Text>
               {
@@ -1085,36 +1173,44 @@ export default class Shopping_Cart_Home extends Component<{}> {
                       flex: 0.2,
                       marginTop: 25,
                       borderWidth: 2,
-                      justifyContent: 'center',
                       borderRadius: 10,
+                      justifyContent: 'center',
+
 
                     }}>
-                      <Text>key : {i}</Text>
-                      <Text>ID : {product.Product_ID}</Text>
-                      <Text>Specification : {product.Product_Spec}</Text>
-                      <Text>Price : {product.Product_Price}</Text>
-                      <Text>Status : {product.Product_Status}</Text>
-                      <Text>Units :
 
-                        <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Minus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
-                          <Text style={{fontSize: 25} }>-</Text>
-                        </TouchableOpacity>
+                    <Text>key : {i}</Text>
+                    <Text>ID : {product.Products_ID}</Text>
+                    <Text>Name : {product.Products_Name}</Text>
+                    <Text>Number : {product.Products_Number}</Text>
+                    <Text>Specification : {product.Products_Spec}</Text>
+                    <Text>Color : {product.Products_Color}</Text>
+                    <Text>Status : {product.Products_Status}</Text>
+                    <Text>Price : {product.Products_Price}</Text>
+                    <Text>Units :
 
-                        {product.Product_Units}
-
-                        <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Plus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}}>
-                          <Text style={{fontSize: 25} }>+</Text>
-                        </TouchableOpacity>
-
-                      </Text>
-                      <TouchableOpacity onPress = {() => this.Delete_Item_On_Press(product)}>
-                        <Text style={{fontSize: 25} }>Delete Item</Text>
+                      <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Minus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
+                        <Text style={{fontSize: 25} }>-</Text>
                       </TouchableOpacity>
+
+                      {product.Products_Units}
+
+                      <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Plus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}}>
+                        <Text style={{fontSize: 25} }>+</Text>
+                      </TouchableOpacity>
+
+                    </Text>
+                    <TouchableOpacity onPress = {() => this.Delete_Item_On_Press(product)}>
+                      <Text style={{fontSize: 25} }>Delete Item</Text>
+                    </TouchableOpacity>
                     </View>
                   );
                 })
               }
               {/*end  */}
+
+              {this.Show_Total_Price(this.state.Shopping_Cart_Product_List)}
+              {this.Show_Deposit_Price(this.state.Shopping_Cart_Product_List)}
 
               {/* Here is the address selection which will be represented by the Modal */}
 

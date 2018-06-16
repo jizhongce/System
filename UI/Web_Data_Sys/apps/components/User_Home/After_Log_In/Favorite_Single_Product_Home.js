@@ -57,7 +57,7 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
     const { params } = navigation.state;
 
     return {
-      title: params ? params.Product_Spec : 'error',
+      title: params ? params.Products_Name : 'error',
     }
 
   };
@@ -81,10 +81,10 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
 
   add_To_favorite_product(){
     const TempProduct = {
-      Product_ID : this.state.product.Product_ID,
-      Product_Price : this.state.product.Product_Price,
-      Product_Spec : this.state.product.Product_Spec,
-      Product_Status : this.state.product.Product_Status
+      Product_ID : this.state.product.Products_ID,
+      Product_Price : this.state.product.Products_Price,
+      Product_Spec : this.state.product.Products_Spec,
+      Product_Status : this.state.product.Products_Status
 
     }
 
@@ -172,12 +172,13 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
 
   }
 
+
   delete_From_favorite_product(){
     const TempProduct = {
-      Product_ID : this.state.product.Product_ID,
-      Product_Price : this.state.product.Product_Price,
-      Product_Spec : this.state.product.Product_Spec,
-      Product_Status : this.state.product.Product_Status
+      Product_ID : this.state.product.Products_ID,
+      Product_Price : this.state.product.Products_Price,
+      Product_Spec : this.state.product.Products_Spec,
+      Product_Status : this.state.product.Products_Status
 
     }
 
@@ -268,38 +269,12 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
 
   add_To_shopping_cart(){
     const TempProduct = {
-      ProductID : this.state.product.Product_ID,
-      ProductStatus : this.state.product.Product_Status,
-      ProductSpec : this.state.product.Product_Spec,
-      ProductPrice : this.state.product.Product_Price,
+      ProductID : this.state.product.Products_ID,
+      ProductStatus : this.state.product.Products_Status,
+      ProductSpec : this.state.product.Products_Spec,
+      ProductPrice : this.state.product.Products_Price,
       ProductUnits : this.state.quantity
     }
-
-    if (TempProduct.ProductStatus <= 0 ) {
-
-      Alert.alert(
-          'Sorry',
-          'The item has sold out, please wait for more coming',
-        [
-          {text: 'OK', style: 'cancel'},
-        ],
-      )
-
-    }
-
-    else if (TempProduct.ProductStatus > 0 && TempProduct.ProductStatus < TempProduct.ProductUnits) {
-
-      Alert.alert(
-          'Sorry',
-          'The item has no such high storage, please enter smaller amount',
-        [
-          {text: 'OK', style: 'cancel'},
-        ],
-      )
-
-    }
-
-    else {
 
       // console.log(TempProduct);
 
@@ -345,7 +320,7 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
 
                   Alert.alert(
                     'Success!',
-                    'Item' + this.state.product.Product_ID + 'has been added!',
+                    'Item' + this.state.product.Products_ID + 'has been added!',
                     [
                       {text: 'OK', style: 'cancel'},
                     ],
@@ -382,16 +357,12 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
       });
 
 
-    }
-
-
-
   }
 
 
   Favorite_Single_Product_Home_Refresh(){
     const { params } = this.props.navigation.state;
-    const Product_ID = params ? params.Product_ID : null;
+    const Product_ID = params ? params.Products_ID : null;
 
     if (Product_ID != null) {
       getsingleproductinfo(Product_ID, (response) =>{
@@ -495,19 +466,10 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
 
     Favorite_Single_Product_Home_Plus(){
 
-      if (this.state.quantity >= this.state.product.Product_Status) {
-        Alert.alert(
-            'Sorry',
-            'Requested quantity larger than status! ',
-          [
-            {text: 'OK', style: 'cancel'},
-          ],
-        )
-      } else {
         this.setState({
           quantity : this.state.quantity + 1
         });
-      }
+        
     }
 
 
@@ -569,10 +531,13 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
           borderRadius: 10,
 
         }}>
-        <Text>ID : {this.state.product.Product_ID}</Text>
-        <Text>Status : {this.state.product.Product_Status}</Text>
-        <Text>Specification : {this.state.product.Product_Spec}</Text>
-        <Text>Price : {this.state.product.Product_Price}</Text>
+        <Text>ID : {this.state.product.Products_ID}</Text>
+        <Text>Name : {this.state.product.Products_Name}</Text>
+        <Text>Number : {this.state.product.Products_Number}</Text>
+        <Text>Specification : {this.state.product.Products_Spec}</Text>
+        <Text>Color : {this.state.product.Products_Color}</Text>
+        <Text>Status : {this.state.product.Products_Status}</Text>
+        <Text>Price : {this.state.product.Products_Price}</Text>
 
         <TouchableOpacity onPress = {() => this.Favorite_Single_Product_Home_Plus()} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
           <Text style={{fontSize: 25} }>+</Text>

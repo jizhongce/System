@@ -211,6 +211,8 @@ componentWillMount(){
                    <Text>key : {i}</Text>
                    <Text>ID : {order.Order_ID}</Text>
                    <Text>Status : {order.Order_Status}</Text>
+                   <Text>Payment Method : {order.Order_Payment_Method_Status}</Text>
+                   <Text>Total Price : {order.Order_Total_Price}</Text>
                    <Text>Order Time : {order.Order_Time}</Text>
                    <Text>Address : {order.Order_Shipping_Address_ID}</Text>
                  </View>

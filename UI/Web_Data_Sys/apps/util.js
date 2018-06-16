@@ -73,7 +73,9 @@ const Province_Dict = {
 
 
 
-
+export const Product_Image = {
+  'Product_1' : require('../img/product1.jpg')
+}
 
 
 

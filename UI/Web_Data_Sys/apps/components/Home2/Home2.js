@@ -52,178 +52,103 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
+import Status_Bar from '../../Status_Bar.js';
+
+
+class Product_Home_Header extends React.Component {
+  render() {
+    return (
+      <View>
+
+        <Status_Bar />
+
+        <View style={{
+            height: 50,
+            backgroundColor: 'white',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }} >
+
+          <View >
+            <TouchableOpacity>
+              <Text style={{marginLeft:5}}>搜索</Text>
+            </TouchableOpacity>
+          </View>
+
+
+
+          <View >
+          <Text>产品列表</Text>
+          </View>
+
+          <View >
+            <TouchableOpacity>
+              <Text style={{marginRight:5}}>Message</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+
+      </View>
+
+    );
+  }
+}
+
+
+
 export default class Home2 extends Component<{}> {
+
+  static navigationOptions = {
+    header: null,
+}
 
 
   constructor(props) {
     super(props);
     this.state = {
-      Indicate_Flag : false,
-      refreshing : false,
-      modalVisible: false,
-      language: '',
-      index: ''
+
     };
-  }
-
-  cancelicon(){
-    this.setState({
-      refreshing : false
-    });
-  }
-
-  RefreshInfo1(){
-    this.setState({
-      Indicate_Flag: true,
-      refreshing : true
-    },
-    () => {this.cancelicon()}
-  );
-  }
-
-  RefreshInfo2(){
-    this.setState({
-      Indicate_Flag: false,
-      refreshing : true
-    },
-    () => {this.cancelicon()}
-  );
-  }
-
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
-
-  componentWillMount(){
-    this.props.navigation.addListener('willFocus', ()=>{
-      this.setState({
-        Indicate_Flag: false,
-        refreshing : false
-      });
-    });
-
   }
 
 
   render() {
-    if (this.state.Indicate_Flag == false) {
-      return (
-        <ScrollView
-          refreshControl={
-          <RefreshControl
-            refreshing = {this.state.refreshing}
-            onRefresh={this.RefreshInfo1.bind(this)}
-          />
-        }
-          style={{flex: 1}} >
 
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>This is when user flag is false</Text>
-
-              <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                >
-                <View style={{marginTop: 22}}>
-                  <View>
-                    <Text>Hello World!</Text>
-
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible);
-                      }}>
-                      <Text>Hide Modal</Text>
-                    </TouchableHighlight>
-
-                    <Picker
-                      selectedValue={this.state.language}
-                      style={{ height: 20, width: 100 }}
-                      onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue, index: itemIndex})}>
-                      <Picker.Item label="Java" value="java" />
-                      <Picker.Item label="JavaScript1" value="js" />
-                      <Picker.Item label="JavaScript2" value="js" />
-                      <Picker.Item label="JavaScript3" value="js" />
-                      <Picker.Item label="JavaScript4" value="js" />
-                      <Picker.Item label="JavaScript5" value="js" />
-                      <Picker.Item label="JavaScript6" value="js" />
-
-                    </Picker>
-
-                  </View>
-                </View>
-              </Modal>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(true);
-                }}>
-                <Text>Show Modal</Text>
-              </TouchableHighlight>
+    return(
 
 
-        </ScrollView>
+      <ScrollView >
 
 
-      );
 
-    }
-    else {
+        {/*start  */}
 
-          return (
+        <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+
+
+          
+        </View>
 
 
 
 
 
 
-            <ScrollView
-              refreshControl={
-              <RefreshControl
-                refreshing = {this.state.refreshing}
-                onRefresh={this.RefreshInfo2.bind(this)}
-              />
-            }
-              style={{flex: 1}} >
-
-
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>This is when user flag is true</Text>
-
-                  <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                      alert('Modal has been closed.');
-                    }}>
-                    <View style={{marginTop: 22}}>
-                      <View>
-                        <Text>Hello World!</Text>
-
-                        <TouchableHighlight
-                          onPress={() => {
-                            this.setModalVisible(!this.state.modalVisible);
-                          }}>
-                          <Text>Hide Modal</Text>
-                        </TouchableHighlight>
-                      </View>
-                    </View>
-                  </Modal>
-
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalVisible(true);
-                    }}>
-                    <Text>Show Modal</Text>
-                  </TouchableHighlight>
 
 
 
-            </ScrollView>
+        {/*end  */}
 
 
 
-          );
+      </ScrollView>
 
-    }
+
+
+
+
+
+    )
   }
 }

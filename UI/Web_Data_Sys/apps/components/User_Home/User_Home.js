@@ -36,6 +36,7 @@ rightButton = {<TouchableOpacity>
 */
 import React, { Component } from 'react';
 import {getuserprofile, getfavoriteproduct, getuserorder} from '../../server.js';
+import {ErrorCodePrase} from '../../util.js';
 import {
   Platform,
   StyleSheet,

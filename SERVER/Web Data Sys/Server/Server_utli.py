@@ -1046,8 +1046,8 @@ def Get_All_Products():
 
     if QUERYLIST:
         for product in QUERYLIST:
-            (ProductID, ProductStatus, ProductSpec, ProductPrice) = product
-            Product_List.append({"ProductID": ProductID, "ProductStatus": ProductStatus, "ProductSpec": ProductSpec, "ProductPrice": ProductPrice})
+            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
+            Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir})
 
     CURSOR.close()
 
@@ -1086,8 +1086,8 @@ def Get_Single_Product_Info(Product_ID):
     QUERYLIST = CURSOR.fetchall()
 
     if QUERYLIST:
-        (ProductID, ProductStatus, ProductSpec, ProductPrice) = QUERYLIST[0]
-        DATA = {"Product_ID": ProductID, "Product_Status": ProductStatus, "Product_Spec": ProductSpec, "Product_Price": ProductPrice}
+        (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = QUERYLIST[0]
+        DATA = {"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir}
 
     else:
         STATUS = ErrorCode.NO_SUCH_PRODUCT_ERROR
@@ -1122,7 +1122,7 @@ def Get_Shopping_Cart(userid):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Status, Products.Products_Spec, Products.Products_Price, Shopping_Cart.Products_Units FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Shopping_Cart.Products_Units FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1132,9 +1132,8 @@ def Get_Shopping_Cart(userid):
 
     if QUERYLIST:
         for product in QUERYLIST:
-            (ProductID, ProductStatus, ProductSpec, ProductPrice, ProductUnits) = product
-            Product_List.append({"Product_ID": ProductID, "Product_Status": ProductStatus, "Product_Spec": ProductSpec, "Product_Price": ProductPrice, "Product_Units": ProductUnits})
-
+            (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, ProductUnits) = product
+            Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir, "Products_Units": ProductUnits})
 
     CURSOR.close()
 
@@ -1174,8 +1173,8 @@ def Shopping_Cart_Quantity_Change(userid, product):
 
     if QUERYLIST:
         (Shopping_Cart_ID,) = QUERYLIST[0]
-        Product_ID = product['Product_ID']
-        Product_Units = product['Product_Units']
+        Product_ID = product['Products_ID']
+        Product_Units = product['Products_Units']
         print(Shopping_Cart_ID)
         print(Product_ID)
         print(Product_Units)
@@ -1492,7 +1491,7 @@ def Get_Favorite_Product(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Price, Products.Products_Spec, Products.Products_Status FROM Products, Favorite_Products WHERE Favorite_Products.Products_ID = Products.Products_ID AND User_ID = \'{}\';'.format(USER_ID))
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Products.Products_Status, Products.Products_Price, Products.Products_Image_Dir FROM Products, Favorite_Products WHERE Favorite_Products.Products_ID = Products.Products_ID AND User_ID = \'{}\';'.format(USER_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1502,8 +1501,8 @@ def Get_Favorite_Product(USER_ID):
 
     if QUERYLIST:
         for product in QUERYLIST:
-            (Product_ID, Product_Price, Product_Spec, Product_Status) = product
-            Favorite_Product_List.append({"Product_ID": Product_ID, "Product_Price": Product_Price, "Product_Spec": Product_Spec, "Product_Status": Product_Status})
+            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
+            Favorite_Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir})
 
         DATA = Favorite_Product_List
 
@@ -1535,7 +1534,7 @@ def Get_User_Order(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\';'.format(USER_ID))
+    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method_Status, Orders.Order_Total_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\';'.format(USER_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1545,8 +1544,8 @@ def Get_User_Order(USER_ID):
 
     if QUERYLIST:
         for order in QUERYLIST:
-            (Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID) = order
-            Orders.append({"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Time": str(Order_Time), "Order_Shipping_Address_ID": Order_Shipping_Address_ID})
+            (Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = order
+            Orders.append({"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method_Status":Order_Payment_Method_Status, "Order_Total_Price" : Order_Total_Price, "Order_Time": str(Order_Time), "Order_Shipping_Address_ID": Order_Shipping_Address_ID})
 
         DATA = Orders
 
@@ -1578,15 +1577,15 @@ def Get_Single_Order(Order_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID FROM Orders WHERE Orders.Order_ID = \'{}\';'.format(Order_ID))
+    QUERYSQL = ('SELECT Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID FROM Orders WHERE Orders.Order_ID = \'{}\';'.format(Order_ID))
 
     CURSOR.execute(QUERYSQL)
 
     QUERYLIST = CURSOR.fetchall()
 
     if QUERYLIST:
-        (Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
-        Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Time": str(Order_Time)}
+        (Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
+        Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method_Status": Order_Payment_Method_Status, "Order_Total_Price":Order_Total_Price, "Order_Time": str(Order_Time)}
 
         QUERYSQL = ('SELECT Address_ID, Street, City, Province, Post_Code FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
 
@@ -1598,7 +1597,7 @@ def Get_Single_Order(Order_ID):
             (Address_ID, Street, City, Province, Post_Code) = QUERYLIST[0]
             Shipping_Info = {"Address_ID": Address_ID, "Street": Street, "City": City, "Province": Province, 'Post_Code': Post_Code}
 
-            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Spec, Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Order_ID))
+            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Order_ID))
 
             CURSOR.execute(QUERYSQL)
 
@@ -1608,8 +1607,8 @@ def Get_Single_Order(Order_ID):
 
             if QUERYLIST:
                 for product in QUERYLIST:
-                    (Product_ID, Product_Spec, Product_Price, Product_Units) = product
-                    Product_List.append({"Product_ID": Product_ID, "Product_Spec": Product_Spec, "Product_Price": Product_Price, "Product_Units": Product_Units})
+                    (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Product_Price, Products_Image_Dir, Product_Units) = product
+                    Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir, "Products_Units": Product_Units})
 
                 Order_Info = {"Basic_Info": Basic_Info, "Shipping_Info": Shipping_Info, "Product_List": Product_List}
                 DATA = Order_Info
@@ -2035,9 +2034,19 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
 
     Order_Status = 1
 
+    Order_Payment_Method_Status = 0
+
     Order_Shipping_Address_ID = SHIPPING_ADDRESS['Address_ID']
 
-    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, New_Time, Order_Shipping_Address_ID))
+    Order_Total_Price = 0
+
+    for Product in SHOPPING_CART:
+        Temp_Prodcut_Units = Product['Products_Units']
+        Temp_Prodcut_Price = Product['Products_Price']
+        Order_Total_Price = Order_Total_Price + Temp_Prodcut_Units*Temp_Prodcut_Price
+
+
+    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, New_Time, Order_Shipping_Address_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -2050,9 +2059,10 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
     CONNECTIONS.commit()
 
     for Product in SHOPPING_CART:
-        Temp_Prodcut_ID = Product['Product_ID']
-        Temp_Prodcut_Units = Product['Product_Units']
-        QUERYSQL = ('INSERT INTO Orders_Products(Order_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Temp_Prodcut_ID, Temp_Prodcut_Units))
+        Temp_Prodcut_ID = Product['Products_ID']
+        Temp_Prodcut_Units = Product['Products_Units']
+        Temp_Prodcut_Price = Product['Products_Price']
+        QUERYSQL = ('INSERT INTO Orders_Products(Order_ID, Products_ID, Products_Units, Products_Price) VALUE (\'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Temp_Prodcut_ID, Temp_Prodcut_Units, Temp_Prodcut_Price))
 
         CURSOR.execute(QUERYSQL)
 
