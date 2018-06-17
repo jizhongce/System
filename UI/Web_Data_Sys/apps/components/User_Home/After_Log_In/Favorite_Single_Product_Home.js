@@ -581,14 +581,14 @@ export default class Favorite_Single_Product_Home extends Component<{}> {
                   <Text>商品编号: {this.state.product.Products_Number} </Text>
                 </View>
 
-                {/*This is when product exist in the favorite list */}
+                {/*This is when product not exist in the favorite list */}
                 <TouchableOpacity activeOpacity={0.5} style={FavoriteExistStyle(this.state.favorite_exist)} onPress = {() => this.add_To_favorite_product()}>
-                  <Icon name='favorite-border' />
+                  <Image style={{width: 24, height: 24}} source={require('../../../../img/favorite_border.png')} />
                 </TouchableOpacity>
 
-                {/*This is when product not exist in the favorite list */}
+                {/*This is when product exist in the favorite list */}
                 <TouchableOpacity activeOpacity={0.5} style={FavoriteExistStyle(!this.state.favorite_exist)} onPress = {() => this.delete_From_favorite_product()}>
-                  <Icon name='favorite' />
+                  <Image style={{width: 24, height: 24}} source={require('../../../../img/favorite.png')} />
                 </TouchableOpacity>
 
 
