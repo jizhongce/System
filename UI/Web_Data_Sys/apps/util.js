@@ -273,6 +273,31 @@ export function AddNewAddressCheck(Province_Value, City_Value, Street_Value, Pos
 
 }
 
+export class DropDownHolder {
+    static dropDown;
+
+    static setDropDown(dropDown) {
+        this.dropDown = dropDown;
+    }
+
+    static getDropDown() {
+        return this.dropDown;
+    }
+}
+
+
+
+export function StockStatusCheck(Product_Status) {
+  if (Product_Status == 1) {
+    return('有库存')
+  }
+
+  else{
+    return('无库存，需订货')
+  }
+
+}
+
 
 export function CreateParametersForRequest(Parameter_Name, Parameter) {
   return(Parameter_Name + "=" +  Parameter)

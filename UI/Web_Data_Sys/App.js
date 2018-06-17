@@ -63,8 +63,11 @@ import Order_Confirmation from './apps/components/Shopping_Cart_Home/Order_Confi
 
 import Home2 from './apps/components/Home2/Home2.js';
 
+import {DropDownHolder} from './apps/util.js';
+
 
 import {TabNavigator, StackNavigator} from 'react-navigation';
+import DropdownAlert from 'react-native-dropdownalert';
 
 import {login} from './apps/server.js';
 import React, { Component } from 'react';
@@ -123,7 +126,7 @@ const Home2_Stack = StackNavigator({
 });
 
 
-export default TabNavigator({
+const Tap_Nav = TabNavigator({
   Product_Home_Stack: {
     screen: Product_Home_Stack,
     navigationOptions: { tabBarLabel:  'Product'  },
@@ -143,7 +146,16 @@ export default TabNavigator({
 }
 );
 
-
+export default class App extends Component<{}> {
+    render() {
+        return (
+            <View style={{width: '100%', height: '100%'}}>
+                <Tap_Nav/>
+                <DropdownAlert ref={(ref) => DropDownHolder.setDropDown(ref)}/>
+            </View>
+        )
+    }
+}
 
 // export default class App extends Component<{}> {
 //

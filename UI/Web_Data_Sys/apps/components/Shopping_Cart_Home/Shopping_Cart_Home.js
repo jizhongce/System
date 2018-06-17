@@ -1123,31 +1123,25 @@ export default class Shopping_Cart_Home extends Component<{}> {
   render() {
 
     if (this.state.User_Flag == false) {
-      return (
-        <ScrollView style={{flex: 1}} >
 
-          {/*start  */}
+      Alert.alert(
+        'Warning !',
+        'Please Sign in to see the Shopping Cart!',
+        [
+          {text: 'Confirm', onPress: ()=>{
+            this.props.navigation.navigate('User_Home');
+          } },
 
-          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
+        ],
+      )
 
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>Please log in first to see the shopping cart</Text>
+      return(
+        <View>
 
-          </View>
+        </View>
+      )
 
-
-
-
-          {/*end  */}
-
-
-
-        </ScrollView>
-
-
-      );
     }
-
-
 
 
     else {
