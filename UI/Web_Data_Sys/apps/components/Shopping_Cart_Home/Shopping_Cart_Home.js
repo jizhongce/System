@@ -85,6 +85,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
       New_City_Value: '',
       New_City_Key: '',
 
+      New_Address_Name_Value: '',
+      New_Address_Phone_Number_Value: '',
       New_Street_Value: '',
       New_Post_Code_Value: '',
 
@@ -122,6 +124,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
           New_City_Value: '',
           New_City_Key: '',
 
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
           New_Street_Value: '',
           New_Post_Code_Value: '',
 
@@ -185,6 +189,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
                   New_City_Value: '',
                   New_City_Key: '',
 
+                  New_Address_Name_Value: '',
+                  New_Address_Phone_Number_Value: '',
                   New_Street_Value: '',
                   New_Post_Code_Value: '',
 
@@ -306,6 +312,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
             New_City_Value: '',
             New_City_Key: '',
 
+            New_Address_Name_Value: '',
+            New_Address_Phone_Number_Value: '',
             New_Street_Value: '',
             New_Post_Code_Value: '',
 
@@ -419,6 +427,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
             New_City_Value: '',
             New_City_Key: '',
 
+            New_Address_Name_Value: '',
+            New_Address_Phone_Number_Value: '',
             New_Street_Value: '',
             New_Post_Code_Value: '',
           });
@@ -501,6 +511,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
           New_City_Value: '',
           New_City_Key: '',
 
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
           New_Street_Value: '',
           New_Post_Code_Value: '',
         });
@@ -692,15 +704,28 @@ export default class Shopping_Cart_Home extends Component<{}> {
   }
 
 
+  New_Address_Name_Handler(text){
+    this.setState({
+      New_Address_Name_Value: text
+    });
+  }
+
+  New_Address_Phone_Number_Handler(text){
+    this.setState({
+      New_Address_Phone_Number_Value: text
+    });
+  }
+
+
 
   //Here is function for submit the new Address
 
   Submit_New_Address_On_Press(){
-    if (this.state.New_Province_Value == '' || this.state.New_City_Value == '' || this.state.New_Street_Value == '' ||  this.state.New_Post_Code_Value == '' || isNaN(this.state.New_Post_Code_Value) == true) {
+    if (this.state.New_Province_Value == '' || this.state.New_City_Value == '' || this.state.New_Street_Value == '' ||  this.state.New_Post_Code_Value == '' ||  this.state.New_Address_Name_Value == '' ||  this.state.New_Address_Phone_Number_Value == '' || isNaN(this.state.New_Post_Code_Value) == true ) {
 
       Alert.alert(
         'Oops',
-        AddNewAddressCheck(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value),
+        AddNewAddressCheck(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value, this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value),
         [
           {text: 'OK'},
         ],
@@ -708,7 +733,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
     } else {
 
-      const New_Address = this.state.New_Province_Value + '\n' + this.state.New_City_Value + '\n' + this.state.New_Street_Value + '\n' +  this.state.New_Post_Code_Value
+      const New_Address = this.state.New_Address_Name_Value + '\n' + this.state.New_Address_Phone_Number_Value + '\n' + this.state.New_Province_Value + '\n' + this.state.New_City_Value + '\n' + this.state.New_Street_Value + '\n' +  this.state.New_Post_Code_Value
 
       Alert.alert(
         'Watch Out!',
@@ -716,7 +741,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
         [
           {text: 'Cancel', style: 'cancel'},
           {text: 'Confirm', onPress: ()=>{
-            this.Submit_New_Address(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value)
+            this.Submit_New_Address(this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value, this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value)
           }},
 
         ],
@@ -728,7 +753,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
   // Submit new address function
-  Submit_New_Address(Province, City, Street, Post_Code){
+  Submit_New_Address(Address_Name, Address_Phone_Number, Province, City, Street, Post_Code){
     AsyncStorage.getItem('User_ID', (err, result) => {
       var User_ID = result
       console.log(User_ID);
@@ -749,6 +774,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       else {
         const New_Address = {
+          Address_Name: Address_Name,
+          Address_Phone_Number: Address_Phone_Number,
           Province: Province,
           City: City,
           Street: Street,
@@ -794,6 +821,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
                   New_City_Value: '',
                   New_City_Key: '',
 
+                  New_Address_Name_Value: '',
+                  New_Address_Phone_Number_Value: '',
                   New_Street_Value: '',
                   New_Post_Code_Value: ''
 
@@ -887,6 +916,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
           New_City_Value: '',
           New_City_Key: '',
 
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
           New_Street_Value: '',
           New_Post_Code_Value: '',
         });
@@ -999,7 +1030,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       Shopping_Cart_Confirm = Shopping_Cart_Confirm + 'Total Price: ' + Total_Price + '\n'
 
-      const Shipping_Info = Shipping_Address_Info.Address_ID + '\n' + Shipping_Address_Info.Street + '\n' + Shipping_Address_Info.City + '\n' + Shipping_Address_Info.Province + '\n' + Shipping_Address_Info.Post_Code + '\n'
+      const Shipping_Info = Shipping_Address_Info.Address_Name + '\n' + Shipping_Address_Info.Address_Phone_Number + '\n' + Shipping_Address_Info.Address_ID + '\n' + Shipping_Address_Info.Street + '\n' + Shipping_Address_Info.City + '\n' + Shipping_Address_Info.Province + '\n' + Shipping_Address_Info.Post_Code + '\n'
 
       console.log(Shopping_Cart_Confirm);
 
@@ -1163,7 +1194,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               {
                 this.state.Shopping_Cart_Product_List.map((product, i) =>{
                   return(
-                    <View key={i} style={{
+                    <TouchableOpacity key={i} style={{
                       flex: 0.2,
                       marginTop: 25,
                       borderWidth: 2,
@@ -1197,7 +1228,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
                     <TouchableOpacity onPress = {() => this.Delete_Item_On_Press(product)}>
                       <Text style={{fontSize: 25} }>Delete Item</Text>
                     </TouchableOpacity>
-                    </View>
+
+                    </TouchableOpacity>
                   );
                 })
               }
@@ -1272,6 +1304,8 @@ export default class Shopping_Cart_Home extends Component<{}> {
                           }}>
                           <Text>key : {i}</Text>
                           <Text>ID : {Address.Address_ID}</Text>
+                          <Text>Name : {Address.Address_Name}</Text>
+                          <Text>Phone : {Address.Address_Phone_Number}</Text>
                           <Text>Street : {Address.Street}</Text>
                           <Text>City : {PraseCityValue(Address.City)}</Text>
                           <Text>Province : {PraseProvinceValue(Address.Province)}</Text>
@@ -1322,6 +1356,38 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                   <Text style={{ marginTop: 10, fontSize: 25, textAlign: 'center'} }>Add New Address</Text>
 
+                  </View>
+
+                  <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+                    <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                      Name:
+                    </Text>
+                    <TextInput
+                      value = {this.state.New_Address_Name_Value}
+                      style={{
+                        marginTop: 20,
+                        height: '50%',
+                        width: '50%',
+                        borderWidth: 2,
+                        borderRadius: 10,
+
+                      }} onChangeText = {(text) => this.New_Address_Name_Handler(text)} autoCapitalize='none' />
+                  </View>
+
+                  <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+                    <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                      Phone:
+                    </Text>
+                    <TextInput
+                      value = {this.state.New_Address_Phone_Number_Value}
+                      style={{
+                        marginTop: 20,
+                        height: '50%',
+                        width: '50%',
+                        borderWidth: 2,
+                        borderRadius: 10,
+
+                      }} onChangeText = {(text) => this.New_Address_Phone_Number_Handler(text)} autoCapitalize='none' />
                   </View>
 
                   <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>

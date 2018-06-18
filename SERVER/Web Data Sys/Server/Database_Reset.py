@@ -52,8 +52,8 @@ ADD_PROFILE2 = ("INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VAL
 QUERIES.append(ADD_PROFILE1)
 QUERIES.append(ADD_PROFILE2)
 
-ADD_ADDRESS1 = ("INSERT INTO Address(Address_ID, Street, City, Province, Post_Code) VALUE (\'{}\','west street','shanghai', 'shanghai', '023333');".format(ADDRESS1))
-ADD_ADDRESS2 = ("INSERT INTO Address(Address_ID, Street, City, Province, Post_Code) VALUE (\'{}\','east street','wenzhou', 'zhejiang', '325000');".format(ADDRESS2))
+ADD_ADDRESS1 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code) VALUE (\'{}\', 'Company Name1', '15000000000', 'west street','shanghai', 'shanghai', '023333');".format(ADDRESS1))
+ADD_ADDRESS2 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code) VALUE (\'{}\', 'Company Name2', '15120012012', 'east street','wenzhou', 'zhejiang', '325000');".format(ADDRESS2))
 
 QUERIES.append(ADD_ADDRESS1)
 QUERIES.append(ADD_ADDRESS2)

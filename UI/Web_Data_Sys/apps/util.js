@@ -245,7 +245,7 @@ export function PraseProvinceValue(Province_Value){
 
 
 
-export function AddNewAddressCheck(Province_Value, City_Value, Street_Value, Post_Code_Value) {
+export function AddNewAddressCheck(Province_Value, City_Value, Street_Value, Post_Code_Value, Address_Name_Value, Address_Phone_Number_Value) {
   if (Province_Value == '') {
     return('Province Value is empty, please check again!')
   }
@@ -263,6 +263,12 @@ export function AddNewAddressCheck(Province_Value, City_Value, Street_Value, Pos
   }
   else if (Post_Code_Value == '') {
     return('Post Code Value is empty, please check again!')
+  }
+  else if (Address_Name_Value == '') {
+    return('Address Name Value is empty, please check again!')
+  }
+  else if (Address_Phone_Number_Value == '') {
+    return('Address Phone Number Value is empty, please check again!')
   }
   else if (isNaN(Post_Code_Value)) {
     return('Post Code Value has wrong schema, please check again!')

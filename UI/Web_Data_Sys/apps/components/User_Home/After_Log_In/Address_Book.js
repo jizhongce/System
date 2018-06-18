@@ -86,6 +86,8 @@ constructor(props) {
     New_City_Value: '',
     New_City_Key: '',
 
+    New_Address_Name_Value: '',
+    New_Address_Phone_Number_Value: '',
     New_Street_Value: '',
     New_Post_Code_Value: '',
 
@@ -101,6 +103,8 @@ constructor(props) {
     Edit_City_Value: '',
     Edit_City_Key: '',
 
+    Edit_Address_Name_Value: '',
+    Edit_Address_Phone_Number_Value: '',
     Edit_Street_Value: '',
     Edit_Post_Code_Value: '',
     Edit_Address_ID_Value: '',
@@ -125,7 +129,8 @@ Close_Add_New_Address_Modal(){
     New_City_Value: '',
     New_City_Key: '',
 
-
+    New_Address_Name_Value: '',
+    New_Address_Phone_Number_Value: '',
     New_Street_Value: '',
     New_Post_Code_Value: ''
   });
@@ -137,6 +142,22 @@ Close_Add_New_Address_Modal(){
 New_Street_Handler(text){
   this.setState({
     New_Street_Value: text
+  });
+}
+
+
+
+New_Address_Name_Handler(text){
+  this.setState({
+    New_Address_Name_Value: text
+  });
+}
+
+
+
+New_Address_Phone_Number_Handler(text){
+  this.setState({
+    New_Address_Phone_Number_Value: text
   });
 }
 
@@ -222,7 +243,7 @@ New_Post_Code_Handler(text){
 
 
 // Submit new address function
-Submit_New_Address(Province, City, Street, Post_Code){
+Submit_New_Address(Address_Name, Address_Phone_Number, Province, City, Street, Post_Code){
   AsyncStorage.getItem('User_ID', (err, result) => {
     var User_ID = result
     console.log(User_ID);
@@ -243,6 +264,8 @@ Submit_New_Address(Province, City, Street, Post_Code){
 
     else {
       const New_Address = {
+        Address_Name: Address_Name,
+        Address_Phone_Number: Address_Phone_Number,
         Province: Province,
         City: City,
         Street: Street,
@@ -290,11 +313,11 @@ Submit_New_Address(Province, City, Street, Post_Code){
 
 
 Submit_New_Address_On_Press(){
-  if (this.state.New_Province_Value == '' || this.state.New_City_Value == '' || this.state.New_Street_Value == '' ||  this.state.New_Post_Code_Value == '' || isNaN(this.state.New_Post_Code_Value) == true) {
+  if (this.state.New_Address_Name_Value == '' || this.state.New_Address_Phone_Number_Value == '' || this.state.New_Province_Value == '' || this.state.New_City_Value == '' || this.state.New_Street_Value == '' ||  this.state.New_Post_Code_Value == '' || isNaN(this.state.New_Post_Code_Value) == true) {
 
     Alert.alert(
       'Oops',
-      AddNewAddressCheck(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value),
+      AddNewAddressCheck(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value, this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value),
       [
         {text: 'OK'},
       ],
@@ -302,7 +325,7 @@ Submit_New_Address_On_Press(){
 
   } else {
 
-    const New_Address = this.state.New_Province_Value + '\n' + this.state.New_City_Value + '\n' + this.state.New_Street_Value + '\n' +  this.state.New_Post_Code_Value
+    const New_Address = this.state.New_Address_Name_Value + '\n' + this.state.New_Address_Phone_Number_Value + '\n'  + this.state.New_Province_Value + '\n' + this.state.New_City_Value + '\n' + this.state.New_Street_Value + '\n' +  this.state.New_Post_Code_Value
 
     Alert.alert(
       'Watch Out!',
@@ -310,7 +333,7 @@ Submit_New_Address_On_Press(){
       [
         {text: 'Cancel', style: 'cancel'},
         {text: 'Confirm', onPress: ()=>{
-          this.Submit_New_Address(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value)
+          this.Submit_New_Address(this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value, this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value)
         }},
 
       ],
@@ -401,7 +424,7 @@ Delete_Address(Address){
 
 Delete_Address_On_Press(Address){
 
-  const Delete_Address = Address.Address_ID + '\n' + Address.Street + '\n' + Address.City + '\n' +  Address.Province + '\n' +  Address.Post_Code
+  const Delete_Address = Address.Address_ID + '\n' + Address.Address_Name + '\n' + Address.Address_Phone_Number + '\n' + Address.Street + '\n' + Address.City + '\n' +  Address.Province + '\n' +  Address.Post_Code
 
   Alert.alert(
     'Watch Out!',
@@ -433,6 +456,8 @@ Open_Edit_Address_Modal(Address){
     Edit_City_Value: Address.City,
     Edit_City_Key: PraseCityValue(Address.City),
 
+    Edit_Address_Name_Value: Address.Address_Name,
+    Edit_Address_Phone_Number_Value: Address.Address_Phone_Number,
     Edit_Street_Value: Address.Street,
     Edit_Post_Code_Value: Address.Post_Code,
     Edit_Address_ID_Value: Address.Address_ID,
@@ -454,6 +479,8 @@ Close_Edit_Address_Modal(){
     Edit_City_Value: '',
     Edit_City_Key: '',
 
+    Edit_Address_Name_Value: '',
+    Edit_Address_Phone_Number_Value: '',
     Edit_Street_Value: '',
     Edit_Post_Code_Value: '',
     Edit_Address_ID_Value: '',
@@ -465,6 +492,21 @@ Close_Edit_Address_Modal(){
 Edit_Street_Handler(text){
   this.setState({
     Edit_Street_Value: text
+  });
+}
+
+
+// Add new address function start here
+Edit_Address_Name_Handler(text){
+  this.setState({
+    Edit_Address_Name_Value: text
+  });
+}
+
+// Add new address function start here
+Edit_Address_Phone_Number_Handler(text){
+  this.setState({
+    Edit_Address_Phone_Number_Value: text
   });
 }
 
@@ -549,8 +591,7 @@ Edit_Post_Code_Handler(text){
 }
 
 
-
-Submit_Edit_Address(Address_ID, Province, City, Street, Post_Code){
+Submit_Edit_Address(Address_Name, Address_Phone_Number, Address_ID, Province, City, Street, Post_Code){
   AsyncStorage.getItem('User_ID', (err, result) => {
     var User_ID = result
     console.log(User_ID);
@@ -571,6 +612,8 @@ Submit_Edit_Address(Address_ID, Province, City, Street, Post_Code){
 
     else {
       const New_Address = {
+        Address_Name: Address_Name,
+        Address_Phone_Number: Address_Phone_Number,
         Address_ID: Address_ID,
         Province: Province,
         City: City,
@@ -621,11 +664,11 @@ Submit_Edit_Address(Address_ID, Province, City, Street, Post_Code){
 
 
 Submit_Edit_Address_On_Press(){
-  if (this.state.Edit_Province_Value == '' || this.state.Edit_City_Value == '' || this.state.Edit_Street_Value == '' ||  this.state.Edit_Post_Code_Value == '' || isNaN(this.state.Edit_Post_Code_Value) == true) {
+  if (this.state.Edit_Address_Name_Value == '' || this.state.Edit_Address_Phone_Number_Value == '' || this.state.Edit_Province_Value == '' || this.state.Edit_City_Value == '' || this.state.Edit_Street_Value == '' ||  this.state.Edit_Post_Code_Value == '' || isNaN(this.state.Edit_Post_Code_Value) == true) {
 
     Alert.alert(
       'Oops',
-      AddNewAddressCheck(this.state.Edit_Province_Value, this.state.Edit_City_Value, this.state.Edit_Street_Value, this.state.Edit_Post_Code_Value),
+      AddNewAddressCheck(this.state.Edit_Province_Value, this.state.Edit_City_Value, this.state.Edit_Street_Value, this.state.Edit_Post_Code_Value, this.state.Edit_Address_Name_Value, this.state.Edit_Address_Phone_Number_Value),
       [
         {text: 'OK'},
       ],
@@ -633,7 +676,7 @@ Submit_Edit_Address_On_Press(){
 
   } else {
 
-    const Edit_Address = this.state.Edit_Address_ID_Value + '\n' + this.state.Edit_Province_Value + '\n' + this.state.Edit_City_Value + '\n' + this.state.Edit_Street_Value + '\n' +  this.state.Edit_Post_Code_Value
+    const Edit_Address = this.state.Edit_Address_Name_Value + '\n' + this.state.Edit_Address_Phone_Number_Value + '\n' + this.state.Edit_Address_ID_Value + '\n' + this.state.Edit_Province_Value + '\n' + this.state.Edit_City_Value + '\n' + this.state.Edit_Street_Value + '\n' +  this.state.Edit_Post_Code_Value
 
     Alert.alert(
       'Watch Out!',
@@ -641,7 +684,7 @@ Submit_Edit_Address_On_Press(){
       [
         {text: 'Cancel', style: 'cancel'},
         {text: 'Confirm', onPress: ()=>{
-          this.Submit_Edit_Address(this.state.Edit_Address_ID_Value, this.state.Edit_Province_Value, this.state.Edit_City_Value, this.state.Edit_Street_Value, this.state.Edit_Post_Code_Value)
+          this.Submit_Edit_Address(this.state.Edit_Address_Name_Value, this.state.Edit_Address_Phone_Number_Value, this.state.Edit_Address_ID_Value, this.state.Edit_Province_Value, this.state.Edit_City_Value, this.state.Edit_Street_Value, this.state.Edit_Post_Code_Value)
         }},
 
       ],
@@ -706,6 +749,8 @@ Refresh_Address_Book(){
             New_Province_Value: '',
             New_Province_Key: '',
 
+            New_Address_Name_Value: '',
+            New_Address_Phone_Number_Value: '',
             New_City_Value: '',
             New_City_Key: '',
 
@@ -724,6 +769,8 @@ Refresh_Address_Book(){
             Edit_City_Value: '',
             Edit_City_Key: '',
 
+            Edit_Address_Name_Value: '',
+            Edit_Address_Phone_Number_Value: '',
             Edit_Street_Value: '',
             Edit_Post_Code_Value: '',
             Edit_Address_ID_Value: '',
@@ -821,6 +868,8 @@ componentWillMount(){
                      }}>
                      <Text>key : {i}</Text>
                      <Text>ID : {Address.Address_ID}</Text>
+                     <Text>Name : {Address.Address_Name}</Text>
+                     <Text>Phone : {Address.Address_Phone_Number}</Text>
                      <Text>Street : {Address.Street}</Text>
                      <Text>City : {PraseCityValue(Address.City)}</Text>
                      <Text>Province : {PraseProvinceValue(Address.Province)}</Text>
@@ -860,6 +909,39 @@ componentWillMount(){
              <Text style={{ fontSize: 25, textAlign: 'center'} }>Edit Address</Text>
 
              </View>
+
+             <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+               <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                 Name:
+               </Text>
+               <TextInput
+                 value = {this.state.Edit_Address_Name_Value}
+                 style={{
+                   marginTop: 20,
+                   height: '50%',
+                   width: '50%',
+                   borderWidth: 2,
+                   borderRadius: 10,
+
+                 }} onChangeText = {(text) => this.Edit_Address_Name_Handler(text)} autoCapitalize='none' />
+               </View>
+
+             <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+               <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                 Phone:
+               </Text>
+               <TextInput
+                 value = {this.state.Edit_Address_Phone_Number_Value}
+                 style={{
+                   marginTop: 20,
+                   height: '50%',
+                   width: '50%',
+                   borderWidth: 2,
+                   borderRadius: 10,
+
+                 }} onChangeText = {(text) => this.Edit_Address_Phone_Number_Handler(text)} autoCapitalize='none' />
+               </View>
+
 
              <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
                <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
@@ -1137,6 +1219,38 @@ componentWillMount(){
              <Text style={{ fontSize: 25, textAlign: 'center'} }>Add Another Address</Text>
 
              </View>
+
+             <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+               <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                 Name:
+               </Text>
+               <TextInput
+                 value = {this.state.New_Address_Name_Value}
+                 style={{
+                   marginTop: 20,
+                   height: '50%',
+                   width: '50%',
+                   borderWidth: 2,
+                   borderRadius: 10,
+
+                 }} onChangeText = {(text) => this.New_Address_Name_Handler(text)} autoCapitalize='none' />
+               </View>
+
+             <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+               <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                 Phone:
+               </Text>
+               <TextInput
+                 value = {this.state.New_Address_Phone_Number_Value}
+                 style={{
+                   marginTop: 20,
+                   height: '50%',
+                   width: '50%',
+                   borderWidth: 2,
+                   borderRadius: 10,
+
+                 }} onChangeText = {(text) => this.New_Address_Phone_Number_Handler(text)} autoCapitalize='none' />
+               </View>
 
              <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
                <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
