@@ -30,7 +30,7 @@ rightButton = {<TouchableOpacity>
 
 */
 import {getshoppingcart, getaddressbook, shoppingcartquantitychange, deletefromshoppingcart, addnewaddress, submitorder} from '../../server.js';
-import {ShoppingCartAddressExistStyle, PraseCityValue, PraseProvinceValue, ShowProvinceName, ShowCityName, GetCityForProvince, AddNewAddressCheck, Product_Image} from '../../util.js';
+import {ShoppingCartAddressExistStyle, PraseCityValue, ShowProvinceName, ShowCityName, ShowDistrictName, GetCityForProvince, AddNewAddressCheck, Product_Image, GetDistrictForCity} from '../../util.js';
 import Shopping_Cart_Home_Header from './Shopping_Cart_Home_Header.js';
 import { Icon } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
@@ -83,16 +83,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       Choose_City_Add_New_Shipping_Address_Visible : false,
 
+      Choose_District_Add_New_Shipping_Address_Visible : false,
+
       New_Province_Value: '',
-      New_Province_Key: '',
+
 
       New_City_Value: '',
-      New_City_Key: '',
+
 
       New_Address_Name_Value: '',
       New_Address_Phone_Number_Value: '',
       New_Street_Value: '',
-      New_Post_Code_Value: '',
+      New_District_Value: '',
 
 
       Refreshing_Flag : false
@@ -122,16 +124,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
           Choose_City_Add_New_Shipping_Address_Visible : false,
 
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
           New_Province_Value: '',
-          New_Province_Key: '',
+
 
           New_City_Value: '',
-          New_City_Key: '',
+
 
           New_Address_Name_Value: '',
           New_Address_Phone_Number_Value: '',
           New_Street_Value: '',
-          New_Post_Code_Value: '',
+          New_District_Value: '',
 
         });
       }
@@ -189,16 +193,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                     Choose_City_Add_New_Shipping_Address_Visible : false,
 
+                    Choose_District_Add_New_Shipping_Address_Visible : false,
+
                     New_Province_Value: '',
-                    New_Province_Key: '',
+
 
                     New_City_Value: '',
-                    New_City_Key: '',
+
 
                     New_Address_Name_Value: '',
                     New_Address_Phone_Number_Value: '',
                     New_Street_Value: '',
-                    New_Post_Code_Value: '',
+                    New_District_Value: '',
 
                   }, ()=>{
                     console.log(this.state.Shopping_Cart_Shipping_Address_List);
@@ -223,16 +229,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                     Choose_City_Add_New_Shipping_Address_Visible : false,
 
+                    Choose_District_Add_New_Shipping_Address_Visible : false,
+
                     New_Province_Value: '',
-                    New_Province_Key: '',
+
 
                     New_City_Value: '',
-                    New_City_Key: '',
+
 
                     New_Address_Name_Value: '',
                     New_Address_Phone_Number_Value: '',
                     New_Street_Value: '',
-                    New_Post_Code_Value: '',
+                    New_District_Value: '',
 
                   }, ()=>{
                     console.log(this.state.Shopping_Cart_Shipping_Address_List);
@@ -350,16 +358,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
             Choose_City_Add_New_Shipping_Address_Visible : false,
 
+            Choose_District_Add_New_Shipping_Address_Visible : false,
+
             New_Province_Value: '',
-            New_Province_Key: '',
+
 
             New_City_Value: '',
-            New_City_Key: '',
+
 
             New_Address_Name_Value: '',
             New_Address_Phone_Number_Value: '',
             New_Street_Value: '',
-            New_Post_Code_Value: '',
+            New_District_Value: '',
 
           });
         }
@@ -465,16 +475,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
             Choose_City_Add_New_Shipping_Address_Visible : false,
 
+            Choose_District_Add_New_Shipping_Address_Visible : false,
+
             New_Province_Value: '',
-            New_Province_Key: '',
+
 
             New_City_Value: '',
-            New_City_Key: '',
+
 
             New_Address_Name_Value: '',
             New_Address_Phone_Number_Value: '',
             New_Street_Value: '',
-            New_Post_Code_Value: '',
+            New_District_Value: '',
           });
         }
 
@@ -549,16 +561,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
           Choose_City_Add_New_Shipping_Address_Visible : false,
 
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
           New_Province_Value: '',
-          New_Province_Key: '',
+
 
           New_City_Value: '',
-          New_City_Key: '',
+
 
           New_Address_Name_Value: '',
           New_Address_Phone_Number_Value: '',
           New_Street_Value: '',
-          New_Post_Code_Value: '',
+          New_District_Value: '',
         });
       }
 
@@ -684,16 +698,15 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
   New_Province_Handler(item){
     this.setState({
-      New_Province_Value: item.Value,
-      New_Province_Key: item.key,
+      New_Province_Value: item.key,
 
       Choose_Province_Add_New_Shipping_Address_Visible: false,
 
       New_City_Value: '',
-      New_City_Key: '',
+
 
       New_Street_Value: '',
-      New_Post_Code_Value: ''
+      New_District_Value: ''
     });
   }
 
@@ -725,21 +738,49 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
   New_City_Handler(item){
     this.setState({
-      New_City_Value: item.Value,
-      New_City_Key: item.key,
+      New_City_Value: item.key,
       Choose_City_Add_New_Shipping_Address_Visible: false,
 
       New_Street_Value: '',
-      New_Post_Code_Value: ''
+      New_District_Value: ''
     });
   }
 
+  // Next is choosing the District
+  Open_Choose_District_Add_New_Shipping_Address_Modal(){
+    if (this.state.New_City_Value == '') {
+      Alert.alert(
+        'Oops',
+        'Please Choose a city first',
+        [
+          {text: 'OK'},
+        ],
+      )
+    }
+    else {
+      this.setState({
+        Choose_District_Add_New_Shipping_Address_Visible : true
+      });
+    }
 
-  New_Post_Code_Handler(text){
+
+  }
+
+  Close_Choose_City_Add_New_Shipping_Address_Modal(){
     this.setState({
-      New_Post_Code_Value: text
+      Choose_District_Add_New_Shipping_Address_Visible : false
     });
   }
+
+  New_District_Handler(item){
+    this.setState({
+      New_District_Value: item.key,
+      Choose_District_Add_New_Shipping_Address_Visible: false,
+      New_Street_Value: '',
+    });
+  }
+
+
 
   New_Street_Handler(text){
     this.setState({
@@ -765,11 +806,11 @@ export default class Shopping_Cart_Home extends Component<{}> {
   //Here is function for submit the new Address
 
   Submit_New_Address_On_Press(){
-    if (this.state.New_Province_Value == '' || this.state.New_City_Value == '' || this.state.New_Street_Value == '' ||  this.state.New_Post_Code_Value == '' ||  this.state.New_Address_Name_Value == '' ||  this.state.New_Address_Phone_Number_Value == '' || isNaN(this.state.New_Post_Code_Value) == true ) {
+    if (this.state.New_Province_Value == '' || this.state.New_City_Value == '' || this.state.New_Street_Value == '' ||  this.state.New_District_Value == '' ||  this.state.New_Address_Name_Value == '' ||  this.state.New_Address_Phone_Number_Value == '') {
 
       Alert.alert(
         'Oops',
-        AddNewAddressCheck(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value, this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value),
+        AddNewAddressCheck(this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_District_Value, this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value),
         [
           {text: 'OK'},
         ],
@@ -777,7 +818,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
     } else {
 
-      const New_Address = this.state.New_Address_Name_Value + '\n' + this.state.New_Address_Phone_Number_Value + '\n' + this.state.New_Province_Value + '\n' + this.state.New_City_Value + '\n' + this.state.New_Street_Value + '\n' +  this.state.New_Post_Code_Value
+      const New_Address = this.state.New_Address_Name_Value + '\n' + this.state.New_Address_Phone_Number_Value + '\n' + this.state.New_Province_Value + '\n' + this.state.New_City_Value + '\n' + this.state.New_Street_Value + '\n' +  this.state.New_District_Value
 
       Alert.alert(
         'Watch Out!',
@@ -785,7 +826,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
         [
           {text: 'Cancel', style: 'cancel'},
           {text: 'Confirm', onPress: ()=>{
-            this.Submit_New_Address(this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value, this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_Post_Code_Value)
+            this.Submit_New_Address(this.state.New_Address_Name_Value, this.state.New_Address_Phone_Number_Value, this.state.New_Province_Value, this.state.New_City_Value, this.state.New_Street_Value, this.state.New_District_Value)
           }},
 
         ],
@@ -797,7 +838,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
   // Submit new address function
-  Submit_New_Address(Address_Name, Address_Phone_Number, Province, City, Street, Post_Code){
+  Submit_New_Address(Address_Name, Address_Phone_Number, Province, City, Street, District){
     AsyncStorage.getItem('User_ID', (err, result) => {
       var User_ID = result
       console.log(User_ID);
@@ -823,7 +864,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
           Province: Province,
           City: City,
           Street: Street,
-          Post_Code: Post_Code
+          District: District
         }
 
         addnewaddress(User_ID, New_Address, (response) =>{
@@ -859,16 +900,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                   Choose_City_Add_New_Shipping_Address_Visible : false,
 
+                  Choose_District_Add_New_Shipping_Address_Visible : false,
+
                   New_Province_Value: '',
-                  New_Province_Key: '',
+
 
                   New_City_Value: '',
-                  New_City_Key: '',
+
 
                   New_Address_Name_Value: '',
                   New_Address_Phone_Number_Value: '',
                   New_Street_Value: '',
-                  New_Post_Code_Value: ''
+                  New_District_Value: ''
 
                 }, ()=>{
                   console.log(this.state.Shopping_Cart_Shipping_Address_List);
@@ -954,16 +997,18 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
           Choose_City_Add_New_Shipping_Address_Visible : false,
 
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
           New_Province_Value: '',
-          New_Province_Key: '',
+
 
           New_City_Value: '',
-          New_City_Key: '',
+
 
           New_Address_Name_Value: '',
           New_Address_Phone_Number_Value: '',
           New_Street_Value: '',
-          New_Post_Code_Value: '',
+          New_District_Value: '',
         });
       }
 
@@ -1074,7 +1119,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       Shopping_Cart_Confirm = Shopping_Cart_Confirm + 'Total Price: ' + Total_Price + '\n'
 
-      const Shipping_Info = Shipping_Address_Info.Address_Name + '\n' + Shipping_Address_Info.Address_Phone_Number + '\n' + Shipping_Address_Info.Address_ID + '\n' + Shipping_Address_Info.Street + '\n' + Shipping_Address_Info.City + '\n' + Shipping_Address_Info.Province + '\n' + Shipping_Address_Info.Post_Code + '\n'
+      const Shipping_Info = Shipping_Address_Info.Address_Name + '\n' + Shipping_Address_Info.Address_Phone_Number + '\n' + Shipping_Address_Info.Address_ID + '\n' + Shipping_Address_Info.Street + '\n' + Shipping_Address_Info.City + '\n' + Shipping_Address_Info.Province + '\n' + Shipping_Address_Info.District + '\n'
 
       console.log(Shopping_Cart_Confirm);
 
@@ -1231,7 +1276,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                 <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, marginRight: 10, flexWrap:'wrap'}}>
 
-                  <Text style={{fontSize: 16}} >{this.state.Shopping_Cart_Shipping_Info.Street}, {this.state.Shopping_Cart_Shipping_Info.City}, {this.state.Shopping_Cart_Shipping_Info.Province}, {this.state.Shopping_Cart_Shipping_Info.Post_Code}</Text>
+                  <Text style={{fontSize: 16}} >{this.state.Shopping_Cart_Shipping_Info.Street}, {this.state.Shopping_Cart_Shipping_Info.City}, {this.state.Shopping_Cart_Shipping_Info.Province}, {this.state.Shopping_Cart_Shipping_Info.District}</Text>
 
                 </View>
 
@@ -1378,9 +1423,9 @@ export default class Shopping_Cart_Home extends Component<{}> {
                           <Text>Name : {Address.Address_Name}</Text>
                           <Text>Phone : {Address.Address_Phone_Number}</Text>
                           <Text>Street : {Address.Street}</Text>
-                          <Text>City : {PraseCityValue(Address.City)}</Text>
-                          <Text>Province : {PraseProvinceValue(Address.Province)}</Text>
-                          <Text>Post Code : {Address.Post_Code}</Text>
+                          <Text>City : {Address.City}</Text>
+                          <Text>Province : {Address.Province}</Text>
+                          <Text>District : {Address.District}</Text>
 
                         </View>
                       </TouchableOpacity >
@@ -1473,7 +1518,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
                       borderWidth: 2,
                       borderRadius: 10,
                     }} onPress={()=> this.Open_Choose_Province_Add_New_Shipping_Address_Modal()}>
-                      <Text style={{fontSize: 20, textAlign: 'center'}}>{ShowProvinceName(this.state.New_Province_Key)}</Text>
+                      <Text style={{fontSize: 20, textAlign: 'center'}}>{ShowProvinceName(this.state.New_Province_Value)}</Text>
                     </TouchableOpacity>
 
                   </View>
@@ -1490,10 +1535,26 @@ export default class Shopping_Cart_Home extends Component<{}> {
                       borderWidth: 2,
                       borderRadius: 10,
                     }} onPress={()=> this.Open_Choose_City_Add_New_Shipping_Address_Modal()}>
-                      <Text style={{fontSize: 20, textAlign: 'center'}}>{ShowCityName(this.state.New_City_Key)}</Text>
+                      <Text style={{fontSize: 20, textAlign: 'center'}}>{ShowCityName(this.state.New_City_Value)}</Text>
                     </TouchableOpacity>
 
                   </View>
+
+                  <View style={{flex: 0.15, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
+                    <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
+                      District:
+                    </Text>
+                    <TouchableOpacity style={{
+                      marginTop: 20,
+                      height: '50%',
+                      width: '50%',
+                      borderWidth: 2,
+                      borderRadius: 10,
+                    }} onPress={()=> this.Open_Choose_District_Add_New_Shipping_Address_Modal()}>
+                      <Text style={{fontSize: 20, textAlign: 'center'}}>{ShowDistrictName(this.state.New_District_Value)}</Text>
+                    </TouchableOpacity>
+                  </View>
+
 
                   <View style={{flex: 0.1, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
                     <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
@@ -1509,22 +1570,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
                         borderRadius: 10,
 
                       }} onChangeText = {(text) => this.New_Street_Handler(text)} autoCapitalize='none' />
-                  </View>
-
-                  <View style={{flex: 0.15, flexDirection:'row',justifyContent: 'center',backgroundColor:'white'}}>
-                    <Text style={{width:100, marginTop: 25, fontSize: 20, fontWeight: 'bold', color: '#333333',}}>
-                      Post Code:
-                    </Text>
-                    <TextInput
-                      value = {this.state.New_Post_Code_Value}
-                      style={{
-                        marginTop: 20,
-                        height: '50%',
-                        width: '50%',
-                        borderWidth: 2,
-                        borderRadius: 10,
-
-                      }} onChangeText = {(text) => this.New_Post_Code_Handler(text)} autoCapitalize='none' />
                   </View>
 
                   <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
@@ -1591,12 +1636,12 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                   <FlatList
                     data={[
-                      {key: '浙江', Value: 'zhejiang'},
-                      {key: '上海市', Value: 'shanghai'},
-                      {key: '河北', Value: 'hebei'},
-                      {key: '安徽', Value: 'anhui'},
-                      {key: '江西', Value: 'jiangxi'},
-                      {key: '江苏', Value: 'jiangsu'},
+                      {key: 'zhejiang'},
+                      {key: 'shanghai'},
+                      {key: 'hebei'},
+                      {key: 'anhui'},
+                      {key: 'jiangxi'},
+                      {key: 'jiangsu'},
                     ]}
                     renderItem={({item}) => {return(
                       <TouchableOpacity onPress={()=> this.New_Province_Handler(item)}>
@@ -1695,6 +1740,63 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
                   </Modal>
                 {/*   End of Choose City Modal input */}
+
+
+                  {/* Start of District Modal */}
+                  <Modal
+                  animationType="slide"
+                  transparent={false}
+                  visible={this.state.Choose_District_Add_New_Shipping_Address_Visible} >
+
+                  <View style={{
+                    marginTop: 25,
+                    justifyContent: 'center',
+                  }}>
+
+                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Please Choose a District</Text>
+
+                  </View>
+
+                  <FlatList
+                    data={GetDistrictForCity(this.state.New_City_Value)}
+                    renderItem={({item}) => {return(
+                      <TouchableOpacity onPress={()=> this.New_District_Handler(item)}>
+                        <Text style={{
+                        marginTop: 10,
+                        borderWidth: 2,
+                        justifyContent: 'center',
+                        borderRadius: 10,
+                        fontSize: 20,
+                        textAlign: 'center'} }>{item.key}</Text>
+                      </TouchableOpacity>
+                    )} }
+                    />
+
+
+                  <View style={{
+                  flex: 0.15,
+                  flexDirection:'row',
+                  backgroundColor:'grey',
+                  justifyContent: 'center',}}>
+
+
+                    <TouchableOpacity onPress={()=> this.Close_Choose_District_Add_New_Shipping_Address_Modal()}>
+                      <Text style={{
+                      width:300,
+                      marginTop: 10,
+                      borderWidth: 2,
+                      borderRadius: 10,
+                      fontSize: 25,
+                      textAlign: 'center'} }>取消</Text>
+                    </TouchableOpacity>
+
+
+                  </View>
+
+
+
+                  </Modal>
+                {/*   End of Choose District Modal input */}
 
 
 

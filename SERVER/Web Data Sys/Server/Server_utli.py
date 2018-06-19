@@ -1587,15 +1587,15 @@ def Get_Single_Order(Order_ID):
         (Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
         Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method_Status": Order_Payment_Method_Status, "Order_Total_Price":Order_Total_Price, "Order_Time": str(Order_Time)}
 
-        QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
+        QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
 
         CURSOR.execute(QUERYSQL)
 
         QUERYLIST = CURSOR.fetchall()
 
         if QUERYLIST:
-            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code) = QUERYLIST[0]
-            Shipping_Info = {"Address_ID": Address_ID, "Address_Name": Address_Name, "Address_Phone_Number": Address_Phone_Number, "Street": Street, "City": City, "Province": Province, 'Post_Code': Post_Code}
+            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = QUERYLIST[0]
+            Shipping_Info = {"Address_ID": Address_ID, "Address_Name": Address_Name, "Address_Phone_Number": Address_Phone_Number, "Street": Street, "City": City, "Province": Province, 'District': District}
 
             QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Order_ID))
 
@@ -1649,7 +1649,7 @@ def Get_Address_Book(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Address.Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code FROM Address, Address_User  WHERE Address.Address_ID = Address_User.Address_ID AND Address_User.User_ID = \'{}\';'.format(USER_ID))
+    QUERYSQL = ('SELECT Address.Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address, Address_User  WHERE Address.Address_ID = Address_User.Address_ID AND Address_User.User_ID = \'{}\';'.format(USER_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1659,8 +1659,8 @@ def Get_Address_Book(USER_ID):
 
     if QUERYLIST:
         for Address in QUERYLIST:
-            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code) = Address
-            Address_Book.append({"Address_ID": Address_ID, "Address_Name": Address_Name, "Address_Phone_Number": Address_Phone_Number, "Street": Street, "City": City, "Province": Province, "Post_Code": Post_Code})
+            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = Address
+            Address_Book.append({"Address_ID": Address_ID, "Address_Name": Address_Name, "Address_Phone_Number": Address_Phone_Number, "Street": Street, "City": City, "Province": Province, "District": District})
 
         DATA = Address_Book
 
@@ -1825,14 +1825,14 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
     New_Address_City = NEW_ADDRESS['City']
 
-    New_Address_Post_Code = NEW_ADDRESS['Post_Code']
+    New_Address_District = NEW_ADDRESS['District']
 
     if not Phone_Schame_Check(New_Address_Phone_Number):
         STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
         DATA = 0
 
     else:
-        QUERYSQL = ('INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, Post_Code) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Address_ID, New_Address_Name, New_Address_Phone_Number, New_Address_Street, New_Address_City, New_Address_Province, New_Address_Post_Code))
+        QUERYSQL = ('INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Address_ID, New_Address_Name, New_Address_Phone_Number, New_Address_Street, New_Address_City, New_Address_Province, New_Address_District))
 
         CURSOR.execute(QUERYSQL)
 
@@ -1848,7 +1848,7 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
         CONNECTIONS.close()
 
-        DATA = {"Address_ID" : New_Address_ID, "Address_Name": New_Address_Name, "Address_Phone_Number": New_Address_Phone_Number, "Street" : New_Address_Street, "Province" : New_Address_Province, "City" : New_Address_City, "Post_Code" : New_Address_Post_Code}
+        DATA = {"Address_ID" : New_Address_ID, "Address_Name": New_Address_Name, "Address_Phone_Number": New_Address_Phone_Number, "Street" : New_Address_Street, "Province" : New_Address_Province, "City" : New_Address_City, "District" : New_Address_District}
         STATUS = ErrorCode.SUCCESS_CODE
 
     return(STATUS, DATA)
@@ -1940,7 +1940,7 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
 
     Address_City = NEW_ADDRESS['City']
 
-    Address_Post_Code = NEW_ADDRESS['Post_Code']
+    Address_District = NEW_ADDRESS['District']
 
     QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\';'.format(Address_ID))
 
@@ -1954,7 +1954,7 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
             DATA = 0
 
         else:
-            QUERYSQL = ('UPDATE Address SET Address_Name = \'{}\', Address_Phone_Number = \'{}\', Street = \'{}\', City = \'{}\', Province = \'{}\', Post_Code = \'{}\' WHERE Address_ID = \'{}\';'.format(New_Address_Name, New_Address_Phone_Number, Address_Street, Address_City, Address_Province, Address_Post_Code, Address_ID))
+            QUERYSQL = ('UPDATE Address SET Address_Name = \'{}\', Address_Phone_Number = \'{}\', Street = \'{}\', City = \'{}\', Province = \'{}\', District = \'{}\' WHERE Address_ID = \'{}\';'.format(New_Address_Name, New_Address_Phone_Number, Address_Street, Address_City, Address_Province, Address_District, Address_ID))
 
             CURSOR.execute(QUERYSQL)
 
