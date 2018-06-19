@@ -30,7 +30,10 @@ rightButton = {<TouchableOpacity>
 
 */
 import {getshoppingcart, getaddressbook, shoppingcartquantitychange, deletefromshoppingcart, addnewaddress, submitorder} from '../../server.js';
-import {ShoppingCartAddressExistStyle, PraseCityValue, PraseProvinceValue, ShowProvinceName, ShowCityName, GetCityForProvince, AddNewAddressCheck} from '../../util.js';
+import {ShoppingCartAddressExistStyle, PraseCityValue, PraseProvinceValue, ShowProvinceName, ShowCityName, GetCityForProvince, AddNewAddressCheck, Product_Image} from '../../util.js';
+import Shopping_Cart_Home_Header from './Shopping_Cart_Home_Header.js';
+import { Icon } from 'react-native-elements';
+import Swipeout from 'react-native-swipeout';
 import React, { Component } from 'react';
 import {
   Platform,
@@ -48,16 +51,17 @@ import {
   ScrollView,
   RefreshControl,
   Modal,
-  FlatList
+  FlatList,
+  KeyboardAvoidingView
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
 export default class Shopping_Cart_Home extends Component<{}> {
 
 
-  static navigationOptions = {
-    header: null,
-}
+    static navigationOptions = {
+      header: <Shopping_Cart_Home_Header />,
+  }
 
 
   constructor(props) {
@@ -166,14 +170,15 @@ export default class Shopping_Cart_Home extends Component<{}> {
                   Address_Book_List.push(Address_Book[Address])
                 }
 
+
                 this.setState({
                   User_Flag : true,
                   Shopping_Cart_Shipping_Address_List : Address_Book_List,
                   Shopping_Cart_Product_List : Shopping_Cart_Product_List,
                   Refreshing_Flag : false,
 
-                  Shopping_Cart_Shipping_Info : '',
-                  Shopping_Cart_Shipping_Info_Flag : false,
+                  Shopping_Cart_Shipping_Info : Address_Book_List[0],
+                  Shopping_Cart_Shipping_Info_Flag : true,
 
                   Shipping_Address_Selection_Visible : false,
 
@@ -1088,23 +1093,10 @@ export default class Shopping_Cart_Home extends Component<{}> {
   Show_Total_Price(Shopping_Cart_Product_List){
     if (Shopping_Cart_Product_List.length > 0) {
       Total_Price = this.Calculate_Total_Price(Shopping_Cart_Product_List)
-
-      return(
-
-        <View style={{
-          flex: 0.2,
-          marginTop: 25,
-          borderWidth: 2,
-          justifyContent: 'center',
-          borderRadius: 10,
-
-        }}>
-          <Text style={{ fontSize: 25, textAlign: 'center'} }>Total Price: {Total_Price} </Text>
-        </View>
-
-
-      )
-
+      return(Total_Price)
+    }
+    else {
+      return(0)
     }
   }
 
@@ -1115,26 +1107,30 @@ export default class Shopping_Cart_Home extends Component<{}> {
       Total_Price = this.Calculate_Total_Price(Shopping_Cart_Product_List)
 
       if (Total_Price > 50000) {
-        return(
+        console.log(Total_Price*0.2);
+        return( (Total_Price*0.2).toFixed(0) )
 
-          <View style={{
-            flex: 0.2,
-            marginTop: 25,
-            borderWidth: 2,
-            justifyContent: 'center',
-            borderRadius: 10,
-
-          }}>
-            <Text style={{ fontSize: 25, textAlign: 'center'} }>Deposit Price: {Total_Price*0.2} </Text>
-          </View>
-
-
-        )
-
+      }
+      else {
+        return(Total_Price)
       }
 
     }
+    else {
+      return(0)
+    }
   }
+
+
+    Swipe_Out_Button(product){
+      return(
+        [{
+          text: '删除',
+          type: 'delete',
+          onPress: (product)=> this.Delete_Item_On_Press(product),
+        }]
+      )
+    }
 
 
 
@@ -1179,109 +1175,145 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
           return (
-            <ScrollView
-              refreshControl={
-              <RefreshControl
-                onRefresh={this.OnRefresh.bind(this)}
-                refreshing = {this.state.Refreshing_Flag}
-              />
-            }
-              style={{flex: 1}}>
 
 
-              {/*start  */}
-              <Text style={{ fontSize: 25, textAlign: 'center', marginTop: 25,} }>Product List</Text>
-              {
-                this.state.Shopping_Cart_Product_List.map((product, i) =>{
-                  return(
-                    <TouchableOpacity key={i} style={{
-                      flex: 0.2,
-                      marginTop: 25,
-                      borderWidth: 2,
-                      borderRadius: 10,
-                      justifyContent: 'center',
+            <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
 
 
-                    }}>
 
-                    <Text>key : {i}</Text>
-                    <Text>ID : {product.Products_ID}</Text>
-                    <Text>Name : {product.Products_Name}</Text>
-                    <Text>Number : {product.Products_Number}</Text>
-                    <Text>Specification : {product.Products_Spec}</Text>
-                    <Text>Color : {product.Products_Color}</Text>
-                    <Text>Status : {product.Products_Status}</Text>
-                    <Text>Price : {product.Products_Price}</Text>
-                    <Text>Units :
+              <TouchableOpacity  onPress = {() => this.Open_Shipping_Address_Selection_Modal()} activeOpacity={0.8} style={{backgroundColor: '#cbcbcb', height: '15%',  justifyContent: 'center', borderStyle: 'dotted', borderWidth: 2, borderColor: 'black',}}>
 
-                      <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Minus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}} >
-                        <Text style={{fontSize: 25} }>-</Text>
-                      </TouchableOpacity>
+                <View style={ShoppingCartAddressExistStyle(!this.state.Shopping_Cart_Shipping_Info_Flag)}>
 
-                      {product.Products_Units}
+                <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
+                  <Text style={{fontSize: 20, }} >{this.state.Shopping_Cart_Shipping_Info.Address_Name}, </Text>
+                  <Text style={{fontSize: 20}}>{this.state.Shopping_Cart_Shipping_Info.Address_Phone_Number}</Text>
+                </View>
 
-                      <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Plus(product)} style= {{borderWidth: 2, width: 15, height:15, justifyContent: 'center'}}>
-                        <Text style={{fontSize: 25} }>+</Text>
-                      </TouchableOpacity>
+                <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, marginRight: 10, flexWrap:'wrap'}}>
 
-                    </Text>
-                    <TouchableOpacity onPress = {() => this.Delete_Item_On_Press(product)}>
-                      <Text style={{fontSize: 25} }>Delete Item</Text>
-                    </TouchableOpacity>
+                  <Text style={{fontSize: 16}} >{this.state.Shopping_Cart_Shipping_Info.Street}, {this.state.Shopping_Cart_Shipping_Info.City}, {this.state.Shopping_Cart_Shipping_Info.Province}, {this.state.Shopping_Cart_Shipping_Info.Post_Code}</Text>
 
-                    </TouchableOpacity>
-                  );
-                })
-              }
-              {/*end  */}
+                </View>
 
-              {this.Show_Total_Price(this.state.Shopping_Cart_Product_List)}
-              {this.Show_Deposit_Price(this.state.Shopping_Cart_Product_List)}
+                </View>
 
-              {/* Here is the address selection which will be represented by the Modal */}
+                <View style={ShoppingCartAddressExistStyle(this.state.Shopping_Cart_Shipping_Info_Flag)}>
 
-              <Text style={{ fontSize: 25, textAlign: 'center', marginTop: 25,} }>Shipping Info</Text>
+                  <Text style={{fontSize: 25} }>Choose a Shipping Address</Text>
+
+                </View>
+
+              </TouchableOpacity>
+
+              {/* Main Feed for each product in the shopping cart */}
+
+              <ScrollView refreshControl={ <RefreshControl onRefresh={this.OnRefresh.bind(this)} refreshing = {this.state.Refreshing_Flag} />} style={{backgroundColor: '#ededed', height: '77%', flexDirection:'column'}}>
+
+                {
+                  this.state.Shopping_Cart_Product_List.map((product, i) =>{
+                    return(
+
+                      <Swipeout key={i} style={{height:170, backgroundColor: 'white',  marginTop:5, marginBottom:5}} right={this.Swipe_Out_Button(product)} autoClose={true}>
+                        <TouchableOpacity activeOpacity={1}  style={{width: '100%', backgroundColor: 'white', flexDirection:'row',}}>
+
+                          <View style={{width: '40%'}}>
+                            <Image
+                              source={Product_Image[product.Products_Image_Dir]}
+                              style={{height:'100%', width: '100%'}}/>
+                          </View>
+
+                          <View style={{width: '60%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
+
+                            <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
+                              <Text style={{fontSize: 20}}>{product.Products_Name}(XXXXXXXXXXXXXXXXXXXXX)</Text>
+                            </View>
+
+                            <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
+                              <Text style={{fontSize: 15}}>商品编号: {product.Products_Number} </Text>
+                            </View>
+
+                            <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
+                              <Text style={{fontSize: 15, marginRight: 10}}>规格 : {product.Products_Spec}</Text>
+                            </View>
+
+                            <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
+                              <Text style={{fontSize: 15}}>表色 : {product.Products_Color}</Text>
+                            </View>
+
+                            <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
+                              <Text style={{fontSize: 15}}>价格 : {product.Products_Price}/千件</Text>
+                            </View>
 
 
-                <View style={{
-                  flex: 0.2,
-                  marginTop: 25,
-                  marginBottom: 25,
-                  borderWidth: 2,
-                  justifyContent: 'center',
-                  borderRadius: 10,
+                            <View style={{flexDirection:'row', alignItems: 'center',}}>
 
-                }}>
+                              <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Minus(product)}>
+                                <Icon name='remove' />
+                              </TouchableOpacity>
 
-                <TouchableOpacity onPress = {() => this.Open_Shipping_Address_Selection_Modal()} >
-                  <View style={ShoppingCartAddressExistStyle(!this.state.Shopping_Cart_Shipping_Info_Flag)}>
-                    <Text>ID : {this.state.Shopping_Cart_Shipping_Info.Address_ID}</Text>
-                    <Text>Street : {this.state.Shopping_Cart_Shipping_Info.Street}</Text>
-                    <Text>City : {PraseCityValue(this.state.Shopping_Cart_Shipping_Info.City)}</Text>
-                    <Text>Province : {PraseProvinceValue(this.state.Shopping_Cart_Shipping_Info.Province)}</Text>
-                    <Text>Post Code : {this.state.Shopping_Cart_Shipping_Info.Post_Code}</Text>
-                  </View>
-                </TouchableOpacity>
+                              <TextInput
 
-                  <View style={ShoppingCartAddressExistStyle(this.state.Shopping_Cart_Shipping_Info_Flag)}>
-                    <TouchableOpacity onPress = {() => this.Open_Shipping_Address_Selection_Modal()} >
-                      <Text style={{fontSize: 25} }>Choose a Shipping Address</Text>
-                    </TouchableOpacity>
+                                placeholderTextColor="black"
 
-                  </View>
+                                value={String(product.Products_Units)}
 
+                                keyboardType={'numeric'}
+                                style={{
+                                  marginBottom: 5,
+                                  marginTop:5,
+                                  marginLeft:5,
+                                  marginRight:5,
+                                  borderWidth: 2,
+                                  borderRadius: 5,
+                                  width: 50}} />
+
+
+                              <TouchableOpacity onPress = {() => this.Shopping_Cart_Quantity_Plus(product)}>
+                                <Icon name='add' />
+                              </TouchableOpacity>
+
+
+                            </View>
+
+                          </View>
+
+
+                        </TouchableOpacity>
+                      </Swipeout>
+
+                    );
+                  })
+                }
+
+
+              </ScrollView>
+
+
+
+
+              <View style={{height: '8%', flexDirection:'row'}}>
+
+                <View style={{height:'100%', backgroundColor: '#f3f670', width: '60%', flexDirection:'column'}}>
+                  <Text style={{color: 'black', fontWeight:'bold', textAlign: 'left', fontSize: 17, marginLeft:5 }}> 总价: {this.Show_Total_Price(this.state.Shopping_Cart_Product_List)}</Text>
+
+
+                  <Text style={{color: 'black', fontWeight:'bold', textAlign: 'left', fontSize: 17, marginLeft:5 }}> 定金: {this.Show_Deposit_Price(this.state.Shopping_Cart_Product_List)} </Text>
                 </View>
 
 
 
-              <TouchableOpacity onPress = {() => this.Submit_Order_On_Press(this.state.Shopping_Cart_Product_List, this.state.Shopping_Cart_Shipping_Info)}>
-                <Text style={{fontSize: 25, textAlign: 'center'} }>Submit the Order</Text>
-              </TouchableOpacity>
+                <TouchableOpacity onPress = {() => this.Submit_Order_On_Press(this.state.Shopping_Cart_Product_List, this.state.Shopping_Cart_Shipping_Info)} activeOpacity={0.5} style={{height:'100%', backgroundColor: '#79fcfc', width: '40%', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 20}}> 提交订单 </Text>
+                </TouchableOpacity>
+
+              </View>
 
 
 
 
-              {/* Here is the Modal for the shipping address selection */}
+              {/* Modals starts from here*/}
+
 
               <Modal
                 animationType="slide"
@@ -1643,14 +1675,9 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
 
+            </KeyboardAvoidingView>
 
 
-
-
-
-
-
-            </ScrollView>
 
 
           );
