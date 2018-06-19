@@ -170,38 +170,77 @@ export default class Shopping_Cart_Home extends Component<{}> {
                   Address_Book_List.push(Address_Book[Address])
                 }
 
+                if (this.state.Shopping_Cart_Shipping_Info == '') {
 
-                this.setState({
-                  User_Flag : true,
-                  Shopping_Cart_Shipping_Address_List : Address_Book_List,
-                  Shopping_Cart_Product_List : Shopping_Cart_Product_List,
-                  Refreshing_Flag : false,
+                  this.setState({
+                    User_Flag : true,
+                    Shopping_Cart_Shipping_Address_List : Address_Book_List,
+                    Shopping_Cart_Product_List : Shopping_Cart_Product_List,
+                    Refreshing_Flag : false,
 
-                  Shopping_Cart_Shipping_Info : Address_Book_List[0],
-                  Shopping_Cart_Shipping_Info_Flag : true,
+                    Shopping_Cart_Shipping_Info : Address_Book_List[0],
+                    Shopping_Cart_Shipping_Info_Flag : true,
 
-                  Shipping_Address_Selection_Visible : false,
+                    Shipping_Address_Selection_Visible : false,
 
-                  Add_New_Shipping_Address_Visible : false,
+                    Add_New_Shipping_Address_Visible : false,
 
-                  Choose_Province_Add_New_Shipping_Address_Visible : false,
+                    Choose_Province_Add_New_Shipping_Address_Visible : false,
 
-                  Choose_City_Add_New_Shipping_Address_Visible : false,
+                    Choose_City_Add_New_Shipping_Address_Visible : false,
 
-                  New_Province_Value: '',
-                  New_Province_Key: '',
+                    New_Province_Value: '',
+                    New_Province_Key: '',
 
-                  New_City_Value: '',
-                  New_City_Key: '',
+                    New_City_Value: '',
+                    New_City_Key: '',
 
-                  New_Address_Name_Value: '',
-                  New_Address_Phone_Number_Value: '',
-                  New_Street_Value: '',
-                  New_Post_Code_Value: '',
+                    New_Address_Name_Value: '',
+                    New_Address_Phone_Number_Value: '',
+                    New_Street_Value: '',
+                    New_Post_Code_Value: '',
 
-                }, ()=>{
-                  console.log(this.state.Shopping_Cart_Shipping_Address_List);
-                });
+                  }, ()=>{
+                    console.log(this.state.Shopping_Cart_Shipping_Address_List);
+                  });
+
+                } else {
+
+                  this.setState({
+                    User_Flag : true,
+                    Shopping_Cart_Shipping_Address_List : Address_Book_List,
+                    Shopping_Cart_Product_List : Shopping_Cart_Product_List,
+                    Refreshing_Flag : false,
+
+                    Shopping_Cart_Shipping_Info : this.state.Shopping_Cart_Shipping_Info,
+                    Shopping_Cart_Shipping_Info_Flag : true,
+
+                    Shipping_Address_Selection_Visible : false,
+
+                    Add_New_Shipping_Address_Visible : false,
+
+                    Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+                    Choose_City_Add_New_Shipping_Address_Visible : false,
+
+                    New_Province_Value: '',
+                    New_Province_Key: '',
+
+                    New_City_Value: '',
+                    New_City_Key: '',
+
+                    New_Address_Name_Value: '',
+                    New_Address_Phone_Number_Value: '',
+                    New_Street_Value: '',
+                    New_Post_Code_Value: '',
+
+                  }, ()=>{
+                    console.log(this.state.Shopping_Cart_Shipping_Address_List);
+                  });
+
+                }
+
+
 
 
               } else {

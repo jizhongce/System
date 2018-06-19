@@ -30,8 +30,9 @@ rightButton = {<TouchableOpacity>
 
 */
 import {Product_Image} from '../../util.js';
-import { Icon } from 'react-native-elements';
+import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
+import Modal from "react-native-modal";
 import React, { Component } from 'react';
 import {
   Platform,
@@ -48,7 +49,6 @@ import {
   ScrollView,
   AsyncStorage,
   RefreshControl,
-  Modal,
   TouchableHighlight,
   Picker,
   FlatList,
@@ -87,6 +87,34 @@ class Shopping_Cart_Header extends React.Component {
   }
 }
 
+class Shopping_Cart_Shipping_Selection_Header extends React.Component {
+  render() {
+    return (
+      <View>
+
+        <Status_Bar />
+
+        <View style={{
+            height: 50,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }} >
+
+
+
+          <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>收 货 地 址</Text>
+
+
+
+        </View>
+
+      </View>
+
+    );
+  }
+}
+
 
 export default class Home2 extends Component<{}> {
 
@@ -100,12 +128,46 @@ export default class Home2 extends Component<{}> {
       isVisible : true,
       quantity: 1,
 
+      Modal_Visible: false,
+      Modal_Second_Visible: false,
+      Modal_Third_Visible: false,
+
     };
   }
 
   closeModal(){
     this.setState({
-      isVisible : false
+      Modal_Visible : false
+    });
+  }
+
+  openModal(){
+    this.setState({
+      Modal_Visible : true
+    });
+  }
+
+  closeSecondModal(){
+    this.setState({
+      Modal_Second_Visible : false
+    });
+  }
+
+  openSecondModal(){
+    this.setState({
+      Modal_Second_Visible : true
+    });
+  }
+
+  closeThirdModal(){
+    this.setState({
+      Modal_Third_Visible : false
+    });
+  }
+
+  openThirdModal(){
+    this.setState({
+      Modal_Third_Visible : true
     });
   }
 
@@ -122,6 +184,7 @@ export default class Home2 extends Component<{}> {
 
 
 
+
   render() {
 
     return(
@@ -129,7 +192,7 @@ export default class Home2 extends Component<{}> {
       <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
 
 
-        <TouchableOpacity activeOpacity={0.8} style={{backgroundColor: '#cbcbcb', height: '15%',  justifyContent: 'center', borderStyle: 'dotted', borderWidth: 2, borderColor: 'black',}}>
+        <TouchableOpacity onPress={()=> this.openModal()} activeOpacity={0.8} style={{backgroundColor: '#cbcbcb', height: '15%',  justifyContent: 'center', borderStyle: 'dotted', borderWidth: 2, borderColor: 'black',}}>
 
           <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
             <Text style={{fontSize: 20, }} >hardware company, </Text>
@@ -144,98 +207,336 @@ export default class Home2 extends Component<{}> {
 
         </TouchableOpacity>
 
-        {/* Main Feed for each product in the shopping cart */}
 
-        <ScrollView style={{backgroundColor: '#ededed', height: '77%', flexDirection:'column'}}>
-
-          <Swipeout style={{height:170, backgroundColor: 'white',  marginTop:5, marginBottom:5}} right={this.Swipe_Out_Button()} autoClose={true}>
-            <View style={{width: '100%', backgroundColor: 'white', flexDirection:'row',}}>
-
-              <View style={{width: '40%'}}>
-                <Image
-                  source={require('../../../img/product1.jpg')}
-                  style={{height:'100%', width: '100%'}}/>
-              </View>
-
-              <View style={{width: '60%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
-
-                <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
-                  <Text style={{fontSize: 20}}>GB846-82(XXXXXXXXXXXXXXXXXXXXX)</Text>
-                </View>
-
-                <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
-                  <Text style={{fontSize: 15}}>商品编号: P5547384 </Text>
-                </View>
-
-                <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
-                  <Text style={{fontSize: 15, marginRight: 10}}>规格 : 32 X 12</Text>
-                </View>
-
-                <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
-                  <Text style={{fontSize: 15}}>表色 : yellow</Text>
-                </View>
-
-                <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
-                  <Text style={{fontSize: 15}}>价格 : 5000/千件</Text>
-                </View>
-
-
-                <View style={{flexDirection:'row', alignItems: 'center',}}>
-
-                  <TouchableOpacity>
-                    <Icon name='remove' />
-                  </TouchableOpacity>
-
-                  <TextInput
-
-                    placeholderTextColor="black"
-
-                    placeholder={String(this.state.quantity)}
-                    keyboardType={'numeric'}
-                    style={{
-                      marginBottom: 5,
-                      marginTop:5,
-                      marginLeft:5,
-                      marginRight:5,
-                      borderWidth: 2,
-                      borderRadius: 5,
-                      width: 50}} />
-
-
-                  <TouchableOpacity>
-                    <Icon name='add' />
-                  </TouchableOpacity>
-
-
-                </View>
-
-              </View>
-
-
-            </View>
-          </Swipeout>
-
-
-        </ScrollView>
-
-
-
-
-        <View style={{height: '8%', flexDirection:'row'}}>
-
-          <View style={{height:'100%', backgroundColor: '#f3f670', width: '60%', flexDirection:'row', flexWrap:'wrap',alignItems: 'center', justifyContent: 'space-between'}}>
-            <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 17, marginLeft:5 }}> 总价: 80000 </Text>
-
-            <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 17, marginRight:5 }}> 定金: 8000 </Text>
-          </View>
-
-
-
-          <TouchableOpacity activeOpacity={0.5} style={{height:'100%', backgroundColor: '#79fcfc', width: '40%', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 20}}> 提交订单 </Text>
-          </TouchableOpacity>
+        <View style={{height: '77%',  justifyContent: 'center'}}>
 
         </View>
+
+
+        <Modal
+         isVisible={this.state.Modal_Visible}
+         backdropColor={"black"}
+         backdropOpacity={0.5}
+         backdropTransitionInTiming={500}
+         backdropTransitionOutTiming={500}
+         animationOutTiming={500}
+         animationInTiming={500}
+         onBackdropPress={() => this.setState({ Modal_Visible: false })}
+         style={{justifyContent: "center", alignItems: "center",}}
+
+       >
+         <View style={{
+           height: '90%',
+           width: '100%',
+           backgroundColor: '#ffffff',
+           borderRadius: 5,
+           borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+
+             <View style={{paddingLeft: 10, paddingRight: 10, height:'8%', backgroundColor: 'red', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+
+               <Text style={{fontSize: 20}}>收 货 地 址</Text>
+
+               <TouchableOpacity onPress={() => this.closeModal()} style={{}}>
+                 <Icon name='clear' />
+               </TouchableOpacity>
+
+             </View>
+
+
+             <ScrollView style={{height:'84%', backgroundColor: 'transparent'}}>
+
+
+               <Swipeout style={{marginTop:5, backgroundColor: '#ffffff'}} right={this.Swipe_Out_Button()} autoClose={true}>
+
+                 <TouchableOpacity activeOpacity={1} style={{borderStyle: 'dotted', flexDirection: 'row', borderWidth: 2, borderColor: 'black',}}>
+                   <View style={{width: '80%', marginLeft: 10, marginRight: 10,}}>
+                     <View style={{flexDirection:'row', alignItems: 'center',  flexWrap:'wrap'}}>
+                       <Text style={{fontSize: 20, }} >Company name 1, </Text>
+                       <Text style={{fontSize: 20}}>15000000000</Text>
+                     </View>
+
+                     <View style={{flexDirection:'row', alignItems: 'center', flexWrap:'wrap'}}>
+
+                       <Text style={{fontSize: 16}} >21 West End Ave, New York, New York, 325000</Text>
+
+                     </View>
+                   </View>
+
+                   <TouchableOpacity onPress={() => this.openThirdModal()} activeOpacity={0.5} style={{width: '20%', alignItems: 'center', justifyContent: "center", }}>
+                     <Icon name='edit' />
+                   </TouchableOpacity>
+                 </TouchableOpacity>
+
+               </Swipeout>
+
+
+
+
+             </ScrollView>
+
+
+             <View style={{height:'8%', justifyContent: "center", alignItems: "center", backgroundColor:'transparent'}}>
+               <TouchableOpacity activeOpacity={0.5} onPress={() => this.openSecondModal()}
+                 style={{
+                   height: '70%',
+                   width: '70%',
+                   backgroundColor: 'white',
+                   borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                   justifyContent: "center", alignItems: "center",
+                   shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                 }}>
+                 <Text style={{fontSize: 20}}> 添 加 新 地 址 </Text>
+               </TouchableOpacity>
+
+             </View>
+
+
+         </View>
+
+
+
+
+         {/* New */}
+
+         <Modal
+          isVisible={this.state.Modal_Second_Visible}
+          backdropColor={"black"}
+          backdropOpacity={0.5}
+          backdropTransitionInTiming={500}
+          backdropTransitionOutTiming={500}
+          animationOutTiming={500}
+          animationInTiming={500}
+          onBackdropPress={() => this.setState({ Modal_Second_Visible: false })}
+          style={{justifyContent: "center", alignItems: "center",}}
+
+        >
+          <View style={{
+            height: '60%',
+            width: '100%',
+            backgroundColor: '#ffffff',
+            borderRadius: 5,
+            borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+
+              <View style={{paddingLeft: 10, paddingRight: 10, height:'10%', backgroundColor: 'red', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+
+                <Text style={{fontSize: 20}}>添 加 收 货 地 址</Text>
+
+                <TouchableOpacity onPress={() => this.closeSecondModal()} style={{}}>
+                  <Icon name='clear' />
+                </TouchableOpacity>
+
+              </View>
+
+
+              <View style={{height:'80%', backgroundColor: 'transparent', flexDirection: 'column',}}>
+
+                <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                  <Text style={{fontSize:15, marginRight: 5,}}>收件地址名字:</Text>
+                  <TextInput style={{
+                      marginLeft: 5,
+                      width:150,
+                      borderRadius: 5,
+                      borderColor: "black",
+                      borderWidth: 1
+                    }} />
+
+                </View>
+
+                <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                  <Text style={{fontSize:15, marginRight: 5,}}>收件地址电话号码:</Text>
+                  <TextInput style={{
+                      marginLeft: 5,
+                      width:150,
+                      borderRadius: 5,
+                      borderColor: "black",
+                      borderWidth: 1
+                    }} />
+
+                </View>
+
+                <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, flexWrap:'wrap' }}>
+
+
+                  <Text style={{fontSize:15, marginRight: 5,}}>所在地区: </Text>
+                  <TouchableOpacity>
+                    <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}> 省 份 </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}> 城 市 </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}> 地 区 </Text>
+                  </TouchableOpacity>
+
+
+                </View>
+
+                <View style={{flexDirection: 'column', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                  <Text style={{fontSize:15, marginRight: 5,}}>详细地址:</Text>
+                  <TextInput multiline = {true} numberOfLines = {3}
+                    style={{
+                      height:50,
+                      marginRight: 5,
+                      borderRadius: 5,
+                      borderColor: "black",
+                      borderWidth: 1
+                    }} />
+
+                </View>
+
+
+
+              </View>
+
+              <View style={{height:'10%', justifyContent: "center", alignItems: "center", backgroundColor:'transparent'}}>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => this.closeSecondModal()}
+                  style={{
+                    height: '70%',
+                    width: '70%',
+                    backgroundColor: 'white',
+                    borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                    justifyContent: "center", alignItems: "center",
+                    shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                  }}>
+                  <Text style={{fontSize: 20}}> 提 交 新 收 货 地 址 </Text>
+                </TouchableOpacity>
+
+              </View>
+
+
+          </View>
+        </Modal>
+
+
+
+        {/* Edit */}
+
+        <Modal
+         isVisible={this.state.Modal_Third_Visible}
+         backdropColor={"black"}
+         backdropOpacity={0.5}
+         backdropTransitionInTiming={500}
+         backdropTransitionOutTiming={500}
+         animationOutTiming={500}
+         animationInTiming={500}
+         onBackdropPress={() => this.setState({ Modal_Third_Visible: false })}
+         style={{justifyContent: "center", alignItems: "center",}}
+
+       >
+         <View style={{
+           height: '60%',
+           width: '100%',
+           backgroundColor: '#ffffff',
+           borderRadius: 5,
+           borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+
+             <View style={{paddingLeft: 10, paddingRight: 10, height:'10%', backgroundColor: 'red', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+
+               <Text style={{fontSize: 20}}>修 改 收 货 地 址</Text>
+
+               <TouchableOpacity onPress={() => this.closeThirdModal()} style={{}}>
+                 <Icon name='clear' />
+               </TouchableOpacity>
+
+             </View>
+
+
+             <View style={{height:'80%', backgroundColor: 'transparent', flexDirection: 'column',}}>
+
+               <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                 <Text style={{fontSize:15, marginRight: 5,}}>收件地址名字:</Text>
+                 <TextInput style={{
+                     marginLeft: 5,
+                     width:150,
+                     borderRadius: 5,
+                     borderColor: "black",
+                     borderWidth: 1
+                   }} />
+
+               </View>
+
+               <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                 <Text style={{fontSize:15, marginRight: 5,}}>收件地址电话号码:</Text>
+                 <TextInput style={{
+                     marginLeft: 5,
+                     width:150,
+                     borderRadius: 5,
+                     borderColor: "black",
+                     borderWidth: 1
+                   }} />
+
+               </View>
+
+               <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, flexWrap:'wrap' }}>
+
+
+                 <Text style={{fontSize:15, marginRight: 5,}}>所在地区: </Text>
+                 <TouchableOpacity>
+                   <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}> 省 份 </Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity>
+                   <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}> 城 市 </Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity>
+                   <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}> 地 区 </Text>
+                 </TouchableOpacity>
+
+
+               </View>
+
+               <View style={{flexDirection: 'column', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                 <Text style={{fontSize:15, marginRight: 5,}}>详细地址:</Text>
+                 <TextInput multiline = {true} numberOfLines = {3}
+                   style={{
+                     height:50,
+                     marginRight: 5,
+                     borderRadius: 5,
+                     borderColor: "black",
+                     borderWidth: 1
+                   }} />
+
+               </View>
+
+
+
+             </View>
+
+             <View style={{height:'10%', justifyContent: "center", alignItems: "center", backgroundColor:'transparent'}}>
+               <TouchableOpacity activeOpacity={0.5} onPress={() => this.closeThirdModal()}
+                 style={{
+                   height: '70%',
+                   width: '70%',
+                   backgroundColor: 'white',
+                   borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                   justifyContent: "center", alignItems: "center",
+                   shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                 }}>
+                 <Text style={{fontSize: 20}}> 提 交 新 收 货 地 址 </Text>
+               </TouchableOpacity>
+
+             </View>
+
+
+         </View>
+       </Modal>
+
+
+
+
+
+
+
+
+       </Modal>
+
+
+
 
 
 
