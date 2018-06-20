@@ -132,9 +132,60 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       if (User_ID == null) {
 
-        DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+        this.setState({
+          User_Flag : false,
+          Shopping_Cart_Product_List : [],
+          Shopping_Cart_Shipping_Address_List : [],
 
-        this.props.navigation.navigate('User_Home');
+
+          Shopping_Cart_Shipping_Info : '',
+          Shopping_Cart_Shipping_Info_Flag : false,
+
+          Shipping_Address_Selection_Visible : false,
+
+          Add_New_Shipping_Address_Visible : false,
+
+          Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+          Choose_City_Add_New_Shipping_Address_Visible : false,
+
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
+          New_Province_Value: '',
+
+
+          New_City_Value: '',
+
+
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
+          New_Street_Value: '',
+          New_District_Value: '',
+
+
+          Edit_Shipping_Address_Visible : false,
+
+          Choose_Province_Edit_Shipping_Address_Visible : false,
+
+          Choose_City_Edit_Shipping_Address_Visible : false,
+
+          Choose_District_Edit_Shipping_Address_Visible : false,
+
+          Edit_Province_Value: '',
+
+
+          Edit_City_Value: '',
+
+
+          Edit_Address_Name_Value: '',
+          Edit_Address_Phone_Number_Value: '',
+          Edit_Street_Value: '',
+          Edit_District_Value: '',
+
+
+
+          Refreshing_Flag : false
+        });
 
       }
 
@@ -378,9 +429,61 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
         if (User_ID == null) {
 
-          DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+          this.setState({
+            User_Flag : false,
+            Shopping_Cart_Product_List : [],
+            Shopping_Cart_Shipping_Address_List : [],
 
-          this.props.navigation.navigate('User_Home');
+
+            Shopping_Cart_Shipping_Info : '',
+            Shopping_Cart_Shipping_Info_Flag : false,
+
+            Shipping_Address_Selection_Visible : false,
+
+            Add_New_Shipping_Address_Visible : false,
+
+            Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+            Choose_City_Add_New_Shipping_Address_Visible : false,
+
+            Choose_District_Add_New_Shipping_Address_Visible : false,
+
+            New_Province_Value: '',
+
+
+            New_City_Value: '',
+
+
+            New_Address_Name_Value: '',
+            New_Address_Phone_Number_Value: '',
+            New_Street_Value: '',
+            New_District_Value: '',
+
+
+            Edit_Shipping_Address_Visible : false,
+
+            Choose_Province_Edit_Shipping_Address_Visible : false,
+
+            Choose_City_Edit_Shipping_Address_Visible : false,
+
+            Choose_District_Edit_Shipping_Address_Visible : false,
+
+            Edit_Province_Value: '',
+
+
+            Edit_City_Value: '',
+
+
+            Edit_Address_Name_Value: '',
+            Edit_Address_Phone_Number_Value: '',
+            Edit_Street_Value: '',
+            Edit_District_Value: '',
+
+
+
+            Refreshing_Flag : false
+          });
+
 
         }
 
@@ -467,9 +570,61 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
         if (User_ID == null) {
 
-          DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+          this.setState({
+            User_Flag : false,
+            Shopping_Cart_Product_List : [],
+            Shopping_Cart_Shipping_Address_List : [],
 
-          this.props.navigation.navigate('User_Home');
+
+            Shopping_Cart_Shipping_Info : '',
+            Shopping_Cart_Shipping_Info_Flag : false,
+
+            Shipping_Address_Selection_Visible : false,
+
+            Add_New_Shipping_Address_Visible : false,
+
+            Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+            Choose_City_Add_New_Shipping_Address_Visible : false,
+
+            Choose_District_Add_New_Shipping_Address_Visible : false,
+
+            New_Province_Value: '',
+
+
+            New_City_Value: '',
+
+
+            New_Address_Name_Value: '',
+            New_Address_Phone_Number_Value: '',
+            New_Street_Value: '',
+            New_District_Value: '',
+
+
+            Edit_Shipping_Address_Visible : false,
+
+            Choose_Province_Edit_Shipping_Address_Visible : false,
+
+            Choose_City_Edit_Shipping_Address_Visible : false,
+
+            Choose_District_Edit_Shipping_Address_Visible : false,
+
+            Edit_Province_Value: '',
+
+
+            Edit_City_Value: '',
+
+
+            Edit_Address_Name_Value: '',
+            Edit_Address_Phone_Number_Value: '',
+            Edit_Street_Value: '',
+            Edit_District_Value: '',
+
+
+
+            Refreshing_Flag : false
+          });
+
 
         }
 
@@ -529,9 +684,61 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       if (User_ID == null) {
 
-        DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+        this.setState({
+          User_Flag : false,
+          Shopping_Cart_Product_List : [],
+          Shopping_Cart_Shipping_Address_List : [],
 
-        this.props.navigation.navigate('User_Home');
+
+          Shopping_Cart_Shipping_Info : '',
+          Shopping_Cart_Shipping_Info_Flag : false,
+
+          Shipping_Address_Selection_Visible : false,
+
+          Add_New_Shipping_Address_Visible : false,
+
+          Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+          Choose_City_Add_New_Shipping_Address_Visible : false,
+
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
+          New_Province_Value: '',
+
+
+          New_City_Value: '',
+
+
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
+          New_Street_Value: '',
+          New_District_Value: '',
+
+
+          Edit_Shipping_Address_Visible : false,
+
+          Choose_Province_Edit_Shipping_Address_Visible : false,
+
+          Choose_City_Edit_Shipping_Address_Visible : false,
+
+          Choose_District_Edit_Shipping_Address_Visible : false,
+
+          Edit_Province_Value: '',
+
+
+          Edit_City_Value: '',
+
+
+          Edit_Address_Name_Value: '',
+          Edit_Address_Phone_Number_Value: '',
+          Edit_Street_Value: '',
+          Edit_District_Value: '',
+
+
+
+          Refreshing_Flag : false
+        });
+
 
       }
 
@@ -807,9 +1014,62 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       if (User_ID == null) {
 
-        DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+        this.setState({
 
-        this.props.navigation.navigate('User_Home');
+          User_Flag : false,
+          Shopping_Cart_Product_List : [],
+          Shopping_Cart_Shipping_Address_List : [],
+
+
+          Shopping_Cart_Shipping_Info : '',
+          Shopping_Cart_Shipping_Info_Flag : false,
+
+          Shipping_Address_Selection_Visible : false,
+
+          Add_New_Shipping_Address_Visible : false,
+
+          Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+          Choose_City_Add_New_Shipping_Address_Visible : false,
+
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
+          New_Province_Value: '',
+
+
+          New_City_Value: '',
+
+
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
+          New_Street_Value: '',
+          New_District_Value: '',
+
+
+          Edit_Shipping_Address_Visible : false,
+
+          Choose_Province_Edit_Shipping_Address_Visible : false,
+
+          Choose_City_Edit_Shipping_Address_Visible : false,
+
+          Choose_District_Edit_Shipping_Address_Visible : false,
+
+          Edit_Province_Value: '',
+
+
+          Edit_City_Value: '',
+
+
+          Edit_Address_Name_Value: '',
+          Edit_Address_Phone_Number_Value: '',
+          Edit_Street_Value: '',
+          Edit_District_Value: '',
+
+
+
+          Refreshing_Flag : false
+        });
+
 
       }
 
@@ -956,9 +1216,61 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       if (User_ID == null) {
 
-        DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+        this.setState({
+          User_Flag : false,
+          Shopping_Cart_Product_List : [],
+          Shopping_Cart_Shipping_Address_List : [],
 
-        this.props.navigation.navigate('User_Home');
+
+          Shopping_Cart_Shipping_Info : '',
+          Shopping_Cart_Shipping_Info_Flag : false,
+
+          Shipping_Address_Selection_Visible : false,
+
+          Add_New_Shipping_Address_Visible : false,
+
+          Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+          Choose_City_Add_New_Shipping_Address_Visible : false,
+
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
+          New_Province_Value: '',
+
+
+          New_City_Value: '',
+
+
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
+          New_Street_Value: '',
+          New_District_Value: '',
+
+
+          Edit_Shipping_Address_Visible : false,
+
+          Choose_Province_Edit_Shipping_Address_Visible : false,
+
+          Choose_City_Edit_Shipping_Address_Visible : false,
+
+          Choose_District_Edit_Shipping_Address_Visible : false,
+
+          Edit_Province_Value: '',
+
+
+          Edit_City_Value: '',
+
+
+          Edit_Address_Name_Value: '',
+          Edit_Address_Phone_Number_Value: '',
+          Edit_Street_Value: '',
+          Edit_District_Value: '',
+
+
+
+          Refreshing_Flag : false
+        });
+
 
       }
 
@@ -1315,9 +1627,61 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       if (User_ID == null) {
 
-        DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+        this.setState({
+          User_Flag : false,
+          Shopping_Cart_Product_List : [],
+          Shopping_Cart_Shipping_Address_List : [],
 
-        this.props.navigation.navigate('User_Home');
+
+          Shopping_Cart_Shipping_Info : '',
+          Shopping_Cart_Shipping_Info_Flag : false,
+
+          Shipping_Address_Selection_Visible : false,
+
+          Add_New_Shipping_Address_Visible : false,
+
+          Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+          Choose_City_Add_New_Shipping_Address_Visible : false,
+
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
+          New_Province_Value: '',
+
+
+          New_City_Value: '',
+
+
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
+          New_Street_Value: '',
+          New_District_Value: '',
+
+
+          Edit_Shipping_Address_Visible : false,
+
+          Choose_Province_Edit_Shipping_Address_Visible : false,
+
+          Choose_City_Edit_Shipping_Address_Visible : false,
+
+          Choose_District_Edit_Shipping_Address_Visible : false,
+
+          Edit_Province_Value: '',
+
+
+          Edit_City_Value: '',
+
+
+          Edit_Address_Name_Value: '',
+          Edit_Address_Phone_Number_Value: '',
+          Edit_Street_Value: '',
+          Edit_District_Value: '',
+
+
+
+          Refreshing_Flag : false
+        });
+
 
       }
 
@@ -1495,9 +1859,61 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       if (User_ID == null) {
 
-        DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'Please Log In First! ' );
+        this.setState({
+          User_Flag : false,
+          Shopping_Cart_Product_List : [],
+          Shopping_Cart_Shipping_Address_List : [],
 
-        this.props.navigation.navigate('User_Home');
+
+          Shopping_Cart_Shipping_Info : '',
+          Shopping_Cart_Shipping_Info_Flag : false,
+
+          Shipping_Address_Selection_Visible : false,
+
+          Add_New_Shipping_Address_Visible : false,
+
+          Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+          Choose_City_Add_New_Shipping_Address_Visible : false,
+
+          Choose_District_Add_New_Shipping_Address_Visible : false,
+
+          New_Province_Value: '',
+
+
+          New_City_Value: '',
+
+
+          New_Address_Name_Value: '',
+          New_Address_Phone_Number_Value: '',
+          New_Street_Value: '',
+          New_District_Value: '',
+
+
+          Edit_Shipping_Address_Visible : false,
+
+          Choose_Province_Edit_Shipping_Address_Visible : false,
+
+          Choose_City_Edit_Shipping_Address_Visible : false,
+
+          Choose_District_Edit_Shipping_Address_Visible : false,
+
+          Edit_Province_Value: '',
+
+
+          Edit_City_Value: '',
+
+
+          Edit_Address_Name_Value: '',
+          Edit_Address_Phone_Number_Value: '',
+          Edit_Street_Value: '',
+          Edit_District_Value: '',
+
+
+
+          Refreshing_Flag : false
+        });
+
       }
 
       else {
@@ -1721,14 +2137,92 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
     if (this.state.User_Flag == false) {
 
+      Alert.alert(
+        'Watch Out!',
+        '您尚未登录，请先登录以便查询购物车！',
+        [
+          {text: '前往登录', onPress: ()=>{
+            this.props.navigation.navigate('User_Home')
+          } },
 
-      DropDownHolder.getDropDown().alertWithType('warn', 'Warning!', 'Please Sign in to see the Shopping Cart!' );
-
-      this.props.navigation.navigate('User_Home');
+        ],
+      )
 
 
       return(
+
+
+
+
+          <View style={{backgroundColor: '#ededed'}}>
+
+
+
+          </View>
+
+      )
+
+    }
+
+    else if (this.state.Shopping_Cart_Product_List.length == 0) {
+
+      return(
         <View>
+
+          <TouchableOpacity  onPress = {() => this.Open_Shipping_Address_Selection_Modal()} activeOpacity={0.8} style={{backgroundColor: '#cbcbcb', height: '15%',  justifyContent: 'center', borderStyle: 'dotted', borderWidth: 2, borderColor: 'black',}}>
+
+            <View style={ShoppingCartAddressExistStyle(!this.state.Shopping_Cart_Shipping_Info_Flag)}>
+
+            <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
+              <Text style={{fontSize: 20, }} >{this.state.Shopping_Cart_Shipping_Info.Address_Name}, </Text>
+              <Text style={{fontSize: 20}}>{this.state.Shopping_Cart_Shipping_Info.Address_Phone_Number}</Text>
+            </View>
+
+            <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, marginRight: 10, flexWrap:'wrap'}}>
+
+              <Text style={{fontSize: 16}} >{this.state.Shopping_Cart_Shipping_Info.Street}, {this.state.Shopping_Cart_Shipping_Info.City}, {this.state.Shopping_Cart_Shipping_Info.Province}, {this.state.Shopping_Cart_Shipping_Info.District}</Text>
+
+            </View>
+
+            </View>
+
+            <View style={ShoppingCartAddressExistStyle(this.state.Shopping_Cart_Shipping_Info_Flag)}>
+
+              <Text style={{fontSize: 25} }>Choose a Shipping Address</Text>
+
+            </View>
+
+          </TouchableOpacity>
+
+          <View style={{backgroundColor: '#ededed', height: '77%', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
+
+            <TouchableOpacity onPress = {() => this.props.navigation.navigate('Product_Home')} activeOpacity={0.5} style={{borderWidth: 1, borderRadius: 5, borderColor: "#c9cdcb"}}>
+              <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 20}}> 马 上 去 选 购 产 品 </Text>
+
+            </TouchableOpacity>
+
+
+          </View>
+
+
+          <View style={{height: '8%', flexDirection:'row'}}>
+
+            <View style={{height:'100%', backgroundColor: '#f3f670', width: '60%', flexDirection:'column'}}>
+              <Text style={{color: 'black', fontWeight:'bold', textAlign: 'left', fontSize: 17, marginLeft:5 }}> 总价: {this.Show_Total_Price(this.state.Shopping_Cart_Product_List)}</Text>
+
+
+              <Text style={{color: 'black', fontWeight:'bold', textAlign: 'left', fontSize: 17, marginLeft:5 }}> 定金: {this.Show_Deposit_Price(this.state.Shopping_Cart_Product_List)} </Text>
+            </View>
+
+
+
+            <TouchableOpacity onPress = {() => this.Submit_Order_On_Press(this.state.Shopping_Cart_Product_List, this.state.Shopping_Cart_Shipping_Info)} activeOpacity={0.5} style={{height:'100%', backgroundColor: '#79fcfc', width: '40%', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 20}}> 提交订单 </Text>
+            </TouchableOpacity>
+
+          </View>
+
+
 
         </View>
       )
@@ -1740,7 +2234,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
           return (
-            
+
 
 
             <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
@@ -1773,6 +2267,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               </TouchableOpacity>
 
               {/* Main Feed for each product in the shopping cart */}
+
 
               <ScrollView refreshControl={ <RefreshControl onRefresh={this.OnRefresh.bind(this)} refreshing = {this.state.Refreshing_Flag} />} style={{backgroundColor: '#ededed', height: '77%', flexDirection:'column'}}>
 

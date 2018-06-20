@@ -362,8 +362,8 @@ componentWillMount(){
 
                <Text>Address ID : {this.state.Order_Shipping_Info.Address_ID}</Text>
                <Text>Street : {this.state.Order_Shipping_Info.Street}</Text>
-               <Text>City : {PraseCityValue(this.state.Order_Shipping_Info.City)}</Text>
-               <Text>Province : {PraseProvinceValue(this.state.Order_Shipping_Info.Province)}</Text>
+               <Text>City : {this.state.Order_Shipping_Info.City}</Text>
+               <Text>Province : {this.state.Order_Shipping_Info.Province}</Text>
                <Text>Post Code : {this.state.Order_Shipping_Info.Post_Code}</Text>
              </View>
 
