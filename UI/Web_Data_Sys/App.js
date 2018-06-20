@@ -59,6 +59,7 @@ import Single_Product_Home from './apps/components/Product_Home/Single_Product_H
 
 // Start from here we import the screen for the shopping cart home
 import Shopping_Cart_Home from './apps/components/Shopping_Cart_Home/Shopping_Cart_Home.js';
+import Shopping_Cart_Single_Product_Home from './apps/components/Shopping_Cart_Home/Shopping_Cart_Single_Product_Home.js';
 import Order_Confirmation from './apps/components/Shopping_Cart_Home/Order_Confirmation.js';
 
 import Home2 from './apps/components/Home2/Home2.js';
@@ -117,6 +118,7 @@ const Product_Home_Stack = StackNavigator({
 
 const Shopping_Cart_Home_Stack = StackNavigator({
   Shopping_Cart_Home: { screen: Shopping_Cart_Home },
+  Shopping_Cart_Single_Product_Home: { screen: Shopping_Cart_Single_Product_Home },
   Order_Confirmation: { screen: Order_Confirmation},
 });
 

@@ -1888,12 +1888,6 @@ def Delete_Address(USER_ID, ADDRESS_ID):
 
         CONNECTIONS.commit()
 
-        QUERYSQL = ('DELETE FROM Address WHERE Address_ID = \'{}\';'.format(ADDRESS_ID))
-
-        CURSOR.execute(QUERYSQL)
-
-        CONNECTIONS.commit()
-
         STATUS = ErrorCode.SUCCESS_CODE
 
     else:

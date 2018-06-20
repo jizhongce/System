@@ -117,7 +117,7 @@ export function ShowCityName(City_Value){
   if (City_Value == '') {
     return(' 城 市 ')
   } else {
-    return(City_Value)
+    return(' ' + City_Value + ' ')
   }
 }
 
@@ -126,7 +126,7 @@ export function ShowProvinceName(Province_Value){
   if (Province_Value == '') {
     return(' 省 份 ')
   } else {
-    return(Province_Value)
+    return(' ' + Province_Value + ' ')
   }
 }
 
@@ -135,8 +135,19 @@ export function ShowDistrictName(District_Value){
   if (District_Value == '') {
     return(' 地 区 ')
   } else {
-    return(District_Value)
+    return(' ' + District_Value + ' ')
   }
+}
+
+export function GetProvince(){
+  return([
+    {key: 'zhejiang'},
+    {key: 'hebei'},
+    {key: 'anhui'},
+    {key: 'jiangxi'},
+    {key: 'jiangsu'},
+    {key: 'shanghai'},
+  ])
 }
 
 
@@ -163,9 +174,9 @@ export function GetCityForProvince(Province_Value){
   else if (Province_Value == 'anhui') {
     return([
       {key: 'anhui1'},
-      {key: 'anhui1'},
-      {key: 'anhui1'},
-      {key: 'anhui1'},
+      {key: 'anhui2'},
+      {key: 'anhui3'},
+      {key: 'anhui4'},
     ])
   }
   else if (Province_Value == 'jiangxi') {
@@ -203,6 +214,7 @@ export function GetDistrictForCity(City_Value){
     {key: City_Value + '4'},
   ])
 }
+
 
 
 

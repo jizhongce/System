@@ -49,13 +49,11 @@ import {
   ScrollView,
   AsyncStorage,
   RefreshControl,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard
+  KeyboardAvoidingView
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
-export default class Single_Product_Home extends Component<{}> {
+export default class Shopping_Cart_Single_Product_Home extends Component<{}> {
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -293,89 +291,6 @@ export default class Single_Product_Home extends Component<{}> {
 
 
                 this.Single_Product_Home_Refresh()
-
-
-              } else {
-
-                const errormsg = ErrorCodePrase(add_to_shopping_cart_status_code)[1]
-
-                const title = ErrorCodePrase(add_to_shopping_cart_status_code)[0]
-
-                console.log(ErrorCodePrase(add_to_shopping_cart_status_code))
-
-                Alert.alert(
-                    title,
-                    errormsg,
-                  [
-                    {text: 'OK', style: 'cancel'},
-                  ],
-                )
-
-              }
-
-            });
-
-
-          }
-
-      }
-
-      });
-
-
-  }
-
-
-
-
-  buy_product(){
-    const TempProduct = {
-      ProductID : this.state.product.Products_ID,
-      ProductStatus : this.state.product.Products_Status,
-      ProductSpec : this.state.product.Products_Spec,
-      ProductPrice : this.state.product.Products_Price,
-      ProductUnits : this.state.quantity
-    }
-
-      // console.log(TempProduct);
-
-      AsyncStorage.getItem('User_ID', (err, result) =>{
-
-        if (err) {
-          console.log(err);
-        }
-
-
-
-        else {
-
-          const User_ID = result
-
-
-          if(User_ID == null) {
-            console.log(result);
-            DropDownHolder.getDropDown().alertWithType('error', 'Error!', 'please log in first' )
-
-          }
-
-          else {
-            // here we can not just push the product into the AsyncStorage, instead we need to check if it is already in the shopping cart
-
-            // First we need to add the product into the shopping cart in the database
-
-            addToshoppingcart(User_ID, TempProduct, (response) =>{
-              const add_to_shopping_cart_status_code = response["StatusCode"]
-              const statusText = response["ResponseText"]
-
-
-              if (add_to_shopping_cart_status_code == 200) {
-
-
-                DropDownHolder.getDropDown().alertWithType('info', 'Success!', 'Item ' + this.state.product.Products_Name + ' has been added!' )
-
-                this.props.navigation.navigate('Shopping_Cart_Home');
-
-
 
 
               } else {
@@ -773,14 +688,9 @@ export default class Single_Product_Home extends Component<{}> {
           </View>
 
 
-          <TouchableOpacity onPress = {() => this.add_To_shopping_cart()} activeOpacity={0.5} style={{width:'25%', height:'100%', backgroundColor: '#fb5252', justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress = {() => this.add_To_shopping_cart()} activeOpacity={0.5} style={{width:'50%', height:'100%', backgroundColor: '#fb5252', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: 'black', fontWeight:'bold', textAlign: 'center'}}>加入购物车</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress = {() => this.buy_product()} activeOpacity={0.5} style={{width:'25%', height:'100%', backgroundColor: '#e9fb52', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'black', fontWeight:'bold', textAlign: 'center', }}>立即购买</Text>
-          </TouchableOpacity>
-
 
 
         </View>
