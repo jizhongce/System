@@ -1932,7 +1932,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               'Your Order : ' + Order_ID + ' has been submitted! \n Next you will be directed to payments!',
               [
                 {text: 'OK', style: 'cancel', onPress: () =>{
-                  this.props.navigation.navigate('Order_Confirmation', { Order_ID : Order_ID})
+                  this.props.navigation.navigate('Cashier_Home', { Order_ID : Order_ID})
                 }},
               ],
             )
@@ -2014,30 +2014,48 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       // console.log(Shopping_Cart_Confirm);
 
-      Alert.alert(
-        'Watch Out!',
-        Warning_Message,
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'Confirm', onPress: ()=>{
+      if (Warning_Flag == true) {
+        Alert.alert(
+          'Watch Out!',
+          Warning_Message,
+          [
+            {text: 'Cancel', style: 'cancel'},
+            {text: 'Confirm', onPress: ()=>{
 
-                  Alert.alert(
-                    'Watch Out!',
-                    'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm + ' \n Shipping Detail: \n' + Shipping_Info,
-                    [
-                      {text: 'Cancel', style: 'cancel'},
-                      {text: 'Confirm', onPress: ()=>{
-                        this.Submit_Order(Shopping_Cart_Product_List, Shipping_Address_Info);
-                      } },
+                    Alert.alert(
+                      'Watch Out!',
+                      'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm + ' \n Shipping Detail: \n' + Shipping_Info,
+                      [
+                        {text: 'Cancel', style: 'cancel'},
+                        {text: 'Confirm', onPress: ()=>{
+                          this.Submit_Order(Shopping_Cart_Product_List, Shipping_Address_Info);
+                        } },
 
-                    ],
-                  )
+                      ],
+                    )
 
 
-          } },
+            } },
 
-        ],
-      )
+          ],
+        )
+      } else {
+
+        Alert.alert(
+          'Watch Out!',
+          'you are Submitting your order the item from the shopping cart! \n Order Detail: \n ' + Shopping_Cart_Confirm + ' \n Shipping Detail: \n' + Shipping_Info,
+          [
+            {text: 'Cancel', style: 'cancel'},
+            {text: 'Confirm', onPress: ()=>{
+              this.Submit_Order(Shopping_Cart_Product_List, Shipping_Address_Info);
+            } },
+
+          ],
+        )
+
+      }
+
+
 
 
 

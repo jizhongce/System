@@ -66,9 +66,9 @@ QUERIES.append(ADD_ADDRESS_USER1)
 QUERIES.append(ADD_ADDRESS_USER2)
 QUERIES.append(ADD_ADDRESS_USER3)
 
-ADD_ORDER1 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\',1, 0, 352000, \'{}\', \'{}\');".format(ORDER1, CreateTimeNOW(), ADDRESS1))
-ADD_ORDER2 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\',2, 1, 330509, \'{}\', \'{}\');".format(ORDER2, CreateTimeNOW(), ADDRESS2))
-ADD_ORDER3 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\',3, 1, 391690, \'{}\', \'{}\');".format(ORDER3, CreateTimeNOW(), ADDRESS1))
+ADD_ORDER1 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\',1, 0, 352000, 0, \'{}\', \'{}\');".format(ORDER1, CreateTimeNOW(), ADDRESS1))
+ADD_ORDER2 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\',2, 1, 330509, 150000, \'{}\', \'{}\');".format(ORDER2, CreateTimeNOW(), ADDRESS2))
+ADD_ORDER3 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\',3, 1, 391690, 391690, \'{}\', \'{}\');".format(ORDER3, CreateTimeNOW(), ADDRESS1))
 
 QUERIES.append(ADD_ORDER1)
 QUERIES.append(ADD_ORDER2)

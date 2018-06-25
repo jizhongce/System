@@ -1534,7 +1534,7 @@ def Get_User_Order(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method_Status, Orders.Order_Total_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\';'.format(USER_ID))
+    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method, Orders.Order_Total_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\';'.format(USER_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1544,8 +1544,8 @@ def Get_User_Order(USER_ID):
 
     if QUERYLIST:
         for order in QUERYLIST:
-            (Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = order
-            Orders.append({"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method_Status":Order_Payment_Method_Status, "Order_Total_Price" : Order_Total_Price, "Order_Time": str(Order_Time), "Order_Shipping_Address_ID": Order_Shipping_Address_ID})
+            (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = order
+            Orders.append({"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method":Order_Payment_Method, "Order_Total_Price" : Order_Total_Price, "Order_Time": str(Order_Time), "Order_Shipping_Address_ID": Order_Shipping_Address_ID})
 
         DATA = Orders
 
@@ -1577,15 +1577,15 @@ def Get_Single_Order(Order_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID FROM Orders WHERE Orders.Order_ID = \'{}\';'.format(Order_ID))
+    QUERYSQL = ('SELECT Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID FROM Orders WHERE Orders.Order_ID = \'{}\';'.format(Order_ID))
 
     CURSOR.execute(QUERYSQL)
 
     QUERYLIST = CURSOR.fetchall()
 
     if QUERYLIST:
-        (Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
-        Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method_Status": Order_Payment_Method_Status, "Order_Total_Price":Order_Total_Price, "Order_Time": str(Order_Time)}
+        (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
+        Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method": Order_Payment_Method, "Order_Total_Price":Order_Total_Price, "Order_Paid_Price": Order_Paid_Price, "Order_Time": str(Order_Time)}
 
         QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
 
@@ -2045,7 +2045,9 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
 
     Order_Status = 1
 
-    Order_Payment_Method_Status = 0
+    Order_Payment_Method = 0
+
+    Order_Paid_Price = 0
 
     Order_Shipping_Address_ID = SHIPPING_ADDRESS['Address_ID']
 
@@ -2057,7 +2059,7 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
         Order_Total_Price = Order_Total_Price + Temp_Prodcut_Units*Temp_Prodcut_Price
 
 
-    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, Order_Payment_Method_Status, Order_Total_Price, New_Time, Order_Shipping_Address_ID))
+    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, New_Time, Order_Shipping_Address_ID))
 
     CURSOR.execute(QUERYSQL)
 

@@ -64,6 +64,8 @@ import Order_Confirmation from './apps/components/Shopping_Cart_Home/Order_Confi
 
 import Home2 from './apps/components/Home2/Home2.js';
 
+import Cashier_Home from './apps/components/Cashier_Home.js';
+
 import {DropDownHolder} from './apps/util.js';
 
 
@@ -128,7 +130,7 @@ const Home2_Stack = StackNavigator({
 });
 
 
-const Tap_Nav = TabNavigator({
+const Tap_Nav_Home = TabNavigator({
   Product_Home_Stack: {
     screen: Product_Home_Stack,
     navigationOptions: { tabBarLabel:  'Product'  },
@@ -148,11 +150,24 @@ const Tap_Nav = TabNavigator({
 }
 );
 
+
+const Total_Stack = StackNavigator({
+
+  Tap_Nav_Home: {screen: Tap_Nav_Home},
+
+  Cashier_Home: {screen: Cashier_Home}
+
+}, {
+    headerMode: 'none',
+  });
+
+
+
 export default class App extends Component<{}> {
     render() {
         return (
             <View style={{width: '100%', height: '100%'}}>
-                <Tap_Nav/>
+                <Total_Stack/>
                 <DropdownAlert ref={(ref) => DropDownHolder.setDropDown(ref)}/>
             </View>
         )

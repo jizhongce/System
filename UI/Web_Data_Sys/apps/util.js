@@ -110,6 +110,46 @@ export function FavoriteExistStyle(Existed) {
 
 }
 
+
+export function PaymentShow(payment_flag) {
+  if (payment_flag == true) {
+
+    return({})
+
+  } else {
+    return({display: 'none'})
+  }
+
+}
+
+
+export function PaymentMessage(payment_value) {
+
+  var message =''
+
+  switch (payment_value) {
+    case 1:
+      message = ' 支 付 宝 支 付 '
+      break;
+    case 2:
+      message = ' 微 信 支 付 '
+      break;
+    case 3:
+      message = ' 银 行 卡 快 捷 支 付 '
+      break;
+    case 4:
+      message = ' 银 行 转 账 支 付 '
+      break;
+
+    default:
+      message = 'Error'
+
+  }
+
+  return(message)
+
+}
+
 // Start from here we prase the add new address selection
 
 // This function will help City Modal to show the City name

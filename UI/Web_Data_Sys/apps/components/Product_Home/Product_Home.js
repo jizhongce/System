@@ -31,8 +31,8 @@ rightButton = {<TouchableOpacity>
 */
 import {getAllproducts} from '../../server.js';
 import {Product_Image, StockStatusCheck} from '../../util.js';
-import Product_Home_Header from './Product_Home_Header.js';
 import React, { Component } from 'react';
+import Status_Bar from '../Status_Bar.js';
 import DropdownAlert from 'react-native-dropdownalert';
 import {
   Platform,
@@ -56,7 +56,7 @@ export default class Product_Home extends Component<{}> {
 
 
   static navigationOptions = {
-    header: <Product_Home_Header />,
+    header: null
 }
 
   constructor(props) {
@@ -118,48 +118,96 @@ export default class Product_Home extends Component<{}> {
 
   render() {
     return (
-      <ScrollView
-        refreshControl={
-        <RefreshControl
-          refreshing = {this.state.Refreshing_Flag}
-          onRefresh={this.All_Products_On_Refresh.bind(this)}
-        />
-      } style={{backgroundColor: 'white'}}>
 
-        <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+      <View>
 
+        {/* Header  */}
 
-        {
-          this.state.products.map((product, i) => {
+        <Status_Bar />
 
-            console.log();
+        <View style={{
+            height: 50,
+            backgroundColor: 'white',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }} >
 
-            return(
-
-
-              <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} key={i} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID, Products_Name : product.Products_Name})}>
-
-                <Image
-                  source={Product_Image[product.Products_Image_Dir]}
-                  style={{height:160, width:140, marginTop: 10 }}/>
-                <Text style={{}} >名称 : {product.Products_Name}</Text>
-                <Text style={{}} >规格 : {product.Products_Spec}</Text>
-                <Text style={{}} >表色 ： {product.Products_Color}</Text>
-                <Text style={{}} >价格 ： {product.Products_Price}</Text>
-                
-
-              </TouchableOpacity>
+          <View >
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Cashier_Home')}>
+              <Text style={{marginLeft:5}}>搜索</Text>
+            </TouchableOpacity>
+          </View>
 
 
-            );
-          })
-        }
+          <View >
+          <Text>产品列表</Text>
+          </View>
 
+          <View >
+            <TouchableOpacity>
+              <Text style={{marginRight:5}}>Message</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+        {/* Header  */}
+
+
+
+        {/* Main Feed */}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing = {this.state.Refreshing_Flag}
+              onRefresh={this.All_Products_On_Refresh.bind(this)}
+              />
+          } style={{backgroundColor: 'white'}}>
+
+          <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+
+
+            {
+              this.state.products.map((product, i) => {
+
+                console.log();
+
+                return(
+
+
+                  <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} key={i} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID, Products_Name : product.Products_Name})}>
+
+                    <Image
+                      source={Product_Image[product.Products_Image_Dir]}
+                      style={{height:160, width:140, marginTop: 10 }}/>
+                    <Text style={{}} >名称 : {product.Products_Name}</Text>
+                    <Text style={{}} >规格 : {product.Products_Spec}</Text>
+                    <Text style={{}} >表色 ： {product.Products_Color}</Text>
+                    <Text style={{}} >价格 ： {product.Products_Price}</Text>
+
+
+                  </TouchableOpacity>
+
+
+                );
+              })
+            }
+
+
+
+          </View>
+
+        </ScrollView>
+
+        {/* Main Feed */}
 
 
       </View>
 
-      </ScrollView>
+
+
+
+
 
 
 

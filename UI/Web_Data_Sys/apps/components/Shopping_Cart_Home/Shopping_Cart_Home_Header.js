@@ -1,4 +1,4 @@
-import Status_Bar from '../../Status_Bar.js';
+import Status_Bar from '../Status_Bar.js';
 
 import React, { Component } from 'react';
 import {
