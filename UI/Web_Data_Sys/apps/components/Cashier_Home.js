@@ -59,7 +59,7 @@ import NavigationBar from 'react-native-navbar';
 
 import Status_Bar from './Status_Bar.js';
 
-import {getsingleorder} from '../server.js';
+import {getsingleorder, depositpaymentsubmited} from '../server.js';
 
 
 export default class Cashier_Home extends Component<{}> {
@@ -80,6 +80,9 @@ export default class Cashier_Home extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
+
+      order_info: '',
+
       alipay_flag: true,
 
       wechatpay_flag: false,
@@ -213,6 +216,7 @@ export default class Cashier_Home extends Component<{}> {
               if (Order_Basic_Info_Total_Price > 20000) {
 
                 this.setState({
+                  order_basic_info: Order_Basic_Info,
                   payment_due : (Order_Basic_Info_Total_Price*0.2).toFixed(0)
                 });
 
@@ -220,6 +224,7 @@ export default class Cashier_Home extends Component<{}> {
               } else {
 
                 this.setState({
+                  order_basic_info: Order_Basic_Info,
                   payment_due : Order_Basic_Info_Total_Price
                 });
 
@@ -270,6 +275,190 @@ export default class Cashier_Home extends Component<{}> {
 
 
   }
+
+
+  Deposit_Payment_Submited(Order_ID, Paid_Amount, Payment_Method){
+
+    AsyncStorage.getItem('User_ID', (err, result) => {
+      var User_ID = result
+      console.log(User_ID);
+
+      // Here we may need to add one more level security to check the user
+      if (User_ID == null) {
+
+        Alert.alert(
+            'Oops',
+            'There is something wrong with the log in!',
+          [
+            {text: 'OK', onPress: ()=>{
+              this.props.navigation.navigate('User_Home');
+            }},
+          ],
+        )
+
+      }
+
+      else {
+
+        const Deposit_Payment_Info = {
+          Order_ID : Order_ID,
+          Paid_Amount : Paid_Amount,
+          Payment_Method : Payment_Method
+        }
+
+        depositpaymentsubmited(User_ID, Deposit_Payment_Info, (response) =>{
+
+          const deposit_payment_submited_code = response["StatusCode"]
+
+          const deposit_payment_submited_Text = response["ResponseText"]
+
+          if (deposit_payment_submited_code == 200) {
+
+
+            this.props.navigation.navigate('Order_List');
+
+
+          } else {
+
+            const errormsg = ErrorCodePrase(deposit_payment_submited_code)[1]
+
+            const title = ErrorCodePrase(deposit_payment_submited_code)[0]
+
+
+            Alert.alert(
+              title,
+              errormsg,
+              [
+                {text: 'OK', style: 'cancel'},
+              ],
+            )
+
+
+          }
+
+
+
+        });
+
+
+      }
+
+    });
+
+
+
+
+
+  }
+
+
+
+
+
+
+  onlinepay(){
+
+    // uphere we will implement the alipay protoco then we have the status to instead
+    // After that we will handle the different situation in the callback function
+
+
+    const Paid_Amount = this.state.payment_due
+
+    const Order_ID = this.state.order_basic_info.Order_ID
+
+    const Payment_Method = this.state.payment_method_value
+
+    Alert.alert(
+      'Wow!',
+      'Did you finish the payment on the' + PaymentMessage(this.state.payment_method_value) +'?',
+      [
+        {text: 'Success', onPress: () =>{
+
+          this.Deposit_Payment_Submited(Order_ID, Paid_Amount, Payment_Method);
+
+
+
+        }},
+        {text: 'Fail', onPress: () =>{
+
+          this.props.navigation.navigate('Order_List');
+
+        }},
+      ],
+    )
+
+
+  }
+
+
+
+  banktransferpay(){
+
+    const Paid_Amount = 0
+
+    const Order_ID = this.state.order_basic_info.Order_ID
+
+    const Payment_Method = this.state.payment_method_value
+
+
+    Alert.alert(
+      'Wow!',
+      'You choose offline bank transfer payment, please follow the instruction on next page!',
+      [
+        {text: 'Ok', onPress: () =>{
+
+          this.Deposit_Payment_Submited(Order_ID, Paid_Amount, Payment_Method);
+
+        }},
+        {text: 'No'},
+      ],
+    )
+
+
+
+
+  }
+
+
+
+
+
+  Submit_Payment_Method(){
+
+    switch (this.state.payment_method_value) {
+      case 1:
+        this.onlinepay();
+        break;
+      case 2:
+        this.onlinepay();
+        break;
+      case 3:
+        this.onlinepay();
+        break;
+      case 4:
+        this.banktransferpay();
+        break;
+
+      default:
+        Alert.alert(
+          'Wow!',
+          'Please choose a payment method!',
+          [
+            {text: 'OK'},
+          ],
+        );
+        break;
+
+    }
+
+
+
+
+  }
+
+
+
+
 
 
 
@@ -491,7 +680,7 @@ export default class Cashier_Home extends Component<{}> {
 
         {/* Submit Payment */}
 
-        <TouchableOpacity activeOpacity={0.6} style={{height: '10%', width: '100%', backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity onPress={()=> this.Submit_Payment_Method()} activeOpacity={0.6} style={{height: '10%', width: '100%', backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
 
 
           <Text style={{fontSize: 17}}>{PaymentMessage(this.state.payment_method_value)}: {this.state.payment_due} </Text>

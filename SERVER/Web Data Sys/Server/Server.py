@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 from Server_utli import UrlParse, Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order
+from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
 import hashlib, uuid
@@ -723,6 +723,27 @@ class MyNewhandler(BaseHTTPRequestHandler):
             print(SHIPPING_ADDRESS)
 
             (STATUS_CODE, DATA) = Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+
+            # Deposit_Payment_Submited
+        elif URL_PATH == '/deposit_payment_submited':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            USER_ID = USER_DATA['User_ID']
+            DEPOSIT_PAYMENT_INFO = USER_DATA['Deposit_Payment_Info']
+
+
+            print(USER_ID)
+            print(DEPOSIT_PAYMENT_INFO)
+
+            (STATUS_CODE, DATA) = Deposit_Payment_Submited(USER_ID, DEPOSIT_PAYMENT_INFO)
 
             print(DATA)
 

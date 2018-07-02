@@ -2043,7 +2043,7 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
 
     New_Time = CreateTimeNOW()
 
-    Order_Status = 1
+    Order_Status = 'NDP'
 
     Order_Payment_Method = 0
 
@@ -2097,6 +2097,70 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
     else:
         STATUS = ErrorCode.NO_SUCH_SHOPPING_CART_ERROR
         DATA = 0
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+
+    return(STATUS, DATA)
+
+
+# End of the Submit_Order function
+
+
+
+# Start of the Deposit_Payment_Submited function
+
+def Deposit_Payment_Submited(USER_ID, DEPOSIT_PAYMENT_INFO):
+    '''
+    This will submit the new order into the address
+    There are couple things need to be done
+
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    Order_ID = DEPOSIT_PAYMENT_INFO['Order_ID']
+
+    Paid_Amount = DEPOSIT_PAYMENT_INFO['Paid_Amount']
+
+    Payment_Method = DEPOSIT_PAYMENT_INFO['Payment_Method']
+
+    Order_Status = 'PRO'
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Orders_User WHERE User_ID = \'{}\' AND Order_ID = \'{}\' ;'.format(USER_ID, Order_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+
+        if Paid_Amount > 0:
+            QUERYSQL = ('UPDATE Orders SET Order_Status = \'{}\', Order_Payment_Method = \'{}\', Order_Paid_Price = \'{}\' WHERE Order_ID = \'{}\';'.format(Order_Status, Payment_Method, Paid_Amount, Order_ID))
+
+        else:
+            QUERYSQL = ('UPDATE Orders SET Order_Payment_Method = \'{}\', Order_Paid_Price = \'{}\' WHERE Order_ID = \'{}\';'.format(Payment_Method, Paid_Amount, Order_ID))
+
+        CURSOR.execute(QUERYSQL)
+
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+
+        STATUS = ErrorCode.ORDER_ID_DOES_NOT_MATCH
 
 
     CURSOR.close()

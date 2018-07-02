@@ -65,6 +65,7 @@ import Order_Confirmation from './apps/components/Shopping_Cart_Home/Order_Confi
 import Home2 from './apps/components/Home2/Home2.js';
 
 import Cashier_Home from './apps/components/Cashier_Home.js';
+import Confirmation_Home from './apps/components/Confirmation_Home.js';
 
 import {DropDownHolder} from './apps/util.js';
 
@@ -155,7 +156,9 @@ const Total_Stack = StackNavigator({
 
   Tap_Nav_Home: {screen: Tap_Nav_Home},
 
-  Cashier_Home: {screen: Cashier_Home}
+  Cashier_Home: {screen: Cashier_Home},
+
+  Confirmation_Home: {screen: Confirmation_Home},
 
 }, {
     headerMode: 'none',

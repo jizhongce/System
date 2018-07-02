@@ -548,3 +548,23 @@ export function getsingleorder(Order_ID, cb){
     cb(responseDict);
   });
 }
+
+
+export function depositpaymentsubmited(User_ID, Deposit_Payment_Info, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/deposit_payment_submited", true);
+  var body = {User_ID: User_ID, Deposit_Payment_Info: Deposit_Payment_Info};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}

@@ -44,7 +44,7 @@ CREATE_ADDRESS = ("CREATE TABLE IF NOT EXISTS Address ( Address_ID VARCHAR(100) 
 
 CREATE_ADDRESS_USER = ("CREATE TABLE IF NOT EXISTS Address_User ( User_ID VARCHAR(100), Address_ID VARCHAR(100),  FOREIGN KEY (User_ID) REFERENCES Users(User_ID), FOREIGN KEY (Address_ID) REFERENCES Address(Address_ID));")
 
-CREATE_ORDERS = ("CREATE TABLE IF NOT EXISTS Orders ( Order_ID VARCHAR(100) UNIQUE, Order_Status INT, Order_Payment_Method INT, Order_Total_Price BIGINT UNSIGNED, Order_Paid_Price BIGINT UNSIGNED, Order_Time DATETIME, Order_Shipping_Address_ID  VARCHAR(100), PRIMARY KEY (Order_ID), FOREIGN KEY (Order_Shipping_Address_ID) REFERENCES Address(Address_ID));")
+CREATE_ORDERS = ("CREATE TABLE IF NOT EXISTS Orders ( Order_ID VARCHAR(100) UNIQUE, Order_Status VARCHAR(50), Order_Payment_Method INT, Order_Total_Price BIGINT UNSIGNED, Order_Paid_Price BIGINT UNSIGNED, Order_Time DATETIME, Order_Shipping_Address_ID  VARCHAR(100), PRIMARY KEY (Order_ID), FOREIGN KEY (Order_Shipping_Address_ID) REFERENCES Address(Address_ID));")
 
 CREATE_ORDERS_USER = ("CREATE TABLE IF NOT EXISTS Orders_User ( User_ID VARCHAR(100), Order_ID VARCHAR(100),  FOREIGN KEY (User_ID) REFERENCES Users(User_ID), FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID));")
 
