@@ -129,24 +129,24 @@ export default class Product_Home extends Component<{}> {
             height: 50,
             backgroundColor: 'white',
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
           }} >
 
-          <View >
+          <View style={{width: '20%', justifyContent: 'center', alignItems: 'center',}}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Confirmation_Home',{ Order_ID : '6332b6d8-0593-4d53-a513-858e786bccf1'} )}>
-              <Text style={{marginLeft:5}}>搜索</Text>
+              <Text style={{marginLeft:5}}> 搜 索 </Text>
             </TouchableOpacity>
           </View>
 
 
-          <View >
-          <Text>产品列表</Text>
+          <View style={{width: '60%', justifyContent: 'center', alignItems: 'center',}}>
+          <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>产品列表</Text>
           </View>
 
-          <View >
+          <View style={{width: '20%', justifyContent: 'center', alignItems: 'center',}}>
             <TouchableOpacity>
-              <Text style={{marginRight:5}}>Message</Text>
+              <Text style={{marginRight:5}}> 消 息 </Text>
             </TouchableOpacity>
           </View>
 
