@@ -315,7 +315,7 @@ export default class Cashier_Home extends Component<{}> {
           if (deposit_payment_submited_code == 200) {
 
 
-            this.props.navigation.navigate('Order_List');
+            this.props.navigation.navigate('Confirmation_Home',{ Order_ID : Order_ID} )
 
 
           } else {

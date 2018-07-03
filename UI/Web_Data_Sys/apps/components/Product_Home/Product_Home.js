@@ -134,7 +134,7 @@ export default class Product_Home extends Component<{}> {
           }} >
 
           <View >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Cashier_Home')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Confirmation_Home',{ Order_ID : '6332b6d8-0593-4d53-a513-858e786bccf1'} )}>
               <Text style={{marginLeft:5}}>搜索</Text>
             </TouchableOpacity>
           </View>

@@ -2148,7 +2148,7 @@ def Deposit_Payment_Submited(USER_ID, DEPOSIT_PAYMENT_INFO):
 
     if QUERYLIST:
 
-        if Paid_Amount > 0:
+        if int(Paid_Amount) > 0:
             QUERYSQL = ('UPDATE Orders SET Order_Status = \'{}\', Order_Payment_Method = \'{}\', Order_Paid_Price = \'{}\' WHERE Order_ID = \'{}\';'.format(Order_Status, Payment_Method, Paid_Amount, Order_ID))
 
         else:

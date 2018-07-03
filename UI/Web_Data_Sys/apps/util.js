@@ -150,6 +150,74 @@ export function PaymentMessage(payment_value) {
 
 }
 
+
+export function PaymentPrase(payment_value) {
+
+  var result =''
+
+  switch (payment_value) {
+    case 1:
+      result = ' 支付宝'
+      break;
+    case 2:
+      result = '微信'
+      break;
+    case 3:
+      result = '银行卡快捷'
+      break;
+    case 4:
+      result = '银行转账'
+      break;
+
+    default:
+      result = 'Error'
+
+  }
+
+  return(result)
+
+}
+
+
+export function StatusPrase(status_value) {
+
+  var result =''
+
+  switch (status_value) {
+    case 'NDP':
+      result = '订单定金待支付'
+      break;
+    case 'PRO':
+      result = '订单处理中'
+      break;
+    case 'PCK':
+      result = '订单产品正在包装'
+      break;
+    case 'SHP':
+      result = '订单产品正在配送'
+      break;
+    case 'REV':
+      result = '订单产品已签收'
+      break;
+    case 'NWP':
+      result = '订单尾款尚未支付'
+      break;
+    case 'ORC':
+      result = '订单已完成'
+      break;
+    case 'CAN':
+      result = '订单已取消'
+      break;
+
+    default:
+      result = '订单错误'
+
+  }
+
+  return(result)
+
+}
+
 // Start from here we prase the add new address selection
 
 // This function will help City Modal to show the City name
