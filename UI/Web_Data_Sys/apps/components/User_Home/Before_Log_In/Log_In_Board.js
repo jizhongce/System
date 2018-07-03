@@ -54,9 +54,6 @@ const NavTitle = {
   style: {fontSize: 25}
 }
 
-const NavLeftButton = {
-  icon: require('../../../../img/platform3.png')
-}
 
 export default class Log_In_Board extends Component<{}> {
 

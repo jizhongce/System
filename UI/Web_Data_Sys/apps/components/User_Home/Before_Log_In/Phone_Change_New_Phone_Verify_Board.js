@@ -53,9 +53,6 @@ const NavTitle = {
   style: {fontSize: 25}
 }
 
-const NavLeftButton = {
-  icon: require('../../../../img/platform3.png')
-}
 
 export default class Phone_Change_New_Phone_Verify_Board extends Component<{}> {
 

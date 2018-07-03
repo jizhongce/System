@@ -2240,7 +2240,644 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
           </View>
 
+          <Modal
+           isVisible={this.state.Shipping_Address_Selection_Visible}
+           backdropColor={"black"}
+           backdropOpacity={0.5}
+           backdropTransitionInTiming={500}
+           backdropTransitionOutTiming={500}
+           animationOutTiming={500}
+           animationInTiming={500}
+           onBackdropPress={() => this.Close_Shipping_Address_Selection_Modal()}
+           style={{justifyContent: "center", alignItems: "center",}}
 
+         >
+           <View style={{
+             height: '90%',
+             width: '100%',
+             backgroundColor: '#ffffff',
+             borderRadius: 5,
+             borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+
+               <View style={{paddingLeft: 10, paddingRight: 10, height:'8%', backgroundColor: 'red', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+
+                 <Text style={{fontSize: 20}}>收 货 地 址</Text>
+
+                 <TouchableOpacity onPress={() => this.Close_Shipping_Address_Selection_Modal()} style={{}}>
+                   <Icon name='clear' />
+                 </TouchableOpacity>
+
+               </View>
+
+
+               <ScrollView style={{height:'84%', backgroundColor: 'transparent'}}>
+
+
+                 {
+                   this.state.Shopping_Cart_Shipping_Address_List.map((Address, i) => {
+                     return(
+
+                       <Swipeout key={i} style={{marginTop:5, backgroundColor: '#ffffff'}} right={this.Address_Swipe_Out_Button(Address)} autoClose={true}>
+
+                         <TouchableOpacity onPress = {() => this.Choose_Shipping_Address(Address)} activeOpacity={1} style={{borderStyle: 'dotted', flexDirection: 'row', borderWidth: 2, borderColor: 'black',}}>
+                           <View style={{width: '80%', marginLeft: 10, marginRight: 10,}}>
+                             <View style={{flexDirection:'row', alignItems: 'center',  flexWrap:'wrap'}}>
+                               <Text style={{fontSize: 20, }} >{Address.Address_Name}, </Text>
+                               <Text style={{fontSize: 20}}>{Address.Address_Phone_Number}</Text>
+                             </View>
+
+                             <View style={{flexDirection:'row', alignItems: 'center', flexWrap:'wrap'}}>
+
+                               <Text style={{fontSize: 16}} >{Address.Street}, {Address.District}, {Address.City}, {Address.Province}</Text>
+
+                             </View>
+                           </View>
+
+                           <TouchableOpacity onPress={() => this.Open_Edit_Address_Modal(Address)} activeOpacity={0.5} style={{width: '20%', alignItems: 'center', justifyContent: "center", }}>
+                             <Icon name='edit' />
+                           </TouchableOpacity>
+                         </TouchableOpacity>
+
+                       </Swipeout>
+
+
+                     );
+                   })
+                 }
+
+               </ScrollView>
+
+
+               <View style={{height:'8%', justifyContent: "center", alignItems: "center", backgroundColor:'transparent'}}>
+                 <TouchableOpacity activeOpacity={0.5} onPress={() => this.Open_Add_New_Shipping_Address_Modal()}
+                   style={{
+                     height: '70%',
+                     width: '70%',
+                     backgroundColor: 'white',
+                     borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                     justifyContent: "center", alignItems: "center",
+                     shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                   }}>
+                   <Text style={{fontSize: 20}}> 添 加 新 地 址 </Text>
+                 </TouchableOpacity>
+
+               </View>
+
+
+           </View>
+
+
+
+
+           {/* New */}
+
+           <Modal
+            isVisible={this.state.Add_New_Shipping_Address_Visible}
+            backdropColor={"black"}
+            backdropOpacity={0.5}
+            backdropTransitionInTiming={500}
+            backdropTransitionOutTiming={500}
+            animationOutTiming={500}
+            animationInTiming={500}
+            onBackdropPress={() => this.Close_Add_New_Shipping_Address_Modal()}
+            style={{justifyContent: "center", alignItems: "center",}}
+
+          >
+            <View style={{
+              height: '60%',
+              width: '100%',
+              backgroundColor: '#ffffff',
+              borderRadius: 5,
+              borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+
+                <View style={{paddingLeft: 10, paddingRight: 10, height:'10%', backgroundColor: 'red', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+
+                  <Text style={{fontSize: 20}}>添 加 收 货 地 址</Text>
+
+                  <TouchableOpacity onPress={() => this.Close_Add_New_Shipping_Address_Modal()} style={{}}>
+                    <Icon name='clear' />
+                  </TouchableOpacity>
+
+                </View>
+
+
+                <View style={{height:'80%', backgroundColor: 'transparent', flexDirection: 'column',}}>
+
+                  <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                    <Text style={{fontSize:15, marginRight: 5,}}>收件地址名字:</Text>
+                    <TextInput
+                      onChangeText = {(text) => this.New_Address_Name_Handler(text)}
+                      autoCapitalize='none'
+                      value = {this.state.New_Address_Name_Value}
+                      style={{
+                        marginLeft: 5,
+                        width:150,
+                        borderRadius: 5,
+                        borderColor: "black",
+                        borderWidth: 1
+                      }} />
+
+                  </View>
+
+                  <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                    <Text style={{fontSize:15, marginRight: 5,}}>收件地址电话号码:</Text>
+                    <TextInput
+                      value = {this.state.New_Address_Phone_Number_Value}
+                      onChangeText = {(text) => this.New_Address_Phone_Number_Handler(text)}
+                      keyboardType={'phone-pad'}
+                      autoCapitalize='none'
+                      style={{
+                        marginLeft: 5,
+                        width:150,
+                        borderRadius: 5,
+                        borderColor: "black",
+                        borderWidth: 1
+                      }} />
+
+                  </View>
+
+                  <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, flexWrap:'wrap' }}>
+
+
+                    <Text style={{fontSize:15, marginRight: 5,}}>所在地区: </Text>
+                    <TouchableOpacity onPress={()=>this.Open_Choose_Province_Add_New_Shipping_Address_Modal()} >
+                      <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}>{ShowProvinceName(this.state.New_Province_Value)}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>this.Open_Choose_City_Add_New_Shipping_Address_Modal()} >
+                      <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}>{ShowCityName(this.state.New_City_Value)}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>this.Open_Choose_District_Add_New_Shipping_Address_Modal()} >
+                      <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}>{ShowDistrictName(this.state.New_District_Value)}</Text>
+                    </TouchableOpacity>
+
+
+                  </View>
+
+                  <View style={{flexDirection: 'column', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                    <Text style={{fontSize:15, marginRight: 5,}}>详细地址:</Text>
+                    <TextInput
+                      numberOfLines = {3}
+                      value = {this.state.New_Street_Value}
+                      onChangeText = {(text) => this.New_Street_Handler(text)}
+                      autoCapitalize='none'
+                      style={{
+                        height:50,
+                        marginRight: 5,
+                        borderRadius: 5,
+                        borderColor: "black",
+                        borderWidth: 1
+                      }} />
+
+                  </View>
+
+
+
+                </View>
+
+                <View style={{height:'10%', justifyContent: "center", alignItems: "center", backgroundColor:'transparent'}}>
+                  <TouchableOpacity activeOpacity={0.5} onPress={() => this.Submit_New_Address_On_Press()}
+                    style={{
+                      height: '70%',
+                      width: '70%',
+                      backgroundColor: 'white',
+                      borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                      justifyContent: "center", alignItems: "center",
+                      shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                    }}>
+                    <Text style={{fontSize: 20}}> 提 交 新 收 货 地 址 </Text>
+                  </TouchableOpacity>
+
+                </View>
+
+
+            </View>
+
+
+            {/* New Province Choose */}
+            <Modal
+             isVisible={this.state.Choose_Province_Add_New_Shipping_Address_Visible}
+             backdropColor={"black"}
+             backdropOpacity={0.5}
+             backdropTransitionInTiming={500}
+             backdropTransitionOutTiming={500}
+             animationOutTiming={500}
+             animationInTiming={500}
+             onBackdropPress={() => this.Close_Choose_Province_Add_New_Shipping_Address_Modal()}
+             style={{justifyContent: "center", alignItems: "center",}}
+
+           >
+             <View style={{
+               height: '30%',
+               width: '50%',
+               backgroundColor: '#ffffff',
+               borderRadius: 5,
+               justifyContent: "center", alignItems: "center",
+               borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+               <Picker
+                 selectedValue={this.state.New_Province_Value}
+                 style={{ height: '100%', width: '100%' }}
+                 onValueChange={(itemValue, itemIndex) => this.New_Province_Handler(itemValue)}>
+                 {
+                   GetProvince().map((Province, i)=>{
+                     return(
+                       <Picker.Item key={i} label= {Province.key} value={Province.key} />
+                     );
+                   })
+                 }
+               </Picker>
+
+
+
+             </View>
+
+
+           </Modal>
+
+           {/* New Province Choose */}
+
+
+            {/* New City Choose */}
+            <Modal
+             isVisible={this.state.Choose_City_Add_New_Shipping_Address_Visible}
+             backdropColor={"black"}
+             backdropOpacity={0.5}
+             backdropTransitionInTiming={500}
+             backdropTransitionOutTiming={500}
+             animationOutTiming={500}
+             animationInTiming={500}
+             onBackdropPress={() => this.Close_Choose_City_Add_New_Shipping_Address_Modal()}
+             style={{justifyContent: "center", alignItems: "center",}}
+
+           >
+             <View style={{
+               height: '30%',
+               width: '50%',
+               backgroundColor: '#ffffff',
+               borderRadius: 5,
+               justifyContent: "center", alignItems: "center",
+               borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+               <Picker
+                 selectedValue={this.state.New_City_Value}
+                 style={{ height: '100%', width: '100%' }}
+                 onValueChange={(itemValue, itemIndex) => this.New_City_Handler(itemValue)}>
+                 {
+                   GetCityForProvince(this.state.New_Province_Value).map((City, i)=>{
+                     return(
+                       <Picker.Item key={i} label= {City.key} value={City.key} />
+                     );
+                   })
+                 }
+               </Picker>
+
+
+
+             </View>
+
+
+           </Modal>
+
+           {/* New CIty Choose */}
+
+
+            {/* New District Choose */}
+            <Modal
+             isVisible={this.state.Choose_District_Add_New_Shipping_Address_Visible}
+             backdropColor={"black"}
+             backdropOpacity={0.5}
+             backdropTransitionInTiming={500}
+             backdropTransitionOutTiming={500}
+             animationOutTiming={500}
+             animationInTiming={500}
+             onBackdropPress={() => this.Close_Choose_District_Add_New_Shipping_Address_Modal()}
+             style={{justifyContent: "center", alignItems: "center",}}
+
+           >
+             <View style={{
+               height: '30%',
+               width: '50%',
+               backgroundColor: '#ffffff',
+               borderRadius: 5,
+               justifyContent: "center", alignItems: "center",
+               borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+               <Picker
+                 selectedValue={this.state.New_District_Value}
+                 style={{ height: '100%', width: '100%' }}
+                 onValueChange={(itemValue, itemIndex) => this.New_District_Handler(itemValue)}>
+                 {
+                   GetDistrictForCity(this.state.New_City_Value).map((District, i)=>{
+                     return(
+                       <Picker.Item key={i} label= {District.key} value={District.key} />
+                     );
+                   })
+                 }
+               </Picker>
+
+
+
+             </View>
+
+
+           </Modal>
+
+           {/* New District Choose */}
+
+
+
+          </Modal>
+          {/* New Address */}
+
+
+
+
+          {/* Edit */}
+
+          <Modal
+            isVisible={this.state.Edit_Shipping_Address_Visible}
+            backdropColor={"black"}
+            backdropOpacity={0.5}
+            backdropTransitionInTiming={500}
+            backdropTransitionOutTiming={500}
+            animationOutTiming={500}
+            animationInTiming={500}
+            onBackdropPress={() => this.Close_Edit_Address_Modal()}
+            style={{justifyContent: "center", alignItems: "center",}}
+
+            >
+            <View style={{
+                height: '60%',
+                width: '100%',
+                backgroundColor: '#ffffff',
+                borderRadius: 5,
+                borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+
+                <View style={{paddingLeft: 10, paddingRight: 10, height:'10%', backgroundColor: 'red', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", }}>
+
+                  <Text style={{fontSize: 20}}>修 改 收 货 地 址</Text>
+
+                  <TouchableOpacity onPress={() => this.Close_Edit_Address_Modal()} style={{}}>
+                    <Icon name='clear' />
+                  </TouchableOpacity>
+
+                </View>
+
+
+                <View style={{height:'80%', backgroundColor: 'transparent', flexDirection: 'column',}}>
+
+                  <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                    <Text style={{fontSize:15, marginRight: 5,}}>收件地址名字:</Text>
+                    <TextInput
+                      onChangeText = {(text) => this.Edit_Address_Name_Handler(text)}
+                      autoCapitalize='none'
+                      value = {this.state.Edit_Address_Name_Value}
+                      style={{
+                        marginLeft: 5,
+                        width:150,
+                        borderRadius: 5,
+                        borderColor: "black",
+                        borderWidth: 1
+                      }} />
+
+                    </View>
+
+                    <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                      <Text style={{fontSize:15, marginRight: 5,}}>收件地址电话号码:</Text>
+
+                      <TextInput
+                        value = {this.state.Edit_Address_Phone_Number_Value}
+                        onChangeText = {(text) => this.Edit_Address_Phone_Number_Handler(text)}
+                        keyboardType={'phone-pad'}
+                        autoCapitalize='none'
+                        style={{
+                          marginLeft: 5,
+                          width:150,
+                          borderRadius: 5,
+                          borderColor: "black",
+                          borderWidth: 1
+                        }} />
+
+
+
+                    </View>
+
+                      <View style={{flexDirection: 'row', marginTop: 10, marginBottom: 10, marginLeft: 10, flexWrap:'wrap' }}>
+
+
+                        <Text style={{fontSize:15, marginRight: 5,}}>所在地区: </Text>
+                        <TouchableOpacity onPress={()=>this.Edit_Open_Choose_Province_Modal()} >
+                          <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}>{ShowProvinceName(this.state.Edit_Province_Value)}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.Edit_Open_Choose_City_Modal()} >
+                          <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}>{ShowCityName(this.state.Edit_City_Value)}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.Edit_Open_Choose_District_Modal()} >
+                          <Text style={{fontSize:15, marginRight: 5, borderColor: "black", borderWidth: 1}}>{ShowDistrictName(this.state.Edit_District_Value)}</Text>
+                        </TouchableOpacity>
+
+
+                      </View>
+
+                      <View style={{flexDirection: 'column', marginTop: 10, marginBottom: 10, marginLeft: 10, }}>
+                        <Text style={{fontSize:15, marginRight: 5,}}>详细地址:</Text>
+                        <TextInput
+                          numberOfLines = {3}
+                          value = {this.state.Edit_Street_Value}
+                          onChangeText = {(text) => this.Edit_Street_Handler(text)}
+                          autoCapitalize='none'
+                          style={{
+                            height:50,
+                            marginRight: 5,
+                            borderRadius: 5,
+                            borderColor: "black",
+                            borderWidth: 1
+                          }} />
+
+                      </View>
+
+
+
+                      </View>
+
+                      <View style={{height:'10%', justifyContent: "center", alignItems: "center", backgroundColor:'transparent'}}>
+                        <TouchableOpacity activeOpacity={0.5} onPress={() => this.Submit_Edit_Address_On_Press()}
+                          style={{
+                            height: '70%',
+                            width: '70%',
+                            backgroundColor: 'white',
+                            borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                            justifyContent: "center", alignItems: "center",
+                            shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                          }}>
+                          <Text style={{fontSize: 20}}> 提 交 修 改 收 货 地 址 </Text>
+                        </TouchableOpacity>
+
+                      </View>
+
+
+                    </View>
+
+
+                    {/* Edit Province Choose */}
+                    <Modal
+                      isVisible={this.state.Choose_Province_Edit_Shipping_Address_Visible}
+                      backdropColor={"black"}
+                      backdropOpacity={0.5}
+                      backdropTransitionInTiming={500}
+                      backdropTransitionOutTiming={500}
+                      animationOutTiming={500}
+                      animationInTiming={500}
+                      onBackdropPress={() => this.Edit_Close_Choose_Province_Modal()}
+                      style={{justifyContent: "center", alignItems: "center",}}
+
+                      >
+                      <View style={{
+                          height: '30%',
+                          width: '50%',
+                          backgroundColor: '#ffffff',
+                          borderRadius: 5,
+                          justifyContent: "center", alignItems: "center",
+                          borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+                          <Picker
+                            selectedValue={this.state.Edit_Province_Value}
+                            style={{ height: '100%', width: '100%' }}
+                            onValueChange={(itemValue, itemIndex) => this.Edit_Province_Handler(itemValue)}>
+                            {
+                              GetProvince().map((Province, i)=>{
+                                return(
+                                  <Picker.Item key={i} label= {Province.key} value={Province.key} />
+                                );
+                              })
+                            }
+                          </Picker>
+
+
+
+                        </View>
+
+
+                      </Modal>
+
+                      {/* Edit Province Choose */}
+
+
+                      {/* Edit City Choose */}
+                      <Modal
+                        isVisible={this.state.Choose_City_Edit_Shipping_Address_Visible}
+                        backdropColor={"black"}
+                        backdropOpacity={0.5}
+                        backdropTransitionInTiming={500}
+                        backdropTransitionOutTiming={500}
+                        animationOutTiming={500}
+                        animationInTiming={500}
+                        onBackdropPress={() => this.Edit_Close_Choose_City_Modal()}
+                        style={{justifyContent: "center", alignItems: "center",}}
+
+                        >
+                        <View style={{
+                            height: '30%',
+                            width: '50%',
+                            backgroundColor: '#ffffff',
+                            borderRadius: 5,
+                            justifyContent: "center", alignItems: "center",
+                            borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+                            <Picker
+                              selectedValue={this.state.Edit_City_Value}
+                              style={{ height: '100%', width: '100%' }}
+                              onValueChange={(itemValue, itemIndex) => this.Edit_City_Handler(itemValue)}>
+                              {
+                                GetCityForProvince(this.state.Edit_Province_Value).map((City, i)=>{
+                                  return(
+                                    <Picker.Item key={i} label= {City.key} value={City.key} />
+                                  );
+                                })
+                              }
+                            </Picker>
+
+
+
+                          </View>
+
+
+                        </Modal>
+
+                        {/* Edit CIty Choose */}
+
+
+                        {/* Edit District Choose */}
+                        <Modal
+                          isVisible={this.state.Choose_District_Edit_Shipping_Address_Visible}
+                          backdropColor={"black"}
+                          backdropOpacity={0.5}
+                          backdropTransitionInTiming={500}
+                          backdropTransitionOutTiming={500}
+                          animationOutTiming={500}
+                          animationInTiming={500}
+                          onBackdropPress={() => this.Edit_Close_Choose_District_Modal()}
+                          style={{justifyContent: "center", alignItems: "center",}}
+
+                          >
+                          <View style={{
+                              height: '30%',
+                              width: '50%',
+                              backgroundColor: '#ffffff',
+                              borderRadius: 5,
+                              justifyContent: "center", alignItems: "center",
+                              borderColor: "rgba(0, 0, 0, 0.1)"}}>
+
+
+                              <Picker
+                                selectedValue={this.state.Edit_District_Value}
+                                style={{ height: '100%', width: '100%' }}
+                                onValueChange={(itemValue, itemIndex) => this.Edit_District_Handler(itemValue)}>
+                                {
+                                  GetDistrictForCity(this.state.Edit_City_Value).map((District, i)=>{
+                                    return(
+                                      <Picker.Item key={i} label= {District.key} value={District.key} />
+                                    );
+                                  })
+                                }
+                              </Picker>
+
+
+
+                            </View>
+
+
+                          </Modal>
+
+                          {/* Edit District Choose */}
+
+
+
+                        </Modal>
+                        {/* Edit Address */}
+
+
+
+
+
+
+         </Modal>
+         {/* Shipping info selection */}
+
+
+
+         
 
         </View>
       )

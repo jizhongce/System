@@ -52,9 +52,6 @@ const NavTitle = {
   style: {fontSize: 25}
 }
 
-const NavLeftButton = {
-  icon: require('../../../../img/platform3.png')
-}
 
 export default class Pass_Change_Board extends Component<{}> {
 
