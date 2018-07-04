@@ -45,7 +45,7 @@ import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.
 import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
 
-import Log_In_Board from './apps/components/User_Home/Before_Log_In/Log_In_Board.js';
+// import Log_In_Board from './apps/components/User_Home/Before_Log_In/Log_In_Board.js';
 import Sign_Up_Board from './apps/components/User_Home/Before_Log_In/Sign_Up_Board.js';
 import Pass_Change_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_Board.js';
 import Phone_Change_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_Board.js';
@@ -108,7 +108,7 @@ const User_Home_Stack = StackNavigator({
   Single_Order: { screen: Single_Order },
   Address_Book: { screen: Address_Book },
 
-  Log_In_Board: { screen: Log_In_Board },
+  // Log_In_Board: { screen: Log_In_Board },
   Sign_Up_Board: { screen: Sign_Up_Board },
   Pass_Change_Board: { screen: Pass_Change_Board },
   Phone_Change_Board: { screen: Phone_Change_Board },

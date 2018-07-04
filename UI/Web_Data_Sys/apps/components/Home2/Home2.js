@@ -76,9 +76,7 @@ class Sign_Up_Home_Header extends React.Component {
           }} >
 
 
-
           <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 注 册 </Text>
-
 
 
         </View>

@@ -40,6 +40,12 @@ DATABASE_CONNECT = mysql.connector.connect(user='root', password='jizhongce123',
 
 CURSOR = DATABASE_CONNECT.cursor(buffered=True)
 
+ADD_PHONE_NUMBER1 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUE ('15000000000', 123456);")
+ADD_PHONE_NUMBER2 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUE ('25000000000', 123456);")
+
+QUERIES.append(ADD_PHONE_NUMBER1)
+QUERIES.append(ADD_PHONE_NUMBER2)
+
 ADD_USER1 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified, TEMPCODE) VALUE (\'{}\','jizhongce', \'{}\', '15000000000', TRUE, 123456);".format(USER1, PASSWORD1))
 ADD_USER2 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified, TEMPCODE) VALUE (\'{}\','jizhongce123', \'{}\', '25000000000', TRUE, 123456);".format(USER2, PASSWORD2))
 

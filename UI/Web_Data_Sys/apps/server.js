@@ -14,10 +14,10 @@ changephone,
 
 */
 
-export function login(username, password, cb) {
+export function login(Log_In_Phone_Number, Log_In_Password, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/log_in", true);
-  var body = {User_Name: username, Password : password};
+  var body = {Log_In_Phone_Number: Log_In_Phone_Number, Log_In_Password : Log_In_Password};
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
@@ -32,10 +32,31 @@ export function login(username, password, cb) {
 
 }
 
-export function signup(username, password, phonenum, firstname, lastname, cb){
+
+export function sendverifycode(Sign_Up_Phone_Number, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/send_verify_code", true);
+  var body = {Sign_Up_Phone_Number: Sign_Up_Phone_Number};
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    console.log(JSON.parse(xhr.responseText));
+    cb(responseDict);
+  });
+}
+
+
+
+export function signup(Sign_Up_Phone_Number, Sign_Up_Password, Sign_Up_Verify_Code, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/sign_up", true);
-  var body = {User_Name: username, Password : password, Phone_Number: phonenum, First_Name: firstname, Last_Name: lastname};
+  var body = {Sign_Up_Phone_Number: Sign_Up_Phone_Number, Sign_Up_Password : Sign_Up_Password, Sign_Up_Verify_Code: Sign_Up_Verify_Code};
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
@@ -51,25 +72,25 @@ export function signup(username, password, phonenum, firstname, lastname, cb){
 }
 
 
-export function sendverifycode(phonenum, code, cb){
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/phone_verify", true);
-  var body = {Phone_Number: phonenum, TempCode : code};
-
-  console.log(body);
-
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-  xhr.send(JSON.stringify(body));
-
-  xhr.addEventListener('load', function() {
-    var statusCode = xhr.status;
-    var statusText = xhr.statusText;
-    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
-    console.log(JSON.parse(xhr.responseText));
-    cb(responseDict);
-  });
-}
+// export function sendverifycode(phonenum, code, cb){
+//   var xhr = new XMLHttpRequest();
+//   xhr.open("POST", "http://localhost:8080/phone_verify", true);
+//   var body = {Phone_Number: phonenum, TempCode : code};
+//
+//   console.log(body);
+//
+//   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+//
+//   xhr.send(JSON.stringify(body));
+//
+//   xhr.addEventListener('load', function() {
+//     var statusCode = xhr.status;
+//     var statusText = xhr.statusText;
+//     var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+//     console.log(JSON.parse(xhr.responseText));
+//     cb(responseDict);
+//   });
+// }
 
 
 export function changepassgetphone(username, cb){

@@ -1,4 +1,5 @@
-import {Product_Image, GetDistrictForCity} from '../../util.js';
+import {DropDownHolder} from '../../util.js';
+import {sendverifycode, signup} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -40,9 +41,130 @@ export default class Sign_Up_Home extends Component<{}> {
     super(props);
     this.state = {
 
+      Sign_Up_Phone_Number: '',
+      Sign_Up_Password: '',
+      Sign_Up_Verify_Code: '',
 
     };
   }
+
+
+  Sign_Up_Phone_Number_Handler(text){
+    this.setState({
+      Sign_Up_Phone_Number: text
+    });
+  }
+
+  Sign_Up_Password_Handler(text){
+    this.setState({
+      Sign_Up_Password: text
+    });
+  }
+
+  Sign_Up_Verify_Code_Handler(text){
+    this.setState({
+      Sign_Up_Verify_Code: text
+    });
+  }
+
+
+  Send_Verify_Code(){
+
+    const Sign_Up_Phone_Number = this.state.Sign_Up_Phone_Number
+
+    if (Sign_Up_Phone_Number == '' || isNaN(Sign_Up_Phone_Number)) {
+
+      DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入正确的手机号码！' )
+
+    } else {
+
+      sendverifycode(Sign_Up_Phone_Number, (response) =>{
+
+        const send_verify_code_status_code = response["StatusCode"]
+
+        if (send_verify_code_status_code == 200) {
+
+          DropDownHolder.getDropDown().alertWithType('success', 'Success!', '验证码发送成功！' )
+
+        } else {
+
+          DropDownHolder.getDropDown().alertWithType('error', 'Error!', send_verify_code_status_code )
+
+        }
+
+
+      });
+
+
+    }
+
+
+  }
+
+
+
+  Sign_Up(){
+
+    const Sign_Up_Phone_Number = this.state.Sign_Up_Phone_Number
+    const Sign_Up_Password = this.state.Sign_Up_Password
+    const Sign_Up_Verify_Code = this.state.Sign_Up_Verify_Code
+
+    if (Sign_Up_Phone_Number == '' || isNaN(Sign_Up_Phone_Number)) {
+
+      DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入正确的手机号码！' )
+
+    }
+
+    else if (Sign_Up_Password == '') {
+
+      DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入密码！' )
+
+    }
+
+    else if (Sign_Up_Verify_Code == '') {
+
+      DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入验证码！' )
+
+    }
+
+    else {
+
+      signup(Sign_Up_Phone_Number, Sign_Up_Password, Sign_Up_Verify_Code, (response) => {
+
+        const sign_up_status_code = response["StatusCode"]
+        const User_ID = response["ResponseText"]
+
+        if (sign_up_status_code == 200) {
+
+          AsyncStorage.setItem('User_ID', User_ID, () => {
+
+            this.props.navigation.navigate('User_Home');
+
+            // AsyncStorage End
+          });
+
+
+        } else {
+
+
+          DropDownHolder.getDropDown().alertWithType('error', 'Error!', sign_up_status_code )
+
+
+        }
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+  }
+
 
 
   render() {
@@ -90,10 +212,6 @@ export default class Sign_Up_Home extends Component<{}> {
         </View>
 
 
-
-
-
-
         <View>
 
           {/* logo  */}
@@ -118,7 +236,8 @@ export default class Sign_Up_Home extends Component<{}> {
                   }}
                   placeholder={'请输入手机号码'}
                   autoCapitalize='none'
-                  secureTextEntry={true}
+                  keyboardType={'numeric'}
+                  onChangeText = {(text) => this.Sign_Up_Phone_Number_Handler(text)}
                     />
 
 
@@ -126,7 +245,7 @@ export default class Sign_Up_Home extends Component<{}> {
                       width: '30%',
                       justifyContent: 'center',
                       alignItems: 'center'
-                    }}>
+                    }} onPress={() => this.Send_Verify_Code()}>
 
                     <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
 
@@ -144,7 +263,8 @@ export default class Sign_Up_Home extends Component<{}> {
                   marginBottom: 10,
                 }}
                 autoCapitalize='none'
-                secureTextEntry={true}
+                keyboardType={'numeric'}
+                onChangeText = {(text) => this.Sign_Up_Verify_Code_Handler(text)}
                 placeholder={'请输入验证码'}
                 />
 
@@ -159,6 +279,7 @@ export default class Sign_Up_Home extends Component<{}> {
                 }}
                 autoCapitalize='none'
                 secureTextEntry={true}
+                onChangeText = {(text) => this.Sign_Up_Password_Handler(text)}
                 placeholder={'请输入新密码'}
                 />
 
@@ -170,7 +291,7 @@ export default class Sign_Up_Home extends Component<{}> {
                   borderWidth: 1,
                   borderRadius: 5,
                   marginTop: 15,
-                }}>
+                }} onPress={() => this.Sign_Up()}>
 
                 <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:25}}> 注 册 </Text>
 

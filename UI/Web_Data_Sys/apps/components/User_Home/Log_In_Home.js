@@ -1,4 +1,5 @@
-import {Product_Image, GetDistrictForCity} from '../../util.js';
+import {DropDownHolder} from '../../util.js';
+import {login} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -29,15 +30,86 @@ import Status_Bar from '../Status_Bar.js';
 
 
 
+
 export default class Log_In_Home extends Component<{}> {
 
   constructor(props) {
     super(props);
     this.state = {
-
+      Log_In_Phone_Number: '',
+      Log_In_Password: '',
 
     };
   }
+
+
+  Log_In_Phone_Number_Handler(text){
+    this.setState({
+      Log_In_Phone_Number: text
+    });
+  }
+
+  Log_In_Password_Handler(text){
+    this.setState({
+      Log_In_Password: text
+    });
+  }
+
+
+  Log_In(){
+
+    const Log_In_Phone_Number = this.state.Log_In_Phone_Number
+    const Log_In_Password = this.state.Log_In_Password
+
+    if (Log_In_Phone_Number == '' || isNaN(Log_In_Phone_Number)) {
+
+      DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入正确的手机号码！' )
+
+    }
+
+    else if (Log_In_Password == '') {
+
+      DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入密码！' )
+
+    }
+
+    else {
+
+      login(Log_In_Phone_Number, Log_In_Password, (response) => {
+
+        const log_in_status_code = response["StatusCode"]
+        const User_ID = response["ResponseText"]
+
+        if (log_in_status_code == 200) {
+
+          AsyncStorage.setItem('User_ID', User_ID, () => {
+
+            this.props.navigation.navigate('User_Home');
+
+            // AsyncStorage End
+          });
+
+
+        } else {
+
+
+          DropDownHolder.getDropDown().alertWithType('error', 'Error!', log_in_status_code )
+
+
+        }
+
+
+      });
+
+
+
+    }
+
+  }
+
+
+
+
 
 
   render() {
@@ -87,6 +159,7 @@ export default class Log_In_Home extends Component<{}> {
                 marginBottom: 10,
               }}
               autoCapitalize='none'
+              onChangeText = {(text) => this.Log_In_Phone_Number_Handler(text)}
               placeholder={'请输入手机号码'}
                 />
 
@@ -102,6 +175,7 @@ export default class Log_In_Home extends Component<{}> {
                   }}
                   placeholder={'请输入密码'}
                   autoCapitalize='none'
+                  onChangeText = {(text) => this.Log_In_Password_Handler(text)}
                   secureTextEntry={true}
                     />
 
@@ -125,7 +199,7 @@ export default class Log_In_Home extends Component<{}> {
                   borderWidth: 1,
                   borderRadius: 5,
                   marginTop: 15,
-                }}>
+                }} onPress={() => this.Log_In()}>
 
                 <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:25}}> 登 录 </Text>
 

@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Clear_TEMPCODE, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
+from Server_utli import UrlParse, Log_In, Sign_Up, Send_Verify_Code, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
+from Server_utli import Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
 import hashlib, uuid
@@ -85,131 +85,10 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
 
 
-        # if URL_PATH == '/log_in':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #     USER_NAME = USER_DATA['User_Name']
-        #     USER_PASS = USER_DATA['Password']
-        #
-        #     (STATUS_CODE, DATA) = Log_In(USER_NAME, USER_PASS)
-        #
-        #     if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-        #         USERID = DATA
-        #         self.send_response(STATUS_CODE)
-        #         self.end_headers()
-        #         self.wfile.write(json.dumps(USERID).encode())
-        #
-        #     elif STATUS_CODE == ErrorCode.NO_SUCH_USER_CODE:
-        #         self.send_response(STATUS_CODE)
-        #         self.end_headers()
-        #         self.wfile.write(json.dumps(DATA).encode())
-        #
-        #     elif STATUS_CODE == ErrorCode.WORNG_PASSWORD_CODE:
-        #         self.send_response(STATUS_CODE)
-        #         self.end_headers()
-        #         self.wfile.write(json.dumps(DATA).encode())
-        #
-        #     elif STATUS_CODE == ErrorCode.PHONE_NOT_VERIFIED_CODE:
-        #         PHONENUM = DATA
-        #
-        #         STATUS = ServerSMS(PHONENUM)
-        #
-        #         if STATUS == ErrorCode.SUCCESS_CODE:
-        #             self.send_response(STATUS_CODE)
-        #
-        #             self.end_headers()
-        #
-        #             self.wfile.write(json.dumps(PHONENUM).encode())
-        #
-        #         else:
-        #             self.send_response(STATUS)
-        #
-        #             self.end_headers()
-        #
-        #
-        #     else:
-        #         self.send_response(STATUS_CODE)
-        #
-        #         self.end_headers()
-        #
-        #         self.wfile.write(json.dumps(DATA).encode())
-
-
-
-            # Next deal with STATUS_CODE AND DATA
-            #
-            # self.send_response(STATUS_CODE)
-            #
-            # self.end_headers()
-            #
-            # self.wfile.write(json.dumps(USERID).encode())
-
-
-            # if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-            #     PHONENUM = DATA
-            #
-            #     STATUS = ServerSMS(PHONENUM)
-            #
-            #     if STATUS == 200:
-            #         self.send_response(STATUS_CODE)
-            #
-            #         self.end_headers()
-            #
-            #         self.wfile.write(json.dumps(PHONENUM).encode())
-            #
-            #     else:
-            #         self.send_response(STATUS)
-            #
-            #         self.end_headers()
-            #
-            #         self.wfile.write(json.dumps(PHONENUM).encode())
-            #
-            # else:
-            #     self.send_response(STATUS_CODE)
-            #
-            #     self.end_headers()
-            #
-            #     self.wfile.write(json.dumps(DATA).encode())
-
-
-
-        # elif URL_PATH == '/pass_change_user':
-        #     USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-        #     USER_NAME = USER_DATA['User_Name']
-        #
-        #     (STATUS_CODE, DATA) = Pass_Change_User(USER_NAME)
-        #
-        #     if STATUS_CODE == 200:
-        #         PHONENUM = DATA
-        #
-        #         STATUS = ServerSMS(PHONENUM)
-        #
-        #         if STATUS == 200:
-        #             self.send_response(STATUS_CODE)
-        #
-        #             self.end_headers()
-        #
-        #             self.wfile.write(json.dumps(PHONENUM).encode())
-        #
-        #         else:
-        #             self.send_response(STATUS)
-        #
-        #             self.end_headers()
-        #
-        #     else:
-        #
-        #         self.send_response(STATUS_CODE)
-        #
-        #         self.end_headers()
-        #
-        #         self.wfile.write(json.dumps(DATA).encode())
-        #
-        #
-
         return
 
     def do_POST(self):
         URL_PATH = self.path
-
 
         #FOR THE LOG IN, PRASE THE USERNAME AND PASSWORD, IF THE USERNAME AND PASSWORD IS PHONENUM_NOT_CORRECT
         #CHECK THE PHONE NUMBER IS VERIFIED OR NOT
@@ -220,54 +99,77 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
         if URL_PATH == '/log_in':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_NAME = USER_DATA['User_Name']
-            USER_PASS = USER_DATA['Password']
+            LOG_IN_PHONE_NUMBER = USER_DATA['Log_In_Phone_Number']
+            LOG_IN_PASSWORD = USER_DATA['Log_In_Password']
 
-            (STATUS_CODE, DATA) = Log_In(USER_NAME, USER_PASS)
+            (STATUS_CODE, DATA) = Log_In(LOG_IN_PHONE_NUMBER, LOG_IN_PASSWORD)
 
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                USERID = DATA
-                self.send_response(STATUS_CODE)
-                self.end_headers()
-                self.wfile.write(json.dumps(USERID).encode())
+            self.send_response(STATUS_CODE)
 
-            elif STATUS_CODE == ErrorCode.NO_SUCH_USER_CODE:
-                self.send_response(STATUS_CODE)
-                self.end_headers()
-                self.wfile.write(json.dumps(DATA).encode())
+            self.end_headers()
 
-            elif STATUS_CODE == ErrorCode.WORNG_PASSWORD_CODE:
-                self.send_response(STATUS_CODE)
-                self.end_headers()
-                self.wfile.write(json.dumps(DATA).encode())
-
-            elif STATUS_CODE == ErrorCode.PHONE_NOT_VERIFIED_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == ErrorCode.SUCCESS_CODE:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
+            self.wfile.write(json.dumps(DATA).encode())
 
 
-                else:
-                    self.send_response(STATUS)
 
-                    self.end_headers()
+        elif URL_PATH == '/send_verify_code':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
 
-                    self.wfile.write(json.dumps(PHONENUM).encode())
+            SIGN_UP_PHONE_NUMBER = USER_DATA['Sign_Up_Phone_Number']
+
+            (STATUS_CODE, DATA) = Send_Verify_Code(SIGN_UP_PHONE_NUMBER)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
 
 
-            else:
-                self.send_response(STATUS_CODE)
 
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
+            # if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+            #     USERID = DATA
+            #     self.send_response(STATUS_CODE)
+            #     self.end_headers()
+            #     self.wfile.write(json.dumps(USERID).encode())
+            #
+            # elif STATUS_CODE == ErrorCode.NO_SUCH_USER_CODE:
+            #     self.send_response(STATUS_CODE)
+            #     self.end_headers()
+            #     self.wfile.write(json.dumps(DATA).encode())
+            #
+            # elif STATUS_CODE == ErrorCode.WORNG_PASSWORD_CODE:
+            #     self.send_response(STATUS_CODE)
+            #     self.end_headers()
+            #     self.wfile.write(json.dumps(DATA).encode())
+            #
+            # elif STATUS_CODE == ErrorCode.PHONE_NOT_VERIFIED_CODE:
+            #     PHONENUM = DATA
+            #
+            #     STATUS = ServerSMS(PHONENUM)
+            #
+            #     if STATUS == ErrorCode.SUCCESS_CODE:
+            #         self.send_response(STATUS_CODE)
+            #
+            #         self.end_headers()
+            #
+            #         self.wfile.write(json.dumps(PHONENUM).encode())
+            #
+            #
+            #     else:
+            #         self.send_response(STATUS)
+            #
+            #         self.end_headers()
+            #
+            #         self.wfile.write(json.dumps(PHONENUM).encode())
+            #
+            #
+            # else:
+            #     self.send_response(STATUS_CODE)
+            #
+            #     self.end_headers()
+            #
+            #     self.wfile.write(json.dumps(DATA).encode())
 
 
 
@@ -280,33 +182,17 @@ class MyNewhandler(BaseHTTPRequestHandler):
         elif URL_PATH == '/sign_up':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
 
-            USER_NAME = USER_DATA['User_Name']
-            USER_PASS = USER_DATA['Password']
-            USER_PHONE = USER_DATA['Phone_Number']
-            USER_FIRSTNAME = USER_DATA['First_Name']
-            USER_LASTNAME = USER_DATA['Last_Name']
+            SIGN_UP_PHONE_NUMBER = USER_DATA['Sign_Up_Phone_Number']
+            SIGN_UP_PASSWORD = USER_DATA['Sign_Up_Password']
+            SIGN_UP_VERIFY_CODE = USER_DATA['Sign_Up_Verify_Code']
 
-            (STATUS_CODE, DATA) = Sign_Up(USER_NAME, USER_PASS, USER_PHONE, USER_FIRSTNAME, USER_LASTNAME)
+            (STATUS_CODE, DATA) = Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE)
 
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+            self.send_response(STATUS_CODE)
 
-                STATUS = ServerSMS(USER_PHONE)
+            self.end_headers()
 
-                print(DATA)
-
-                self.send_response(STATUS)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
-
-            else:
-
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
+            self.wfile.write(json.dumps(DATA).encode())
 
 
 

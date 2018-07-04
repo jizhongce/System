@@ -77,14 +77,14 @@ def CreateUserID():
 
 # Start of Log In
 
-def Log_In(username, password):
+def Log_In(LOG_IN_PHONE_NUMBER, LOG_IN_PASSWORD):
     '''
     This is the method to connect the database and check the username and password,
     if it is existed, then we get the user id and return back
     else we send back bad error code
 
     Condition:
-    1. username not exist
+    1. Phone Number Not Exist
         -CODE: NO_SUCH_USER_CODE
         -DATA: 0
 
@@ -92,11 +92,7 @@ def Log_In(username, password):
         -CODE: WORNG_PASSWORD_CODE
         -DATA: 0
 
-    3. Phone not verified
-        -CODE: PHONE_NOT_VERIFIED_CODE
-        -DATA: PHONENUM
-
-    4. Phone verified, log in success
+    4. Log in success
         -CODE: SUCCESS_CODE
         -DATA: USERID
 
@@ -114,7 +110,7 @@ def Log_In(username, password):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT User_ID, Password, PhoneNum, Verified FROM Users WHERE User_Name = \'{}\' ').format(username)
+    QUERYSQL = ('SELECT User_ID, Password, PhoneNum FROM Users WHERE PhoneNum = \'{}\' ').format(LOG_IN_PHONE_NUMBER)
 
     CURSOR.execute(QUERYSQL)
 
@@ -124,14 +120,10 @@ def Log_In(username, password):
         STATUS = ErrorCode.NO_SUCH_USER_CODE
 
     else:
-        (USERID, PASSWORD, PHONENUM, VERIFIED, ) = QUERYLIST[0]
+        (USERID, PASSWORD, PHONENUM, ) = QUERYLIST[0]
 
-        if passlib.hash.sha256_crypt.verify(password, PASSWORD):
-            if VERIFIED:
-                DATA = USERID
-            else:
-                STATUS = ErrorCode.PHONE_NOT_VERIFIED_CODE
-                DATA = PHONENUM
+        if passlib.hash.sha256_crypt.verify(LOG_IN_PASSWORD, PASSWORD):
+            DATA = USERID
 
         else:
             STATUS = ErrorCode.WORNG_PASSWORD_CODE
@@ -148,6 +140,99 @@ def Log_In(username, password):
 
 
 
+
+# Start of Send Verify Code
+
+def Send_Verify_Code(SIGN_UP_PHONE_NUMBER):
+    '''
+    This function is to send verify code to the client
+    1. we need to add the phone number to the Phone_Numner_Verify_Code table
+
+    '''
+
+    STATUS = 0
+
+    DATA = 0
+
+    if not Phone_Schame_Check(SIGN_UP_PHONE_NUMBER):
+        STATUS = ErrorCode.WRONG_PASSWORD_SCHEMA_CODE
+
+    else:
+        # # First create a VERIFY_CODE
+        # VERIFY_CODE = RandCode()
+
+        CONNECTIONS = mysql.connector.connect(user='root',
+        password='jizhongce123',
+        host='127.0.0.1',
+        database='Web_Data')
+
+        CURSOR = CONNECTIONS.cursor(buffered=True)
+
+        QUERYSQL = ('SELECT * FROM Users WHERE PhoneNum = \'{}\' ').format(SIGN_UP_PHONE_NUMBER)
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        if QUERYLIST:
+            STATUS = ErrorCode.PHONE_EXIST_CODE
+
+        else:
+            # First create a VERIFY_CODE
+            VERIFY_CODE = RandCode()
+
+            STATUS = SendSMS(SIGN_UP_PHONE_NUMBER, VERIFY_CODE)
+
+
+            if STATUS == 200:
+
+
+                QUERYSQL = ('SELECT Phone_Number FROM Phone_Numner_Verify_Code WHERE Phone_Number = \'{}\' ').format(SIGN_UP_PHONE_NUMBER)
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                if QUERYLIST:
+                    QUERYSQL = ('UPDATE Phone_Numner_Verify_Code SET Verify_Code = \'{}\' WHERE Phone_Number = \'{}\'; ').format(VERIFY_CODE, SIGN_UP_PHONE_NUMBER)
+                    CURSOR.execute(QUERYSQL)
+                    STATUS = ErrorCode.SUCCESS_CODE
+
+
+                else:
+                    QUERYSQL = ('INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUES (\'{}\', \'{}\');').format(SIGN_UP_PHONE_NUMBER, VERIFY_CODE)
+                    CURSOR.execute(QUERYSQL)
+                    STATUS = ErrorCode.SUCCESS_CODE
+
+                EVENTQUERY = ('SET GLOBAL event_scheduler = ON;')
+
+                DELQUERY = ('CREATE EVENT {} ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 2 MINUTE DO UPDATE Phone_Numner_Verify_Code SET Verify_Code = NULL WHERE Phone_Number = \'{}\'; '.format((str(RandCode())+'_delete_code'), SIGN_UP_PHONE_NUMBER))
+
+                CURSOR.execute(EVENTQUERY)
+
+                CURSOR.execute(DELQUERY)
+
+
+        CURSOR.close()
+
+        CONNECTIONS.commit()
+
+        CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+# End of Log In
+
+
+
+# This fucntion RandCode
+
+def RandCode():
+    return(randint(100000, 999999))
+
+# End of RandCode
+
+
 # Password Schame check function
 
 def Pass_Schame_Check(Password):
@@ -159,6 +244,13 @@ def Pass_Schame_Check(Password):
 
 def Phone_Schame_Check(Phonenum):
     return(len(Phonenum) == 11 and bool(Phonenum.isdigit))
+
+# End of Phone_Schame_Check
+
+# Phone number check function
+
+def Verify_Code_Schame_Check(Verify_Code):
+    return(len(Verify_Code) == 6 and bool(Verify_Code.isdigit))
 
 # End of Phone_Schame_Check
 
@@ -200,13 +292,95 @@ def CreateShoppingCartID():
 # End of create shopping cart id
 
 
-# # Start of create address id
+# Start of Sign Up
+
+def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
+    '''
+    This is method for sign up, it first need to check the data base with username and phone number
+    If the username is already exists, return the status code
+
+    '''
+    STATUS = 0
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    if not Pass_Schame_Check(SIGN_UP_PASSWORD):
+        STATUS = ErrorCode.WRONG_PASSWORD_SCHEMA_CODE
+
+    else:
+        if not Phone_Schame_Check(SIGN_UP_PHONE_NUMBER):
+            STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
+
+        else:
+            if not Verify_Code_Schame_Check(SIGN_UP_VERIFY_CODE):
+                STATUS = ErrorCode.WRONG_VERIFY_CODE
+
+            else:
+                QUERYSQL = ('SELECT * FROM Phone_Numner_Verify_Code WHERE Phone_Number = \'{}\' ').format(SIGN_UP_PHONE_NUMBER)
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                if QUERYLIST:
+                    (Phone_Number, Verify_Code, ) = QUERYLIST[0]
+
+                    if Verify_Code == int(SIGN_UP_VERIFY_CODE):
+
+                        STATUS = ErrorCode.SUCCESS_CODE
+
+                        USERID = CreateUserID()
+
+                        SHOPPINGCARTID = CreateShoppingCartID()
+
+                        PASSWORD = passlib.hash.sha256_crypt.hash(SIGN_UP_PASSWORD)
+
+                        QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified, TEMPCODE) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE, 1232321);'.format(USERID, 'jiizhongce', PASSWORD, Phone_Number))
+
+                        QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
+
+                        QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VALUES (\'{}\', \'{}\', \'{}\', 1);').format(USERID, ' ', ' ')
+
+                        CURSOR.execute(QUERYSQL_USER)
+
+                        CURSOR.execute(QUERYSQL_SHOPPINGCART)
+
+                        CURSOR.execute(QUERYSQL_PROFILE)
+                        DATA = USERID
+
+                    else:
+                        STATUS = ErrorCode.WRONG_VERIFY_CODE
+
+
+                else:
+                    STATUS = ErrorCode.PHONENUM_NOT_CORRECT
+
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+# End of Sign Up
+
+
+
+
+# 
+# # This fucntion Clear_TEMPCODE
 #
-# def CreateAddressID():
-#     '''
-#     This is function to create unique address id
-#     '''
-#
+# def Clear_TEMPCODE(PHONENUM):
 #     CONNECTIONS = mysql.connector.connect(user='root',
 #     password='jizhongce123',
 #     host='127.0.0.1',
@@ -214,175 +388,34 @@ def CreateShoppingCartID():
 #
 #     CURSOR = CONNECTIONS.cursor(buffered=True)
 #
-#     while True:
-#         AddressID = uuid.uuid4()
+#     QUERYSQL = ('UPDATE Users SET TEMPCODE = NULL WHERE PhoneNum = \'{}\'; ').format(PHONENUM)
 #
-#         QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\' ').format(AddressID)
-#
-#         CURSOR.execute(QUERYSQL)
-#
-#         QUERYLIST = CURSOR.fetchall()
-#
-#         if not QUERYLIST:
-#             break
+#     CURSOR.execute(QUERYSQL)
 #
 #     CURSOR.close()
 #
 #     CONNECTIONS.commit()
 #
+#     CURSOR = CONNECTIONS.cursor(buffered=True)
+#
+#     #First, we need to check whether the TEMPCODE is already exist in the database
+#
+#     QUERYSQL = ('SELECT TEMPCODE FROM Users WHERE PhoneNum = \'{}\' ').format(PHONENUM)
+#
+#     CURSOR.execute(QUERYSQL)
+#
+#     QUERYLIST = CURSOR.fetchall()
+#
+#     (TEMPCODE, ) = QUERYLIST[0]
+#
+#     print(TEMPCODE)
+#
 #     CONNECTIONS.close()
 #
-#     return(str(AddressID))
+#
+# # End of Clear_TEMPCODE
 #
 #
-# # End of create address id
-
-# Start of Sign Up
-
-def Sign_Up(username, password, phonenum, firstname, lastname):
-    '''
-    This is method for sign up, it first need to check the data base with username and phone number
-    If the username is already exists, return the status code 406
-
-    Condition:
-    1. username is already exist
-        -CODE: USER_EXIST_CODE
-        -DATA: 0
-
-    2. phone is already exist
-        -CODE: PHONE_EXIST_CODE
-        -DATA: 0
-
-    3. password schema is not correct
-        -CODE: WRONG_PASSWORD_SCHEMA_CODE
-        -DATA: 0
-
-    4. password schema is not correct
-        -CODE: WRONG_PHONE_SCHEMA_CODE
-        -DATA: 0
-
-    5. sign up success
-        -CODE: SUCCESS_CODE
-        -DATA: USERID
-
-    '''
-    STATUS = ErrorCode.SUCCESS_CODE
-
-    USERID = 0
-
-    CONNECTIONS = mysql.connector.connect(user='root',
-    password='jizhongce123',
-    host='127.0.0.1',
-    database='Web_Data')
-
-    CURSOR = CONNECTIONS.cursor(buffered=True)
-
-    #First, we should check whether the User_Name and PhoneNum is already exist in the database
-
-    QUERYSQL = ('SELECT User_Name,PhoneNum FROM Users WHERE User_Name = \'{}\' OR PhoneNum = \'{}\' ').format(username, phonenum)
-
-    CURSOR.execute(QUERYSQL)
-
-    QUERYLIST = CURSOR.fetchall()
-
-    CURSOR.close()
-
-    CONNECTIONS.commit()
-
-    if QUERYLIST:
-        (User_Name, PhoneNum, ) = QUERYLIST[0]
-        if User_Name == username:
-            STATUS = ErrorCode.USER_EXIST_CODE
-
-        elif User_Name != username and PhoneNum == phonenum:
-            STATUS = ErrorCode.PHONE_EXIST_CODE
-
-    else:
-
-        if not Pass_Schame_Check(password):
-            STATUS = ErrorCode.WRONG_PASSWORD_SCHEMA_CODE
-
-        elif not Phone_Schame_Check(phonenum):
-            STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
-
-        else:
-            CURSOR = CONNECTIONS.cursor(buffered=True)
-
-            USERID = CreateUserID()
-
-            SHOPPINGCARTID = CreateShoppingCartID()
-
-            PASSWORD = passlib.hash.sha256_crypt.hash(password)
-
-            QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE);').format(USERID, username, PASSWORD, phonenum)
-
-            QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
-
-            QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VALUES (\'{}\', \'{}\', \'{}\', 1);').format(USERID, firstname, lastname)
-
-            CURSOR.execute(QUERYSQL_USER)
-
-            CURSOR.execute(QUERYSQL_SHOPPINGCART)
-
-            CURSOR.execute(QUERYSQL_PROFILE)
-
-
-    CURSOR.close()
-
-    CONNECTIONS.commit()
-
-    CONNECTIONS.close()
-
-    return(STATUS, USERID)
-
-# End of Sign Up
-
-# This fucntion RandCode
-
-def RandCode():
-    return(randint(100000, 999999))
-
-# End of RandCode
-
-
-# This fucntion Clear_TEMPCODE
-
-def Clear_TEMPCODE(PHONENUM):
-    CONNECTIONS = mysql.connector.connect(user='root',
-    password='jizhongce123',
-    host='127.0.0.1',
-    database='Web_Data')
-
-    CURSOR = CONNECTIONS.cursor(buffered=True)
-
-    QUERYSQL = ('UPDATE Users SET TEMPCODE = NULL WHERE PhoneNum = \'{}\'; ').format(PHONENUM)
-
-    CURSOR.execute(QUERYSQL)
-
-    CURSOR.close()
-
-    CONNECTIONS.commit()
-
-    CURSOR = CONNECTIONS.cursor(buffered=True)
-
-    #First, we need to check whether the TEMPCODE is already exist in the database
-
-    QUERYSQL = ('SELECT TEMPCODE FROM Users WHERE PhoneNum = \'{}\' ').format(PHONENUM)
-
-    CURSOR.execute(QUERYSQL)
-
-    QUERYLIST = CURSOR.fetchall()
-
-    (TEMPCODE, ) = QUERYLIST[0]
-
-    print(TEMPCODE)
-
-    CONNECTIONS.close()
-
-
-# End of Clear_TEMPCODE
-
-
 
 
 # This the start of create SMS function
