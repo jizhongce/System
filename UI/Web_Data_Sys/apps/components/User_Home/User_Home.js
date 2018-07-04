@@ -55,6 +55,8 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
+import Log_In_Home from './Log_In_Home.js'
+
 
 export default class User_Home extends Component<{}> {
 
@@ -63,6 +65,7 @@ export default class User_Home extends Component<{}> {
   static navigationOptions = {
     header: null,
 }
+
 
 constructor(props) {
   super(props);
@@ -176,99 +179,8 @@ componentWillMount(){
 
     if (this.state.User_Flag == false) {
       return (
-        <ScrollView style={{flex: 1}} >
 
-
-          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-            <View style={{
-
-              marginTop: 25,
-              height: '50%',
-              width: '60%',
-              left: '85%',
-              borderWidth: 2,
-              justifyContent: 'center',
-              borderRadius: 10,
-
-            }}>
-
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Log_In_Board')}>
-              <Text style={{ fontSize: 25, textAlign: 'center'} }>登     录</Text>
-            </TouchableOpacity>
-
-            </View>
-
-          </View>
-
-          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-            <View style={{
-
-              marginTop: 25,
-              height: '50%',
-              width: '60%',
-              left: '85%',
-              borderWidth: 2,
-              justifyContent: 'center',
-              borderRadius: 10,
-
-            }}>
-
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Sign_Up_Board')}>
-              <Text style={{ fontSize: 25, textAlign: 'center'} }>注     册</Text>
-            </TouchableOpacity>
-
-            </View>
-
-          </View>
-
-          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-            <View style={{
-
-              marginTop: 25,
-              height: '50%',
-              width: '60%',
-              left: '85%',
-              borderWidth: 2,
-              justifyContent: 'center',
-              borderRadius: 10,
-
-            }}>
-
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Pass_Change_Board')}>
-              <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 密 码</Text>
-            </TouchableOpacity>
-
-            </View>
-
-          </View>
-
-          <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-            <View style={{
-
-              marginTop: 25,
-              height: '50%',
-              width: '60%',
-              left: '85%',
-              borderWidth: 2,
-              justifyContent: 'center',
-              borderRadius: 10,
-
-            }}>
-
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Phone_Change_Board')}>
-              <Text style={{ fontSize: 25, textAlign: 'center'} }>修 改 手 机</Text>
-            </TouchableOpacity>
-
-            </View>
-
-          </View>
-
-        </ScrollView>
-
+        <Log_In_Home navigation={this.props.navigation} />
 
       );
 

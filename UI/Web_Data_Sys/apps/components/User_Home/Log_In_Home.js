@@ -1,34 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-
-/*
-
-<NavigationBar
-title={NavTitle}
-style={{backgroundColor: 'powderblue', height: 50}}
-leftButton = {<TouchableOpacity>
-  <Image
-    source={require('./img/Home.png')}
-    style={{ height:30, width:30, marginTop: 10, marginLeft: 10} }/>
-</TouchableOpacity>}
-rightButton = {<TouchableOpacity>
-  <Image
-    source={require('./img/user.png')}
-    style={{ height:30, width:30, marginTop: 10, marginRight: 10} }/>
-</TouchableOpacity>}
-/>
-
-<TabBarIOS >
-
-
-</TabBarIOS>
-
-
-*/
 import {Product_Image, GetDistrictForCity} from '../../util.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
@@ -56,13 +25,25 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
-
 import Status_Bar from '../Status_Bar.js';
 
 
-class Sign_Up_Home_Header extends React.Component {
+
+export default class Log_In_Home extends Component<{}> {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+
+    };
+  }
+
+
   render() {
-    return (
+
+    return(
+
       <View>
 
         <Status_Bar />
@@ -77,41 +58,12 @@ class Sign_Up_Home_Header extends React.Component {
 
 
 
-          <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 注 册 </Text>
+          <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 登录/注册 </Text>
 
 
 
         </View>
 
-      </View>
-
-    );
-  }
-}
-
-
-
-export default class Home2 extends Component<{}> {
-
-  static navigationOptions = {
-    header: <Sign_Up_Home_Header />
-}
-
-  constructor(props) {
-    super(props);
-    this.state = {
-
-
-    };
-  }
-
-
-
-  render() {
-
-    return(
-
-      <KeyboardAvoidingView  behavior={'position'} >
 
         <View>
 
@@ -122,8 +74,21 @@ export default class Home2 extends Component<{}> {
 
           </View>
 
-          {/* Sign Up form  */}
+          {/* log in form  */}
           <View style={{backgroundColor: 'white', height: '75%', alignItems: 'center', flexDirection: 'column'}}>
+
+            <TextInput
+              style={{
+                marginTop: 25,
+                width: '95%',
+                height: 40,
+                borderBottomWidth: 1,
+                fontSize: 20,
+                marginBottom: 10,
+              }}
+              autoCapitalize='none'
+              placeholder={'请输入手机号码'}
+                />
 
               <View style={{flexDirection: 'row', marginBottom: 10, marginTop:10}}>
                 <TextInput
@@ -135,7 +100,7 @@ export default class Home2 extends Component<{}> {
                     fontSize: 20,
                     marginBottom: 10,
                   }}
-                  placeholder={'请输入手机号码'}
+                  placeholder={'请输入密码'}
                   autoCapitalize='none'
                   secureTextEntry={true}
                     />
@@ -145,42 +110,13 @@ export default class Home2 extends Component<{}> {
                       width: '30%',
                       justifyContent: 'center',
                       alignItems: 'center'
-                    }}>
+                    }} onPress={()=> this.props.navigation.navigate('Change_Password_Home')}>
 
-                    <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
+                    <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>忘记密码</Text>
 
                   </TouchableOpacity>
 
               </View>
-
-              <TextInput
-                style={{
-                  marginTop: 25,
-                  width: '95%',
-                  height: 40,
-                  borderBottomWidth: 1,
-                  fontSize: 20,
-                  marginBottom: 10,
-                }}
-                autoCapitalize='none'
-                secureTextEntry={true}
-                placeholder={'请输入验证码'}
-                />
-
-              <TextInput
-                style={{
-                  marginTop: 25,
-                  width: '95%',
-                  height: 40,
-                  borderBottomWidth: 1,
-                  fontSize: 20,
-                  marginBottom: 10,
-                }}
-                autoCapitalize='none'
-                secureTextEntry={true}
-                placeholder={'请输入新密码'}
-                />
-
 
               <TouchableOpacity style={{
                   width: '70%',
@@ -191,19 +127,32 @@ export default class Home2 extends Component<{}> {
                   marginTop: 15,
                 }}>
 
-                <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:25}}> 注 册 </Text>
+                <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:25}}> 登 录 </Text>
+
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 15,
+                }} onPress={()=> this.props.navigation.navigate('Sign_Up_Home')}>
+
+                <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:17, textDecorationLine: 'underline'}}> 新 用 户 注 册 </Text>
 
               </TouchableOpacity>
 
 
+
           </View>
+
 
 
         </View>
 
 
 
-      </KeyboardAvoidingView>
+
+      </View>
 
 
 

@@ -41,6 +41,10 @@ import Order_List from './apps/components/User_Home/After_Log_In/Order_List.js';
 import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.js';
 
 // Before_Log_In
+
+import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
+import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
+
 import Log_In_Board from './apps/components/User_Home/Before_Log_In/Log_In_Board.js';
 import Sign_Up_Board from './apps/components/User_Home/Before_Log_In/Sign_Up_Board.js';
 import Pass_Change_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_Board.js';
@@ -91,6 +95,11 @@ import NavigationBar from 'react-native-navbar';
 
 const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
+
+
+
+  Sign_Up_Home: { screen: Sign_Up_Home },
+  Change_Password_Home: { screen: Change_Password_Home },
 
 
   Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },

@@ -31,7 +31,6 @@ rightButton = {<TouchableOpacity>
 */
 import {getshoppingcart, getaddressbook, shoppingcartquantitychange, deletefromshoppingcart, addnewaddress, deleteaddress, editaddress, submitorder} from '../../server.js';
 import {ShoppingCartAddressExistStyle, PraseCityValue, ShowProvinceName, ShowCityName, ShowDistrictName, GetCityForProvince, AddNewAddressCheck, Product_Image, GetDistrictForCity, GetProvince, DropDownHolder} from '../../util.js';
-import Shopping_Cart_Home_Header from './Shopping_Cart_Home_Header.js';
 import { Icon } from 'react-native-elements';
 import Modal from "react-native-modal";
 import Swipeout from 'react-native-swipeout';
@@ -58,11 +57,13 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
+import Status_Bar from '../Status_Bar.js';
+
 export default class Shopping_Cart_Home extends Component<{}> {
 
 
     static navigationOptions = {
-      header: <Shopping_Cart_Home_Header />,
+      header: null
   }
 
 
@@ -2173,6 +2174,26 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
           <View style={{backgroundColor: '#ededed'}}>
+            <View>
+
+              <Status_Bar />
+
+              <View style={{
+                  height: 50,
+                  backgroundColor: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }} >
+
+
+
+                <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>购    物    车</Text>
+
+
+
+              </View>
+
+            </View>
 
 
 
@@ -2186,6 +2207,27 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
       return(
         <View>
+
+          <View>
+
+            <Status_Bar />
+
+            <View style={{
+                height: 50,
+                backgroundColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }} >
+
+
+
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>购    物    车</Text>
+
+
+
+            </View>
+
+          </View>
 
           <TouchableOpacity  onPress = {() => this.Open_Shipping_Address_Selection_Modal()} activeOpacity={0.8} style={{backgroundColor: '#cbcbcb', height: '15%',  justifyContent: 'center', borderStyle: 'dotted', borderWidth: 2, borderColor: 'black',}}>
 
@@ -2877,7 +2919,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
 
-         
+
 
         </View>
       )
