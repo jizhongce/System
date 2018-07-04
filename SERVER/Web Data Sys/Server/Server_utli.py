@@ -376,8 +376,49 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
 
 
 
+# Start of Get_User_Info
 
-# 
+def Get_User_Info(USER_ID):
+    '''
+    This is the function which will get the Address list of specific user in the database
+    '''
+    STATUS = 0
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT User_ID, PhoneNum FROM Users WHERE User_ID = \'{}\';'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (User_ID, Phone_Number) = QUERYLIST[0]
+        DATA = {'User_ID': User_ID, 'Phone_Number': Phone_Number}
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+        STATUS = ErrorCode.USER_EXIST_CODE
+        DATA = 0
+
+    return(STATUS, DATA)
+
+
+# End of Get_User_Info
+
+
+
+
+
+
+#
 # # This fucntion Clear_TEMPCODE
 #
 # def Clear_TEMPCODE(PHONENUM):

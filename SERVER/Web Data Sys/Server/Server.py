@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, Send_Verify_Code, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
+from Server_utli import UrlParse, Log_In, Sign_Up, Send_Verify_Code, Get_User_Info, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
 from Server_utli import Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
@@ -32,6 +32,24 @@ class MyNewhandler(BaseHTTPRequestHandler):
             Product_ID = URL_QUERY['Product_ID'][0]
 
             (STATUS_CODE, DATA) = Get_Single_Product_Info(Product_ID)
+
+            print(STATUS_CODE)
+            print(DATA)
+
+            #
+            # print(DATA)
+            #
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+        elif URL_PATH == '/get_user_info':
+
+            URL_QUERY = UrlParse_Res['query']
+
+            USER_ID = URL_QUERY['User_ID'][0]
+
+            (STATUS_CODE, DATA) = Get_User_Info(USER_ID)
 
             print(STATUS_CODE)
             print(DATA)
