@@ -224,7 +224,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
                   Address_Book_List.push(Address_Book[Address])
                 }
 
-                if (this.state.Shopping_Cart_Shipping_Info == '') {
+                if (this.state.Shopping_Cart_Shipping_Info == '' && Address_Book_List.length != 0) {
 
                   this.setState({
                     User_Flag : true,
@@ -279,7 +279,68 @@ export default class Shopping_Cart_Home extends Component<{}> {
                     // console.log(this.state.Shopping_Cart_Shipping_Address_List);
                   });
 
-                } else {
+                }
+
+                else if (this.state.Shopping_Cart_Shipping_Info == '' &&  Address_Book_List.length == 0) {
+
+                  this.setState({
+                    User_Flag : true,
+                    Shopping_Cart_Shipping_Address_List : Address_Book_List,
+                    Shopping_Cart_Product_List : Shopping_Cart_Product_List,
+                    Refreshing_Flag : false,
+
+                    Shopping_Cart_Shipping_Info : '',
+                    Shopping_Cart_Shipping_Info_Flag : false,
+
+                    Shipping_Address_Selection_Visible : false,
+
+                    Add_New_Shipping_Address_Visible : false,
+
+                    Choose_Province_Add_New_Shipping_Address_Visible : false,
+
+                    Choose_City_Add_New_Shipping_Address_Visible : false,
+
+                    Choose_District_Add_New_Shipping_Address_Visible : false,
+
+                    New_Province_Value: '',
+
+
+                    New_City_Value: '',
+
+
+                    New_Address_Name_Value: '',
+                    New_Address_Phone_Number_Value: '',
+                    New_Street_Value: '',
+                    New_District_Value: '',
+
+                    Edit_Shipping_Address_Visible : false,
+
+                    Choose_Province_Edit_Shipping_Address_Visible : false,
+
+                    Choose_City_Edit_Shipping_Address_Visible : false,
+
+                    Choose_District_Edit_Shipping_Address_Visible : false,
+
+                    Edit_Province_Value: '',
+
+
+                    Edit_City_Value: '',
+
+
+                    Edit_Address_Name_Value: '',
+                    Edit_Address_Phone_Number_Value: '',
+                    Edit_Street_Value: '',
+                    Edit_District_Value: '',
+
+                  }, ()=>{
+                    // console.log(this.state.Shopping_Cart_Shipping_Address_List);
+                  });
+
+
+
+                }
+
+                else {
 
                   this.setState({
                     User_Flag : true,
@@ -620,7 +681,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
             Edit_Address_Phone_Number_Value: '',
             Edit_Street_Value: '',
             Edit_District_Value: '',
-
 
 
             Refreshing_Flag : false
@@ -2248,13 +2308,13 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
             <View style={ShoppingCartAddressExistStyle(this.state.Shopping_Cart_Shipping_Info_Flag)}>
 
-              <Text style={{fontSize: 25} }>Choose a Shipping Address</Text>
+              <Text style={{fontSize: 20} }>Choose a Shipping Address</Text>
 
             </View>
 
           </TouchableOpacity>
 
-          <View style={{backgroundColor: '#ededed', height: '77%', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
+          <View style={{backgroundColor: '#ededed', height: '66%', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
 
             <TouchableOpacity onPress = {() => this.props.navigation.navigate('Product_Home')} activeOpacity={0.5} style={{borderWidth: 1, borderRadius: 5, borderColor: "#c9cdcb"}}>
               <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 20}}> 马 上 去 选 购 产 品 </Text>
@@ -2937,6 +2997,22 @@ export default class Shopping_Cart_Home extends Component<{}> {
             <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
 
 
+              <Status_Bar />
+
+              <View style={{
+                  height: 50,
+                  backgroundColor: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }} >
+
+
+                <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>购    物    车</Text>
+
+
+              </View>
+
+
 
               <TouchableOpacity  onPress = {() => this.Open_Shipping_Address_Selection_Modal()} activeOpacity={0.8} style={{backgroundColor: '#cbcbcb', height: '15%',  justifyContent: 'center', borderStyle: 'dotted', borderWidth: 2, borderColor: 'black',}}>
 
@@ -2966,7 +3042,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               {/* Main Feed for each product in the shopping cart */}
 
 
-              <ScrollView refreshControl={ <RefreshControl onRefresh={this.OnRefresh.bind(this)} refreshing = {this.state.Refreshing_Flag} />} style={{backgroundColor: '#ededed', height: '77%', flexDirection:'column'}}>
+              <ScrollView refreshControl={ <RefreshControl onRefresh={this.OnRefresh.bind(this)} refreshing = {this.state.Refreshing_Flag} />} style={{backgroundColor: '#ededed', height: '66%', flexDirection:'column'}}>
 
                 {
                   this.state.Shopping_Cart_Product_List.map((product, i) =>{

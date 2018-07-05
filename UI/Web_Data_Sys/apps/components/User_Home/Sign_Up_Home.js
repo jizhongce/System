@@ -1,5 +1,5 @@
 import {DropDownHolder} from '../../util.js';
-import {sendverifycode, signup} from '../../server.js';
+import {signupsendverifycode, signup} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -78,17 +78,17 @@ export default class Sign_Up_Home extends Component<{}> {
 
     } else {
 
-      sendverifycode(Sign_Up_Phone_Number, (response) =>{
+      signupsendverifycode(Sign_Up_Phone_Number, (response) =>{
 
-        const send_verify_code_status_code = response["StatusCode"]
+        const sign_up_send_verify_code_status_code = response["StatusCode"]
 
-        if (send_verify_code_status_code == 200) {
+        if (sign_up_send_verify_code_status_code == 200) {
 
           DropDownHolder.getDropDown().alertWithType('success', 'Success!', '验证码发送成功！' )
 
         } else {
 
-          DropDownHolder.getDropDown().alertWithType('error', 'Error!', send_verify_code_status_code )
+          DropDownHolder.getDropDown().alertWithType('error', 'Error!', sign_up_send_verify_code_status_code )
 
         }
 

@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, Send_Verify_Code, Get_User_Info, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
+from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
 from Server_utli import Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
@@ -130,12 +130,42 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
 
 
-        elif URL_PATH == '/send_verify_code':
+        elif URL_PATH == '/sign_up_send_verify_code':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
 
             SIGN_UP_PHONE_NUMBER = USER_DATA['Sign_Up_Phone_Number']
 
-            (STATUS_CODE, DATA) = Send_Verify_Code(SIGN_UP_PHONE_NUMBER)
+            (STATUS_CODE, DATA) = Sign_Up_Send_Verify_Code(SIGN_UP_PHONE_NUMBER)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        elif URL_PATH == '/change_password_send_verify_code':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            CHANGE_PASSWORD_PHONE_NUMBER = USER_DATA['Change_Password_Phone_Number']
+
+            (STATUS_CODE, DATA) = Change_Password_Send_Verify_Code(CHANGE_PASSWORD_PHONE_NUMBER)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        elif URL_PATH == '/change_password':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            CHANGE_PASSWORD_PHONE_NUMBER = USER_DATA['Change_Password_Phone_Number']
+            CHANGE_PASSWORD_NEW_PASSWORD = USER_DATA['Change_Password_New_Password']
+            CHANGE_PASSWORD_VERIFY_CODE = USER_DATA['Change_Password_Verify_Code']
+
+            (STATUS_CODE, DATA) = Change_Password(CHANGE_PASSWORD_PHONE_NUMBER, CHANGE_PASSWORD_NEW_PASSWORD, CHANGE_PASSWORD_VERIFY_CODE)
 
             self.send_response(STATUS_CODE)
 

@@ -33,9 +33,9 @@ export function login(Log_In_Phone_Number, Log_In_Password, cb) {
 }
 
 
-export function sendverifycode(Sign_Up_Phone_Number, cb){
+export function signupsendverifycode(Sign_Up_Phone_Number, cb){
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/send_verify_code", true);
+  xhr.open("POST", "http://localhost:8080/sign_up_send_verify_code", true);
   var body = {Sign_Up_Phone_Number: Sign_Up_Phone_Number};
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -70,6 +70,46 @@ export function signup(Sign_Up_Phone_Number, Sign_Up_Password, Sign_Up_Verify_Co
     cb(responseDict);
   });
 }
+
+
+
+export function changepasswordsendverifycode(Change_Password_Phone_Number, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/change_password_send_verify_code", true);
+  var body = {Change_Password_Phone_Number: Change_Password_Phone_Number};
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    console.log(JSON.parse(xhr.responseText));
+    cb(responseDict);
+  });
+}
+
+
+export function changepassword(Change_Password_Phone_Number, Change_Password_New_Password, Change_Password_Verify_Code, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/change_password", true);
+  var body = {Change_Password_Phone_Number: Change_Password_Phone_Number, Change_Password_New_Password: Change_Password_New_Password, Change_Password_Verify_Code: Change_Password_Verify_Code};
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    console.log(JSON.parse(xhr.responseText));
+    cb(responseDict);
+  });
+}
+
 
 
 // export function sendverifycode(phonenum, code, cb){

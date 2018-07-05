@@ -305,6 +305,24 @@ componentWillMount(){
 
               {/*end  */}
 
+              {/* change password */}
+              <View style={{
+                backgroundColor:'grey',
+                flex: 0.15,
+                marginTop: 25,
+                borderWidth: 2,
+                justifyContent: 'center',
+                borderRadius: 10
+              }}>
+
+              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Change_Password_Home')}>
+                <Text style={{ fontSize: 25, textAlign: 'center'} }>Address Book</Text>
+              </TouchableOpacity>
+
+              </View>
+
+              {/*end  */}
+
 
 
             </ScrollView>

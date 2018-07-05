@@ -1,5 +1,5 @@
-import {Product_Image, GetDistrictForCity} from '../../util.js';
-import {getuserinfo} from '../../server.js';
+import {DropDownHolder} from '../../util.js';
+import {getuserinfo, changepasswordsendverifycode, changepassword} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -42,10 +42,124 @@ export default class Change_Password_Home extends Component<{}> {
     this.state = {
 
       User_Info: '',
+      Change_Password_Phone_Number: '',
+      Change_Password_Verify_Code: '',
+      Change_Password_New_Password: '',
 
 
     };
   }
+
+
+    Change_Password_Phone_Number_Handler(text){
+      this.setState({
+        Change_Password_Phone_Number: text
+      });
+    }
+
+    Change_Password_New_Password_Handler(text){
+      this.setState({
+        Change_Password_New_Password: text
+      });
+    }
+
+    Change_Password_Verify_Code_Handler(text){
+      this.setState({
+        Change_Password_Verify_Code: text
+      });
+    }
+
+
+
+    Send_Verify_Code(){
+
+      const Change_Password_Phone_Number = this.state.Change_Password_Phone_Number
+
+      if (Change_Password_Phone_Number == '' || isNaN(Change_Password_Phone_Number)) {
+
+        DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入正确的手机号码！' )
+
+      } else {
+
+        changepasswordsendverifycode(Change_Password_Phone_Number, (response) =>{
+
+          const chnage_password_send_verify_code_status_code = response["StatusCode"]
+
+          if (chnage_password_send_verify_code_status_code == 200) {
+
+            DropDownHolder.getDropDown().alertWithType('success', 'Success!', '验证码发送成功！' )
+
+          } else {
+
+            DropDownHolder.getDropDown().alertWithType('error', 'Error!', chnage_password_send_verify_code_status_code )
+
+          }
+
+
+        });
+
+
+      }
+
+
+    }
+
+
+    Change_Password(){
+
+      const Change_Password_Phone_Number = this.state.Change_Password_Phone_Number
+      const Change_Password_New_Password = this.state.Change_Password_New_Password
+      const Change_Password_Verify_Code = this.state.Change_Password_Verify_Code
+
+      if (Change_Password_Phone_Number == '' || isNaN(Change_Password_Phone_Number)) {
+
+        DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入正确的手机号码！' )
+
+      }
+
+      else if (Change_Password_New_Password == '') {
+
+        DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入密码！' )
+
+      }
+
+      else if (Change_Password_Verify_Code == '') {
+
+        DropDownHolder.getDropDown().alertWithType('error', 'Error!', '请输入验证码！' )
+
+      }
+
+      else {
+
+        changepassword(Change_Password_Phone_Number, Change_Password_New_Password, Change_Password_Verify_Code, (response) => {
+
+          const change_password_status_code = response["StatusCode"]
+
+          if (change_password_status_code == 200) {
+
+
+            this.props.navigation.navigate('User_Home');
+
+
+
+          } else {
+
+
+            DropDownHolder.getDropDown().alertWithType('error', 'Error!', change_password_status_code )
+
+
+          }
+
+
+        });
+
+
+
+      }
+    }
+
+
+
 
 
   Change_Password_Refresh(){
@@ -62,6 +176,9 @@ export default class Change_Password_Home extends Component<{}> {
 
           this.setState({
             User_Info: '',
+            Change_Password_Phone_Number: '',
+            Change_Password_Verify_Code: '',
+            Change_Password_New_Password: '',
           });
 
         }
@@ -78,6 +195,9 @@ export default class Change_Password_Home extends Component<{}> {
 
               this.setState({
                 User_Info: User_Info,
+                Change_Password_Phone_Number: User_Info.Phone_Number,
+                Change_Password_Verify_Code: '',
+                Change_Password_New_Password: '',
               });
 
             }
@@ -202,7 +322,8 @@ export default class Change_Password_Home extends Component<{}> {
                     }}
                     placeholder={'请输入手机号码'}
                     autoCapitalize='none'
-                    secureTextEntry={true}
+                    keyboardType={'numeric'}
+                    onChangeText = {(text) => this.Change_Password_Phone_Number_Handler(text)}
                       />
 
 
@@ -210,7 +331,7 @@ export default class Change_Password_Home extends Component<{}> {
                         width: '30%',
                         justifyContent: 'center',
                         alignItems: 'center'
-                      }}>
+                      }} onPress={()=> this.Send_Verify_Code()}>
 
                       <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
 
@@ -228,8 +349,9 @@ export default class Change_Password_Home extends Component<{}> {
                     marginBottom: 10,
                   }}
                   autoCapitalize='none'
-                  secureTextEntry={true}
                   placeholder={'请输入验证码'}
+                  keyboardType={'numeric'}
+                  onChangeText = {(text) => this.Change_Password_Verify_Code_Handler(text)}
                   />
 
                 <TextInput
@@ -244,6 +366,7 @@ export default class Change_Password_Home extends Component<{}> {
                   autoCapitalize='none'
                   secureTextEntry={true}
                   placeholder={'请输入新密码'}
+                  onChangeText = {(text) => this.Change_Password_New_Password_Handler(text)}
                   />
 
 
@@ -254,7 +377,7 @@ export default class Change_Password_Home extends Component<{}> {
                     borderWidth: 1,
                     borderRadius: 5,
                     marginTop: 15,
-                  }}>
+                  }} onPress={() => this.Change_Password()}>
 
                   <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:25}}> 提 交 </Text>
 
@@ -346,9 +469,9 @@ export default class Change_Password_Home extends Component<{}> {
                     }}
                     placeholder={'请输入手机号码'}
                     autoCapitalize='none'
-                    value={this.state.User_Info.Phone_Number}
+                    keyboardType={'numeric'}
+                    value={this.state.Change_Password_Phone_Number}
                     editable={false}
-                    secureTextEntry={true}
                       />
 
 
@@ -356,7 +479,7 @@ export default class Change_Password_Home extends Component<{}> {
                         width: '30%',
                         justifyContent: 'center',
                         alignItems: 'center'
-                      }}>
+                      }} onPress={()=> this.Send_Verify_Code()}>
 
                       <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
 
@@ -374,8 +497,9 @@ export default class Change_Password_Home extends Component<{}> {
                     marginBottom: 10,
                   }}
                   autoCapitalize='none'
-                  secureTextEntry={true}
                   placeholder={'请输入验证码'}
+                  keyboardType={'numeric'}
+                  onChangeText = {(text) => this.Change_Password_Verify_Code_Handler(text)}
                   />
 
                 <TextInput
@@ -390,6 +514,7 @@ export default class Change_Password_Home extends Component<{}> {
                   autoCapitalize='none'
                   secureTextEntry={true}
                   placeholder={'请输入新密码'}
+                  onChangeText = {(text) => this.Change_Password_New_Password_Handler(text)}
                   />
 
 
@@ -400,7 +525,7 @@ export default class Change_Password_Home extends Component<{}> {
                     borderWidth: 1,
                     borderRadius: 5,
                     marginTop: 15,
-                  }}>
+                  }} onPress={() => this.Change_Password()}>
 
                   <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:25}}> 提 交 </Text>
 

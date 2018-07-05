@@ -143,7 +143,7 @@ def Log_In(LOG_IN_PHONE_NUMBER, LOG_IN_PASSWORD):
 
 # Start of Send Verify Code
 
-def Send_Verify_Code(SIGN_UP_PHONE_NUMBER):
+def Sign_Up_Send_Verify_Code(SIGN_UP_PHONE_NUMBER):
     '''
     This function is to send verify code to the client
     1. we need to add the phone number to the Phone_Numner_Verify_Code table
@@ -221,7 +221,93 @@ def Send_Verify_Code(SIGN_UP_PHONE_NUMBER):
 
     return(STATUS, DATA)
 
-# End of Log In
+# End of Sign_Up_Send_Verify_Code
+
+
+
+# Start of Change_Password_Send_Verify_Code
+
+def Change_Password_Send_Verify_Code(CHANGE_PASSWORD_PHONE_NUMBER):
+    '''
+    This function is to send verify code to the client
+    1. we need to check whether the phone is exist or not
+
+    '''
+
+    STATUS = 0
+
+    DATA = 0
+
+    if not Phone_Schame_Check(CHANGE_PASSWORD_PHONE_NUMBER):
+        STATUS = ErrorCode.WRONG_PASSWORD_SCHEMA_CODE
+
+    else:
+        # # First create a VERIFY_CODE
+        # VERIFY_CODE = RandCode()
+
+        CONNECTIONS = mysql.connector.connect(user='root',
+        password='jizhongce123',
+        host='127.0.0.1',
+        database='Web_Data')
+
+        CURSOR = CONNECTIONS.cursor(buffered=True)
+
+        QUERYSQL = ('SELECT * FROM Users WHERE PhoneNum = \'{}\' ').format(CHANGE_PASSWORD_PHONE_NUMBER)
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        if QUERYLIST:
+            # First create a VERIFY_CODE
+            VERIFY_CODE = RandCode()
+
+            STATUS = SendSMS(CHANGE_PASSWORD_PHONE_NUMBER, VERIFY_CODE)
+
+
+            if STATUS == 200:
+
+
+                QUERYSQL = ('SELECT Phone_Number FROM Phone_Numner_Verify_Code WHERE Phone_Number = \'{}\' ').format(CHANGE_PASSWORD_PHONE_NUMBER)
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                if QUERYLIST:
+                    QUERYSQL = ('UPDATE Phone_Numner_Verify_Code SET Verify_Code = \'{}\' WHERE Phone_Number = \'{}\'; ').format(VERIFY_CODE, CHANGE_PASSWORD_PHONE_NUMBER)
+                    CURSOR.execute(QUERYSQL)
+                    STATUS = ErrorCode.SUCCESS_CODE
+
+
+                else:
+                    QUERYSQL = ('INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUES (\'{}\', \'{}\');').format(CHANGE_PASSWORD_PHONE_NUMBER, VERIFY_CODE)
+                    CURSOR.execute(QUERYSQL)
+                    STATUS = ErrorCode.SUCCESS_CODE
+
+                EVENTQUERY = ('SET GLOBAL event_scheduler = ON;')
+
+                DELQUERY = ('CREATE EVENT {} ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 2 MINUTE DO UPDATE Phone_Numner_Verify_Code SET Verify_Code = NULL WHERE Phone_Number = \'{}\'; '.format((str(RandCode())+'_delete_code'), CHANGE_PASSWORD_PHONE_NUMBER))
+
+                CURSOR.execute(EVENTQUERY)
+
+                CURSOR.execute(DELQUERY)
+
+
+        else:
+            STATUS = ErrorCode.NO_SUCH_USER_CODE
+
+
+
+        CURSOR.close()
+
+        CONNECTIONS.commit()
+
+        CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+# End of Change_Password_Send_Verify_Code
 
 
 
@@ -373,6 +459,80 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
     return(STATUS, DATA)
 
 # End of Sign Up
+
+
+
+
+# Start of Change_Password
+
+def Change_Password(CHANGE_PASSWORD_PHONE_NUMBER, CHANGE_PASSWORD_NEW_PASSWORD, CHANGE_PASSWORD_VERIFY_CODE):
+    '''
+    This is method for change password, it first need to check the data base with username and phone number
+    If the username is already exists, return the status code
+
+    '''
+    STATUS = 0
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    if not Pass_Schame_Check(CHANGE_PASSWORD_NEW_PASSWORD):
+        STATUS = ErrorCode.WRONG_PASSWORD_SCHEMA_CODE
+
+    else:
+        if not Phone_Schame_Check(CHANGE_PASSWORD_PHONE_NUMBER):
+            STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
+
+        else:
+            if not Verify_Code_Schame_Check(CHANGE_PASSWORD_VERIFY_CODE):
+                STATUS = ErrorCode.WRONG_VERIFY_CODE
+
+            else:
+                QUERYSQL = ('SELECT * FROM Phone_Numner_Verify_Code WHERE Phone_Number = \'{}\' ').format(CHANGE_PASSWORD_PHONE_NUMBER)
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                if QUERYLIST:
+                    (Phone_Number, Verify_Code, ) = QUERYLIST[0]
+
+                    if Verify_Code == int(CHANGE_PASSWORD_VERIFY_CODE):
+
+                        PASSWORD = passlib.hash.sha256_crypt.hash(CHANGE_PASSWORD_NEW_PASSWORD)
+
+                        UPDATEQUERY = ('UPDATE Users SET Password = \'{}\' WHERE PhoneNum = \'{}\';'.format(PASSWORD, CHANGE_PASSWORD_PHONE_NUMBER))
+
+                        CURSOR.execute(UPDATEQUERY)
+
+                        STATUS = ErrorCode.SUCCESS_CODE
+
+
+
+                    else:
+                        STATUS = ErrorCode.WRONG_VERIFY_CODE
+
+
+                else:
+                    STATUS = ErrorCode.PHONENUM_NOT_CORRECT
+
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+# End of Change_Password
 
 
 
