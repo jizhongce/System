@@ -45,18 +45,6 @@ import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.
 import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
 
-// import Log_In_Board from './apps/components/User_Home/Before_Log_In/Log_In_Board.js';
-import Sign_Up_Board from './apps/components/User_Home/Before_Log_In/Sign_Up_Board.js';
-import Pass_Change_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_Board.js';
-import Phone_Change_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_Board.js';
-import Sign_Up_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Sign_Up_Phone_Verify_Board.js';
-import Log_In_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Log_In_Phone_Verify_Board.js';
-import Pass_Change_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_Phone_Verify_Board.js';
-import Pass_Change_New_Pass_Board from './apps/components/User_Home/Before_Log_In/Pass_Change_New_Pass_Board.js';
-import Phone_Change_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_Phone_Verify_Board.js';
-import Phone_Change_New_Phone_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_New_Phone_Board.js';
-import Phone_Change_New_Phone_Verify_Board from './apps/components/User_Home/Before_Log_In/Phone_Change_New_Phone_Verify_Board.js';
-
 // Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
 import Single_Product_Home from './apps/components/Product_Home/Single_Product_Home.js';
@@ -96,8 +84,6 @@ import NavigationBar from 'react-native-navbar';
 const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
 
-
-
   Sign_Up_Home: { screen: Sign_Up_Home },
   Change_Password_Home: { screen: Change_Password_Home },
 
@@ -108,17 +94,6 @@ const User_Home_Stack = StackNavigator({
   Single_Order: { screen: Single_Order },
   Address_Book: { screen: Address_Book },
 
-  // Log_In_Board: { screen: Log_In_Board },
-  Sign_Up_Board: { screen: Sign_Up_Board },
-  Pass_Change_Board: { screen: Pass_Change_Board },
-  Phone_Change_Board: { screen: Phone_Change_Board },
-  Sign_Up_Phone_Verify_Board: { screen: Sign_Up_Phone_Verify_Board },
-  Log_In_Phone_Verify_Board: { screen: Log_In_Phone_Verify_Board },
-  Pass_Change_Phone_Verify_Board: { screen: Pass_Change_Phone_Verify_Board },
-  Pass_Change_New_Pass_Board: { screen: Pass_Change_New_Pass_Board },
-  Phone_Change_Phone_Verify_Board: { screen: Phone_Change_Phone_Verify_Board },
-  Phone_Change_New_Phone_Board: { screen: Phone_Change_New_Phone_Board },
-  Phone_Change_New_Phone_Verify_Board: { screen: Phone_Change_New_Phone_Verify_Board },
 });
 
 const Product_Home_Stack = StackNavigator({

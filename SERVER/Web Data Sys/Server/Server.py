@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, ServerSMS, Verify_Code, Pass_Change_Get_User, Change_Pass, Phone_Change_Log_In, Change_Phone, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
+from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
 from Server_utli import Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
@@ -113,7 +113,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
         #THEN ASK TO VERIFIED THE PHONE NUMBER
         #FUNCTION USED :
         #Log_In
-        #ServerSMS
+        #
 
         if URL_PATH == '/log_in':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
@@ -174,58 +174,10 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(DATA).encode())
 
 
-
-            # if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-            #     USERID = DATA
-            #     self.send_response(STATUS_CODE)
-            #     self.end_headers()
-            #     self.wfile.write(json.dumps(USERID).encode())
-            #
-            # elif STATUS_CODE == ErrorCode.NO_SUCH_USER_CODE:
-            #     self.send_response(STATUS_CODE)
-            #     self.end_headers()
-            #     self.wfile.write(json.dumps(DATA).encode())
-            #
-            # elif STATUS_CODE == ErrorCode.WORNG_PASSWORD_CODE:
-            #     self.send_response(STATUS_CODE)
-            #     self.end_headers()
-            #     self.wfile.write(json.dumps(DATA).encode())
-            #
-            # elif STATUS_CODE == ErrorCode.PHONE_NOT_VERIFIED_CODE:
-            #     PHONENUM = DATA
-            #
-            #     STATUS = ServerSMS(PHONENUM)
-            #
-            #     if STATUS == ErrorCode.SUCCESS_CODE:
-            #         self.send_response(STATUS_CODE)
-            #
-            #         self.end_headers()
-            #
-            #         self.wfile.write(json.dumps(PHONENUM).encode())
-            #
-            #
-            #     else:
-            #         self.send_response(STATUS)
-            #
-            #         self.end_headers()
-            #
-            #         self.wfile.write(json.dumps(PHONENUM).encode())
-            #
-            #
-            # else:
-            #     self.send_response(STATUS_CODE)
-            #
-            #     self.end_headers()
-            #
-            #     self.wfile.write(json.dumps(DATA).encode())
-
-
-
-
         #THE SIGN UP PATH, PRASE THE USERNAME AND PASSWORD AND PHONE NUMBER
         #FUNCTION USER:
         #Sign_Up
-        #ServerSMS
+        #
 
         elif URL_PATH == '/sign_up':
             USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
@@ -243,173 +195,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(DATA).encode())
 
 
-
-
-        #VERIFY THE PHONE NUMBER, PRASE THE PHONE NUMBER AND CODE
-        #FUNCTION USED :
-        #Verify_Code
-        elif URL_PATH == '/phone_verify':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_PHONE = USER_DATA['Phone_Number']
-            USER_TEMPCODE = USER_DATA['TempCode']
-
-            (STATUS_CODE, USERID) = Verify_Code(USER_PHONE, USER_TEMPCODE)
-
-            self.send_response(STATUS_CODE)
-
-            self.end_headers()
-
-            self.wfile.write(json.dumps(USERID).encode())
-
-
-
-
-        #PASSWORD CHANGE USER, USE USER NAME TO GET THE PHONE NUMBER,
-        #SEND BACK THE PHONE NUMBER AND ASK FOR VERIFY
-        #FUNCTION USED:
-        #Pass_Change_User
-        #ServerSMS
-        elif URL_PATH == '/pass_change_user':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_NAME = USER_DATA['User_Name']
-
-            (STATUS_CODE, DATA) = Pass_Change_Get_User(USER_NAME)
-
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == ErrorCode.SUCCESS_CODE:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-
-
-                else:
-                    self.send_response(STATUS)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-
-
-            else:
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
-
-
-
-        #CHANGE THE PASSWORD, PRASE THE USER ID AND USER NEW PASSWORD AND CHANGE THE PASSOWRD IN THE DATABASE
-        #FUNCTION USED:
-        #Change_Pass
-        elif URL_PATH == '/change_pass':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-
-            USER_ID = USER_DATA['User_ID']
-            USER_PASS = USER_DATA['New_Password']
-
-            STATUS_CODE = Change_Pass(USER_ID, USER_PASS)
-
-            self.send_response(STATUS_CODE)
-
-            self.end_headers()
-
-
-
-
-        #PHONE CHANGE LOG IN, LOG IN THE ACCOUNT TO CHANGE THE PHONE NUMBER, PRASE THE USERNAME AND PASSWORD
-        #GET THE PHONE NUMBER(CODE: 200) OR USERID(CODE :603 WHICH MEANS UNVERIFIED)
-        #FUNCTION USED:
-        #Phone_Change_User
-        #ServerSMS
-        elif URL_PATH == '/phone_change_log_in':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-            USER_NAME = USER_DATA['User_Name']
-            USER_PASS = USER_DATA['Password']
-
-            (STATUS_CODE, DATA) = Phone_Change_Log_In(USER_NAME, USER_PASS)
-
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == ErrorCode.SUCCESS_CODE:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-
-
-                else:
-                    self.send_response(STATUS)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-
-
-            else:
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
-
-
-
-        #CHANGE PHONE, PRASE THE USER ID AND NEW PHONE NUMBER, CHANGE THE PHONE NUMBER IN THE DATABASE
-        #FUNCTION USED:
-        #Change_Phone
-        #ServerSMS
-        elif URL_PATH == '/change_phone':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-
-            USER_ID = USER_DATA['User_ID']
-            NEW_PHONE = USER_DATA['New_Phone']
-
-            (STATUS_CODE, DATA)  = Change_Phone(USER_ID, NEW_PHONE)
-
-            if STATUS_CODE == ErrorCode.SUCCESS_CODE:
-                PHONENUM = DATA
-
-                STATUS = ServerSMS(PHONENUM)
-
-                if STATUS == ErrorCode.SUCCESS_CODE:
-                    self.send_response(STATUS_CODE)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-
-
-                else:
-                    self.send_response(STATUS)
-
-                    self.end_headers()
-
-                    self.wfile.write(json.dumps(PHONENUM).encode())
-
-
-
-            else:
-                self.send_response(STATUS_CODE)
-
-                self.end_headers()
-
-                self.wfile.write(json.dumps(DATA).encode())
 
 
         #GET THE SPECIFIC USER'S SHOPPING CART FROM THE DATABASE

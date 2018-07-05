@@ -4,13 +4,13 @@ import {CreateParametersForRequest} from './util.js'
 
 start of User_Home function
 
+
+
 login,
 signup,
-sendverifycode,
-changepassgetphone,
-changepass,
-phonechangelogin,
-changephone,
+changepass
+signupsendverifycode
+changepasswordsendverifycode
 
 */
 
@@ -110,107 +110,6 @@ export function changepassword(Change_Password_Phone_Number, Change_Password_New
   });
 }
 
-
-
-// export function sendverifycode(phonenum, code, cb){
-//   var xhr = new XMLHttpRequest();
-//   xhr.open("POST", "http://localhost:8080/phone_verify", true);
-//   var body = {Phone_Number: phonenum, TempCode : code};
-//
-//   console.log(body);
-//
-//   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-//
-//   xhr.send(JSON.stringify(body));
-//
-//   xhr.addEventListener('load', function() {
-//     var statusCode = xhr.status;
-//     var statusText = xhr.statusText;
-//     var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
-//     console.log(JSON.parse(xhr.responseText));
-//     cb(responseDict);
-//   });
-// }
-
-
-export function changepassgetphone(username, cb){
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/pass_change_user", true);
-  var body = {User_Name: username};
-
-  console.log(body);
-
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-  xhr.send(JSON.stringify(body));
-
-  xhr.addEventListener('load', function() {
-    var statusCode = xhr.status;
-    var statusText = xhr.statusText;
-    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
-    cb(responseDict);
-  });
-}
-
-export function changepass(id, newpassword, cb){
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/change_pass", true);
-  var body = {User_ID: id, New_Password : newpassword};
-
-  console.log(body);
-
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-  xhr.send(JSON.stringify(body));
-
-  xhr.addEventListener('load', function() {
-    var statusCode = xhr.status;
-    var statusText = xhr.statusText;
-    var responseDict = {StatusCode : statusCode }
-    cb(responseDict);
-  });
-}
-
-
-export function phonechangelogin(username, password, cb) {
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/phone_change_log_in", true);
-  var body = {User_Name: username, Password : password};
-
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-  xhr.send(JSON.stringify(body));
-
-  xhr.addEventListener('load', function() {
-    var statusCode = xhr.status;
-    var statusText = xhr.statusText;
-    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
-    cb(responseDict);
-  });
-
-}
-
-
-export function changephone(id, newphone, cb){
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/change_phone", true);
-  var body = {User_ID: id, New_Phone : newphone};
-
-  console.log(body);
-
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-  xhr.send(JSON.stringify(body));
-
-  xhr.addEventListener('load', function() {
-    var statusCode = xhr.status;
-    var statusText = xhr.statusText;
-    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
-    cb(responseDict);
-  });
-}
-
-// This is the function for send the message to the server
 
 /*
 End of User_Home function
