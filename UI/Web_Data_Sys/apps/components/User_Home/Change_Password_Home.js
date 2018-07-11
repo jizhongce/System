@@ -294,21 +294,12 @@ export default class Change_Password_Home extends Component<{}> {
           </View>
 
 
-
-
-
-
           <View>
 
-            {/* logo  */}
-            <View style={{backgroundColor: 'white', height: '25%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
 
-              <Image style={{margin: 10}} source={require('../../../img/logo.png')} />
-
-            </View>
 
             {/* Sign Up form  */}
-            <View style={{backgroundColor: 'white', height: '75%', alignItems: 'center', flexDirection: 'column'}}>
+            <View style={{paddingTop:10, backgroundColor: 'white', height: '100%', alignItems: 'center', flexDirection: 'column'}}>
 
                 <View style={{flexDirection: 'row', marginBottom: 10, marginTop:10}}>
                   <TextInput

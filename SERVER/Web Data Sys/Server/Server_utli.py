@@ -432,7 +432,7 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
 
                         QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
 
-                        QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VALUES (\'{}\', \'{}\', \'{}\', 1);').format(USERID, ' ', ' ')
+                        QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, Name, Level) VALUES (\'{}\', \'{}\', 1);').format(USERID, '')
 
                         CURSOR.execute(QUERYSQL_USER)
 
@@ -1009,8 +1009,8 @@ def Get_User_Profile(USER_ID):
     QUERYLIST = CURSOR.fetchall()
 
     if QUERYLIST:
-        (User_ID, First_Name, Last_Name, Level) = QUERYLIST[0]
-        DATA = {"User_ID": User_ID, "First_Name": First_Name, "Last_Name": Last_Name, "Level": Level}
+        (User_ID, Name, Level) = QUERYLIST[0]
+        DATA = {"User_ID": User_ID, "Name": Name, "Level": Level}
 
     else:
         STATUS = ErrorCode.FETCH_PROFILE_ERROR

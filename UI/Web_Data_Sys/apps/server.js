@@ -150,14 +150,14 @@ export function getuserinfo(User_ID, cb){
 
 export function getuserprofile(User_ID, cb){
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/get_user_profile", true);
-  var body = {User_ID: User_ID};
 
-  console.log(body);
+  var parameters = CreateParametersForRequest("User_ID", User_ID)
+  console.log("http://localhost:8080/get_user_profile" + "?" + parameters);
+  xhr.open("GET", "http://localhost:8080/get_user_profile" + "?" + parameters , true);
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-  xhr.send(JSON.stringify(body));
+  xhr.send();
 
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;

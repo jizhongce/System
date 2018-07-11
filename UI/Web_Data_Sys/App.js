@@ -33,7 +33,11 @@ rightButton = {<TouchableOpacity>
 // Start from here we import the screen for user home
 import User_Home from './apps/components/User_Home/User_Home.js';
 
+
 // After_Log_In
+import User_Main_Board from './apps/components/User_Home/User_Main_Board.js';
+
+
 import Favorite_Single_Product_Home from './apps/components/User_Home/After_Log_In/Favorite_Single_Product_Home.js';
 import Favorite_Products_List from './apps/components/User_Home/After_Log_In/Favorite_Products_List.js';
 import Address_Book from './apps/components/User_Home/After_Log_In/Address_Book.js';
@@ -41,7 +45,7 @@ import Order_List from './apps/components/User_Home/After_Log_In/Order_List.js';
 import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.js';
 
 // Before_Log_In
-
+import Log_In_Home from './apps/components/User_Home/Log_In_Home.js';
 import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
 
@@ -86,7 +90,9 @@ const User_Home_Stack = StackNavigator({
 
   Sign_Up_Home: { screen: Sign_Up_Home },
   Change_Password_Home: { screen: Change_Password_Home },
+  Log_In_Home: { screen: Log_In_Home },
 
+  User_Main_Board: { screen: User_Main_Board },
 
   Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },
   Favorite_Products_List: { screen: Favorite_Products_List },

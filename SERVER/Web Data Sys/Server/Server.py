@@ -62,6 +62,20 @@ class MyNewhandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(DATA).encode())
 
 
+        elif URL_PATH == '/get_user_profile':
+            URL_QUERY = UrlParse_Res['query']
+
+            USER_ID = URL_QUERY['User_ID'][0]
+
+            (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+
         elif URL_PATH == '/get_address_book':
 
             URL_QUERY = UrlParse_Res['query']
@@ -352,20 +366,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
             # self.end_headers()
             #
             # self.wfile.write(json.dumps(DATA).encode())
-
-        elif URL_PATH == '/get_user_profile':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-
-            USER_ID = USER_DATA['User_ID']
-
-            (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
-
-            print(DATA)
-
-            self.send_response(STATUS_CODE)
-            self.end_headers()
-            self.wfile.write(json.dumps(DATA).encode())
-
 
 
         elif URL_PATH == '/get_user_order':

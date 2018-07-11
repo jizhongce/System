@@ -56,6 +56,7 @@ import {
 import NavigationBar from 'react-native-navbar';
 
 import Log_In_Home from './Log_In_Home.js'
+import User_Main_Board from './User_Main_Board.js'
 
 
 export default class User_Home extends Component<{}> {
@@ -70,24 +71,11 @@ export default class User_Home extends Component<{}> {
 constructor(props) {
   super(props);
   this.state = {
-    User_Flag : false,
-    Refreshing_Flag : false,
-    User_Profile: ''
+    User_Flag : false
 
   };
 }
 
-
-sign_out(){
-  AsyncStorage.removeItem('User_ID', (error) => {
-    if (error) {
-      console.log(error);
-    }
-
-    this.props.navigation.navigate('User_Home');
-
-  });
-}
 
 Refresh_User_Info(){
   AsyncStorage.getItem('User_ID', (err, result) => {
@@ -96,66 +84,19 @@ Refresh_User_Info(){
 
     if (User_ID == null) {
       this.setState({
-        User_Flag : false,
-        Refreshing_Flag : false
+        User_Flag : false
       });
     }
 
     else {
 
-      getuserprofile(User_ID, (response) => {
-
-        const get_profile_code = response["StatusCode"]
-
-        const Profile = response["ResponseText"]
-
-
-        if (get_profile_code == 200) {
-
-          this.setState({
-            User_Flag : true,
-            User_Profile : Profile,
-            Refreshing_Flag : false
-          });
-
-        } else {
-
-          var errormsg = ErrorCodePrase(get_profile_code)[1]
-
-          var title = ErrorCodePrase(get_profile_code)[0]
-
-          console.log(ErrorCodePrase(get_profile_code))
-
-          Alert.alert(
-              title,
-              errormsg,
-            [
-              {text: 'OK', style: 'cancel', onPress: ()=>{
-                this.sign_out()
-              }},
-            ],
-          )
-
-
-
-
-        }
-
-
-        // Get User Profile End
+      this.setState({
+        User_Flag : true
       });
 
     }
 
   });
-}
-
-User_Home_On_Refresh(){
-  this.setState({
-    Refreshing_Flag : true
-  },
-  () => {this.Refresh_User_Info()}
-);
 }
 
 
@@ -178,6 +119,7 @@ componentWillMount(){
    render() {
 
     if (this.state.User_Flag == false) {
+      
       return (
 
         <Log_In_Home navigation={this.props.navigation} />
@@ -187,148 +129,12 @@ componentWillMount(){
     }
     else {
 
-          return (
-            <ScrollView
-              refreshControl={
-              <RefreshControl
-                refreshing = {this.state.Refreshing_Flag}
-                onRefresh={this.User_Home_On_Refresh.bind(this)}
-              />
-            }
-              style={{flex: 1}} >
+      return (
+
+        <User_Main_Board navigation={this.props.navigation} />
 
 
-
-              {/*start  */}
-
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>User ID: {this.state.User_Profile.User_ID}</Text>
-
-              </View>
-
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>First Name: {this.state.User_Profile.First_Name}</Text>
-
-              </View>
-
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Last Name: {this.state.User_Profile.Last_Name}</Text>
-
-              </View>
-
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Level: {this.state.User_Profile.Level}</Text>
-
-              </View>
-
-              <View style={{flex: 0.15, flexDirection:'row',backgroundColor:'grey'}}>
-
-                <View style={{
-
-                  marginTop: 25,
-                  height: '50%',
-                  width: '60%',
-                  left: '85%',
-                  borderWidth: 2,
-                  justifyContent: 'center',
-                  borderRadius: 10,
-
-                }}>
-
-                <TouchableOpacity onPress={()=> { this.sign_out()} }>
-                  <Text style={{ fontSize: 25, textAlign: 'center'} }>Sign Out</Text>
-                  </TouchableOpacity>
-
-                </View>
-
-              </View>
-
-
-              {/* Favorite Product List  */}
-              <View style={{
-                backgroundColor:'grey',
-                flex: 0.15,
-                marginTop: 25,
-                borderWidth: 2,
-                justifyContent: 'center',
-                borderRadius: 10
-              }}>
-
-              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Favorite_Products_List')}>
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>Favorite Product List</Text>
-              </TouchableOpacity>
-
-              </View>
-
-              {/*end  */}
-
-
-              {/* Order List  */}
-              <View style={{
-                backgroundColor:'grey',
-                flex: 0.15,
-                marginTop: 25,
-                borderWidth: 2,
-                justifyContent: 'center',
-                borderRadius: 10
-              }}>
-
-              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Order_List')}>
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>Order List</Text>
-              </TouchableOpacity>
-
-
-              </View>
-
-              {/*end  */}
-
-
-              {/* Address Book  */}
-              <View style={{
-                backgroundColor:'grey',
-                flex: 0.15,
-                marginTop: 25,
-                borderWidth: 2,
-                justifyContent: 'center',
-                borderRadius: 10
-              }}>
-
-              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Address_Book')}>
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>Address Book</Text>
-              </TouchableOpacity>
-
-              </View>
-
-              {/*end  */}
-
-              {/* change password */}
-              <View style={{
-                backgroundColor:'grey',
-                flex: 0.15,
-                marginTop: 25,
-                borderWidth: 2,
-                justifyContent: 'center',
-                borderRadius: 10
-              }}>
-
-              <TouchableOpacity onPress = {() => this.props.navigation.navigate('Change_Password_Home')}>
-                <Text style={{ fontSize: 25, textAlign: 'center'} }>Address Book</Text>
-              </TouchableOpacity>
-
-              </View>
-
-              {/*end  */}
-
-
-
-            </ScrollView>
-
-
-          );
+      );
 
     }
 

@@ -52,8 +52,8 @@ ADD_USER2 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified
 QUERIES.append(ADD_USER1)
 QUERIES.append(ADD_USER2)
 
-ADD_PROFILE1 = ("INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VALUE (\'{}\','Zhongce','Ji', 1);".format(USER1))
-ADD_PROFILE2 = ("INSERT INTO Profiles(User_ID, First_Name, Last_Name, Level) VALUE (\'{}\','Zhongce123','Ji', 3);".format(USER2))
+ADD_PROFILE1 = ("INSERT INTO Profiles(User_ID, Name, Level) VALUE (\'{}\','Ji Zhongce', 1);".format(USER1))
+ADD_PROFILE2 = ("INSERT INTO Profiles(User_ID, Name, Level) VALUE (\'{}\','Ji Zhongce123', 3);".format(USER2))
 
 QUERIES.append(ADD_PROFILE1)
 QUERIES.append(ADD_PROFILE2)

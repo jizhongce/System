@@ -87,6 +87,18 @@ export function ErrorCodePrase(code) {
 }
 
 
+export function UserMainBoardNameExistStyle(Name_Flag) {
+  if (Name_Flag == true) {
+
+    return({display: 'none'})
+
+  } else {
+    return({fontSize: 25})
+  }
+
+}
+
+
 export function ShoppingCartAddressExistStyle(Address_Info_Flag) {
   if (Address_Info_Flag == true) {
 
