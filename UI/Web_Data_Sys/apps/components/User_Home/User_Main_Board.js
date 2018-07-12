@@ -148,18 +148,6 @@ export default class User_Main_Board extends Component<{}> {
 
 
 
-  sign_out(){
-    AsyncStorage.removeItem('User_ID', (error) => {
-      if (error) {
-        console.log(error);
-      }
-
-      this.props.navigation.navigate('User_Home');
-
-    });
-  }
-
-
   componentWillMount(){
     //AsyncStorage.clear()
     // AsyncStorage.setItem('UID123', 'hello', () => {
@@ -212,13 +200,13 @@ export default class User_Main_Board extends Component<{}> {
 
               <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
 
-                <TouchableOpacity onPress={()=> this.sign_out()} style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20, paddingRight: 5}}>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Profile_Board') } style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20, paddingRight: 5}}>
 
 
                   <View style={{width: '30%', justifyContent: 'center'}}>
                     <Image
                       source={require('../../../img/user.png')}
-                      style={{height:100, width:100, marginTop: 10, borderRadius: 50 }}/>
+                      style={{height:100, width:100, marginTop: 10, borderRadius: 10 }}/>
                   </View>
 
                   <View style={{width: '60%', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>

@@ -61,7 +61,7 @@ import Status_Bar from '../Status_Bar.js';
 
 
 
-export default class Home2 extends Component<{}> {
+export default class User_Profile_Board extends Component<{}> {
 
   static navigationOptions = {
     header: null
@@ -74,6 +74,20 @@ export default class Home2 extends Component<{}> {
 
     };
   }
+
+
+  sign_out(){
+    AsyncStorage.removeItem('User_ID', (error) => {
+      if (error) {
+        console.log(error);
+      }
+
+      this.props.navigation.navigate('User_Home');
+
+    });
+  }
+
+
 
 
 
@@ -99,7 +113,7 @@ export default class Home2 extends Component<{}> {
                 marginLeft: 5
               }} >
 
-              <TouchableOpacity >
+              <TouchableOpacity onPress = {()=> this.props.navigation.goBack()}>
 
                 <Image style={{width: 24, height: 24}} source={require('../../../img/back_arrow.png')} />
 
@@ -126,7 +140,9 @@ export default class Home2 extends Component<{}> {
 
         <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
 
-          <View style={{borderBottomWidth: 1, paddingLeft: 10, paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
+
+          {/* Pic */}
+          <TouchableOpacity style={{borderBottomWidth: 1, paddingLeft: 10, paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
 
             <View style={{width: '80%' }}>
               <Image
@@ -140,8 +156,10 @@ export default class Home2 extends Component<{}> {
 
             </View>
 
-          </View>
+          </TouchableOpacity>
 
+
+          {/* ID */}
           <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
 
             <View style={{width: '100%' }}>
@@ -150,7 +168,9 @@ export default class Home2 extends Component<{}> {
 
           </View>
 
-          <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
+
+          {/* Name */}
+          <TouchableOpacity style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
             <View style={{width: '80%' }}>
               <Text style={{fontSize: 25}}>Name: Zhongce Ji</Text>
             </View>
@@ -161,8 +181,10 @@ export default class Home2 extends Component<{}> {
 
             </View>
 
-          </View>
+          </TouchableOpacity>
 
+
+          {/* Level */}
           <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
 
             <View style={{width: '100%' }}>
@@ -171,9 +193,19 @@ export default class Home2 extends Component<{}> {
 
           </View>
 
-          <View style={{borderWidth: 1, marginTop:100, paddingTop: 10, paddingBottom: 10, alignItems: 'center', justifyContent: 'center',}}>
+
+          {/* Log out */}
+          <TouchableOpacity
+            onPress = {()=> this.sign_out()}
+            style={{
+              borderWidth: 1,
+              marginTop:100,
+              paddingTop: 10, paddingBottom: 10,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
             <Text style={{fontSize: 25}}>Log out</Text>
-          </View>
+          </TouchableOpacity>
 
 
 
@@ -183,11 +215,6 @@ export default class Home2 extends Component<{}> {
 
 
       </KeyboardAvoidingView>
-
-
-
-
-
 
 
 

@@ -36,6 +36,7 @@ import User_Home from './apps/components/User_Home/User_Home.js';
 
 // After_Log_In
 import User_Main_Board from './apps/components/User_Home/User_Main_Board.js';
+import User_Profile_Board from './apps/components/User_Home/User_Profile_Board.js';
 
 
 import Favorite_Single_Product_Home from './apps/components/User_Home/After_Log_In/Favorite_Single_Product_Home.js';
@@ -93,6 +94,7 @@ const User_Home_Stack = StackNavigator({
   Log_In_Home: { screen: Log_In_Home },
 
   User_Main_Board: { screen: User_Main_Board },
+  User_Profile_Board: { screen: User_Profile_Board },
 
   Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },
   Favorite_Products_List: { screen: Favorite_Products_List },
