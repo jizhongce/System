@@ -106,6 +106,8 @@ componentWillMount(){
   //
   // });
 
+  this.Refresh_User_Info()
+
   this.props.navigation.addListener('willFocus', ()=>{
 
     this.Refresh_User_Info()
@@ -119,7 +121,7 @@ componentWillMount(){
    render() {
 
     if (this.state.User_Flag == false) {
-      
+
       return (
 
         <Log_In_Home navigation={this.props.navigation} />

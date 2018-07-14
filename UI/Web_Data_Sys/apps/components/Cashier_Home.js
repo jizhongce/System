@@ -484,7 +484,7 @@ export default class Cashier_Home extends Component<{}> {
 
     return(
 
-      <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
+      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
 
         <Status_Bar />
 

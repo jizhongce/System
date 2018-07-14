@@ -168,6 +168,26 @@ export function getuserprofile(User_ID, cb){
 }
 
 
+export function changeusername(User_ID, New_Name, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8080/change_user_name", true);
+  var body = {User_ID: User_ID, New_Name: New_Name};
+
+  console.log(body);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(body));
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
 
 export function getshoppingcart(User_ID, cb){
   var xhr = new XMLHttpRequest();

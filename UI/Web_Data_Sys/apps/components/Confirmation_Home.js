@@ -224,7 +224,7 @@ export default class Confirmation_Home extends Component<{}> {
       return(
 
 
-              <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
+              <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
 
                 <Status_Bar />
 
@@ -368,7 +368,7 @@ export default class Confirmation_Home extends Component<{}> {
 
       return(
 
-        <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
+        <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
 
           <Status_Bar />
 

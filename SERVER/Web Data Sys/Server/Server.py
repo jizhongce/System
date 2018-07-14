@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
 from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
+from Server_utli import Change_User_Name, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
 import hashlib, uuid
@@ -201,6 +201,21 @@ class MyNewhandler(BaseHTTPRequestHandler):
             SIGN_UP_VERIFY_CODE = USER_DATA['Sign_Up_Verify_Code']
 
             (STATUS_CODE, DATA) = Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE)
+
+            self.send_response(STATUS_CODE)
+
+            self.end_headers()
+
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        elif URL_PATH == '/change_user_name':
+            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
+
+            CHANGE_USER_NAME_USER_ID = USER_DATA['User_ID']
+            CHANGE_USER_NAME_NEW_NAME = USER_DATA['New_Name']
+
+            (STATUS_CODE, DATA) = Change_User_Name(CHANGE_USER_NAME_USER_ID, CHANGE_USER_NAME_NEW_NAME)
 
             self.send_response(STATUS_CODE)
 

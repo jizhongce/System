@@ -568,10 +568,68 @@ def Get_User_Info(USER_ID):
         STATUS = ErrorCode.USER_EXIST_CODE
         DATA = 0
 
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
     return(STATUS, DATA)
 
 
 # End of Get_User_Info
+
+
+
+
+
+# Start of Change_User_Name
+
+def Change_User_Name(USER_ID, NEW_NAME):
+    '''
+    This is the function will change the name of the user
+    '''
+    STATUS = 0
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT User_ID FROM Users WHERE User_ID = \'{}\';'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+
+        UPDATEQUERY = ('UPDATE Profiles SET Name = \'{}\' WHERE User_ID = \'{}\';'.format(NEW_NAME, USER_ID))
+
+        CURSOR.execute(UPDATEQUERY)
+
+        STATUS = ErrorCode.SUCCESS_CODE
+
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_USER_CODE
+        DATA = 0
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of Change_User_Name
 
 
 
@@ -1110,6 +1168,13 @@ def Get_Favorite_Product(USER_ID):
         STATUS = ErrorCode.NO_FAVORITE_PRODUCT_EXIST_ERROR
         DATA = 0
 
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
     return(STATUS, DATA)
 
 
@@ -1152,6 +1217,13 @@ def Get_User_Order(USER_ID):
     else:
         STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
         DATA = 0
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
 
     return(STATUS, DATA)
 
@@ -1225,6 +1297,11 @@ def Get_Single_Order(Order_ID):
         STATUS = ErrorCode.NO_SUCH_ORDER_EXIST_ERROR
         DATA = 0
 
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
 
     return(STATUS, DATA)
 
@@ -1268,6 +1345,13 @@ def Get_Address_Book(USER_ID):
         STATUS = ErrorCode.NO_ADDRESS_EXIST_ERROR
         DATA = 0
 
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
     return(STATUS, DATA)
 
 
@@ -1305,6 +1389,13 @@ def Check_Favorite_Exist(USER_ID, PRODUCT_ID):
     else:
         STATUS = ErrorCode.NO_SUCH_FAVORITE_PRODUCT_ERROR
 
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+    
     return(STATUS, DATA)
 
 

@@ -87,6 +87,19 @@ export function ErrorCodePrase(code) {
 }
 
 
+
+export function CancelExistStyle(Cancel_Flag) {
+  if (Cancel_Flag == true) {
+
+    return({display: 'none'})
+
+  } else {
+    return({alignItems: 'center', justifyContent: 'center'})
+  }
+
+}
+
+
 export function UserMainBoardNameExistStyle(Name_Flag) {
   if (Name_Flag == true) {
 

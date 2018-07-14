@@ -171,7 +171,7 @@ export default class Sign_Up_Home extends Component<{}> {
 
     return(
 
-      <KeyboardAvoidingView keyboardVerticalOffset={-50} behavior={'position'}>
+      <KeyboardAvoidingView keyboardVerticalOffset={-70} behavior={'position'}>
 
         <Status_Bar />
 
@@ -241,7 +241,9 @@ export default class Sign_Up_Home extends Component<{}> {
                     />
 
 
-                  <TouchableOpacity style={{
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    style={{
                       width: '30%',
                       justifyContent: 'center',
                       alignItems: 'center'
@@ -284,7 +286,9 @@ export default class Sign_Up_Home extends Component<{}> {
                 />
 
 
-              <TouchableOpacity style={{
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
                   width: '70%',
                   justifyContent: 'center',
                   alignItems: 'center',

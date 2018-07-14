@@ -53,6 +53,8 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
+import Status_Bar from '../Status_Bar.js';
+
 export default class Shopping_Cart_Single_Product_Home extends Component<{}> {
 
   static navigationOptions = ({ navigation }) => {
@@ -496,14 +498,51 @@ export default class Shopping_Cart_Single_Product_Home extends Component<{}> {
   render() {
     return (
 
-      <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
+      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
+
+        <Status_Bar />
+
+        <View style={{
+            height: 50,
+            backgroundColor: 'white',
+            flexDirection: 'row',
+          }} >
+
+          <View style={{
+              height: '100%',
+              width: '30%',
+              alignItems: 'center',
+              flexDirection: 'row',
+              marginLeft: 5
+            }} >
+
+            <TouchableOpacity onPress = {()=> this.props.navigation.goBack()}>
+
+              <Image style={{width: 24, height: 24}} source={require('../../../img/back_arrow.png')} />
+
+            </TouchableOpacity>
+          </View>
+
+          <View style={{
+              height: '100%',
+              width: '40%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row'
+            }} >
+            <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> {this.state.product.Products_Name} </Text>
+          </View>
+
+
+
+        </View>
 
         <ScrollView refreshControl={
           <RefreshControl
           refreshing = {this.state.Refreshing_Flag}
           onRefresh={this.Single_Product_Home_On_Refresh.bind(this)}
         />
-      } style={{backgroundColor: 'white', height:'92%'}}>
+    } style={{backgroundColor: 'white', height:'82%'}}>
 
 
 

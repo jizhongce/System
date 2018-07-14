@@ -156,6 +156,14 @@ export default class User_Main_Board extends Component<{}> {
 
     this.User_Main_Board_Refresh()
 
+    this.props.navigation.addListener('willFocus', ()=>{
+
+      this.User_Main_Board_Refresh()
+
+    });
+
+
+
 
 
 
@@ -178,7 +186,7 @@ export default class User_Main_Board extends Component<{}> {
 
           return(
 
-            <KeyboardAvoidingView  behavior={'position'} >
+            <View >
               <Status_Bar />
 
               <View style={{
@@ -200,7 +208,7 @@ export default class User_Main_Board extends Component<{}> {
 
               <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
 
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Profile_Board') } style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20, paddingRight: 5}}>
+                <TouchableOpacity activeOpacity={1} onPress={()=> this.props.navigation.navigate('User_Profile_Board') } style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20, paddingRight: 5}}>
 
 
                   <View style={{width: '30%', justifyContent: 'center'}}>
@@ -210,7 +218,7 @@ export default class User_Main_Board extends Component<{}> {
                   </View>
 
                   <View style={{width: '60%', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap'}}>
-                    <Text style={UserMainBoardNameExistStyle(this.state.Name_Flag) }>{this.state.User_Profile.User_ID.substring(0,8)}</Text>
+                    <Text style={UserMainBoardNameExistStyle(this.state.Name_Flag) }>用户{this.state.User_Profile.User_ID.substring(0,8)}</Text>
 
                     <Text style={UserMainBoardNameExistStyle(!this.state.Name_Flag)}>{this.state.User_Profile.Name}</Text>
 
@@ -228,27 +236,27 @@ export default class User_Main_Board extends Component<{}> {
 
                 <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20}}>
 
-                  <TouchableOpacity style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 代 付 </Text>
                     <Text style={{fontSize: 20}}> 定 金 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 代 </Text>
                     <Text style={{fontSize: 20}}> 收 货 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 代 付 </Text>
                     <Text style={{fontSize: 20}}> 尾 款 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 已 </Text>
                     <Text style={{fontSize: 20}}> 完 成 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', borderLeftWidth: 1, borderLeftColor: '#c4c4c4',}}>
+                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', borderLeftWidth: 1, borderLeftColor: '#c4c4c4',}}>
                     <Text style={{fontSize: 20}}> 全 部 </Text>
                     <Text style={{fontSize: 20}}> 订 单 </Text>
                   </TouchableOpacity>
@@ -291,7 +299,14 @@ export default class User_Main_Board extends Component<{}> {
 
 
                 {/* password change */}
-                <TouchableOpacity style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20}}>
+                <TouchableOpacity
+                  onPress={()=> this.props.navigation.navigate('Change_Password_Home')}
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    borderBottomWidth: 1,
+                    paddingLeft: 5, paddingTop: 20, paddingBottom: 20
+                  }}>
 
                   <View style={{width: '90%', justifyContent: 'center'}}>
 
@@ -329,7 +344,7 @@ export default class User_Main_Board extends Component<{}> {
 
 
 
-            </KeyboardAvoidingView>
+            </View>
 
 
 

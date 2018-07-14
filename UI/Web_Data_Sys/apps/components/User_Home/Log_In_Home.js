@@ -180,7 +180,8 @@ export default class Log_In_Home extends Component<{}> {
                     />
 
 
-                  <TouchableOpacity style={{
+                  <TouchableOpacity
+                    style={{
                       width: '30%',
                       justifyContent: 'center',
                       alignItems: 'center'
@@ -192,7 +193,9 @@ export default class Log_In_Home extends Component<{}> {
 
               </View>
 
-              <TouchableOpacity style={{
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
                   width: '70%',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -205,7 +208,9 @@ export default class Log_In_Home extends Component<{}> {
 
               </TouchableOpacity>
 
-              <TouchableOpacity style={{
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: 15,

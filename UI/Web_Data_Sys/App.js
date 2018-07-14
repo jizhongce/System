@@ -49,6 +49,7 @@ import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.
 import Log_In_Home from './apps/components/User_Home/Log_In_Home.js';
 import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
+import User_Change_Name_Board from './apps/components/User_Home/User_Change_Name_Board.js';
 
 // Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
@@ -89,12 +90,10 @@ import NavigationBar from 'react-native-navbar';
 const User_Home_Stack = StackNavigator({
   User_Home: { screen: User_Home },
 
-  Sign_Up_Home: { screen: Sign_Up_Home },
-  Change_Password_Home: { screen: Change_Password_Home },
   Log_In_Home: { screen: Log_In_Home },
 
   User_Main_Board: { screen: User_Main_Board },
-  User_Profile_Board: { screen: User_Profile_Board },
+
 
   Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },
   Favorite_Products_List: { screen: Favorite_Products_List },
@@ -104,17 +103,6 @@ const User_Home_Stack = StackNavigator({
 
 });
 
-const Product_Home_Stack = StackNavigator({
-  Product_Home: { screen: Product_Home },
-  Single_Product_Home: { screen: Single_Product_Home},
-});
-
-
-const Shopping_Cart_Home_Stack = StackNavigator({
-  Shopping_Cart_Home: { screen: Shopping_Cart_Home },
-  Shopping_Cart_Single_Product_Home: { screen: Shopping_Cart_Single_Product_Home },
-});
-
 
 const Home2_Stack = StackNavigator({
   Home2: { screen: Home2 },
@@ -122,16 +110,16 @@ const Home2_Stack = StackNavigator({
 
 
 const Tap_Nav_Home = TabNavigator({
-  Product_Home_Stack: {
-    screen: Product_Home_Stack,
+  Product_Home: {
+    screen: Product_Home,
     navigationOptions: { tabBarLabel:  'Product'  },
   },
   Home2_Stack: {
     screen: Home2_Stack,
     navigationOptions: { tabBarLabel:  'Home2'  },
   },
-  Shopping_Cart_Home_Stack: {
-    screen: Shopping_Cart_Home_Stack,
+  Shopping_Cart_Home: {
+    screen: Shopping_Cart_Home,
     navigationOptions: { tabBarLabel:  'Shopping Cart'  },
   },
   User_Home: {
@@ -147,6 +135,18 @@ const Total_Stack = StackNavigator({
   Tap_Nav_Home: {screen: Tap_Nav_Home},
 
   Cashier_Home: {screen: Cashier_Home},
+
+  Change_Password_Home: { screen: Change_Password_Home },
+
+  User_Change_Name_Board: { screen: User_Change_Name_Board },
+
+  Shopping_Cart_Single_Product_Home: { screen: Shopping_Cart_Single_Product_Home },
+
+  User_Profile_Board: { screen: User_Profile_Board },
+
+  Single_Product_Home: { screen: Single_Product_Home},
+
+  Sign_Up_Home: { screen: Sign_Up_Home },
 
   Confirmation_Home: {screen: Confirmation_Home},
 

@@ -30,6 +30,7 @@ rightButton = {<TouchableOpacity>
 
 */
 import {Product_Image, GetDistrictForCity} from '../../util.js';
+import {getuserprofile} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -70,7 +71,7 @@ export default class User_Profile_Board extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-
+      User_Profile: ''
 
     };
   }
@@ -88,137 +89,240 @@ export default class User_Profile_Board extends Component<{}> {
   }
 
 
+  User_Profile_Board_Refresh(){
+
+    AsyncStorage.getItem('User_ID', (err, result) => {
+      var User_ID = result
+      console.log(User_ID);
+
+      if (User_ID == null) {
+
+        this.props.navigation.navigate('User_Home');
+
+      }
+
+      else {
+
+        getuserprofile(User_ID, (response) => {
+          const get_user_profile_status_code = response["StatusCode"]
+          const User_Profile = response["ResponseText"]
+
+          console.log(User_Profile);
+
+          if (get_user_profile_status_code == 200) {
+
+
+            this.setState({
+              User_Profile : User_Profile,
+
+            });
+
+
+
+
+
+
+          } else {
+
+            const errormsg = ErrorCodePrase(get_user_profile_status_code)[1]
+
+            const title = ErrorCodePrase(get_user_profile_status_code)[0]
+
+            Alert.alert(
+              title,
+              errormsg,
+              [
+                {text: 'OK', style: 'cancel'},
+              ],
+            )
+
+          }
+
+
+
+        });
+
+      }
+
+    });
+
+
+  }
+
+
+
+  componentWillMount(){
+    //AsyncStorage.clear()
+    // AsyncStorage.setItem('UID123', 'hello', () => {
+    //
+    // });
+
+    this.User_Profile_Board_Refresh()
+
+    this.props.navigation.addListener('willFocus', ()=>{
+
+      this.User_Profile_Board_Refresh()
+
+    });
+
+
+
+
+
+  }
+
 
 
 
   render() {
 
-    return(
+    if (this.state.User_Profile == '') {
 
-      <KeyboardAvoidingView  behavior={'position'} >
-        <Status_Bar />
+      return(
+        <View>
+          <Text>Loading</Text>
+        </View>
+      )
 
-          <View style={{
-              height: 50,
-              backgroundColor: 'white',
-              flexDirection: 'row',
-              borderBottomWidth: 1,
-            }} >
+    } else {
+
+      return(
+
+        <View >
+          <Status_Bar />
 
             <View style={{
-                height: '100%',
-                width: '30%',
-                alignItems: 'center',
+                height: 50,
+                backgroundColor: 'white',
                 flexDirection: 'row',
-                marginLeft: 5
+                borderBottomWidth: 1,
               }} >
 
-              <TouchableOpacity onPress = {()=> this.props.navigation.goBack()}>
+              <View style={{
+                  height: '100%',
+                  width: '30%',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  marginLeft: 5
+                }} >
 
-                <Image style={{width: 24, height: 24}} source={require('../../../img/back_arrow.png')} />
+                <TouchableOpacity onPress = {()=> this.props.navigation.goBack()}>
 
-              </TouchableOpacity>
+                  <Image style={{width: 24, height: 24}} source={require('../../../img/back_arrow.png')} />
+
+                </TouchableOpacity>
+              </View>
+
+              <View style={{
+                  height: '100%',
+                  width: '40%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'row'
+                }} >
+                <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 用 户 资 料 </Text>
+              </View>
+
+
+
             </View>
 
-            <View style={{
-                height: '100%',
-                width: '40%',
+
+
+          {/* User info */}
+
+          <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
+
+
+            {/* Pic */}
+            <TouchableOpacity activeOpacity={1} style={{alignItems: 'center',borderBottomWidth: 1, paddingLeft: 10, paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
+
+              <View style={{width: '80%' }}>
+                <Image
+                  source={require('../../../img/user.png')}
+                  style={{height:60, width:60, marginTop: 10, borderRadius: 10 }}/>
+              </View>
+
+              <View style={{width: '20%', alignItems: 'center', justifyContent: 'center',}}>
+
+                <Image style={{width: 35, height: 35}} source={require('../../../img/forward_arrow.png')} />
+
+              </View>
+
+            </TouchableOpacity>
+
+
+            {/* ID */}
+            <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
+
+              <View style={{width: '100%' }}>
+                <Text style={{fontSize: 25}}>ID: {this.state.User_Profile.User_ID.substring(0,8)}</Text>
+              </View>
+
+            </View>
+
+
+            {/* Name */}
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={()=> this.props.navigation.navigate('User_Change_Name_Board')}
+              style={{borderBottomWidth: 1,
                 alignItems: 'center',
-                justifyContent: 'center',
+                paddingLeft: 10,  paddingTop: 10, paddingBottom:10,
                 flexDirection: 'row'
-              }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 用 户 资 料 </Text>
-            </View>
+              }}>
+
+              <View style={{width: '80%' }}>
+                <Text style={{fontSize: 25}}>名 字: {this.state.User_Profile.Name}</Text>
+              </View>
+
+              <View style={{width: '20%', alignItems: 'center', justifyContent: 'center',}}>
+
+                <Image style={{width: 35, height: 35}} source={require('../../../img/forward_arrow.png')} />
+
+              </View>
+
+            </TouchableOpacity>
 
 
+            {/* Level */}
+            <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
 
-          </View>
-
-
-
-        {/* User info */}
-
-        <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
-
-
-          {/* Pic */}
-          <TouchableOpacity style={{borderBottomWidth: 1, paddingLeft: 10, paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-
-            <View style={{width: '80%' }}>
-              <Image
-                source={require('../../../img/user.png')}
-                style={{height:60, width:60, marginTop: 10, borderRadius: 10 }}/>
-            </View>
-
-            <View style={{width: '20%', alignItems: 'center', justifyContent: 'center',}}>
-
-              <Image style={{width: 35, height: 35}} source={require('../../../img/forward_arrow.png')} />
+              <View style={{width: '100%' }}>
+                <Text style={{fontSize: 25}}>等 级: {this.state.User_Profile.Level}</Text>
+              </View>
 
             </View>
 
-          </TouchableOpacity>
+
+            {/* Log out */}
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress = {()=> this.sign_out()}
+              style={{
+                borderWidth: 1,
+                marginTop:100,
+                paddingTop: 10, paddingBottom: 10,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+              <Text style={{fontSize: 25}}>Log out</Text>
+            </TouchableOpacity>
 
 
-          {/* ID */}
-          <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-
-            <View style={{width: '100%' }}>
-              <Text style={{fontSize: 25}}>ID: 8fce5ce0</Text>
-            </View>
-
-          </View>
+          </ScrollView>
 
 
-          {/* Name */}
-          <TouchableOpacity style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-            <View style={{width: '80%' }}>
-              <Text style={{fontSize: 25}}>Name: Zhongce Ji</Text>
-            </View>
-
-            <View style={{width: '20%', alignItems: 'center', justifyContent: 'center',}}>
-
-              <Image style={{width: 35, height: 35}} source={require('../../../img/forward_arrow.png')} />
-
-            </View>
-
-          </TouchableOpacity>
-
-
-          {/* Level */}
-          <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-
-            <View style={{width: '100%' }}>
-              <Text style={{fontSize: 25}}>Level: 1</Text>
-            </View>
-
-          </View>
-
-
-          {/* Log out */}
-          <TouchableOpacity
-            onPress = {()=> this.sign_out()}
-            style={{
-              borderWidth: 1,
-              marginTop:100,
-              paddingTop: 10, paddingBottom: 10,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-            <Text style={{fontSize: 25}}>Log out</Text>
-          </TouchableOpacity>
-
-
-
-        </ScrollView>
+        </View>
 
 
 
 
-      </KeyboardAvoidingView>
+      )
 
 
+    }
 
 
-    )
   }
 }
