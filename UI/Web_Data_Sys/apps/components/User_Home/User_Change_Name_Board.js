@@ -73,6 +73,7 @@ export default class User_Change_Name_Board extends Component<{}> {
     this.state = {
 
       User_Profile: '',
+      User_Profile_Flag: false,
       Name: '',
       Cancel_Flag: true,
 
@@ -172,6 +173,7 @@ export default class User_Change_Name_Board extends Component<{}> {
 
             this.setState({
               User_Profile : User_Profile,
+              User_Profile_Flag: true,
               Name : User_Profile.Name,
 
             });
@@ -222,15 +224,13 @@ export default class User_Change_Name_Board extends Component<{}> {
     });
 
 
-
-
   }
 
 
 
   render() {
 
-    if (this.state.User_Profile == '') {
+    if (this.state.User_Profile_Flag == false) {
 
       return(
         <View>

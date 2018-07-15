@@ -71,7 +71,8 @@ export default class User_Profile_Board extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-      User_Profile: ''
+      User_Profile: '',
+      User_Profile_Flag: false,
 
     };
   }
@@ -114,6 +115,7 @@ export default class User_Profile_Board extends Component<{}> {
 
             this.setState({
               User_Profile : User_Profile,
+              User_Profile_Flag : true,
 
             });
 
@@ -176,7 +178,7 @@ export default class User_Profile_Board extends Component<{}> {
 
   render() {
 
-    if (this.state.User_Profile == '') {
+    if (this.state.User_Profile_Flag == false) {
 
       return(
         <View>

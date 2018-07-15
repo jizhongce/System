@@ -266,7 +266,8 @@ export default class User_Main_Board extends Component<{}> {
 
                 {/* address */}
 
-                <TouchableOpacity style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20}}>
+
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Address_Board') } style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20}}>
 
                   <View style={{width: '90%', justifyContent: 'center'}}>
 

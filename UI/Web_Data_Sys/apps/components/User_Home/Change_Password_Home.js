@@ -1,4 +1,4 @@
-import {DropDownHolder} from '../../util.js';
+import {DropDownHolder, ShowPhoneNumber} from '../../util.js';
 import {getuserinfo, changepasswordsendverifycode, changepassword} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
@@ -451,10 +451,9 @@ export default class Change_Password_Home extends Component<{}> {
                       fontSize: 20,
                       marginBottom: 10,
                     }}
-                    placeholder={'请输入手机号码'}
                     autoCapitalize='none'
                     keyboardType={'numeric'}
-                    value={this.state.Change_Password_Phone_Number}
+                    value={ShowPhoneNumber(this.state.Change_Password_Phone_Number)}
                     editable={false}
                       />
 

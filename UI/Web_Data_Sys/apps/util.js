@@ -88,6 +88,14 @@ export function ErrorCodePrase(code) {
 
 
 
+export function ShowPhoneNumber(PhoneNumber) {
+
+  return(PhoneNumber.substring(0,3) + '*****' + PhoneNumber.substring(7,12))
+
+}
+
+
+
 export function CancelExistStyle(Cancel_Flag) {
   if (Cancel_Flag == true) {
 

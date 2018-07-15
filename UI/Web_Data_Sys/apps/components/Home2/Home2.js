@@ -81,7 +81,7 @@ export default class Home2 extends Component<{}> {
 
     return(
 
-      <KeyboardAvoidingView  behavior={'position'} >
+      <View>
         <Status_Bar />
 
           <View style={{
@@ -113,7 +113,7 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 用 户 资 料 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 地 址 管 理 </Text>
             </View>
 
 
@@ -121,68 +121,60 @@ export default class Home2 extends Component<{}> {
           </View>
 
 
+          <ScrollView style={{backgroundColor: 'white', height: '90%'}}>
 
-        {/* User info */}
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
 
-        <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
+              <View style={{width: '100%', marginTop: 10, marginBottom: 10, borderBottomWidth: 1, borderColor: '#9e9e9e', flexDirection: 'column', paddingLeft: 10}}>
 
-          <View style={{borderBottomWidth: 1, paddingLeft: 10, paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', paddingTop: 10}}>
+                  <Text style={{paddingRight: 10, fontSize: 18}}>wenzhoujunhaoshiye</Text>
+                  <Text style={{fontSize: 18}}>15555555555</Text>
+                </View>
 
-            <View style={{width: '80%' }}>
-              <Image
-                source={require('../../../img/user.png')}
-                style={{height:60, width:60, marginTop: 10, borderRadius: 10 }}/>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 10, paddingTop: 10, borderBottomWidth: 1, borderColor: '#d6d3d3'}}>
+                  <Text style={{paddingRight: 10, fontSize: 18}}>wenzhoushiluchengqu</Text>
+                  <Text style={{fontSize: 18}}>luchengguangchang 5 building room 5</Text>
+                </View>
+
+                <View style={{flexDirection: 'row-reverse', paddingBottom: 10, paddingTop: 10}}>
+
+                  <TouchableOpacity style={{marginLeft: 10, marginRight: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+
+                    <Image style={{width: 21, height: 21, marginLeft: 5, marginRight: 5}} source={require('../../../img/clear.png')} />
+                    <Text style={{fontSize: 18, marginLeft: 5, marginRight: 5 }} >删 除</Text>
+
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={{marginLeft: 10, marginRight: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+
+                    <Image style={{width: 21, height: 21, marginLeft: 5, marginRight: 5}} source={require('../../../img/edit.png')} />
+                    <Text style={{fontSize: 18, marginLeft: 5, marginRight: 5}} >编 辑</Text>
+
+                  </TouchableOpacity>
+
+
+                </View>
+
+              </View>
+
+
+              <TouchableOpacity style={{width: '90%', marginTop: 10, marginBottom: 10, borderRadius: 10, borderWidth:1, borderColor: '#9e9e9e', alignItems: 'center', justifyContent: 'center'}}>
+
+                <Text style={{fontSize: 20, marginTop: 5, marginBottom:5}}>添 加 新 地 址</Text>
+
+              </TouchableOpacity>
+
             </View>
 
-            <View style={{width: '20%', alignItems: 'center', justifyContent: 'center',}}>
-
-              <Image style={{width: 35, height: 35}} source={require('../../../img/forward_arrow.png')} />
-
-            </View>
-
-          </View>
-
-          <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-
-            <View style={{width: '100%' }}>
-              <Text style={{fontSize: 25}}>ID: 8fce5ce0</Text>
-            </View>
-
-          </View>
-
-          <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-            <View style={{width: '80%' }}>
-              <Text style={{fontSize: 25}}>Name: Zhongce Ji</Text>
-            </View>
-
-            <View style={{width: '20%', alignItems: 'center', justifyContent: 'center',}}>
-
-              <Image style={{width: 35, height: 35}} source={require('../../../img/forward_arrow.png')} />
-
-            </View>
-
-          </View>
-
-          <View style={{borderBottomWidth: 1, alignItems: 'center', paddingLeft: 10,  paddingTop: 10, paddingBottom:10, flexDirection: 'row'}}>
-
-            <View style={{width: '100%' }}>
-              <Text style={{fontSize: 25}}>Level: 1</Text>
-            </View>
-
-          </View>
-
-          <View style={{borderWidth: 1, marginTop:100, paddingTop: 10, paddingBottom: 10, alignItems: 'center', justifyContent: 'center',}}>
-            <Text style={{fontSize: 25}}>Log out</Text>
-          </View>
 
 
 
-        </ScrollView>
+          </ScrollView>
 
 
 
-
-      </KeyboardAvoidingView>
+      </View>
 
 
 
