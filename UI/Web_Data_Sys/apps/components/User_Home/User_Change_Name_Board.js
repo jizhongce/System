@@ -247,7 +247,7 @@ export default class User_Change_Name_Board extends Component<{}> {
               <Status_Bar />
 
                 <View style={{
-                    height: 50,
+                    height: '8%',
                     backgroundColor: 'white',
                     flexDirection: 'row',
                     borderBottomWidth: 1,
@@ -303,7 +303,7 @@ export default class User_Change_Name_Board extends Component<{}> {
 
               {/* User info */}
 
-              <View style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
+              <View style={{height: '89%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
 
                 <View style={{marginTop: 20, paddingLeft: 10, paddingRight: 10, borderWidth: 1, flexDirection: 'row'}}>
 

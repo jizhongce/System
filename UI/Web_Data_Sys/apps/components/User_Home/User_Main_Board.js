@@ -190,7 +190,7 @@ export default class User_Main_Board extends Component<{}> {
               <Status_Bar />
 
               <View style={{
-                  height: 50,
+                  height: '8%',
                   backgroundColor: 'white',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -206,7 +206,7 @@ export default class User_Main_Board extends Component<{}> {
 
               {/* User info */}
 
-              <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
+              <ScrollView style={{height: '89%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
 
                 <TouchableOpacity activeOpacity={1} onPress={()=> this.props.navigation.navigate('User_Profile_Board') } style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20, paddingRight: 5}}>
 

@@ -52,6 +52,7 @@ import {
   TouchableHighlight,
   Picker,
   FlatList,
+  Dimensions,
   KeyboardAvoidingView
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
@@ -70,11 +71,29 @@ export default class Home2 extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-
+      height: 100
 
     };
   }
 
+  componentWillMount(){
+    //AsyncStorage.clear()
+    // AsyncStorage.setItem('UID123', 'hello', () => {
+    //
+    // });
+    this.props.navigation.addListener('willFocus', ()=>{
+
+      var {height, width} = Dimensions.get('window');
+
+      this.setState({
+        height: height
+      });
+
+    });
+
+
+
+  }
 
 
   render() {
@@ -85,7 +104,7 @@ export default class Home2 extends Component<{}> {
         <Status_Bar />
 
           <View style={{
-              height: 50,
+              height: '8%',
               backgroundColor: 'white',
               flexDirection: 'row',
               borderBottomWidth: 1,
@@ -113,7 +132,7 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 添 加 新 地 址 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 产 品 收 藏 </Text>
             </View>
 
 
@@ -121,130 +140,48 @@ export default class Home2 extends Component<{}> {
           </View>
 
 
-          <View style={{backgroundColor: 'white', height: '100%', flexDirection: 'column', alignItems: 'center',}}>
+          <ScrollView style={{backgroundColor: 'white', height: '89%'}}>
 
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 15, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
+            <View style={{ justifyContent: 'center', flexDirection: 'column'}}>
 
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>地 址 名 字:</Text>
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
               </View>
 
-              <View style={{}}>
-                <TextInput
-                  style={{
-                    width: 230,
-                    fontSize: 16,
-                  }}
-                  placeholder={'请输入地址名字'}
-                  autoCapitalize='none'
-                    />
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
               </View>
 
-              <TouchableOpacity style={{}}>
-                <Image source={require('../../../img/cancel.png')} />
-              </TouchableOpacity>
-
-
-            </View>
-
-
-
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center',  borderBottomWidth: 1, borderColor: '#dddddd'}}>
-
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>联 系 方 式:</Text>
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
               </View>
 
-              <View style={{}}>
-                <TextInput
-                  style={{
-                    width: 230,
-                    fontSize: 16,
-                  }}
-                  placeholder={'请输入手机号码'}
-                  keyboardType={'phone-pad'}
-                  autoCapitalize='none'
-                    />
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
               </View>
 
-              <TouchableOpacity style={{}}>
-                <Image source={require('../../../img/cancel.png')} />
-              </TouchableOpacity>
-
-            </View>
-
-
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
-
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>所 在 地 区:</Text>
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
               </View>
 
-              <View style={{flexDirection: 'row'}}>
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
+              </View>
 
-                <TouchableOpacity style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                  <Text style={{fontSize: 16}}>省 份</Text>
-                </TouchableOpacity>
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
+              </View>
 
-                <TouchableOpacity style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                  <Text style={{fontSize: 16}}>城 市</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                  <Text style={{fontSize: 16}}>地 区</Text>
-                </TouchableOpacity>
-
-
+              <View style={{borderWidth: 1, height: 100}}>
+                <Text>hello</Text>
               </View>
 
             </View>
 
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, borderBottomWidth: 1, alignItems: 'center', borderColor: '#dddddd'}}>
-
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>详 细 地 址:</Text>
-              </View>
-
-              <View style={{}}>
-                <TextInput
-                  numberOfLines = {3}
-                  multiline = {true}
-                  autoCapitalize='none'
-                  placeholder={'请输入详细地址'}
-                  style={{
-                    height: 60,
-                    width: 230,
-                    fontSize: 16,
-                  }} />
-              </View>
-
-              <TouchableOpacity style={{}}>
-                <Image source={require('../../../img/cancel.png')} />
-              </TouchableOpacity>
-
-            </View>
-
-
-            <TouchableOpacity
-              style={{
-                width: '70%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 1,
-                borderRadius: 5,
-                marginTop: 20,
-                paddingTop:10,
-                paddingBottom: 10,
-              }} >
-
-              <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}> 提 交 新 地 址 </Text>
-
-            </TouchableOpacity>
 
 
 
-
-          </View>
+          </ScrollView>
 
 
 

@@ -258,7 +258,7 @@ export default class Change_Password_Home extends Component<{}> {
           <Status_Bar />
 
           <View style={{
-              height: 50,
+              height: '8%',
               backgroundColor: 'white',
               flexDirection: 'row',
               borderBottomWidth: 1,
@@ -295,8 +295,6 @@ export default class Change_Password_Home extends Component<{}> {
 
 
           <View>
-
-
 
 
             <View style={{paddingTop:10, backgroundColor: 'white', height: '100%', alignItems: 'center', flexDirection: 'column'}}>
@@ -400,7 +398,7 @@ export default class Change_Password_Home extends Component<{}> {
           <Status_Bar />
 
           <View style={{
-              height: 50,
+              height: '8%',
               backgroundColor: 'white',
               flexDirection: 'row',
               borderBottomWidth: 1,

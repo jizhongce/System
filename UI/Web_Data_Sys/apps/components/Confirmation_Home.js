@@ -229,7 +229,7 @@ export default class Confirmation_Home extends Component<{}> {
                 <Status_Bar />
 
                   <View style={{
-                      height: 50,
+                      height: '8%',
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: 'white',
@@ -373,7 +373,7 @@ export default class Confirmation_Home extends Component<{}> {
           <Status_Bar />
 
             <View style={{
-                height: 50,
+                height: '8%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: 'white',

@@ -126,7 +126,7 @@ export default class Product_Home extends Component<{}> {
         <Status_Bar />
 
         <View style={{
-            height: 50,
+            height: '8%',
             backgroundColor: 'white',
             flexDirection: 'row',
             justifyContent: 'center',
@@ -162,7 +162,7 @@ export default class Product_Home extends Component<{}> {
               refreshing = {this.state.Refreshing_Flag}
               onRefresh={this.All_Products_On_Refresh.bind(this)}
               />
-          } style={{backgroundColor: 'white'}}>
+          } style={{backgroundColor: 'white', height: '89%'}}>
 
           <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
 

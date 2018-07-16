@@ -306,7 +306,7 @@ export default class User_Add_New_Address_Board extends Component<{}> {
         <Status_Bar />
 
           <View style={{
-              height: 50,
+              height: '8%',
               backgroundColor: 'white',
               flexDirection: 'row',
               borderBottomWidth: 1,
@@ -341,7 +341,7 @@ export default class User_Add_New_Address_Board extends Component<{}> {
           </View>
 
 
-          <View style={{backgroundColor: 'white', height: '100%', flexDirection: 'column', alignItems: 'center',}}>
+          <View style={{backgroundColor: 'white', height: '89%', flexDirection: 'column', alignItems: 'center',}}>
 
             <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 15, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
 

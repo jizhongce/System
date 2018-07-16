@@ -489,7 +489,7 @@ export default class Cashier_Home extends Component<{}> {
         <Status_Bar />
 
         <View style={{
-            height: 50,
+            height: '8%',
             backgroundColor: 'white',
             flexDirection: 'row',
           }} >
@@ -538,7 +538,7 @@ export default class Cashier_Home extends Component<{}> {
 
         {/* Payment Method */}
 
-        <View style={{height: '71%'}}>
+        <View style={{height: '72%'}}>
 
 
           {/* online payment method  */}

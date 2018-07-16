@@ -194,7 +194,7 @@ export default class User_Profile_Board extends Component<{}> {
           <Status_Bar />
 
             <View style={{
-                height: 50,
+                height: '8%',
                 backgroundColor: 'white',
                 flexDirection: 'row',
                 borderBottomWidth: 1,
@@ -233,7 +233,7 @@ export default class User_Profile_Board extends Component<{}> {
 
           {/* User info */}
 
-          <ScrollView style={{height: '100%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
+          <ScrollView style={{height: '89%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
 
 
             {/* Pic */}

@@ -2239,7 +2239,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               <Status_Bar />
 
               <View style={{
-                  height: 50,
+                  height: '8%',
                   backgroundColor: 'white',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -2273,7 +2273,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
             <Status_Bar />
 
             <View style={{
-                height: 50,
+                height: '8%',
                 backgroundColor: 'white',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -2994,13 +2994,13 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
 
-            <KeyboardAvoidingView keyboardVerticalOffset={60} behavior={'position'} >
+            <View>
 
 
               <Status_Bar />
 
               <View style={{
-                  height: 50,
+                  height: '8%',
                   backgroundColor: 'white',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -3784,7 +3784,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
 
-            </KeyboardAvoidingView>
+           </View>
 
 
 

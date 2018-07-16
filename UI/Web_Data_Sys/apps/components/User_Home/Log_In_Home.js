@@ -121,7 +121,7 @@ export default class Log_In_Home extends Component<{}> {
         <Status_Bar />
 
         <View style={{
-            height: 50,
+            height: '8%',
             backgroundColor: 'white',
             justifyContent: 'center',
             alignItems: 'center',
@@ -147,7 +147,7 @@ export default class Log_In_Home extends Component<{}> {
           </View>
 
           {/* log in form  */}
-          <View style={{backgroundColor: 'white', height: '75%', alignItems: 'center', flexDirection: 'column'}}>
+          <View style={{backgroundColor: 'white', height: '74%', alignItems: 'center', flexDirection: 'column'}}>
 
             <TextInput
               style={{
