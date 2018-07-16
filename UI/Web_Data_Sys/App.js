@@ -51,6 +51,8 @@ import Log_In_Home from './apps/components/User_Home/Log_In_Home.js';
 import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
 import User_Change_Name_Board from './apps/components/User_Home/User_Change_Name_Board.js';
+import User_Add_New_Address_Board from './apps/components/User_Home/User_Add_New_Address_Board.js';
+import User_Edit_Address_Board from './apps/components/User_Home/User_Edit_Address_Board.js';
 
 // Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
@@ -140,6 +142,10 @@ const Total_Stack = StackNavigator({
   Change_Password_Home: { screen: Change_Password_Home },
 
   User_Change_Name_Board: { screen: User_Change_Name_Board },
+
+  User_Add_New_Address_Board: { screen: User_Add_New_Address_Board },
+
+  User_Edit_Address_Board: { screen: User_Edit_Address_Board },
 
   Shopping_Cart_Single_Product_Home: { screen: Shopping_Cart_Single_Product_Home },
 

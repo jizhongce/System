@@ -1395,7 +1395,7 @@ def Check_Favorite_Exist(USER_ID, PRODUCT_ID):
     CONNECTIONS.commit()
 
     CONNECTIONS.close()
-    
+
     return(STATUS, DATA)
 
 
@@ -1646,6 +1646,7 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
             CONNECTIONS.commit()
 
             STATUS = ErrorCode.SUCCESS_CODE
+
 
     else:
         STATUS = ErrorCode.NO_SUCH_ADDRESS_ERROR

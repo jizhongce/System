@@ -172,6 +172,7 @@ export default class User_Address_Board extends Component<{}> {
 
 
 
+
   // Refresh function start here
 
   Refresh_User_Address_Board(){
@@ -339,7 +340,7 @@ export default class User_Address_Board extends Component<{}> {
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
 
 
-                <TouchableOpacity style={{width: '90%', marginTop: 10, marginBottom: 10, borderRadius: 10, borderWidth:1, borderColor: '#9e9e9e', alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Add_New_Address_Board')} style={{width: '90%', marginTop: 10, marginBottom: 10, borderRadius: 10, borderWidth:1, borderColor: '#9e9e9e', alignItems: 'center', justifyContent: 'center'}}>
 
                   <Text style={{fontSize: 20, marginTop: 5, marginBottom:5}}>添 加 新 地 址</Text>
 
@@ -434,7 +435,7 @@ export default class User_Address_Board extends Component<{}> {
 
                           </TouchableOpacity>
 
-                          <TouchableOpacity style={{marginLeft: 10, marginRight: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                          <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Edit_Address_Board', { Address : Address})} style={{marginLeft: 10, marginRight: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
 
                             <Image style={{width: 21, height: 21, marginLeft: 5, marginRight: 5}} source={require('../../../img/edit.png')} />
                             <Text style={{fontSize: 18, marginLeft: 5, marginRight: 5}} >编 辑</Text>
@@ -451,7 +452,7 @@ export default class User_Address_Board extends Component<{}> {
                 }
 
 
-                <TouchableOpacity style={{width: '90%', marginTop: 10, marginBottom: 10, borderRadius: 10, borderWidth:1, borderColor: '#9e9e9e', alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Add_New_Address_Board')} style={{width: '90%', marginTop: 10, marginBottom: 10, borderRadius: 10, borderWidth:1, borderColor: '#9e9e9e', alignItems: 'center', justifyContent: 'center'}}>
 
                   <Text style={{fontSize: 20, marginTop: 5, marginBottom:5}}>添 加 新 地 址</Text>
 

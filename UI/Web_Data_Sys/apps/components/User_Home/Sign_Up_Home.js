@@ -236,7 +236,7 @@ export default class Sign_Up_Home extends Component<{}> {
                   }}
                   placeholder={'请输入手机号码'}
                   autoCapitalize='none'
-                  keyboardType={'numeric'}
+                  keyboardType={'phone-pad'}
                   onChangeText = {(text) => this.Sign_Up_Phone_Number_Handler(text)}
                     />
 

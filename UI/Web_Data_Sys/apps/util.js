@@ -358,37 +358,29 @@ export function GetDistrictForCity(City_Value){
 
 
 
-
-
-
-
-export function AddNewAddressCheck(Province_Value, City_Value, Street_Value, Post_Code_Value, Address_Name_Value, Address_Phone_Number_Value) {
-  if (Province_Value == '') {
-    return('Province Value is empty, please check again!')
+export function AddNewAddressCheck(Address_Name, Address_Phone_Number, Address_Province, Address_City, Address_District, Address_Street) {
+  if (Address_Name == '') {
+    return('请输入地址名字!')
+  }
+  else if (Address_Phone_Number == '') {
+    return('请输入地址联系方式!')
   }
 
-  else if (City_Value == '') {
-    return('City Value is empty, please check again!')
+  else if (Address_Province == '') {
+    return('请输入地址省份!')
   }
 
-  else if (Street_Value == '') {
-    return('Street Value is empty, please check again!')
+  else if (Address_City == 'Choose Province') {
+    return('请输入地址城市!')
   }
-
-  else if (Province_Value == 'Choose Province') {
-    return('Province Value is empty, please check again!')
+  else if (Address_District == '') {
+    return('请输入地址地区!')
   }
-  else if (Post_Code_Value == '') {
-    return('Post Code Value is empty, please check again!')
-  }
-  else if (Address_Name_Value == '') {
-    return('Address Name Value is empty, please check again!')
-  }
-  else if (Address_Phone_Number_Value == '') {
-    return('Address Phone Number Value is empty, please check again!')
+  else if (Address_Street == '') {
+    return('请输入详细地址!')
   }
   else {
-    return('Something is wrong, please check again!')
+    return('其他错误!')
   }
 
 }
