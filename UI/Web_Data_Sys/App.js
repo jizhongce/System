@@ -60,6 +60,7 @@ import Single_Product_Home from './apps/components/Product_Home/Single_Product_H
 // Start from here we import the screen for the shopping cart home
 import Shopping_Cart_Home from './apps/components/Shopping_Cart_Home/Shopping_Cart_Home.js';
 import Shopping_Cart_Single_Product_Home from './apps/components/Shopping_Cart_Home/Shopping_Cart_Single_Product_Home.js';
+import Shopping_Cart_Choose_Address_Board from './apps/components/Shopping_Cart_Home/Shopping_Cart_Choose_Address_Board.js';
 
 import Home2 from './apps/components/Home2/Home2.js';
 
@@ -146,6 +147,8 @@ const Total_Stack = StackNavigator({
   User_Edit_Address_Board: { screen: User_Edit_Address_Board },
 
   Shopping_Cart_Single_Product_Home: { screen: Shopping_Cart_Single_Product_Home },
+
+  Shopping_Cart_Choose_Address_Board: { screen: Shopping_Cart_Choose_Address_Board },
 
   User_Profile_Board: { screen: User_Profile_Board },
 

@@ -781,9 +781,9 @@ export default class Single_Product_Home extends Component<{}> {
 
         </ScrollView>
 
-        <View style={{height:'8%',  flexDirection:'row', alignItems: 'center'}}>
+        <View style={{height:'8%',  flexDirection:'row', alignItems: 'center', borderTopWidth: 1}}>
 
-          <View style={{width:'50%', height:'100%',flexDirection:'row', alignItems: 'center', backgroundColor: 'grey'}}>
+          <View style={{width:'50%', height:'100%',flexDirection:'row', alignItems: 'center', backgroundColor: 'white'}}>
 
             <TouchableOpacity onPress = {() => this.Single_Product_Home_Minus()} activeOpacity={0.5} style={{ marginBottom: 5,marginTop:5, marginLeft:5, marginRight:5}}>
               <Icon name='remove' />
@@ -812,11 +812,11 @@ export default class Single_Product_Home extends Component<{}> {
           </View>
 
 
-          <TouchableOpacity onPress = {() => this.add_To_shopping_cart()} activeOpacity={0.5} style={{width:'25%', height:'100%', backgroundColor: '#fb5252', justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress = {() => this.add_To_shopping_cart()} activeOpacity={0.5} style={{width:'25%', height:'100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderRightWidth: 1,  borderLeftWidth: 1 }}>
             <Text style={{ color: 'black', fontWeight:'bold', textAlign: 'center'}}>加入购物车</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress = {() => this.buy_product()} activeOpacity={0.5} style={{width:'25%', height:'100%', backgroundColor: '#e9fb52', justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress = {() => this.buy_product()} activeOpacity={0.5} style={{width:'25%', height:'100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: 'black', fontWeight:'bold', textAlign: 'center', }}>立即购买</Text>
           </TouchableOpacity>
 

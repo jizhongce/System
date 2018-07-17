@@ -90,7 +90,17 @@ export function ErrorCodePrase(code) {
 
 export function ShowPhoneNumber(PhoneNumber) {
 
-  return(PhoneNumber.substring(0,3) + '*****' + PhoneNumber.substring(7,12))
+  if (typeof(PhoneNumber) == 'string') {
+
+    return(PhoneNumber.substring(0,3) + '*****' + PhoneNumber.substring(7,12))
+
+  } else {
+
+    return('')
+
+  }
+
+
 
 }
 

@@ -492,6 +492,7 @@ export default class Cashier_Home extends Component<{}> {
             height: '8%',
             backgroundColor: 'white',
             flexDirection: 'row',
+            borderBottomWidth: 1,
           }} >
 
           <View style={{
@@ -514,7 +515,8 @@ export default class Cashier_Home extends Component<{}> {
               width: '40%',
               alignItems: 'center',
               justifyContent: 'center',
-              flexDirection: 'row'
+              flexDirection: 'row',
+
             }} >
             <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 收 银 台 </Text>
           </View>
@@ -526,7 +528,7 @@ export default class Cashier_Home extends Component<{}> {
 
         {/* Header */}
 
-        <View style={{marginTop: '2%', paddingLeft: 10, height: '7%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{paddingLeft: 10, height: '7%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>
 
           <Text style={{fontSize: 18}}> 需 支 付 定 金: <Text style={{color: 'red'}}>{this.state.payment_due}</Text> </Text>
 

@@ -71,29 +71,11 @@ export default class Home2 extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {
-      height: 100
 
     };
   }
 
-  componentWillMount(){
-    //AsyncStorage.clear()
-    // AsyncStorage.setItem('UID123', 'hello', () => {
-    //
-    // });
-    this.props.navigation.addListener('willFocus', ()=>{
 
-      var {height, width} = Dimensions.get('window');
-
-      this.setState({
-        height: height
-      });
-
-    });
-
-
-
-  }
 
 
   render() {
@@ -132,7 +114,7 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 产 品 收 藏 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 选 择 地 址 </Text>
             </View>
 
 
@@ -142,39 +124,64 @@ export default class Home2 extends Component<{}> {
 
           <ScrollView style={{backgroundColor: 'white', height: '89%'}}>
 
-            <View style={{ justifyContent: 'center', flexDirection: 'column'}}>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
 
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
+
+              {/* Address  */}
+              <View style={{width:'100%' , borderColor: '#dedede', borderWidth: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop:10, marginBottom: 10, paddingTop:10, paddingBottom: 10}}>
+
+                <View style={{width: '80%' ,flexDirection: 'column'}}>
+
+                  <TouchableOpacity style={{justifyContent: 'center', flexDirection: 'column', }}>
+
+                    <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 18, }} >Xxxxxx, </Text>
+                      <Text style={{fontSize: 18}}>13857788887</Text>
+                    </View>
+
+                    <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
+
+                      <Text style={{fontSize: 16}} >zhejiangsheng wenzhoushi luchengqu, luchengguanghasdf</Text>
+
+                    </View>
+                  </TouchableOpacity>
+
+                </View>
+
+
+                <View style={{width: '20%' ,flexDirection: 'column'}}>
+
+                  <TouchableOpacity style={{flexDirection: 'row', marginBottom: 5}}>
+                    <Image style={{width: 18, height: 18}} source={require('../../../img/clear.png')} />
+                    <Text style={{fontSize: 15, }} >删 除</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 5}}>
+                    <Image style={{width: 18, height: 18}} source={require('../../../img/edit.png')} />
+                    <Text style={{fontSize: 15, }} >编 辑</Text>
+                  </TouchableOpacity>
+
+                </View>
+
+
               </View>
 
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
 
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
 
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
+              <TouchableOpacity activeOpacity={0.5}
+                style={{
+                  marginTop: 10,
+                  paddingTop: 5,
+                  paddingBottom: 5,
+                  width: '70%',
+                  backgroundColor: 'white',
+                  borderRadius: 10, borderColor: "black", borderWidth: 1 ,
+                  justifyContent: "center", alignItems: "center",
+                  shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
+                }}>
+                <Text style={{fontSize: 20}}> 添 加 新 地 址 </Text>
+              </TouchableOpacity>
 
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
-
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
-
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
-
-              <View style={{borderWidth: 1, height: 100}}>
-                <Text>hello</Text>
-              </View>
 
             </View>
 

@@ -224,7 +224,7 @@ export default class Confirmation_Home extends Component<{}> {
       return(
 
 
-              <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
+              <View >
 
                 <Status_Bar />
 
@@ -234,6 +234,7 @@ export default class Confirmation_Home extends Component<{}> {
                       justifyContent: 'center',
                       backgroundColor: 'white',
                       flexDirection: 'row',
+                      borderBottomWidth: 1,
                     }} >
 
                       <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 订 单 待 支 付 </Text>
@@ -242,7 +243,7 @@ export default class Confirmation_Home extends Component<{}> {
                   </View>
 
 
-                  <View style={{width: '100%' , marginTop: 10, backgroundColor: 'white', flexDirection: 'column'}}>
+                  <View style={{height: '89%', width: '100%' , marginTop: 10, backgroundColor: 'white', flexDirection: 'column'}}>
 
 
                     {/* order information */}
@@ -353,7 +354,7 @@ export default class Confirmation_Home extends Component<{}> {
 
 
 
-              </KeyboardAvoidingView>
+              </View>
 
 
 
@@ -368,7 +369,7 @@ export default class Confirmation_Home extends Component<{}> {
 
       return(
 
-        <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
+        <View >
 
           <Status_Bar />
 
@@ -378,6 +379,7 @@ export default class Confirmation_Home extends Component<{}> {
                 justifyContent: 'center',
                 backgroundColor: 'white',
                 flexDirection: 'row',
+                borderBottomWidth: 1,
               }} >
 
                 <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 订 单 支 付 成 功 </Text>
@@ -386,7 +388,7 @@ export default class Confirmation_Home extends Component<{}> {
             </View>
 
 
-            <View style={{marginTop: 10, backgroundColor: 'white', flexDirection: 'column', }}>
+            <View style={{height: '89%', width: '100%' , paddingTop: 10, backgroundColor: 'white', flexDirection: 'column', }}>
 
 
               {/* order information */}
@@ -466,7 +468,7 @@ export default class Confirmation_Home extends Component<{}> {
 
 
 
-        </KeyboardAvoidingView>
+        </View>
 
 
 

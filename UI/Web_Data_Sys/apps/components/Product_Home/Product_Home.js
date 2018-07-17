@@ -131,6 +131,7 @@ export default class Product_Home extends Component<{}> {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+            borderBottomWidth: 1,
           }} >
 
           <View style={{width: '20%', justifyContent: 'center', alignItems: 'center',}}>
