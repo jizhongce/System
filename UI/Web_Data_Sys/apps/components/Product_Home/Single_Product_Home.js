@@ -59,14 +59,9 @@ import Status_Bar from '../Status_Bar.js';
 
 export default class Single_Product_Home extends Component<{}> {
 
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-
-    return {
-      title: params ? params.Products_Name : 'error',
-    }
-
-  };
+  static navigationOptions = {
+    header: null
+}
 
 
   constructor(props) {
@@ -588,9 +583,10 @@ export default class Single_Product_Home extends Component<{}> {
         <Status_Bar />
 
         <View style={{
-            height: 50,
+            height: '8%',
             backgroundColor: 'white',
             flexDirection: 'row',
+            borderBottomWidth: 1,
           }} >
 
           <View style={{
@@ -627,7 +623,7 @@ export default class Single_Product_Home extends Component<{}> {
           refreshing = {this.state.Refreshing_Flag}
           onRefresh={this.Single_Product_Home_On_Refresh.bind(this)}
         />
-    } style={{backgroundColor: 'white', height:'82%'}}>
+    } style={{backgroundColor: 'white', height:'81%'}}>
 
 
 

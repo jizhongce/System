@@ -114,7 +114,7 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 选 择 地 址 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 我 的 收 藏 </Text>
             </View>
 
 
@@ -126,64 +126,49 @@ export default class Home2 extends Component<{}> {
 
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
 
+              {/* Product */}
+              <View style={{width:'100%' , height: 170, borderColor: '#dedede', borderWidth: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop:10, marginBottom: 10, paddingTop:10, paddingBottom: 10, paddingLeft: 10,}}>
 
-              {/* Address  */}
-              <View style={{width:'100%' , borderColor: '#dedede', borderWidth: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop:10, marginBottom: 10, paddingTop:10, paddingBottom: 10}}>
+                <View style={{width: '40%'}}>
+                  <Image
+                    source={Product_Image["Product_1"]}
+                    style={{height:'100%', width: '100%'}}/>
+                </View>
 
-                <View style={{width: '80%' ,flexDirection: 'column'}}>
 
-                  <TouchableOpacity style={{justifyContent: 'center', flexDirection: 'column', }}>
 
-                    <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
-                      <Text style={{fontSize: 18, }} >Xxxxxx, </Text>
-                      <Text style={{fontSize: 18}}>13857788887</Text>
-                    </View>
+                <View style={{width: '60%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
 
-                    <View style={{flexDirection:'row', alignItems: 'center', marginLeft: 10, flexWrap:'wrap'}}>
+                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 10}}>
+                    <Text style={{fontSize: 20}}>GB846-82</Text>
+                  </View>
 
-                      <Text style={{fontSize: 16}} >zhejiangsheng wenzhoushi luchengqu, luchengguanghasdf</Text>
+                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
+                    <Text style={{fontSize: 15}}>商品编号: P5547384 </Text>
+                  </View>
 
-                    </View>
-                  </TouchableOpacity>
+                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
+                    <Text style={{fontSize: 15, marginRight: 10}}>规格 : 32 X 12</Text>
+                  </View>
+
+                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
+                    <Text style={{fontSize: 15}}>表色 : Yellow</Text>
+                  </View>
+
+                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
+                    <Text style={{fontSize: 15}}>价格 : 1232/千件</Text>
+                  </View>
+
+
+
+                  </View>
 
                 </View>
 
 
-                <View style={{width: '20%' ,flexDirection: 'column'}}>
-
-                  <TouchableOpacity style={{flexDirection: 'row', marginBottom: 5}}>
-                    <Image style={{width: 18, height: 18}} source={require('../../../img/clear.png')} />
-                    <Text style={{fontSize: 15, }} >删 除</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 5}}>
-                    <Image style={{width: 18, height: 18}} source={require('../../../img/edit.png')} />
-                    <Text style={{fontSize: 15, }} >编 辑</Text>
-                  </TouchableOpacity>
-
-                </View>
 
 
               </View>
-
-
-
-              <TouchableOpacity activeOpacity={0.5}
-                style={{
-                  marginTop: 10,
-                  paddingTop: 5,
-                  paddingBottom: 5,
-                  width: '70%',
-                  backgroundColor: 'white',
-                  borderRadius: 10, borderColor: "black", borderWidth: 1 ,
-                  justifyContent: "center", alignItems: "center",
-                  shadowOffset:{  width: 0,  height: 5,  }, shadowColor: 'black', shadowOpacity: 0.5,
-                }}>
-                <Text style={{fontSize: 20}}> 添 加 新 地 址 </Text>
-              </TouchableOpacity>
-
-
-            </View>
 
 
 
