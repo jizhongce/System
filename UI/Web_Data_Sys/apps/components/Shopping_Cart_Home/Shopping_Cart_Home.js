@@ -907,7 +907,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
                           <View style={{width: '60%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
 
                             <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>
-                              <Text style={{fontSize: 20}}>{product.Products_Name}(XXXXXXXXXXXXXXXXXXXXX)</Text>
+                              <Text style={{fontSize: 20}}>{product.Products_Name}</Text>
                             </View>
 
                             <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5}}>

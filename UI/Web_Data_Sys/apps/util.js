@@ -292,63 +292,63 @@ export function ShowDistrictName(District_Value){
 
 export function GetProvince(){
   return([
-    {key: 'zhejiang'},
-    {key: 'hebei'},
-    {key: 'anhui'},
-    {key: 'jiangxi'},
-    {key: 'jiangsu'},
-    {key: 'shanghai'},
+    {key: '浙江'},
+    {key: '河北'},
+    {key: '安徽'},
+    {key: '江西'},
+    {key: '江苏'},
+    {key: '上海'},
   ])
 }
 
 
 // This fuction will help to get city for the province
 export function GetCityForProvince(Province_Value){
-  if (Province_Value == 'zhejiang') {
+  if (Province_Value == '浙江') {
     return([
-      {key: 'hangzhou'},
-      {key: 'ningbo'},
-      {key: 'wenzhou'},
-      {key: 'zhoushan'},
-      {key: 'jiaxing'},
-      {key: 'huzhou'},
+      {key: '杭州'},
+      {key: '宁波'},
+      {key: '温州'},
+      {key: '舟山'},
+      {key: '嘉兴'},
+      {key: '湖州'},
     ])
   }
-  else if (Province_Value == 'hebei') {
+  else if (Province_Value == '河北') {
     return([
-      {key: 'hebei1'},
-      {key: 'hebei2'},
-      {key: 'hebei3'},
-      {key: 'hebei4'},
+      {key: '河北1'},
+      {key: '河北2'},
+      {key: '河北3'},
+      {key: '河北4'},
     ])
   }
-  else if (Province_Value == 'anhui') {
+  else if (Province_Value == '安徽') {
     return([
-      {key: 'anhui1'},
-      {key: 'anhui2'},
-      {key: 'anhui3'},
-      {key: 'anhui4'},
+      {key: '安徽1'},
+      {key: '安徽2'},
+      {key: '安徽3'},
+      {key: '安徽4'},
     ])
   }
-  else if (Province_Value == 'jiangxi') {
+  else if (Province_Value == '江西') {
     return([
-      {key: 'jiangxi1'},
-      {key: 'jiangxi2'},
-      {key: 'jiangxi3'},
-      {key: 'jiangxi4'},
+      {key: '江西1'},
+      {key: '江西2'},
+      {key: '江西3'},
+      {key: '江西4'},
     ])
   }
-  else if (Province_Value == 'jiangsu') {
+  else if (Province_Value == '江苏') {
     return([
-      {key: 'nanjing'},
-      {key: 'suzhou'},
-      {key: 'nantong'},
-      {key: 'changzhou'},
+      {key: '南京'},
+      {key: '苏州'},
+      {key: '南通'},
+      {key: '常州'},
     ])
   }
-  else if (Province_Value == 'shanghai') {
+  else if (Province_Value == '上海') {
     return([
-      {key: 'shanghai'},
+      {key: '上海'},
     ])
   }
   else {

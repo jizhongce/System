@@ -127,9 +127,9 @@ export default class Home2 extends Component<{}> {
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
 
               {/* Product */}
-              <View style={{width:'100%' , height: 170, borderColor: '#dedede', borderWidth: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop:10, marginBottom: 10, paddingTop:10, paddingBottom: 10, paddingLeft: 10,}}>
+              <TouchableOpacity style={{width:'100%' , height: 170, borderColor: '#dedede', borderWidth: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop:10, marginBottom: 10, paddingTop:10, paddingBottom: 10, paddingLeft: 10,}}>
 
-                <View style={{width: '40%'}}>
+                <View style={{width: '35%'}}>
                   <Image
                     source={Product_Image["Product_1"]}
                     style={{height:'100%', width: '100%'}}/>
@@ -137,7 +137,7 @@ export default class Home2 extends Component<{}> {
 
 
 
-                <View style={{width: '60%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
+                <View style={{width: '55%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
 
                   <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 10}}>
                     <Text style={{fontSize: 20}}>GB846-82</Text>
@@ -163,13 +163,35 @@ export default class Home2 extends Component<{}> {
 
                   </View>
 
-                </View>
+                  <View style={{width: '10%', flexDirection: 'column'}}>
 
+
+                    <View style={{height: '50%', paddingTop: 5}}>
+
+                      <TouchableOpacity>
+                        <Image style={{width: 27, height: 27}} source={require('../../../img/favorite.png')} />
+                      </TouchableOpacity>
+
+                    </View>
+
+                    <View style={{height: '50%', flexDirection: 'column-reverse', paddingBottom: 5}}>
+
+                      <TouchableOpacity>
+                        <Image style={{width: 27, height: 27}} source={require('../../../img/shopping_cart.png')} />
+                      </TouchableOpacity>
+
+
+                    </View>
+
+
+
+                  </View>
+
+                </TouchableOpacity>
 
 
 
               </View>
-
 
 
 

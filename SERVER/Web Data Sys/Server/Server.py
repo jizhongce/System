@@ -20,6 +20,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
         if URL_PATH == '/get_all_products':
             (STATUS_CODE, DATA) = Get_All_Products()
             if STATUS_CODE == ErrorCode.SUCCESS_CODE:
+
                 self.send_response(STATUS_CODE)
                 self.end_headers()
                 self.wfile.write(json.dumps(DATA).encode())

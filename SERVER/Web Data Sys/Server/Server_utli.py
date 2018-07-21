@@ -122,8 +122,11 @@ def Log_In(LOG_IN_PHONE_NUMBER, LOG_IN_PASSWORD):
     else:
         (USERID, PASSWORD, PHONENUM, ) = QUERYLIST[0]
 
-        if passlib.hash.sha256_crypt.verify(LOG_IN_PASSWORD, PASSWORD):
-            DATA = USERID
+        print(LOG_IN_PASSWORD)
+        print(PASSWORD)
+
+        if passlib.hash.sha256_crypt.verify(LOG_IN_PASSWORD, Decode_To_String(PASSWORD)):
+            DATA = Decode_To_String(USERID)
 
         else:
             STATUS = ErrorCode.WORNG_PASSWORD_CODE
@@ -409,7 +412,7 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
                 STATUS = ErrorCode.WRONG_VERIFY_CODE
 
             else:
-                QUERYSQL = ('SELECT * FROM Phone_Numner_Verify_Code WHERE Phone_Number = \'{}\' ').format(SIGN_UP_PHONE_NUMBER)
+                QUERYSQL = ('SELECT * FROM Phone_Numner_Verify_Code WHERE Phone_Number = \'{}\' '.format(SIGN_UP_PHONE_NUMBER))
 
                 CURSOR.execute(QUERYSQL)
 
@@ -426,9 +429,13 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
 
                         SHOPPINGCARTID = CreateShoppingCartID()
 
+                        USERNAME = 'JIZHONGCE'
+
                         PASSWORD = passlib.hash.sha256_crypt.hash(SIGN_UP_PASSWORD)
 
-                        QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified, TEMPCODE) VALUES (\'{}\', \'{}\', \'{}\', \'{}\', FALSE, 1232321);'.format(USERID, 'jiizhongce', PASSWORD, Phone_Number))
+                        QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum) VALUES (\'{}\', \'{}\', \'{}\', \'{}\');').format(USERID, USERNAME, PASSWORD, SIGN_UP_PHONE_NUMBER)
+
+                        print(QUERYSQL_USER)
 
                         QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
 
@@ -439,6 +446,7 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
                         CURSOR.execute(QUERYSQL_SHOPPINGCART)
 
                         CURSOR.execute(QUERYSQL_PROFILE)
+
                         DATA = USERID
 
                     else:
@@ -561,7 +569,7 @@ def Get_User_Info(USER_ID):
 
     if QUERYLIST:
         (User_ID, Phone_Number) = QUERYLIST[0]
-        DATA = {'User_ID': User_ID, 'Phone_Number': Phone_Number}
+        DATA = {'User_ID': Decode_To_String(User_ID), 'Phone_Number': Decode_To_String(Phone_Number)}
         STATUS = ErrorCode.SUCCESS_CODE
 
     else:
@@ -676,6 +684,18 @@ def Change_User_Name(USER_ID, NEW_NAME):
 #
 #
 
+# Start of decode utf-8 function
+
+def Decode_To_String(Data):
+    if type(Data) == bytearray:
+        return(Data.decode('utf-8'))
+
+    else:
+        return(Data)
+
+
+# End of decode utf-8 function
+
 
 # Start the Get_All_Products function
 
@@ -705,7 +725,7 @@ def Get_All_Products():
     if QUERYLIST:
         for product in QUERYLIST:
             (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
-            Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir})
+            Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
 
     CURSOR.close()
 
@@ -745,7 +765,7 @@ def Get_Single_Product_Info(Product_ID):
 
     if QUERYLIST:
         (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = QUERYLIST[0]
-        DATA = {"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir}
+        DATA = {"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)}
 
     else:
         STATUS = ErrorCode.NO_SUCH_PRODUCT_ERROR
@@ -791,7 +811,7 @@ def Get_Shopping_Cart(userid):
     if QUERYLIST:
         for product in QUERYLIST:
             (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, ProductUnits) = product
-            Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir, "Products_Units": ProductUnits})
+            Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(ProductUnits)})
 
     CURSOR.close()
 
@@ -836,7 +856,7 @@ def Shopping_Cart_Quantity_Change(userid, product):
         print(Shopping_Cart_ID)
         print(Product_ID)
         print(Product_Units)
-        QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Product_Units, Shopping_Cart_ID, Product_ID))
+        QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Product_Units, Decode_To_String(Shopping_Cart_ID), Product_ID))
         CURSOR.execute(QUERYSQL)
 
     else:
@@ -885,7 +905,7 @@ def Delete_From_Shopping_Cart(userid, productid):
 
         print(Shopping_Cart_ID)
 
-        QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Shopping_Cart_ID, productid))
+        QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(Decode_To_String(Shopping_Cart_ID), productid))
         CURSOR.execute(QUERYSQL)
 
 
@@ -967,7 +987,7 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
     if QUERYLIST:
         (User_ID, Shopping_Cart_ID,) = QUERYLIST[0]
 
-        QUERYSQL = ('SELECT * FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\' ;'.format(Shopping_Cart_ID, Temp_Prodcut_ID))
+        QUERYSQL = ('SELECT * FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\' ;'.format(Decode_To_String(Shopping_Cart_ID), Decode_To_String(Temp_Prodcut_ID)))
 
         CURSOR.execute(QUERYSQL)
 
@@ -977,9 +997,9 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
 
             (Shopping_Cart_ID, Products_ID, Products_Units) = QUERYLIST[0]
 
-            new_Product_Units = Temp_Product_Units + Products_Units
+            new_Product_Units = Temp_Product_Units + Decode_To_String(Products_Units)
 
-            QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(new_Product_Units, Shopping_Cart_ID, Products_ID))
+            QUERYSQL = ('UPDATE Shopping_Cart SET Products_Units = \'{}\' WHERE Shopping_Cart_ID = \'{}\' AND Products_ID = \'{}\';'.format(new_Product_Units, Decode_To_String(Shopping_Cart_ID), Decode_To_String(Products_ID)))
 
             DATA = {"Products_Units": new_Product_Units}
 
@@ -1008,7 +1028,7 @@ def Add_To_Shopping_Cart(USER_ID, PRODUCT):
             #     CURSOR.execute(QUERYSQL)
 
         else:
-            QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Shopping_Cart_ID, Temp_Prodcut_ID, Temp_Product_Units))
+            QUERYSQL = ("INSERT INTO Shopping_Cart(Shopping_Cart_ID, Products_ID, Products_Units) VALUE (\'{}\', \'{}\', \'{}\');".format(Decode_To_String(Shopping_Cart_ID), Temp_Prodcut_ID, Temp_Product_Units))
 
             DATA = {"Products_Units": Temp_Product_Units}
 
@@ -1068,7 +1088,7 @@ def Get_User_Profile(USER_ID):
 
     if QUERYLIST:
         (User_ID, Name, Level) = QUERYLIST[0]
-        DATA = {"User_ID": User_ID, "Name": Name, "Level": Level}
+        DATA = {"User_ID": Decode_To_String(User_ID), "Name": Decode_To_String(Name), "Level": Decode_To_String(Level)}
 
     else:
         STATUS = ErrorCode.FETCH_PROFILE_ERROR
@@ -1160,7 +1180,7 @@ def Get_Favorite_Product(USER_ID):
     if QUERYLIST:
         for product in QUERYLIST:
             (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
-            Favorite_Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir})
+            Favorite_Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
 
         DATA = Favorite_Product_List
 
@@ -1210,7 +1230,7 @@ def Get_User_Order(USER_ID):
     if QUERYLIST:
         for order in QUERYLIST:
             (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = order
-            Orders.append({"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method":Order_Payment_Method, "Order_Total_Price" : Order_Total_Price, "Order_Time": str(Order_Time), "Order_Shipping_Address_ID": Order_Shipping_Address_ID})
+            Orders.append({"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method":Decode_To_String(Order_Payment_Method), "Order_Total_Price" : Decode_To_String(Order_Total_Price), "Order_Time": Decode_To_String(str(Order_Time)), "Order_Shipping_Address_ID": Decode_To_String(Order_Shipping_Address_ID)})
 
         DATA = Orders
 
@@ -1257,7 +1277,7 @@ def Get_Single_Order(Order_ID):
 
     if QUERYLIST:
         (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
-        Basic_Info = {"Order_ID": Order_ID, "Order_Status": Order_Status, "Order_Payment_Method": Order_Payment_Method, "Order_Total_Price":Order_Total_Price, "Order_Paid_Price": Order_Paid_Price, "Order_Time": str(Order_Time)}
+        Basic_Info = {"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method": Decode_To_String(Order_Payment_Method), "Order_Total_Price":Decode_To_String(Order_Total_Price), "Order_Paid_Price": Decode_To_String(Order_Paid_Price), "Order_Time": Decode_To_String(str(Order_Time))}
 
         QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
 
@@ -1267,7 +1287,7 @@ def Get_Single_Order(Order_ID):
 
         if QUERYLIST:
             (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = QUERYLIST[0]
-            Shipping_Info = {"Address_ID": Address_ID, "Address_Name": Address_Name, "Address_Phone_Number": Address_Phone_Number, "Street": Street, "City": City, "Province": Province, 'District': District}
+            Shipping_Info = {"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), 'District': Decode_To_String(District)}
 
             QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Order_ID))
 
@@ -1280,9 +1300,9 @@ def Get_Single_Order(Order_ID):
             if QUERYLIST:
                 for product in QUERYLIST:
                     (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Product_Price, Products_Image_Dir, Product_Units) = product
-                    Product_List.append({"Products_ID": Products_ID, "Products_Name": Products_Name, "Products_Number": Products_Number, "Products_Spec": Products_Spec, "Products_Color": Products_Color, "Products_Status": Products_Status, "Products_Price": Products_Price, "Products_Image_Dir": Products_Image_Dir, "Products_Units": Product_Units})
+                    Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Product_Units)})
 
-                Order_Info = {"Basic_Info": Basic_Info, "Shipping_Info": Shipping_Info, "Product_List": Product_List}
+                Order_Info = {"Basic_Info": Decode_To_String(Basic_Info), "Shipping_Info": Decode_To_String(Shipping_Info), "Product_List": Decode_To_String(Product_List)}
                 DATA = Order_Info
 
             else:
@@ -1337,7 +1357,7 @@ def Get_Address_Book(USER_ID):
     if QUERYLIST:
         for Address in QUERYLIST:
             (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = Address
-            Address_Book.append({"Address_ID": Address_ID, "Address_Name": Address_Name, "Address_Phone_Number": Address_Phone_Number, "Street": Street, "City": City, "Province": Province, "District": District})
+            Address_Book.append({"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), "District": Decode_To_String(District)})
 
         DATA = Address_Book
 
@@ -1539,7 +1559,7 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
         CONNECTIONS.close()
 
-        DATA = {"Address_ID" : New_Address_ID, "Address_Name": New_Address_Name, "Address_Phone_Number": New_Address_Phone_Number, "Street" : New_Address_Street, "Province" : New_Address_Province, "City" : New_Address_City, "District" : New_Address_District}
+        DATA = {"Address_ID" : Decode_To_String(New_Address_ID), "Address_Name": Decode_To_String(New_Address_Name), "Address_Phone_Number": Decode_To_String(New_Address_Phone_Number), "Street" : Decode_To_String(New_Address_Street), "Province" : Decode_To_String(New_Address_Province), "City" : Decode_To_String(New_Address_City), "District" : Decode_To_String(New_Address_District)}
         STATUS = ErrorCode.SUCCESS_CODE
 
     return(STATUS, DATA)
@@ -1780,7 +1800,7 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
     if QUERYLIST:
         (User_ID, Shopping_Cart_ID) = QUERYLIST[0]
 
-        QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\';'.format(Shopping_Cart_ID))
+        QUERYSQL = ('DELETE FROM Shopping_Cart WHERE Shopping_Cart_ID = \'{}\';'.format(Decode_To_String(Shopping_Cart_ID)))
 
         CURSOR.execute(QUERYSQL)
 

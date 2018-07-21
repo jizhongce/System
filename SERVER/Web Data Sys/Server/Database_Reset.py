@@ -46,8 +46,8 @@ ADD_PHONE_NUMBER2 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_
 QUERIES.append(ADD_PHONE_NUMBER1)
 QUERIES.append(ADD_PHONE_NUMBER2)
 
-ADD_USER1 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified, TEMPCODE) VALUE (\'{}\','jizhongce', \'{}\', '15000000000', TRUE, 123456);".format(USER1, PASSWORD1))
-ADD_USER2 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum, Verified, TEMPCODE) VALUE (\'{}\','jizhongce123', \'{}\', '25000000000', TRUE, 123456);".format(USER2, PASSWORD2))
+ADD_USER1 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum) VALUE (\'{}\','jizhongce', \'{}\', '15000000000');".format(USER1, PASSWORD1))
+ADD_USER2 = ("INSERT INTO Users(User_ID, User_Name, Password, PhoneNum) VALUE (\'{}\','jizhongce123', \'{}\', '25000000000');".format(USER2, PASSWORD2))
 
 QUERIES.append(ADD_USER1)
 QUERIES.append(ADD_USER2)
