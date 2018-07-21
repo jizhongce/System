@@ -140,27 +140,31 @@ export default class Log_In_Home extends Component<{}> {
         <View>
 
           {/* logo  */}
-          <View style={{backgroundColor: 'white', height: '25%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+          <ScrollView scrollEnabled={false} style={{backgroundColor: 'white', height: '25%', width: '100%'}}>
 
-            <Image style={{margin: 10}} source={require('../../../img/logo.png')} />
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <Image style={{margin: 10}} source={require('../../../img/logo.png')} />
+            </View>
 
-          </View>
+          </ScrollView>
 
           {/* log in form  */}
-          <View style={{backgroundColor: 'white', height: '74%', alignItems: 'center', flexDirection: 'column'}}>
+          <ScrollView scrollEnabled={false} style={{backgroundColor: 'white', height: '74%', }}>
+            
+            <View style={{alignItems: 'center', flexDirection: 'column'}}>
 
-            <TextInput
-              style={{
-                marginTop: 25,
-                width: '95%',
-                height: 40,
-                borderBottomWidth: 1,
-                fontSize: 20,
-                marginBottom: 10,
-              }}
-              autoCapitalize='none'
-              onChangeText = {(text) => this.Log_In_Phone_Number_Handler(text)}
-              placeholder={'请输入手机号码'}
+              <TextInput
+                style={{
+                  marginTop: 25,
+                  width: '95%',
+                  height: 40,
+                  borderBottomWidth: 1,
+                  fontSize: 20,
+                  marginBottom: 10,
+                }}
+                autoCapitalize='none'
+                onChangeText = {(text) => this.Log_In_Phone_Number_Handler(text)}
+                placeholder={'请输入手机号码'}
                 />
 
               <View style={{flexDirection: 'row', marginBottom: 10, marginTop:10}}>
@@ -177,19 +181,19 @@ export default class Log_In_Home extends Component<{}> {
                   autoCapitalize='none'
                   onChangeText = {(text) => this.Log_In_Password_Handler(text)}
                   secureTextEntry={true}
-                    />
+                  />
 
 
-                  <TouchableOpacity
-                    style={{
-                      width: '30%',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }} onPress={()=> this.props.navigation.navigate('Change_Password_Home')}>
+                <TouchableOpacity
+                  style={{
+                    width: '30%',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }} onPress={()=> this.props.navigation.navigate('Change_Password_Home')}>
 
-                    <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>忘记密码</Text>
+                  <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>忘记密码</Text>
 
-                  </TouchableOpacity>
+                </TouchableOpacity>
 
               </View>
 
@@ -222,7 +226,11 @@ export default class Log_In_Home extends Component<{}> {
 
 
 
-          </View>
+            </View>
+
+
+
+          </ScrollView>
 
 
 

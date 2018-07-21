@@ -738,7 +738,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
     else if (this.state.Shopping_Cart_Product_List.length == 0) {
 
       return(
-        <View>
+        <View >
 
           <Status_Bar />
 
@@ -823,9 +823,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
           return (
 
-
-
-            <View>
+            <KeyboardAvoidingView behavior={'position'}>
 
 
               <Status_Bar />
@@ -974,7 +972,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
 
 
-           </View>
+           </KeyboardAvoidingView>
 
 
 

@@ -340,143 +340,147 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
           </View>
 
+          <ScrollView scrollEnabled={false} style={{backgroundColor: 'white', height: '89%'}}>
 
-          <View style={{backgroundColor: 'white', height: '89%', flexDirection: 'column', alignItems: 'center',}}>
+            <View style={{flexDirection: 'column', alignItems: 'center',}}>
 
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 15, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
 
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>地 址 名 字:</Text>
-              </View>
+              <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 15, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
 
-              <View style={{}}>
-                <TextInput
-                  style={{
-                    width: 230,
-                    fontSize: 16,
-                  }}
-                  placeholder={'请输入地址名字'}
-                  autoCapitalize='none'
-                  onChangeText = {(text) => this.Address_Name_Handler(text)}
-                  value={this.state.Address_Name}
-                  onFocus={()=> this.setState({Address_Name_Cancel_Flag: false})}
-                  onEndEditing={()=> this.setState({Address_Name_Cancel_Flag: true})}
+                <View style={{marginRight:10}}>
+                  <Text style={{fontSize: 16}}>地 址 名 字:</Text>
+                </View>
+
+                <View style={{}}>
+                  <TextInput
+                    style={{
+                      width: 230,
+                      fontSize: 16,
+                    }}
+                    placeholder={'请输入地址名字'}
+                    autoCapitalize='none'
+                    onChangeText = {(text) => this.Address_Name_Handler(text)}
+                    value={this.state.Address_Name}
+                    onFocus={()=> this.setState({Address_Name_Cancel_Flag: false})}
+                    onBlur={()=> this.setState({Address_Name_Cancel_Flag: true})}
                     />
+                </View>
+
+                <TouchableOpacity onPress={() => this.setState({Address_Name: ''})} style={CancelExistStyle(this.state.Address_Name_Cancel_Flag)}>
+                  <Image source={require('../../../img/cancel.png')} />
+                </TouchableOpacity>
+
+
               </View>
 
-              <TouchableOpacity onPress={() => this.setState({Address_Name: ''})} style={CancelExistStyle(this.state.Address_Name_Cancel_Flag)}>
-                <Image source={require('../../../img/cancel.png')} />
-              </TouchableOpacity>
 
 
-            </View>
+              <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center',  borderBottomWidth: 1, borderColor: '#dddddd'}}>
 
+                <View style={{marginRight:10}}>
+                  <Text style={{fontSize: 16}}>联 系 方 式:</Text>
+                </View>
 
-
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center',  borderBottomWidth: 1, borderColor: '#dddddd'}}>
-
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>联 系 方 式:</Text>
-              </View>
-
-              <View style={{}}>
-                <TextInput
-                  style={{
-                    width: 230,
-                    fontSize: 16,
-                  }}
-                  placeholder={'请输入手机号码'}
-                  keyboardType={'phone-pad'}
-                  autoCapitalize='none'
-                  onChangeText = {(text) => this.Address_Phone_Number_Handler(text)}
-                  value={this.state.Address_Phone_Number}
-                  onFocus={()=> this.setState({Address_Phone_Number_Cancel_Flag: false})}
-                  onEndEditing={()=> this.setState({Address_Phone_Number_Cancel_Flag: true})}
+                <View style={{}}>
+                  <TextInput
+                    style={{
+                      width: 230,
+                      fontSize: 16,
+                    }}
+                    placeholder={'请输入手机号码'}
+                    keyboardType={'phone-pad'}
+                    autoCapitalize='none'
+                    onChangeText = {(text) => this.Address_Phone_Number_Handler(text)}
+                    value={this.state.Address_Phone_Number}
+                    onFocus={()=> this.setState({Address_Phone_Number_Cancel_Flag: false})}
+                    onBlur={()=> this.setState({Address_Phone_Number_Cancel_Flag: true})}
                     />
-              </View>
+                </View>
 
-              <TouchableOpacity onPress={() => this.setState({Address_Phone_Number: ''})} style={CancelExistStyle(this.state.Address_Phone_Number_Cancel_Flag)}>
-                <Image source={require('../../../img/cancel.png')} />
-              </TouchableOpacity>
-
-            </View>
-
-
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
-
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>所 在 地 区:</Text>
-              </View>
-
-              <View style={{flexDirection: 'row'}}>
-
-                <TouchableOpacity onPress={() => this.Open_Province_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                  <Text style={{fontSize: 16}}>{ShowProvinceName(this.state.Address_Province)}</Text>
+                <TouchableOpacity onPress={() => this.setState({Address_Phone_Number: ''})} style={CancelExistStyle(this.state.Address_Phone_Number_Cancel_Flag)}>
+                  <Image source={require('../../../img/cancel.png')} />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.Open_City_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                  <Text style={{fontSize: 16}}>{ShowCityName(this.state.Address_City)}</Text>
-                </TouchableOpacity>
+              </View>
 
-                <TouchableOpacity onPress={() => this.Open_District_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                  <Text style={{fontSize: 16}}>{ShowDistrictName(this.state.Address_District)}</Text>
-                </TouchableOpacity>
 
+              <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
+
+                <View style={{marginRight:10}}>
+                  <Text style={{fontSize: 16}}>所 在 地 区:</Text>
+                </View>
+
+                <View style={{flexDirection: 'row'}}>
+
+                  <TouchableOpacity onPress={() => this.Open_Province_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
+                    <Text style={{fontSize: 16}}>{ShowProvinceName(this.state.Address_Province)}</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => this.Open_City_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
+                    <Text style={{fontSize: 16}}>{ShowCityName(this.state.Address_City)}</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => this.Open_District_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
+                    <Text style={{fontSize: 16}}>{ShowDistrictName(this.state.Address_District)}</Text>
+                  </TouchableOpacity>
+
+
+                </View>
 
               </View>
 
-            </View>
+              <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, borderBottomWidth: 1, alignItems: 'center', borderColor: '#dddddd'}}>
 
-            <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, borderBottomWidth: 1, alignItems: 'center', borderColor: '#dddddd'}}>
+                <View style={{marginRight:10}}>
+                  <Text style={{fontSize: 16}}>详 细 地 址:</Text>
+                </View>
 
-              <View style={{marginRight:10}}>
-                <Text style={{fontSize: 16}}>详 细 地 址:</Text>
-              </View>
+                <View style={{}}>
+                  <TextInput
+                    numberOfLines = {3}
+                    multiline = {true}
+                    autoCapitalize='none'
+                    placeholder={'请输入详细地址'}
+                    onChangeText = {(text) => this.Address_Street_Handler(text)}
+                    value={this.state.Address_Street}
+                    onFocus={()=> this.setState({Address_Street_Cancel_Flag: false})}
+                    onBlur={()=> this.setState({Address_Street_Cancel_Flag: true})}
+                    style={{
+                      height: 60,
+                      width: 230,
+                      fontSize: 16,
+                    }} />
+                  </View>
 
-              <View style={{}}>
-                <TextInput
-                  numberOfLines = {3}
-                  multiline = {true}
-                  autoCapitalize='none'
-                  placeholder={'请输入详细地址'}
-                  onChangeText = {(text) => this.Address_Street_Handler(text)}
-                  value={this.state.Address_Street}
-                  onFocus={()=> this.setState({Address_Street_Cancel_Flag: false})}
-                  onEndEditing={()=> this.setState({Address_Street_Cancel_Flag: true})}
+                  <TouchableOpacity onPress={() => this.setState({Address_Street: ''})} style={CancelExistStyle(this.state.Address_Street_Cancel_Flag)}>
+                    <Image source={require('../../../img/cancel.png')} />
+                  </TouchableOpacity>
+
+                </View>
+
+
+                <TouchableOpacity
                   style={{
-                    height: 60,
-                    width: 230,
-                    fontSize: 16,
-                  }} />
+                    width: '70%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    marginTop: 20,
+                    paddingTop:10,
+                    paddingBottom: 10,
+                  }} onPress={() => this.Submit_New_Address_On_Press()}>
+
+                  <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}> 提 交 新 地 址 </Text>
+
+                </TouchableOpacity>
+
               </View>
 
-              <TouchableOpacity onPress={() => this.setState({Address_Street: ''})} style={CancelExistStyle(this.state.Address_Street_Cancel_Flag)}>
-                <Image source={require('../../../img/cancel.png')} />
-              </TouchableOpacity>
-
-            </View>
 
 
-            <TouchableOpacity
-              style={{
-                width: '70%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 1,
-                borderRadius: 5,
-                marginTop: 20,
-                paddingTop:10,
-                paddingBottom: 10,
-              }} onPress={() => this.Submit_New_Address_On_Press()}>
+            </ScrollView>
 
-              <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}> 提 交 新 地 址 </Text>
-
-            </TouchableOpacity>
-
-
-
-
-          </View>
 
 
           {/* New Province Choose */}

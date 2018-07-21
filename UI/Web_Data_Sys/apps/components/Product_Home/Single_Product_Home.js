@@ -578,7 +578,7 @@ export default class Single_Product_Home extends Component<{}> {
   render() {
     return (
 
-      <KeyboardAvoidingView keyboardVerticalOffset={70} behavior={'position'} >
+      <KeyboardAvoidingView behavior={'position'} >
 
         <Status_Bar />
 

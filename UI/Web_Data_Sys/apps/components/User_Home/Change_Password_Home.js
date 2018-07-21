@@ -296,8 +296,10 @@ export default class Change_Password_Home extends Component<{}> {
 
           <View>
 
+            <ScrollView scrollEnabled={false} style={{paddingTop:10, backgroundColor: 'white', height: '100%'}}>
 
-            <View style={{paddingTop:10, backgroundColor: 'white', height: '100%', alignItems: 'center', flexDirection: 'column'}}>
+              <View style={{alignItems: 'center', flexDirection: 'column'}}>
+
 
                 <View style={{flexDirection: 'row', marginBottom: 10, marginTop:10}}>
                   <TextInput
@@ -313,18 +315,18 @@ export default class Change_Password_Home extends Component<{}> {
                     autoCapitalize='none'
                     keyboardType={'numeric'}
                     onChangeText = {(text) => this.Change_Password_Phone_Number_Handler(text)}
-                      />
+                    />
 
 
-                    <TouchableOpacity style={{
-                        width: '30%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }} onPress={()=> this.Send_Verify_Code()}>
+                  <TouchableOpacity style={{
+                      width: '30%',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }} onPress={()=> this.Send_Verify_Code()}>
 
-                      <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
+                    <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
 
-                    </TouchableOpacity>
+                  </TouchableOpacity>
 
                 </View>
 
@@ -372,8 +374,13 @@ export default class Change_Password_Home extends Component<{}> {
 
                 </TouchableOpacity>
 
+              </View>
 
-            </View>
+
+
+
+            </ScrollView>
+
 
 
           </View>
@@ -436,8 +443,10 @@ export default class Change_Password_Home extends Component<{}> {
 
           <View>
 
+            <ScrollView scrollEnabled={false} style={{paddingTop:10, backgroundColor: 'white', height: '100%', }}>
 
-            <View style={{paddingTop:10, backgroundColor: 'white', height: '100%', alignItems: 'center', flexDirection: 'column'}}>
+              <View style={{alignItems: 'center', flexDirection: 'column'}}>
+
 
                 <View style={{flexDirection: 'row', marginBottom: 10, marginTop:10}}>
                   <TextInput
@@ -453,18 +462,18 @@ export default class Change_Password_Home extends Component<{}> {
                     keyboardType={'numeric'}
                     value={ShowPhoneNumber(this.state.Change_Password_Phone_Number)}
                     editable={false}
-                      />
+                    />
 
 
-                    <TouchableOpacity style={{
-                        width: '30%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }} onPress={()=> this.Send_Verify_Code()}>
+                  <TouchableOpacity style={{
+                      width: '30%',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }} onPress={()=> this.Send_Verify_Code()}>
 
-                      <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
+                    <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
 
-                    </TouchableOpacity>
+                  </TouchableOpacity>
 
                 </View>
 
@@ -512,8 +521,13 @@ export default class Change_Password_Home extends Component<{}> {
 
                 </TouchableOpacity>
 
+              </View>
 
-            </View>
+
+
+
+            </ScrollView>
+
 
 
           </View>

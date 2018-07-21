@@ -215,7 +215,10 @@ export default class Sign_Up_Home extends Component<{}> {
         <View>
 
           {/* Sign Up form  */}
-          <View style={{backgroundColor: 'white', height: '100%', alignItems: 'center', flexDirection: 'column'}}>
+          <ScrollView style={{backgroundColor: 'white', height: '100%',}}>
+
+            <View style={{alignItems: 'center', flexDirection: 'column'}}>
+
 
               <View style={{flexDirection: 'row', marginBottom: 10, marginTop:10}}>
                 <TextInput
@@ -231,20 +234,20 @@ export default class Sign_Up_Home extends Component<{}> {
                   autoCapitalize='none'
                   keyboardType={'phone-pad'}
                   onChangeText = {(text) => this.Sign_Up_Phone_Number_Handler(text)}
-                    />
+                  />
 
 
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    style={{
-                      width: '30%',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }} onPress={() => this.Send_Verify_Code()}>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  style={{
+                    width: '30%',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }} onPress={() => this.Send_Verify_Code()}>
 
-                    <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
+                  <Text style={{justifyContent: 'center', alignItems: 'center', fontSize:20}}>发送验证码</Text>
 
-                  </TouchableOpacity>
+                </TouchableOpacity>
 
               </View>
 
@@ -295,7 +298,14 @@ export default class Sign_Up_Home extends Component<{}> {
               </TouchableOpacity>
 
 
-          </View>
+
+
+            </View>
+
+
+
+
+          </ScrollView>
 
 
         </View>

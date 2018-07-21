@@ -303,22 +303,32 @@ export default class User_Change_Name_Board extends Component<{}> {
 
               {/* User info */}
 
+
               <View style={{height: '89%', width: '100%', backgroundColor: 'white', flexDirection: 'column'}}>
+
+
+                <ScrollView
+                  scrollEnabled={false}
+                  >
 
                 <View style={{marginTop: 20, paddingLeft: 10, paddingRight: 10, borderWidth: 1, flexDirection: 'row'}}>
 
-                  <TextInput
-                    style={{
-                      width: '95%',
-                      height: 40,
-                      fontSize: 20,
-                    }}
-                    value={this.state.Name}
-                    autoCapitalize='none'
-                    onFocus={()=> this.setState({Cancel_Flag: false})}
-                    onSubmitEditing={()=> this.setState({Cancel_Flag: true})}
-                    onChangeText = {(text) => this.Name_Handler(text)}
+
+
+                    <TextInput
+                      style={{
+                        width: '95%',
+                        height: 40,
+                        fontSize: 20,
+                      }}
+                      value={this.state.Name}
+                      autoCapitalize='none'
+                      onFocus={()=> this.setState({Cancel_Flag: false})}
+                      onBlur={()=> this.setState({Cancel_Flag: true})}
+                      onChangeText = {(text) => this.Name_Handler(text)}
                       />
+
+
 
                     <TouchableOpacity
                       onPress={() => this.setState({Name: ''})}
@@ -332,7 +342,11 @@ export default class User_Change_Name_Board extends Component<{}> {
 
                 </View>
 
+              </ScrollView>
+
               </View>
+
+
 
 
 
