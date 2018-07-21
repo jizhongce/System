@@ -725,22 +725,6 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
               <Status_Bar />
 
-              <View style={{
-                  height: '8%',
-                  backgroundColor: 'white',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderBottomWidth: 1,
-                }} >
-
-
-
-                <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>购    物    车</Text>
-
-
-
-              </View>
-
             </View>
 
 

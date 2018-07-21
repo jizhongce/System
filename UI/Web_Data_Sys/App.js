@@ -39,9 +39,6 @@ import User_Main_Board from './apps/components/User_Home/User_Main_Board.js';
 import User_Profile_Board from './apps/components/User_Home/User_Profile_Board.js';
 import User_Address_Board from './apps/components/User_Home/User_Address_Board.js';
 
-
-import Favorite_Single_Product_Home from './apps/components/User_Home/After_Log_In/Favorite_Single_Product_Home.js';
-import Favorite_Products_List from './apps/components/User_Home/After_Log_In/Favorite_Products_List.js';
 import Order_List from './apps/components/User_Home/After_Log_In/Order_List.js';
 import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.js';
 
@@ -98,9 +95,6 @@ const User_Home_Stack = StackNavigator({
 
   User_Main_Board: { screen: User_Main_Board },
 
-
-  Favorite_Single_Product_Home: { screen: Favorite_Single_Product_Home },
-  Favorite_Products_List: { screen: Favorite_Products_List },
   Order_List: { screen: Order_List },
   Single_Order: { screen: Single_Order },
 
