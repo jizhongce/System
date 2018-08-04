@@ -1202,11 +1202,11 @@ def Get_Favorite_Product(USER_ID):
 
 
 
-# Start of the Get_User_Order function
+# Start of the Get_Order function
 
-def Get_User_Order(USER_ID):
+def Get_Order(USER_ID, ORDER_TYPE):
     '''
-    This is the function which will get the order list of specific user in the database
+    This is the function which will get the order info in the database
     '''
     STATUS = ErrorCode.SUCCESS_CODE
 
@@ -1219,24 +1219,168 @@ def Get_User_Order(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method, Orders.Order_Total_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\';'.format(USER_ID))
+    if ORDER_TYPE == "ALL":
 
-    CURSOR.execute(QUERYSQL)
+        QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Total_Price FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\' ;'.format(USER_ID))
 
-    QUERYLIST = CURSOR.fetchall()
+        CURSOR.execute(QUERYSQL)
 
-    Orders = list()
+        QUERYLIST = CURSOR.fetchall()
 
-    if QUERYLIST:
-        for order in QUERYLIST:
-            (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Time, Order_Shipping_Address_ID) = order
-            Orders.append({"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method":Decode_To_String(Order_Payment_Method), "Order_Total_Price" : Decode_To_String(Order_Total_Price), "Order_Time": Decode_To_String(str(Order_Time)), "Order_Shipping_Address_ID": Decode_To_String(Order_Shipping_Address_ID)})
+        Order_List = list()
 
-        DATA = Orders
+        if QUERYLIST:
+
+            for Order in QUERYLIST:
+
+                (Order_ID, Order_Status, Order_Total_Price) = Order
+
+                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                Product_List = list()
+
+                if QUERYLIST:
+
+                    for product in QUERYLIST:
+
+                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Price, Products_Units) = product
+
+                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units)})
+
+
+                else:
+                    STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+                    DATA = 0
+
+
+                Order_List.append({"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Total_Price": Decode_To_String(Order_Total_Price), "Product_List": Product_List})
+
+                STATUS = ErrorCode.SUCCESS_CODE
+
+                DATA = Order_List
+
+
+
+
+        else:
+            STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+            DATA = 0
+
+
+    elif ORDER_TYPE == "PRO":
+
+        QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Total_Price FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\' AND (Orders.Order_Status =  \'{}\' '.format(USER_ID, ORDER_TYPE))
+
+        QUERYSQL = QUERYSQL + (' OR Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\');'.format("SHP", "PCK", "REV"))
+
+        print(QUERYSQL)
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        Order_List = list()
+
+        if QUERYLIST:
+
+            print(QUERYLIST)
+
+            for Order in QUERYLIST:
+
+                (Order_ID, Order_Status, Order_Total_Price) = Order
+
+                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                Product_List = list()
+
+                if QUERYLIST:
+
+                    for product in QUERYLIST:
+
+                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Price, Products_Units) = product
+
+                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units)})
+
+
+                else:
+                    STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+                    DATA = 0
+
+
+                Order_List.append({"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Total_Price": Decode_To_String(Order_Total_Price), "Product_List": Product_List})
+
+                STATUS = ErrorCode.SUCCESS_CODE
+
+                DATA = Order_List
+
+
+
+
+
+        else:
+            STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+            DATA = 0
+
+
 
     else:
-        STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
-        DATA = 0
+
+        QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Total_Price FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\' AND Orders.Order_Status =  \'{}\' ;'.format(USER_ID, ORDER_TYPE))
+
+        CURSOR.execute(QUERYSQL)
+
+        QUERYLIST = CURSOR.fetchall()
+
+        Order_List = list()
+
+        if QUERYLIST:
+
+            for Order in QUERYLIST:
+
+                (Order_ID, Order_Status, Order_Total_Price) = Order
+
+                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+
+                CURSOR.execute(QUERYSQL)
+
+                QUERYLIST = CURSOR.fetchall()
+
+                Product_List = list()
+
+                if QUERYLIST:
+
+                    for product in QUERYLIST:
+
+                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Price, Products_Units) = product
+
+                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units)})
+
+
+                else:
+                    STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+                    DATA = 0
+
+
+                Order_List.append({"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Total_Price": Decode_To_String(Order_Total_Price), "Product_List": Product_List})
+
+                STATUS = ErrorCode.SUCCESS_CODE
+
+                DATA = Order_List
+
+
+
+        else:
+            STATUS = ErrorCode.NO_ORDER_EXIST_ERROR
+            DATA = 0
+
 
 
     CURSOR.close()
@@ -1247,8 +1391,7 @@ def Get_User_Order(USER_ID):
 
     return(STATUS, DATA)
 
-
-# End of the Get_User_Order function
+# End of the Get_Order function
 
 
 
@@ -1279,7 +1422,7 @@ def Get_Single_Order(Order_ID):
         (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
         Basic_Info = {"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method": Decode_To_String(Order_Payment_Method), "Order_Total_Price":Decode_To_String(Order_Total_Price), "Order_Paid_Price": Decode_To_String(Order_Paid_Price), "Order_Time": Decode_To_String(str(Order_Time))}
 
-        QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Order_Shipping_Address_ID))
+        QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Decode_To_String(Order_Shipping_Address_ID)))
 
         CURSOR.execute(QUERYSQL)
 
@@ -1289,7 +1432,10 @@ def Get_Single_Order(Order_ID):
             (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = QUERYLIST[0]
             Shipping_Info = {"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), 'District': Decode_To_String(District)}
 
-            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Order_ID))
+            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+
+
+            print(QUERYSQL)
 
             CURSOR.execute(QUERYSQL)
 

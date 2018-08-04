@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_User_Order
-from Server_utli import Change_User_Name, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
+from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product
+from Server_utli import Get_Order, Change_User_Name, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
 import hashlib, uuid
@@ -112,6 +112,30 @@ class MyNewhandler(BaseHTTPRequestHandler):
             # print(DATA)
             #
             #
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+        elif URL_PATH == '/get_order':
+
+            URL_QUERY = UrlParse_Res['query']
+
+            USER_ID = URL_QUERY['User_ID'][0]
+
+            ORDER_TYPE = URL_QUERY['Order_Type'][0]
+
+            print(USER_ID)
+
+            print(ORDER_TYPE)
+
+            (STATUS_CODE, DATA) = Get_Order(USER_ID, ORDER_TYPE)
+
+            # print(DATA)
+            #
+            print(STATUS_CODE)
+            print(DATA)
+
+
             self.send_response(STATUS_CODE)
             self.end_headers()
             self.wfile.write(json.dumps(DATA).encode())
@@ -382,20 +406,6 @@ class MyNewhandler(BaseHTTPRequestHandler):
             # self.end_headers()
             #
             # self.wfile.write(json.dumps(DATA).encode())
-
-
-        elif URL_PATH == '/get_user_order':
-            USER_DATA = json.loads(self.rfile.read(int(self.headers['content-length'])))
-
-            USER_ID = USER_DATA['User_ID']
-
-            (STATUS_CODE, DATA) = Get_User_Order(USER_ID)
-
-            print(DATA)
-
-            self.send_response(STATUS_CODE)
-            self.end_headers()
-            self.wfile.write(json.dumps(DATA).encode())
 
 
 

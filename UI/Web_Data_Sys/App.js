@@ -38,18 +38,17 @@ import User_Home from './apps/components/User_Home/User_Home.js';
 import User_Main_Board from './apps/components/User_Home/User_Main_Board.js';
 import User_Profile_Board from './apps/components/User_Home/User_Profile_Board.js';
 import User_Address_Board from './apps/components/User_Home/User_Address_Board.js';
-
-import Order_List from './apps/components/User_Home/After_Log_In/Order_List.js';
-import Single_Order from './apps/components/User_Home/After_Log_In/Single_Order.js';
-
-// Before_Log_In
-import Log_In_Home from './apps/components/User_Home/Log_In_Home.js';
-import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
+import User_Order_Board from './apps/components/User_Home/User_Order_Board.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
 import User_Change_Name_Board from './apps/components/User_Home/User_Change_Name_Board.js';
 import User_Add_New_Address_Board from './apps/components/User_Home/User_Add_New_Address_Board.js';
 import User_Edit_Address_Board from './apps/components/User_Home/User_Edit_Address_Board.js';
 import User_Favorite_Product_Board from './apps/components/User_Home/User_Favorite_Product_Board.js';
+
+// Before_Log_In
+import Log_In_Home from './apps/components/User_Home/Log_In_Home.js';
+import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
+
 
 // Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
@@ -95,14 +94,6 @@ const User_Home_Stack = StackNavigator({
 
   User_Main_Board: { screen: User_Main_Board },
 
-  Order_List: { screen: Order_List },
-  Single_Order: { screen: Single_Order },
-
-});
-
-
-const Home2_Stack = StackNavigator({
-  Home2: { screen: Home2 },
 });
 
 
@@ -110,10 +101,6 @@ const Tap_Nav_Home = TabNavigator({
   Product_Home: {
     screen: Product_Home,
     navigationOptions: { tabBarLabel:  'Product'  },
-  },
-  Home2_Stack: {
-    screen: Home2_Stack,
-    navigationOptions: { tabBarLabel:  'Home2'  },
   },
   Shopping_Cart_Home: {
     screen: Shopping_Cart_Home,
@@ -133,6 +120,8 @@ const Total_Stack = StackNavigator({
 
   Cashier_Home: {screen: Cashier_Home},
 
+  Home2: { screen: Home2 },
+
   Change_Password_Home: { screen: Change_Password_Home },
 
   User_Change_Name_Board: { screen: User_Change_Name_Board },
@@ -148,6 +137,8 @@ const Total_Stack = StackNavigator({
   User_Favorite_Product_Board: { screen: User_Favorite_Product_Board },
 
   User_Profile_Board: { screen: User_Profile_Board },
+
+  User_Order_Board: { screen: User_Order_Board },
 
   User_Address_Board: { screen: User_Address_Board },
 

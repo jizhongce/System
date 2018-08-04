@@ -118,6 +118,29 @@ export function CancelExistStyle(Cancel_Flag) {
 }
 
 
+export function OrderButtonsExistStyle(Button_Flag) {
+  if (Button_Flag == true) {
+
+    return({borderBottomWidth: 2, borderColor: 'black'})
+
+  } else {
+    return({})
+  }
+
+}
+
+export function OrderTypeButtonsExistStyle(Order_Type_Flag) {
+  if (Order_Type_Flag == true) {
+
+    return({paddingTop: 10, paddingBottom: 5, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' })
+
+  } else {
+    return({display: 'none'})
+  }
+
+}
+
+
 export function UserMainBoardNameExistStyle(Name_Flag) {
   if (Name_Flag == true) {
 

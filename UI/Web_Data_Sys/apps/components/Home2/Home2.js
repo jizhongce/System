@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {Product_Image, GetDistrictForCity} from '../../util.js';
+import {OrderButtonsExistStyle} from '../../util.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -72,9 +72,110 @@ export default class Home2 extends Component<{}> {
     super(props);
     this.state = {
 
+      NDP_Flag: true,
+
+      SHP_Flag: false,
+
+      NWP_Flag: false,
+
+      ORC_Flag: false,
+
+      ALL_Flag: false,
+
+
     };
   }
 
+
+  NDP_Handler(){
+
+    this.setState({
+
+      NDP_Flag : true,
+
+      SHP_Flag: false,
+
+      NWP_Flag: false,
+
+      ORC_Flag: false,
+
+      ALL_Flag: false,
+
+    });
+
+  }
+
+  SHP_Handler(){
+
+    this.setState({
+
+      SHP_Flag : true,
+
+      NDP_Flag: false,
+
+      NWP_Flag: false,
+
+      ORC_Flag: false,
+
+      ALL_Flag: false,
+
+    });
+
+  }
+
+  NWP_Handler(){
+
+    this.setState({
+
+      NWP_Flag : true,
+
+      SHP_Flag : false,
+
+      NDP_Flag: false,
+
+      ORC_Flag: false,
+
+      ALL_Flag: false,
+
+    });
+
+  }
+
+  ORC_Handler(){
+
+    this.setState({
+
+      ORC_Flag : true,
+
+      NWP_Flag : false,
+
+      SHP_Flag : false,
+
+      NDP_Flag: false,
+
+      ALL_Flag: false,
+
+    });
+
+  }
+
+  ALL_Handler(){
+
+    this.setState({
+
+      ALL_Flag : true,
+
+      ORC_Flag : false,
+
+      NWP_Flag : false,
+
+      SHP_Flag : false,
+
+      NDP_Flag: false,
+
+    });
+
+  }
 
 
 
@@ -100,7 +201,7 @@ export default class Home2 extends Component<{}> {
                 marginLeft: 5
               }} >
 
-              <TouchableOpacity >
+              <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
 
                 <Image style={{width: 24, height: 24}} source={require('../../../img/back_arrow.png')} />
 
@@ -114,88 +215,497 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 我 的 收 藏 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 订 单 管 理 </Text>
             </View>
 
 
 
           </View>
 
+          <View style={{height: '7%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 5, paddingRight: 5, backgroundColor: 'white', borderBottomWidth: 1, borderColor: '#e0e0e0'}}>
 
-          <ScrollView style={{backgroundColor: 'white', height: '89%'}}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.NDP_Handler()} style={OrderButtonsExistStyle(this.state.NDP_Flag)}>
 
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={{fontSize: 17, paddingBottom: 5}}>全部订单</Text>
 
-              {/* Product */}
-              <TouchableOpacity style={{width:'100%' , height: 170, borderColor: '#dedede', borderWidth: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop:10, marginBottom: 10, paddingTop:10, paddingBottom: 10, paddingLeft: 10,}}>
+            </TouchableOpacity>
 
-                <View style={{width: '35%'}}>
-                  <Image
-                    source={Product_Image["Product_1"]}
-                    style={{height:'100%', width: '100%'}}/>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.SHP_Handler()} style={OrderButtonsExistStyle(this.state.SHP_Flag)}>
+
+              <Text style={{fontSize: 17, paddingBottom: 5}}>代收定金</Text>
+
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.NWP_Handler()} style={OrderButtonsExistStyle(this.state.NWP_Flag)}>
+
+              <Text style={{fontSize: 17, paddingBottom: 5}}>代收货</Text>
+
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.ORC_Handler()} style={OrderButtonsExistStyle(this.state.ORC_Flag)}>
+
+              <Text style={{fontSize: 17, paddingBottom: 5}}>代付尾款</Text>
+
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.ALL_Handler()} style={OrderButtonsExistStyle(this.state.ALL_Flag)}>
+
+              <Text style={{fontSize: 17, paddingBottom: 5}}>已完成</Text>
+
+            </TouchableOpacity>
+
+
+          </View>
+
+          <ScrollView style={{height: '82%', flexDirection: 'column', backgroundColor: 'white', }}>
+
+
+            {/* 代付定金  */}
+            <View style={{padding: 5, borderBottomWidth: 1, borderColor: '#e0e0e0', flexDirection: 'column'}}>
+
+              <TouchableOpacity activeOpacity={0.8} style={{flexDirection: 'column', paddingBottom: 10}}>
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
                 </View>
 
 
 
-                <View style={{width: '55%', flexDirection:'column', marginLeft: 10, marginTop:10, flexWrap:'wrap'}}>
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
 
-                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 10}}>
-                    <Text style={{fontSize: 20}}>GB846-82</Text>
-                  </View>
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
 
-                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
-                    <Text style={{fontSize: 15}}>商品编号: P5547384 </Text>
-                  </View>
-
-                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
-                    <Text style={{fontSize: 15, marginRight: 10}}>规格 : 32 X 12</Text>
-                  </View>
-
-                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
-                    <Text style={{fontSize: 15}}>表色 : Yellow</Text>
-                  </View>
-
-                  <View style={{flexWrap:'wrap', flexDirection:'row', marginRight: 5, marginBottom: 5}}>
-                    <Text style={{fontSize: 15}}>价格 : 1232/千件</Text>
-                  </View>
-
-
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
 
                   </View>
 
-                  <View style={{width: '10%', flexDirection: 'column'}}>
+                  <View style={{width: '65%', flexDirection: 'column'}}>
 
-
-                    <View style={{height: '50%', paddingTop: 5}}>
-
-                      <TouchableOpacity>
-                        <Image style={{width: 27, height: 27}} source={require('../../../img/favorite.png')} />
-                      </TouchableOpacity>
-
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
                     </View>
 
-                    <View style={{height: '50%', flexDirection: 'column-reverse', paddingBottom: 5}}>
-
-                      <TouchableOpacity>
-                        <Image style={{width: 27, height: 27}} source={require('../../../img/shopping_cart.png')} />
-                      </TouchableOpacity>
-
-
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
                     </View>
 
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
 
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
 
                   </View>
 
+                </View>
+
+
+              </TouchableOpacity>
+
+
+              <View style={{paddingTop: 10, paddingBottom: 10, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+                <Text style={{fontSize: 14}}>共<Text style={{fontSize: 16}}> 2 </Text>件产品, 合计: <Text style={{fontSize: 16}}>16000</Text> </Text>
+              </View>
+
+              <View style={{paddingTop: 10, paddingBottom: 5, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>取消订单</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>支付定金</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>查看订单</Text>
+                </TouchableOpacity>
 
 
               </View>
 
+            </View>
+            {/* 代付定金  */}
+
+
+
+
+
+            {/* 代收货  */}
+            <View style={{padding: 5, borderBottomWidth: 1, borderColor: '#e0e0e0', flexDirection: 'column'}}>
+
+              <TouchableOpacity activeOpacity={0.8} style={{flexDirection: 'column', paddingBottom: 10}}>
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
+                </View>
+
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
+                </View>
+
+
+              </TouchableOpacity>
+
+
+              <View style={{paddingTop: 10, paddingBottom: 10, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+                <Text style={{fontSize: 14}}>共<Text style={{fontSize: 16}}> 2 </Text>件产品, 合计: <Text style={{fontSize: 16}}>16000</Text> </Text>
+              </View>
+
+              <View style={{paddingTop: 10, paddingBottom: 5, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>联系客服</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>查看物流</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>查看订单</Text>
+                </TouchableOpacity>
+
+
+              </View>
+
+            </View>
+            {/* 代收货  */}
+
+
+            {/* 代付尾款  */}
+            <View style={{padding: 5, borderBottomWidth: 1, borderColor: '#e0e0e0', flexDirection: 'column'}}>
+
+              <TouchableOpacity activeOpacity={0.8} style={{flexDirection: 'column', paddingBottom: 10}}>
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
+                </View>
+
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
+                </View>
+
+
+              </TouchableOpacity>
+
+
+              <View style={{paddingTop: 10, paddingBottom: 10, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+                <Text style={{fontSize: 14}}>共<Text style={{fontSize: 16}}> 2 </Text>件产品, 合计: <Text style={{fontSize: 16}}>16000</Text> </Text>
+              </View>
+
+              <View style={{paddingTop: 10, paddingBottom: 5, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>联系客服</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>支付尾款</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>查看订单</Text>
+                </TouchableOpacity>
+
+
+              </View>
+
+            </View>
+            {/* 代付尾款  */}
+
+
+            {/* 已完成  */}
+            <View style={{padding: 5, borderBottomWidth: 1, borderColor: '#e0e0e0', flexDirection: 'column'}}>
+
+              <TouchableOpacity activeOpacity={0.8} style={{flexDirection: 'column', paddingBottom: 10}}>
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
+                </View>
+
+
+
+                <View style={{height: 120, paddingBottom: 5, paddingTop: 5, flexDirection: 'row'}}>
+
+                  <View style={{width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Image
+                      source={require('../../../img/product1.jpg')}
+                      style={{width: '90%', height: '100%'}}/>
+
+                  </View>
+
+                  <View style={{width: '65%', flexDirection: 'column'}}>
+
+                    <View style={{flexWrap:'wrap'}}>
+                      <Text style={{fontSize: 16}}>GB859-98XXXXXXXXXX</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>规格: 18 x 16</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>表色: 白色</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>数量: 1</Text>
+                    </View>
+
+                    <View style={{flexWrap:'wrap', paddingTop: 5}}>
+                      <Text style={{fontSize: 14}}>价格: 8000</Text>
+                    </View>
+
+                  </View>
+
+                </View>
+
+
+              </TouchableOpacity>
+
+
+              <View style={{paddingTop: 10, paddingBottom: 10, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+                <Text style={{fontSize: 14}}>共<Text style={{fontSize: 16}}> 2 </Text>件产品, 合计: <Text style={{fontSize: 16}}>16000</Text> </Text>
+              </View>
+
+              <View style={{paddingTop: 10, paddingBottom: 5, borderTopWidth: 1, borderColor: '#e0e0e0', flexDirection: 'row-reverse' }}>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>联系客服</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>删除订单</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                  <Text style={{fontSize: 14}}>查看订单</Text>
+                </TouchableOpacity>
+
+
+              </View>
+
+            </View>
+            {/* 已完成  */}
+
+
+
+
 
 
           </ScrollView>
+
+
 
 
 

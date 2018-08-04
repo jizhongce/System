@@ -236,27 +236,27 @@ export default class User_Main_Board extends Component<{}> {
 
                 <View style={{width: '100%', flexDirection: 'row', borderBottomWidth: 1, paddingLeft: 5, paddingTop: 20, paddingBottom: 20}}>
 
-                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Order_Board', {Order_Type: 'NDP'}) } activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 代 付 </Text>
                     <Text style={{fontSize: 20}}> 定 金 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Order_Board', {Order_Type: 'PRO'}) } activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 代 </Text>
                     <Text style={{fontSize: 20}}> 收 货 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Order_Board', {Order_Type: 'NWP'}) } activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 代 付 </Text>
                     <Text style={{fontSize: 20}}> 尾 款 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Order_Board', {Order_Type: 'ORC'}) } activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center',}}>
                     <Text style={{fontSize: 20}}> 已 </Text>
                     <Text style={{fontSize: 20}}> 完 成 </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', borderLeftWidth: 1, borderLeftColor: '#c4c4c4',}}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Order_Board', {Order_Type: 'ALL'}) } activeOpacity={1} style={{width: '20%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', borderLeftWidth: 1, borderLeftColor: '#c4c4c4',}}>
                     <Text style={{fontSize: 20}}> 全 部 </Text>
                     <Text style={{fontSize: 20}}> 订 单 </Text>
                   </TouchableOpacity>

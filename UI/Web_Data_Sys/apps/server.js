@@ -333,16 +333,17 @@ export function getfavoriteproduct(User_ID, cb){
 }
 
 
-export function getuserorder(User_ID, cb){
+export function getorder(User_ID, Order_Type, cb){
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:8080/get_user_order", true);
-  var body = {User_ID: User_ID};
-
-  console.log(body);
+  // Next create a parameters
+  var parameters1 = CreateParametersForRequest("User_ID", User_ID)
+  var parameters2 = CreateParametersForRequest("Order_Type", Order_Type)
+  console.log("http://localhost:8080/get_order" + "?" + parameters1 + "&" + parameters2);
+  xhr.open("GET", "http://localhost:8080/get_order" + "?" + parameters1 + "&" + parameters2 , true);
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-  xhr.send(JSON.stringify(body));
+  xhr.send();
 
   xhr.addEventListener('load', function() {
     var statusCode = xhr.status;
@@ -351,6 +352,7 @@ export function getuserorder(User_ID, cb){
     cb(responseDict);
   });
 }
+
 
 
 export function checkfavoriteexist(User_ID, Product_ID, cb){
@@ -376,8 +378,6 @@ export function checkfavoriteexist(User_ID, Product_ID, cb){
 /*
 End of User_Home function after log in
 */
-
-
 
 
 
