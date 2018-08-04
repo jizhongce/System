@@ -129,11 +129,21 @@ export default class User_Main_Board extends Component<{}> {
               title,
               errormsg,
               [
-                {text: 'OK', style: 'cancel'},
+                {text: 'OK', style: 'cancel', onPress: ()=>{
+                  AsyncStorage.removeItem('User_ID', (error) => {
+                    if (error) {
+                      console.log(error);
+                    }
+
+                    this.props.navigation.navigate('User_Home');
+
+                  })
+                }},
               ],
             )
 
           }
+
 
 
 

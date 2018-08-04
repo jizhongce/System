@@ -37,7 +37,7 @@ for query in DROPQUERYLIST:
     CURSOR.execute(query)
 
 
-CREATE_PHONE_NUMBER_VERIFY_CODE = ("CREATE TABLE IF NOT EXISTS Phone_Numner_Verify_Code ( Phone_Number VARCHAR(50) UNIQUE, Verify_Code BIGINT UNSIGNED, PRIMARY KEY (Phone_Number));")
+CREATE_PHONE_NUMBER_VERIFY_CODE = ("CREATE TABLE IF NOT EXISTS Phone_Numner_Verify_Code ( Phone_Number VARCHAR(50) UNIQUE, Verify_Code BIGINT UNSIGNED, Expiration_Time DATETIME, PRIMARY KEY (Phone_Number));")
 
 CREATE_USER = ("CREATE TABLE IF NOT EXISTS Users ( User_ID VARCHAR(100) UNIQUE, User_Name VARCHAR(50), Password VARCHAR(100), PhoneNum VARCHAR(50) UNIQUE, PRIMARY KEY (User_ID), FOREIGN KEY (PhoneNum) REFERENCES Phone_Numner_Verify_Code(Phone_Number) );")
 

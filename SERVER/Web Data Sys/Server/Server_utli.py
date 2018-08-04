@@ -13,8 +13,16 @@ import datetime
 # This is method to create a new date and time with string format
 
 def CreateTimeNOW():
-    return(datetime.datetime.now().isoformat(timespec='seconds').replace('T', ' '))
+    return(str(datetime.datetime.now()))
 
+def CreateVerifyCodeTime():
+    return(str(datetime.datetime.now() + datetime.timedelta(minutes=3)))
+
+def CompareVerifyCodeTime(TimeNow, TimeVerify):
+    '''
+    If TimeNow < TimeVerify, then return true, means verify success
+    '''
+    return(TimeNow < TimeVerify)
 
 
 
@@ -197,23 +205,15 @@ def Sign_Up_Send_Verify_Code(SIGN_UP_PHONE_NUMBER):
                 QUERYLIST = CURSOR.fetchall()
 
                 if QUERYLIST:
-                    QUERYSQL = ('UPDATE Phone_Numner_Verify_Code SET Verify_Code = \'{}\' WHERE Phone_Number = \'{}\'; ').format(VERIFY_CODE, SIGN_UP_PHONE_NUMBER)
+                    QUERYSQL = ('UPDATE Phone_Numner_Verify_Code SET Verify_Code = \'{}\', Expiration_Time = \'{}\' WHERE Phone_Number = \'{}\'; ').format(VERIFY_CODE, CreateVerifyCodeTime(), SIGN_UP_PHONE_NUMBER)
                     CURSOR.execute(QUERYSQL)
                     STATUS = ErrorCode.SUCCESS_CODE
 
 
                 else:
-                    QUERYSQL = ('INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUES (\'{}\', \'{}\');').format(SIGN_UP_PHONE_NUMBER, VERIFY_CODE)
+                    QUERYSQL = ('INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code, Expiration_Time) VALUES (\'{}\', \'{}\', \'{}\');').format(SIGN_UP_PHONE_NUMBER, VERIFY_CODE, CreateVerifyCodeTime())
                     CURSOR.execute(QUERYSQL)
                     STATUS = ErrorCode.SUCCESS_CODE
-
-                EVENTQUERY = ('SET GLOBAL event_scheduler = ON;')
-
-                DELQUERY = ('CREATE EVENT {} ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 2 MINUTE DO UPDATE Phone_Numner_Verify_Code SET Verify_Code = NULL WHERE Phone_Number = \'{}\'; '.format((str(RandCode())+'_delete_code'), SIGN_UP_PHONE_NUMBER))
-
-                CURSOR.execute(EVENTQUERY)
-
-                CURSOR.execute(DELQUERY)
 
 
         CURSOR.close()
@@ -278,28 +278,19 @@ def Change_Password_Send_Verify_Code(CHANGE_PASSWORD_PHONE_NUMBER):
                 QUERYLIST = CURSOR.fetchall()
 
                 if QUERYLIST:
-                    QUERYSQL = ('UPDATE Phone_Numner_Verify_Code SET Verify_Code = \'{}\' WHERE Phone_Number = \'{}\'; ').format(VERIFY_CODE, CHANGE_PASSWORD_PHONE_NUMBER)
+                    QUERYSQL = ('UPDATE Phone_Numner_Verify_Code SET Verify_Code = \'{}\', Expiration_Time = \'{}\' WHERE Phone_Number = \'{}\'; ').format(VERIFY_CODE, CreateVerifyCodeTime(), CHANGE_PASSWORD_PHONE_NUMBER)
                     CURSOR.execute(QUERYSQL)
                     STATUS = ErrorCode.SUCCESS_CODE
 
 
                 else:
-                    QUERYSQL = ('INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUES (\'{}\', \'{}\');').format(CHANGE_PASSWORD_PHONE_NUMBER, VERIFY_CODE)
+                    QUERYSQL = ('INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code, Expiration_Time) VALUES (\'{}\', \'{}\', \'{}\');').format(CHANGE_PASSWORD_PHONE_NUMBER, VERIFY_CODE, CreateVerifyCodeTime())
                     CURSOR.execute(QUERYSQL)
                     STATUS = ErrorCode.SUCCESS_CODE
-
-                EVENTQUERY = ('SET GLOBAL event_scheduler = ON;')
-
-                DELQUERY = ('CREATE EVENT {} ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 2 MINUTE DO UPDATE Phone_Numner_Verify_Code SET Verify_Code = NULL WHERE Phone_Number = \'{}\'; '.format((str(RandCode())+'_delete_code'), CHANGE_PASSWORD_PHONE_NUMBER))
-
-                CURSOR.execute(EVENTQUERY)
-
-                CURSOR.execute(DELQUERY)
 
 
         else:
             STATUS = ErrorCode.NO_SUCH_USER_CODE
-
 
 
         CURSOR.close()
@@ -419,38 +410,44 @@ def Sign_Up(SIGN_UP_PHONE_NUMBER, SIGN_UP_PASSWORD, SIGN_UP_VERIFY_CODE):
                 QUERYLIST = CURSOR.fetchall()
 
                 if QUERYLIST:
-                    (Phone_Number, Verify_Code, ) = QUERYLIST[0]
+                    (Phone_Number, Verify_Code, Expiration_Time) = QUERYLIST[0]
 
-                    if Verify_Code == int(SIGN_UP_VERIFY_CODE):
 
-                        STATUS = ErrorCode.SUCCESS_CODE
+                    if CompareVerifyCodeTime(datetime.datetime.now(), Expiration_Time):
 
-                        USERID = CreateUserID()
+                        if Verify_Code == int(SIGN_UP_VERIFY_CODE):
+                            STATUS = ErrorCode.SUCCESS_CODE
 
-                        SHOPPINGCARTID = CreateShoppingCartID()
+                            USERID = CreateUserID()
 
-                        USERNAME = 'JIZHONGCE'
+                            SHOPPINGCARTID = CreateShoppingCartID()
 
-                        PASSWORD = passlib.hash.sha256_crypt.hash(SIGN_UP_PASSWORD)
+                            USERNAME = 'JIZHONGCE'
 
-                        QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum) VALUES (\'{}\', \'{}\', \'{}\', \'{}\');').format(USERID, USERNAME, PASSWORD, SIGN_UP_PHONE_NUMBER)
+                            PASSWORD = passlib.hash.sha256_crypt.hash(SIGN_UP_PASSWORD)
 
-                        print(QUERYSQL_USER)
+                            QUERYSQL_USER = ('INSERT INTO Users(User_ID, User_Name, Password, PhoneNum) VALUES (\'{}\', \'{}\', \'{}\', \'{}\');').format(USERID, USERNAME, PASSWORD, SIGN_UP_PHONE_NUMBER)
 
-                        QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
+                            print(QUERYSQL_USER)
 
-                        QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, Name, Level) VALUES (\'{}\', \'{}\', 1);').format(USERID, '')
+                            QUERYSQL_SHOPPINGCART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(USERID, SHOPPINGCARTID)
 
-                        CURSOR.execute(QUERYSQL_USER)
+                            QUERYSQL_PROFILE = ('INSERT INTO Profiles(User_ID, Name, Level) VALUES (\'{}\', \'{}\', 1);').format(USERID, '')
 
-                        CURSOR.execute(QUERYSQL_SHOPPINGCART)
+                            CURSOR.execute(QUERYSQL_USER)
 
-                        CURSOR.execute(QUERYSQL_PROFILE)
+                            CURSOR.execute(QUERYSQL_SHOPPINGCART)
 
-                        DATA = USERID
+                            CURSOR.execute(QUERYSQL_PROFILE)
+
+                            DATA = USERID
+
+                        else:
+                            STATUS = ErrorCode.WRONG_VERIFY_CODE
+
 
                     else:
-                        STATUS = ErrorCode.WRONG_VERIFY_CODE
+                        STATUS = ErrorCode.VERIFY_CODE_EXPIRED
 
 
                 else:
@@ -509,22 +506,25 @@ def Change_Password(CHANGE_PASSWORD_PHONE_NUMBER, CHANGE_PASSWORD_NEW_PASSWORD, 
                 QUERYLIST = CURSOR.fetchall()
 
                 if QUERYLIST:
-                    (Phone_Number, Verify_Code, ) = QUERYLIST[0]
+                    (Phone_Number, Verify_Code, Expiration_Time) = QUERYLIST[0]
 
-                    if Verify_Code == int(CHANGE_PASSWORD_VERIFY_CODE):
+                    if CompareVerifyCodeTime(datetime.datetime.now(), Expiration_Time):
 
-                        PASSWORD = passlib.hash.sha256_crypt.hash(CHANGE_PASSWORD_NEW_PASSWORD)
+                        if Verify_Code == int(CHANGE_PASSWORD_VERIFY_CODE):
+                            PASSWORD = passlib.hash.sha256_crypt.hash(CHANGE_PASSWORD_NEW_PASSWORD)
 
-                        UPDATEQUERY = ('UPDATE Users SET Password = \'{}\' WHERE PhoneNum = \'{}\';'.format(PASSWORD, CHANGE_PASSWORD_PHONE_NUMBER))
+                            UPDATEQUERY = ('UPDATE Users SET Password = \'{}\' WHERE PhoneNum = \'{}\';'.format(PASSWORD, CHANGE_PASSWORD_PHONE_NUMBER))
 
-                        CURSOR.execute(UPDATEQUERY)
+                            CURSOR.execute(UPDATEQUERY)
 
-                        STATUS = ErrorCode.SUCCESS_CODE
+                            STATUS = ErrorCode.SUCCESS_CODE
 
+                        else:
+                            STATUS = ErrorCode.WRONG_VERIFY_CODE
 
 
                     else:
-                        STATUS = ErrorCode.WRONG_VERIFY_CODE
+                        STATUS = ErrorCode.VERIFY_CODE_EXPIRED
 
 
                 else:

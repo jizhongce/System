@@ -1,7 +1,7 @@
 import mysql.connector
 import uuid
 import passlib.hash
-from Server_utli import CreateTimeNOW
+from Server_utli import CreateTimeNOW, CreateVerifyCodeTime
 
 
 
@@ -40,8 +40,8 @@ DATABASE_CONNECT = mysql.connector.connect(user='root', password='jizhongce123',
 
 CURSOR = DATABASE_CONNECT.cursor(buffered=True)
 
-ADD_PHONE_NUMBER1 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUE ('15000000000', 123456);")
-ADD_PHONE_NUMBER2 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code) VALUE ('25000000000', 123456);")
+ADD_PHONE_NUMBER1 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code, Expiration_Time) VALUE ('15000000000', 123456, \'{}\');".format(CreateVerifyCodeTime()))
+ADD_PHONE_NUMBER2 = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code, Expiration_Time) VALUE ('25000000000', 123456, \'{}\');".format(CreateVerifyCodeTime()))
 
 QUERIES.append(ADD_PHONE_NUMBER1)
 QUERIES.append(ADD_PHONE_NUMBER2)
