@@ -39,6 +39,7 @@ import User_Main_Board from './apps/components/User_Home/User_Main_Board.js';
 import User_Profile_Board from './apps/components/User_Home/User_Profile_Board.js';
 import User_Address_Board from './apps/components/User_Home/User_Address_Board.js';
 import User_Order_Board from './apps/components/User_Home/User_Order_Board.js';
+import User_Single_Order_Board from './apps/components/User_Home/User_Single_Order_Board.js';
 import Change_Password_Home from './apps/components/User_Home/Change_Password_Home.js';
 import User_Change_Name_Board from './apps/components/User_Home/User_Change_Name_Board.js';
 import User_Add_New_Address_Board from './apps/components/User_Home/User_Add_New_Address_Board.js';
@@ -139,6 +140,8 @@ const Total_Stack = StackNavigator({
   User_Profile_Board: { screen: User_Profile_Board },
 
   User_Order_Board: { screen: User_Order_Board },
+
+  User_Single_Order_Board: { screen: User_Single_Order_Board },
 
   User_Address_Board: { screen: User_Address_Board },
 

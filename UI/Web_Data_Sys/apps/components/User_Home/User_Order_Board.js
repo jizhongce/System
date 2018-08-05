@@ -73,15 +73,7 @@ export default class User_Order_Board extends Component<{}> {
     super(props);
     this.state = {
 
-      NDP_Flag: true,
-
-      PRO_Flag: false,
-
-      NWP_Flag: false,
-
-      ORC_Flag: false,
-
-      ALL_Flag: false,
+      Order_Type: "ALL",
 
       Order_List: null,
 
@@ -98,15 +90,7 @@ export default class User_Order_Board extends Component<{}> {
 
     this.setState({
 
-      NDP_Flag : true,
-
-      PRO_Flag: false,
-
-      NWP_Flag: false,
-
-      ORC_Flag: false,
-
-      ALL_Flag: false,
+      Order_Type : Order_Type,
 
     });
 
@@ -120,15 +104,7 @@ export default class User_Order_Board extends Component<{}> {
 
     this.setState({
 
-      PRO_Flag : true,
-
-      NDP_Flag: false,
-
-      NWP_Flag: false,
-
-      ORC_Flag: false,
-
-      ALL_Flag: false,
+      Order_Type : Order_Type,
 
     });
 
@@ -142,15 +118,7 @@ export default class User_Order_Board extends Component<{}> {
 
     this.setState({
 
-      NWP_Flag : true,
-
-      PRO_Flag : false,
-
-      NDP_Flag: false,
-
-      ORC_Flag: false,
-
-      ALL_Flag: false,
+      Order_Type : Order_Type,
 
     });
 
@@ -164,15 +132,7 @@ export default class User_Order_Board extends Component<{}> {
 
     this.setState({
 
-      ORC_Flag : true,
-
-      NWP_Flag : false,
-
-      PRO_Flag : false,
-
-      NDP_Flag: false,
-
-      ALL_Flag: false,
+      Order_Type : Order_Type,
 
     });
 
@@ -187,15 +147,7 @@ export default class User_Order_Board extends Component<{}> {
 
     this.setState({
 
-      ALL_Flag : true,
-
-      ORC_Flag : false,
-
-      NWP_Flag : false,
-
-      PRO_Flag : false,
-
-      NDP_Flag: false,
+      Order_Type : Order_Type,
 
     });
 
@@ -301,8 +253,6 @@ export default class User_Order_Board extends Component<{}> {
     }
 
 
-
-
   }
 
 
@@ -384,36 +334,35 @@ export default class User_Order_Board extends Component<{}> {
               </View>
 
 
-
             </View>
 
             <View style={{height: '7%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 5, paddingRight: 5, backgroundColor: 'white', borderBottomWidth: 1, borderColor: '#e0e0e0'}}>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => this.ALL_Handler()} style={OrderButtonsExistStyle(this.state.ALL_Flag)}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => this.ALL_Handler()} style={OrderButtonsExistStyle(this.state.Order_Type == "ALL")}>
 
                 <Text style={{fontSize: 17, paddingBottom: 5}}>全部订单</Text>
 
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => this.NDP_Handler()} style={OrderButtonsExistStyle(this.state.NDP_Flag)}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => this.NDP_Handler()} style={OrderButtonsExistStyle(this.state.Order_Type == "NDP")}>
 
                 <Text style={{fontSize: 17, paddingBottom: 5}}>代收定金</Text>
 
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => this.PRO_Handler()} style={OrderButtonsExistStyle(this.state.PRO_Flag)}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => this.PRO_Handler()} style={OrderButtonsExistStyle(this.state.Order_Type == "PRO")}>
 
                 <Text style={{fontSize: 17, paddingBottom: 5}}>代收货</Text>
 
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => this.NWP_Handler()} style={OrderButtonsExistStyle(this.state.NWP_Flag)}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => this.NWP_Handler()} style={OrderButtonsExistStyle(this.state.Order_Type == "NWP")}>
 
                 <Text style={{fontSize: 17, paddingBottom: 5}}>代付尾款</Text>
 
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => this.ORC_Handler()} style={OrderButtonsExistStyle(this.state.ORC_Flag)}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => this.ORC_Handler()} style={OrderButtonsExistStyle(this.state.Order_Type == "ORC")}>
 
                 <Text style={{fontSize: 17, paddingBottom: 5}}>已完成</Text>
 
@@ -434,7 +383,7 @@ export default class User_Order_Board extends Component<{}> {
 
                     <View key={i} style={{padding: 5, borderBottomWidth: 1, borderColor: '#e0e0e0', flexDirection: 'column'}}>
 
-                      <TouchableOpacity activeOpacity={0.8} style={{flexDirection: 'column', paddingBottom: 10}}>
+                      <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Single_Order_Board', {Order_ID: order.Order_ID, Order_Type: this.state.Order_Type})} activeOpacity={0.8} style={{flexDirection: 'column', paddingBottom: 10}}>
 
                         {
                           order.Product_List.map((product, i) => {
@@ -505,7 +454,7 @@ export default class User_Order_Board extends Component<{}> {
                           <Text style={{fontSize: 14}}>支付定金</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                        <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Single_Order_Board', {Order_ID: order.Order_ID, Order_Type: this.state.Order_Type})} activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
                           <Text style={{fontSize: 14}}>查看订单</Text>
                         </TouchableOpacity>
 
@@ -524,7 +473,7 @@ export default class User_Order_Board extends Component<{}> {
                           <Text style={{fontSize: 14}}>查看物流</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                        <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Single_Order_Board', {Order_ID: order.Order_ID, Order_Type: this.state.Order_Type})} activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
                           <Text style={{fontSize: 14}}>查看订单</Text>
                         </TouchableOpacity>
 
@@ -542,7 +491,7 @@ export default class User_Order_Board extends Component<{}> {
                           <Text style={{fontSize: 14}}>支付尾款</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                        <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Single_Order_Board', {Order_ID: order.Order_ID, Order_Type: this.state.Order_Type})} activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
                           <Text style={{fontSize: 14}}>查看订单</Text>
                         </TouchableOpacity>
 
@@ -560,7 +509,7 @@ export default class User_Order_Board extends Component<{}> {
                           <Text style={{fontSize: 14}}>删除订单</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                        <TouchableOpacity onPress={()=> this.props.navigation.navigate('User_Single_Order_Board', {Order_ID: order.Order_ID, Order_Type: this.state.Order_Type})} activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
                           <Text style={{fontSize: 14}}>查看订单</Text>
                         </TouchableOpacity>
 

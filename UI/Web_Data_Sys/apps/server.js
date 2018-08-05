@@ -355,6 +355,30 @@ export function getorder(User_ID, Order_Type, cb){
 
 
 
+
+export function getsingleorder(User_ID, Order_ID, cb){
+  var xhr = new XMLHttpRequest();
+  // Next create a parameters
+  var parameters1 = CreateParametersForRequest("User_ID", User_ID)
+  var parameters2 = CreateParametersForRequest("Order_ID", Order_ID)
+  console.log("http://localhost:8080/get_order" + "?" + parameters1 + "&" + parameters2);
+  xhr.open("GET", "http://localhost:8080/get_single_order" + "?" + parameters1 + "&" + parameters2 , true);
+
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+
 export function checkfavoriteexist(User_ID, Product_ID, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/check_favorite_exist", true);
@@ -527,27 +551,6 @@ export function submitorder(User_ID, Shopping_Cart, Shipping_Address, cb){
   });
 }
 
-
-
-export function getsingleorder(Order_ID, cb){
-  var xhr = new XMLHttpRequest();
-  // Next create a parameters
-  var parameters = CreateParametersForRequest("Order_ID", Order_ID)
-  console.log("http://localhost:8080/get_single_order" + "?" + parameters);
-  xhr.open("GET", "http://localhost:8080/get_single_order" + "?" + parameters , true);
-
-
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    var statusCode = xhr.status;
-    var statusText = xhr.statusText;
-    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
-    cb(responseDict);
-  });
-}
 
 
 export function depositpaymentsubmited(User_ID, Deposit_Payment_Info, cb){

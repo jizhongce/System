@@ -100,14 +100,16 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
             URL_QUERY = UrlParse_Res['query']
 
-            Order_ID = URL_QUERY['Order_ID'][0]
+            USER_ID = URL_QUERY['User_ID'][0]
 
-            print(Order_ID)
+            ORDER_ID = URL_QUERY['Order_ID'][0]
 
-            (STATUS_CODE, DATA) = Get_Single_Order(Order_ID)
+            print(ORDER_ID)
 
-            # print(DATA)
-            #
+            (STATUS_CODE, DATA) = Get_Single_Order(USER_ID, ORDER_ID)
+
+            print(DATA)
+
             # print(STATUS_CODE)
             # print(DATA)
             #

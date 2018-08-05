@@ -323,7 +323,10 @@ def Pass_Schame_Check(Password):
 # Phone number check function
 
 def Phone_Schame_Check(Phonenum):
-    return(len(Phonenum) == 11 and bool(Phonenum.isdigit))
+
+    PhoneNumberPrefix = ['130','131','132','133','134','135','136','137','138','139','150','151','152','153','156','158','159','170','183','182','185','186','188','189']
+
+    return((Phonenum[:3] in PhoneNumberPrefix) and len(Phonenum) == 11 and bool(Phonenum.isdigit))
 
 # End of Phone_Schame_Check
 
@@ -1397,7 +1400,7 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
 # Start of the Get_Single_Order function
 
-def Get_Single_Order(Order_ID):
+def Get_Single_Order(User_ID, Order_ID):
     '''
     This is the function which will get the order info in the database
     '''
@@ -1412,7 +1415,7 @@ def Get_Single_Order(Order_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID FROM Orders WHERE Orders.Order_ID = \'{}\';'.format(Order_ID))
+    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method, Orders.Order_Total_Price, Orders.Order_Paid_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders.Order_ID = Orders_User.Order_ID AND Orders_User.Order_ID = \'{}\' AND Orders_User.User_ID = \'{}\';'.format(Order_ID, User_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1432,7 +1435,7 @@ def Get_Single_Order(Order_ID):
             (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = QUERYLIST[0]
             Shipping_Info = {"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), 'District': Decode_To_String(District)}
 
-            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Orders_Products.Products_Price, Products.Products_Image_Dir,  Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
 
 
             print(QUERYSQL)
@@ -1445,8 +1448,8 @@ def Get_Single_Order(Order_ID):
 
             if QUERYLIST:
                 for product in QUERYLIST:
-                    (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Product_Price, Products_Image_Dir, Product_Units) = product
-                    Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Product_Units)})
+                    (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, Product_Units) = product
+                    Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Product_Units)})
 
                 Order_Info = {"Basic_Info": Decode_To_String(Basic_Info), "Shipping_Info": Decode_To_String(Shipping_Info), "Product_List": Decode_To_String(Product_List)}
                 DATA = Order_Info

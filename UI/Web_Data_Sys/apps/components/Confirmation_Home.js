@@ -129,7 +129,7 @@ export default class Confirmation_Home extends Component<{}> {
 
         else {
 
-          getsingleorder(Order_ID, (response) => {
+          getsingleorder(User_ID, Order_ID, (response) => {
 
             const get_single_order_code = response["StatusCode"]
 
@@ -318,8 +318,7 @@ export default class Confirmation_Home extends Component<{}> {
                           alignItems: 'center',
                           justifyContent: 'center',
 
-
-                        }} onPress = {() => this.props.navigation.navigate('Single_Order', { Order_ID : this.state.order_basic_info.Order_ID})} activeOpacity={0.5}>
+                        }} onPress = {() => this.props.navigation.navigate('User_Single_Order_Board', { Order_ID : this.state.order_basic_info.Order_ID})} activeOpacity={0.5}>
 
                         <Text style={{fontSize: 17, marginTop: 5, marginBottom: 5}}>查看订单</Text>
 

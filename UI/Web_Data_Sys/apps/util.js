@@ -141,6 +141,29 @@ export function OrderTypeButtonsExistStyle(Order_Type_Flag) {
 }
 
 
+export function SingleOrderButtonsExistStyle(Button_Flag) {
+  if (Button_Flag == true) {
+
+    return({height: '7%', backgroundColor: 'white', flexDirection: 'row-reverse', borderTopWidth: 1, borderColor: '#cfcfcf', paddingTop: 10, paddingBottom: 10})
+
+  } else {
+    return({display: 'none'})
+  }
+
+}
+
+export function SingleOrderStatusExistStyle(Order_Status_Flag) {
+  if (Order_Status_Flag == true) {
+
+    return({height: 130, backgroundColor: '#fb6d59', flexDirection: 'row'})
+
+  } else {
+    return({display: 'none'})
+  }
+
+}
+
+
 export function UserMainBoardNameExistStyle(Name_Flag) {
   if (Name_Flag == true) {
 
@@ -208,7 +231,7 @@ export function PaymentMessage(payment_value) {
       break;
 
     default:
-      message = 'Error'
+      message = '未 支 付'
 
   }
 
@@ -236,7 +259,7 @@ export function PaymentPrase(payment_value) {
       break;
 
     default:
-      result = 'Error'
+      result = '未支付'
 
   }
 

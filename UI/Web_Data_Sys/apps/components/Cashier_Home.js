@@ -173,7 +173,7 @@ export default class Cashier_Home extends Component<{}> {
         'There is something wrong with the Order!',
         [
           {text: 'OK', onPress: ()=>{
-            this.props.navigation.navigate('Order_List');
+            this.props.navigation.navigate('User_Order_Board');
           }},
         ],
       )
@@ -201,7 +201,7 @@ export default class Cashier_Home extends Component<{}> {
 
         else {
 
-          getsingleorder(Order_ID, (response) => {
+          getsingleorder(User_ID, Order_ID, (response) => {
 
             const get_single_order_code = response["StatusCode"]
 
@@ -381,7 +381,7 @@ export default class Cashier_Home extends Component<{}> {
         }},
         {text: 'Fail', onPress: () =>{
 
-          this.props.navigation.navigate('Order_List');
+          this.props.navigation.navigate('User_Order_Board');
 
         }},
       ],
@@ -503,7 +503,7 @@ export default class Cashier_Home extends Component<{}> {
               marginLeft: 5
             }} >
 
-            <TouchableOpacity onPress = {()=> this.props.navigation.navigate('Order_List')}>
+            <TouchableOpacity onPress = {()=> this.props.navigation.navigate('User_Order_Board')}>
 
               <Image style={{width: 24, height: 24}} source={require('../../img/back_arrow.png')} />
 
