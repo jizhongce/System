@@ -372,11 +372,7 @@ export default class User_Favorite_Product_Board extends Component<{}> {
     //
     // });
 
-    this.props.navigation.addListener('willFocus', ()=>{
-
       this.Refresh_User_Favorite_Product_Board()
-
-    });
 
 
   }

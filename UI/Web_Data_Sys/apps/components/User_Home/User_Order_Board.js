@@ -73,7 +73,7 @@ export default class User_Order_Board extends Component<{}> {
     super(props);
     this.state = {
 
-      Order_Type: "ALL",
+      Order_Type: null,
 
       Order_List: null,
 
@@ -86,13 +86,7 @@ export default class User_Order_Board extends Component<{}> {
 
     const Order_Type = "NDP"
 
-    this.Get_Order(Order_Type);
-
-    this.setState({
-
-      Order_Type : Order_Type,
-
-    });
+    this.User_Order_Board_Refresh(Order_Type);
 
   }
 
@@ -100,13 +94,7 @@ export default class User_Order_Board extends Component<{}> {
 
     const Order_Type = "PRO"
 
-    this.Get_Order(Order_Type);
-
-    this.setState({
-
-      Order_Type : Order_Type,
-
-    });
+    this.User_Order_Board_Refresh(Order_Type);
 
   }
 
@@ -114,13 +102,7 @@ export default class User_Order_Board extends Component<{}> {
 
     const Order_Type = "NWP"
 
-    this.Get_Order(Order_Type);
-
-    this.setState({
-
-      Order_Type : Order_Type,
-
-    });
+    this.User_Order_Board_Refresh(Order_Type);
 
   }
 
@@ -128,13 +110,7 @@ export default class User_Order_Board extends Component<{}> {
 
     const Order_Type = "ORC"
 
-    this.Get_Order(Order_Type);
-
-    this.setState({
-
-      Order_Type : Order_Type,
-
-    });
+    this.User_Order_Board_Refresh(Order_Type);
 
   }
 
@@ -142,19 +118,12 @@ export default class User_Order_Board extends Component<{}> {
 
     const Order_Type = "ALL"
 
-    this.Get_Order(Order_Type);
-
-
-    this.setState({
-
-      Order_Type : Order_Type,
-
-    });
+    this.User_Order_Board_Refresh(Order_Type);
 
   }
 
 
-  Get_Order(Order_Type){
+  User_Order_Board_Refresh(Order_Type){
 
     AsyncStorage.getItem('User_ID', (err, result) => {
       var User_ID = result
@@ -176,7 +145,6 @@ export default class User_Order_Board extends Component<{}> {
           if (get_order_status_code == 200 || get_order_status_code == 618) {
 
             // next create array to store the order
-            console.log(Orders);
             var Order_List = []
             for (var Order in Orders) {
 
@@ -187,6 +155,7 @@ export default class User_Order_Board extends Component<{}> {
 
             this.setState({
               Order_List: Order_List,
+              Order_Type : Order_Type,
             })
 
 
@@ -218,63 +187,19 @@ export default class User_Order_Board extends Component<{}> {
 
 
 
-  User_Order_Board_Refresh(Order_Type){
-
-    switch (Order_Type) {
-      case 'NDP':
-        this.NDP_Handler();
-
-        break;
-
-      case 'PRO':
-        this.PRO_Handler();
-
-        break;
-
-      case 'NWP':
-        this.NWP_Handler();
-
-        break;
-
-      case 'ORC':
-        this.ORC_Handler();
-
-        break;
-
-      case 'ALL':
-        this.ALL_Handler();
-
-        break;
-
-
-      default:
-        this.ALL_Handler()
-
-    }
-
-
-  }
-
-
-
-
-
   componentWillMount(){
     //AsyncStorage.clear()
     // AsyncStorage.setItem('UID123', 'hello', () => {
     //
     // });
 
-    this.props.navigation.addListener('willFocus', ()=>{
-
-      const { params } = this.props.navigation.state;
-      const Order_Type = params ? params.Order_Type : null;
+    const { params } = this.props.navigation.state;
+    const Order_Type = params ? params.Order_Type : null;
 
 
-      this.User_Order_Board_Refresh(Order_Type)
+    this.User_Order_Board_Refresh(Order_Type)
 
 
-    });
 
 
   }
@@ -377,7 +302,7 @@ export default class User_Order_Board extends Component<{}> {
               {
                 this.state.Order_List.map((order, i) => {
 
-                  console.log(order);
+
 
                   return(
 
@@ -388,7 +313,7 @@ export default class User_Order_Board extends Component<{}> {
                         {
                           order.Product_List.map((product, i) => {
 
-                            console.log(product);
+
 
                             return(
 

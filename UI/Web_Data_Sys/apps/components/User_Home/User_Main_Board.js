@@ -202,13 +202,22 @@ export default class User_Main_Board extends Component<{}> {
               <View style={{
                   height: '8%',
                   backgroundColor: 'white',
-                  justifyContent: 'center',
                   alignItems: 'center',
+                  flexDirection: 'row-reverse',
                   borderBottomWidth: 1,
                 }} >
 
+                <View style={{width: '15%', justifyContent: 'center', alignItems: 'center',}}>
+                  <TouchableOpacity>
+                    <Image style={{width: 25, height: 25}} source={require('../../../img/Message.png')} />
+                  </TouchableOpacity>
+                </View>
 
-                <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 用 户 中 心 </Text>
+                <View style={{width: '70%', justifyContent: 'center', alignItems: 'center',}}>
+                  <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 用 户 中 心 </Text>
+                </View>
+
+
 
 
               </View>

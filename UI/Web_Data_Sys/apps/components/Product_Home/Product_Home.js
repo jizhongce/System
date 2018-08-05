@@ -134,20 +134,20 @@ export default class Product_Home extends Component<{}> {
             borderBottomWidth: 1,
           }} >
 
-          <View style={{width: '20%', justifyContent: 'center', alignItems: 'center',}}>
+          <View style={{width: '15%', justifyContent: 'center', alignItems: 'center',}}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Home2')}>
-              <Text style={{marginLeft:5}}> 搜 索 </Text>
+              <Image style={{width: 25, height: 25}} source={require('../../../img/Search.png')} />
             </TouchableOpacity>
           </View>
 
 
-          <View style={{width: '60%', justifyContent: 'center', alignItems: 'center',}}>
+          <View style={{width: '70%', justifyContent: 'center', alignItems: 'center',}}>
           <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>产品列表</Text>
           </View>
 
-          <View style={{width: '20%', justifyContent: 'center', alignItems: 'center',}}>
+          <View style={{width: '15%', justifyContent: 'center', alignItems: 'center',}}>
             <TouchableOpacity>
-              <Text style={{marginRight:5}}> 消 息 </Text>
+              <Image style={{width: 25, height: 25}} source={require('../../../img/Message.png')} />
             </TouchableOpacity>
           </View>
 

@@ -149,12 +149,7 @@ export default class User_Single_Order_Board extends Component<{}> {
     //
     // });
 
-    this.props.navigation.addListener('willFocus', ()=>{
-
       this.User_Single_Order_Board_Refresh()
-
-
-    });
 
 
   }

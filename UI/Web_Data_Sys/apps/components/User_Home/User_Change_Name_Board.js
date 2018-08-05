@@ -217,11 +217,6 @@ export default class User_Change_Name_Board extends Component<{}> {
 
     this.User_Profile_Board_Refresh()
 
-    this.props.navigation.addListener('willFocus', ()=>{
-
-      this.User_Profile_Board_Refresh()
-
-    });
 
 
   }

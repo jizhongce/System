@@ -269,11 +269,10 @@ export default class User_Address_Board extends Component<{}> {
     //
     // });
 
-    this.props.navigation.addListener('willFocus', ()=>{
 
-      this.Refresh_User_Address_Board()
+    
+    this.Refresh_User_Address_Board()
 
-    });
 
 
   }

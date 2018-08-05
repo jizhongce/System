@@ -123,6 +123,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
             const { params } = this.props.navigation.state;
             const Shipping_Address_Info = params ? params.Shipping_Address_Info : null;
 
+
             console.log(Shipping_Address_Info);
 
             if (Shipping_Address_Info == null) {
