@@ -252,7 +252,7 @@ export default class User_Single_Order_Board extends Component<{}> {
 
                     <View style={{flexDirection: 'column', width: '40%', justifyContent: 'center', alignItems: 'center',}}>
 
-                      <Image style={{height: '65%', width: '65%'}} source={require('../../../img/PRO_Status.png')} />
+                      <Image style={{height: '65%', width: '65%'}} source={require('../../../img/PCK_Status.png')} />
 
                     </View>
 

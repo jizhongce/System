@@ -305,46 +305,34 @@ DEFAULT_USER_MESSAGES1 = str(uuid.uuid4())
 DEFAULT_USER_MESSAGES2 = str(uuid.uuid4())
 DEFAULT_USER_MESSAGES3 = str(uuid.uuid4())
 DEFAULT_USER_MESSAGES4 = str(uuid.uuid4())
-DEFAULT_USER_MESSAGES5 = str(uuid.uuid4())
-DEFAULT_USER_MESSAGES6 = str(uuid.uuid4())
 DEFAULT_USER_MESSAGES7 = str(uuid.uuid4())
-DEFAULT_USER_MESSAGES8 = str(uuid.uuid4())
+
 
 DEFAULT_USER_ADD_MESSAGES1 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '产品GB987的价格已经发生了浮动，请重新关注产品价格，确认后可以继续购买!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES1, 1, CreateTimeNOW() - datetime.timedelta(minutes=7), 1))
 DEFAULT_USER_ADD_MESSAGES2 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '产品GB888的价格已经发生了浮动，请重新关注产品价格，确认后可以继续购买!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES2, 1, CreateTimeNOW() - datetime.timedelta(minutes=6), 0))
 DEFAULT_USER_ADD_MESSAGES3 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '您的订单121232123的送货地址成功修改，请关注是否本人操作，如不是请联系客服!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES3, 2, CreateTimeNOW() - datetime.timedelta(minutes=5), 1))
 DEFAULT_USER_ADD_MESSAGES4 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '您的订单88888888的送货地址成功修改，请关注是否本人操作，如不是请联系客服!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES4, 2, CreateTimeNOW() - datetime.timedelta(minutes=4), 0))
-DEFAULT_USER_ADD_MESSAGES5 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '您的密码已经成功修改，请关注是否本人操作，如不是请联系客服!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES5, 3, CreateTimeNOW() - datetime.timedelta(minutes=3), 1))
-DEFAULT_USER_ADD_MESSAGES6 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '您的密码已经成功修改，请关注是否本人操作，如不是请联系客服!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES6, 3, CreateTimeNOW() - datetime.timedelta(minutes=2), 0))
 DEFAULT_USER_ADD_MESSAGES7 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '您的订单121232123已经发货，预计到达时间7天，请关注物流信息!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES7, 4, CreateTimeNOW() - datetime.timedelta(minutes=1), 1))
-DEFAULT_USER_ADD_MESSAGES8 = ("INSERT INTO Messages(Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) VALUE (\'{}\', \'{}\', '您的订单121232123333已经发货，预计到达时间6天，请关注物流信息!', \'{}\', \'{}\');".format(DEFAULT_USER_MESSAGES8, 4, CreateTimeNOW(), 0))
 
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES1)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES2)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES3)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES4)
-QUERIES.append(DEFAULT_USER_ADD_MESSAGES5)
-QUERIES.append(DEFAULT_USER_ADD_MESSAGES6)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES7)
-QUERIES.append(DEFAULT_USER_ADD_MESSAGES8)
+
 
 DEFAULT_USER_ADD_MESSAGES_USER1 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES1))
 DEFAULT_USER_ADD_MESSAGES_USER2 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES2))
 DEFAULT_USER_ADD_MESSAGES_USER3 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES3))
 DEFAULT_USER_ADD_MESSAGES_USER4 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES4))
-DEFAULT_USER_ADD_MESSAGES_USER5 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES5))
-DEFAULT_USER_ADD_MESSAGES_USER6 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES6))
 DEFAULT_USER_ADD_MESSAGES_USER7 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES7))
-DEFAULT_USER_ADD_MESSAGES_USER8 = ("INSERT INTO Messages_User(User_ID, Message_ID) VALUE (\'{}\',\'{}\');".format(DEFAULT_USER, DEFAULT_USER_MESSAGES8))
 
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER1)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER2)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER3)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER4)
-QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER5)
-QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER6)
 QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER7)
-QUERIES.append(DEFAULT_USER_ADD_MESSAGES_USER8)
+
 
 
 # End here is new default user
