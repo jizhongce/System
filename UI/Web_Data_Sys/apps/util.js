@@ -88,6 +88,53 @@ export function ErrorCodePrase(code) {
 
 
 
+export function UnReadMessageExist(UnReadMessageCount) {
+
+  if (UnReadMessageCount > 0) {
+
+    return('(' + UnReadMessageCount + ')')
+
+  } else {
+
+    return('')
+
+  }
+
+}
+
+
+export function MessageContentShow(Message_Content) {
+
+  if (Message_Content.length > 20) {
+
+    return(Message_Content.substring(0,19))
+
+  } else {
+
+    return(Message_Content)
+
+  }
+
+}
+
+
+export function MessageExistStyle(Message_Flag) {
+
+  if (Message_Flag == true) {
+
+    return({width: '80%', flexDirection: 'column', paddingLeft: 10, paddingRight: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#f7f6f6'})
+
+  } else {
+
+    return({display: 'none'})
+
+  }
+
+}
+
+
+
+
 export function ShowPhoneNumber(PhoneNumber) {
 
   if (typeof(PhoneNumber) == 'string') {
@@ -100,10 +147,7 @@ export function ShowPhoneNumber(PhoneNumber) {
 
   }
 
-
-
 }
-
 
 
 export function CancelExistStyle(Cancel_Flag) {

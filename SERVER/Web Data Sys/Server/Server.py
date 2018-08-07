@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product
+from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_All_Messages
 from Server_utli import Get_Order, Change_User_Name, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited
 import json
 import time
@@ -69,6 +69,20 @@ class MyNewhandler(BaseHTTPRequestHandler):
             USER_ID = URL_QUERY['User_ID'][0]
 
             (STATUS_CODE, DATA) = Get_User_Profile(USER_ID)
+
+            print(DATA)
+
+            self.send_response(STATUS_CODE)
+            self.end_headers()
+            self.wfile.write(json.dumps(DATA).encode())
+
+
+        elif URL_PATH == '/get_all_messages':
+            URL_QUERY = UrlParse_Res['query']
+
+            USER_ID = URL_QUERY['User_ID'][0]
+
+            (STATUS_CODE, DATA) = Get_All_Messages(USER_ID)
 
             print(DATA)
 

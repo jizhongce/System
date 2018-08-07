@@ -13,10 +13,10 @@ import datetime
 # This is method to create a new date and time with string format
 
 def CreateTimeNOW():
-    return(str(datetime.datetime.now()))
+    return(datetime.datetime.now())
 
 def CreateVerifyCodeTime():
-    return(str(datetime.datetime.now() + datetime.timedelta(minutes=3)))
+    return(datetime.datetime.now() + datetime.timedelta(minutes=3))
 
 def CompareVerifyCodeTime(TimeNow, TimeVerify):
     '''
@@ -589,6 +589,108 @@ def Get_User_Info(USER_ID):
 
 
 # End of Get_User_Info
+
+
+
+# Start of Get_All_Messages
+
+def Get_All_Messages(USER_ID):
+    '''
+    This is the function which will get all messages of specific user in the database
+    '''
+    STATUS = 0
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Messages.Message_ID, Messages.Message_Type, Messages.Message_Content, Messages.Message_Time, Messages.Message_Status  FROM Messages, Messages_User WHERE Messages.Message_ID = Messages_User.Message_ID AND Messages_User.User_ID = \'{}\' ORDER BY Messages.Message_Time DESC;'.format(USER_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Unread_Price_Messages_Count = 0
+
+    Unread_Customer_Service_Messages_Count = 0
+
+    Unread_Account_Messages_Count = 0
+
+    Unread_Shipping_Messages_Count = 0
+
+    Price_Messages = list()
+
+    Customer_Service_Messages = list()
+
+    Account_Messages = list()
+
+    Shipping_Messages = list()
+
+    if QUERYLIST:
+
+        for Message in QUERYLIST:
+
+            (Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) = Message
+
+            if Message_Type == 1:
+
+                if Message_Status == 0:
+
+                    Unread_Price_Messages_Count = Unread_Price_Messages_Count + 1
+
+                Price_Messages.append({'Message_ID' : Decode_To_String(Message_ID), 'Message_Type' : Decode_To_String(Message_Type), 'Message_Content' : Decode_To_String(Message_Content), 'Message_Time' : Message_Time.strftime("%Y/%m/%d"), 'Message_Status' : Decode_To_String(Message_Status)})
+
+            elif Message_Type == 2:
+
+                if Message_Status == 0:
+
+                    Unread_Customer_Service_Messages_Count = Unread_Customer_Service_Messages_Count + 1
+
+                Customer_Service_Messages.append({'Message_ID' : Decode_To_String(Message_ID), 'Message_Type' : Decode_To_String(Message_Type), 'Message_Content' : Decode_To_String(Message_Content), 'Message_Time' : Message_Time.strftime("%Y/%m/%d"), 'Message_Status' : Decode_To_String(Message_Status)})
+
+            elif Message_Type == 3:
+
+                if Message_Status == 0:
+
+                    Unread_Account_Messages_Count = Unread_Account_Messages_Count + 1
+
+                Account_Messages.append({'Message_ID' : Decode_To_String(Message_ID), 'Message_Type' : Decode_To_String(Message_Type), 'Message_Content' : Decode_To_String(Message_Content), 'Message_Time' : Message_Time.strftime("%Y/%m/%d"), 'Message_Status' : Decode_To_String(Message_Status)})
+
+            elif Message_Type == 4:
+
+                if Message_Status == 0:
+
+                    Unread_Shipping_Messages_Count = Unread_Shipping_Messages_Count + 1
+
+                Shipping_Messages.append({'Message_ID' : Decode_To_String(Message_ID), 'Message_Type' : Decode_To_String(Message_Type), 'Message_Content' : Decode_To_String(Message_Content), 'Message_Time' : Message_Time.strftime("%Y/%m/%d"), 'Message_Status' : Decode_To_String(Message_Status)})
+
+
+        DATA = {'Unread_Price_Messages_Count': Unread_Price_Messages_Count, 'Unread_Customer_Service_Messages_Count' : Unread_Customer_Service_Messages_Count, 'Unread_Account_Messages_Count' : Unread_Account_Messages_Count, 'Unread_Shipping_Messages_Count': Unread_Shipping_Messages_Count, 'Price_Messages': Price_Messages, 'Customer_Service_Messages': Customer_Service_Messages, 'Account_Messages': Account_Messages, 'Shipping_Messages': Shipping_Messages}
+
+        STATUS = ErrorCode.SUCCESS_CODE
+
+
+    else:
+
+        DATA = {'Unread_Price_Messages_Count': Unread_Price_Messages_Count, 'Unread_Customer_Service_Messages_Count' : Unread_Customer_Service_Messages_Count, 'Unread_Account_Messages_Count' : Unread_Account_Messages_Count, 'Unread_Shipping_Messages_Count': Unread_Shipping_Messages_Count, 'Price_Messages': Price_Messages, 'Customer_Service_Messages': Customer_Service_Messages, 'Account_Messages': Account_Messages, 'Shipping_Messages': Shipping_Messages}
+
+        STATUS = ErrorCode.NO_MESSAGES
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of Get_All_Messages
 
 
 
@@ -1423,7 +1525,7 @@ def Get_Single_Order(User_ID, Order_ID):
 
     if QUERYLIST:
         (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
-        Basic_Info = {"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method": Decode_To_String(Order_Payment_Method), "Order_Total_Price":Decode_To_String(Order_Total_Price), "Order_Paid_Price": Decode_To_String(Order_Paid_Price), "Order_Time": Decode_To_String(str(Order_Time))}
+        Basic_Info = {"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method": Decode_To_String(Order_Payment_Method), "Order_Total_Price":Decode_To_String(Order_Total_Price), "Order_Paid_Price": Decode_To_String(Order_Paid_Price), "Order_Time": str(Order_Time)}
 
         QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Decode_To_String(Order_Shipping_Address_ID)))
 

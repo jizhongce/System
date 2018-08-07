@@ -115,87 +115,138 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 订 单 详 情 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 消 息(20) </Text>
             </View>
 
           </View>
 
-          <ScrollView style={{height: '82%', backgroundColor: 'white'}}>
+          <ScrollView style={{height: '89%', backgroundColor: 'white', paddingTop: 10, paddingLeft: 10}}>
 
-            <View style={{height: 130, backgroundColor: '#fb6d59', flexDirection: 'row'}}>
+            <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10}}>
 
-              <View style={{flexDirection: 'column', width: '60%', justifyContent: 'center',}}>
-                <Text style={{color: 'white', fontSize: 23, paddingLeft: 20, fontWeight:'bold'}}> 产品已经出库 </Text>
-                <Text style={{color: 'white', fontSize: 15, paddingLeft: 20, fontWeight:'bold'}}> 预计到达时间:7天 </Text>
-              </View>
+              <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
 
-              <View style={{flexDirection: 'column', width: '40%', justifyContent: 'center', alignItems: 'center',}}>
+                <View style={{width: 60, height: 60, backgroundColor: '#ff441b', borderRadius: 10, justifyContent: 'center', alignItems: 'center',}}>
 
-                <Image style={{height: '65%', width: '65%'}} source={require('../../../img/SHP_Status.png')} />
+                  <Image style={{width: '95%', height: '95%'}} source={require('../../../img/Price_Down_Notification.png')} />
 
-              </View>
-
-
-
-            </View>
-
-            <View style={{ backgroundColor: 'white', flexDirection: 'row', paddingTop: 10, paddingBottom: 10, borderBottomWidth: 1, borderTopWidth: 1, borderColor: '#cfcfcf'}}>
-
-              <View style={{width: '10%', borderRightWidth: 1, borderColor: '#cfcfcf', justifyContent: 'center', alignItems: 'center'}}>
-                <Image style={{}} source={require('../../../img/Marker.png')} />
-              </View>
-
-              <View style={{paddingLeft: 15, width: '90%', borderRightWidth: 1, borderColor: '#cfcfcf', flexWrap: 'wrap'}}>
-
-                <Text style={{fontSize: 16,  paddingBottom: 2}}>哈地位公司, 1888888888</Text>
-                <Text style={{fontSize: 14, paddingTop: 2}}>浙江省温州市鹿城区江滨路779号</Text>
+                </View>
 
               </View>
 
-            </View>
 
-            <View style={{height: 150, backgroundColor: 'white', marginTop: 10, borderBottomWidth: 1, borderColor: '#cfcfcf', flexDirection: 'row'}}>
+              <View style={{width: '80%', flexDirection: 'column', paddingLeft: 10, paddingRight: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#f7f6f6'}}>
 
-              <View style={{width: '35%', justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                  <Text style={{ fontSize: 18, paddingBottom: 5}}>价格通知(3)</Text>
+                  <Text style={{ fontSize: 14, paddingBottom: 5}}>2018/8/6</Text>
+                </View>
 
-                <Image style={{height: '80%', width: '80%'}} source={require('../../../img/product1.jpg')} />
 
-              </View>
-
-              <View style={{width: '65%', justifyContent: 'center', flexDirection: 'column'}}>
-
-                <Text style={{paddingBottom: 1, paddingLeft: 5, fontSize: 18}}>GB-88686XXXXXXX</Text>
-                <Text style={{paddingBottom: 1, paddingTop: 1, paddingLeft: 5, fontSize: 13}}>产品编号: P866676</Text>
-                <Text style={{paddingBottom: 1, paddingTop: 1, paddingLeft: 5, fontSize: 13}}>规格: 34 X 56</Text>
-                <Text style={{paddingBottom: 1, paddingTop: 1, paddingLeft: 5, fontSize: 13}}>表色: 黑色</Text>
-                <Text style={{paddingBottom: 1, paddingTop: 1, paddingLeft: 5, fontSize: 13}}>价格: 3000</Text>
-                <Text style={{paddingBottom: 1, paddingTop: 1, paddingLeft: 5, fontSize: 13}}>数量: 1</Text>
+                <Text style={{fontSize: 14, paddingBottom: 5 }}>您关注的产品xxxxxxxxxxx价格价格发生变动，请关注<Text style={{fontSize: 18}}>. . .</Text></Text>
 
 
               </View>
 
 
-            </View>
+            </TouchableOpacity>
 
-            <View style={{paddingTop: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#cfcfcf', flexDirection: 'row-reverse' }}>
-              <Text style={{fontSize: 14}}>共<Text style={{fontSize: 16}}> 1 </Text>件产品, 合计: <Text style={{fontSize: 16}}>2000</Text> </Text>
-            </View>
+
+            <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10}}>
+
+
+              <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
+
+                <View style={{width: 60, height: 60, backgroundColor: '#ff6a20', borderRadius: 10, justifyContent: 'center', alignItems: 'center',}}>
+
+                  <Image style={{width: '80%', height: '80%'}} source={require('../../../img/Customer_Service_Notification.png')} />
+
+                </View>
+
+              </View>
+
+
+              <View style={{width: '80%', flexDirection: 'column', paddingLeft: 10, paddingRight: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#f7f6f6'}}>
+
+                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                  <Text style={{ fontSize: 18, paddingBottom: 5}}>客服消息(4)</Text>
+                  <Text style={{ fontSize: 14, paddingBottom: 5}}>2018/8/6</Text>
+                </View>
+
+
+                <Text style={{fontSize: 14, paddingBottom: 5 }}>您的订单121232123已经成功修改，请关注是否本人操作，如不是请联系客服<Text style={{fontSize: 18}}>. . .</Text></Text>
+
+
+              </View>
+
+
+            </TouchableOpacity>
+
+
+            <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10}}>
+
+
+              <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
+
+                <View style={{width: 60, height: 60, backgroundColor: '#06debd', borderRadius: 10, justifyContent: 'center', alignItems: 'center',}}>
+
+                  <Image style={{width: '80%', height: '80%'}} source={require('../../../img/Account_Notification.png')} />
+
+                </View>
+
+              </View>
+
+
+              <View style={{width: '80%', flexDirection: 'column', paddingLeft: 10, paddingRight: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#f7f6f6'}}>
+
+                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                  <Text style={{ fontSize: 18, paddingBottom: 5}}>账户消息(5)</Text>
+                  <Text style={{ fontSize: 14, paddingBottom: 5}}>2018/8/6</Text>
+                </View>
+
+
+                <Text style={{fontSize: 14, paddingBottom: 5 }}>您的密码已经修改，请关注是否本人操作，如不是请联系客服<Text style={{fontSize: 18}}>. . .</Text></Text>
+
+
+              </View>
+
+
+            </TouchableOpacity>
+
+
+            <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10}}>
+
+
+              <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
+
+                <View style={{width: 60, height: 60, backgroundColor: '#06de70', borderRadius: 10, justifyContent: 'center', alignItems: 'center',}}>
+
+                  <Image style={{width: '80%', height: '80%'}} source={require('../../../img/Shipping_Notification.png')} />
+
+                </View>
+
+              </View>
+
+
+              <View style={{width: '80%', flexDirection: 'column', paddingLeft: 10, paddingRight: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#f7f6f6'}}>
+
+                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                  <Text style={{ fontSize: 18, paddingBottom: 5}}>物理消息(5)</Text>
+                  <Text style={{ fontSize: 14, paddingBottom: 5}}>2018/8/6</Text>
+                </View>
+
+
+                <Text style={{fontSize: 14, paddingBottom: 5 }}>您的订单已经发货，预计到达时间7天，请关注物流信息<Text style={{fontSize: 18}}>. . .</Text></Text>
+
+
+              </View>
+
+
+            </TouchableOpacity>
 
 
           </ScrollView>
 
-          <View style={{height: '7%', backgroundColor: 'white', flexDirection: 'row-reverse', borderTopWidth: 1, borderColor: '#cfcfcf', paddingTop: 10, paddingBottom: 10}}>
-
-            <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 10, borderRadius: 10}}>
-              <Text style={{fontSize: 14}}>联系客服</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 10, marginRight: 5, borderRadius: 10}}>
-              <Text style={{fontSize: 14}}>查看物流</Text>
-            </TouchableOpacity>
-
-
-          </View>
 
 
       </View>

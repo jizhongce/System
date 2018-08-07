@@ -62,6 +62,7 @@ import Shopping_Cart_Choose_Address_Board from './apps/components/Shopping_Cart_
 
 import Home2 from './apps/components/Home2/Home2.js';
 
+import Messages_Board from './apps/components/Messages_Board.js';
 import Cashier_Home from './apps/components/Cashier_Home.js';
 import Confirmation_Home from './apps/components/Confirmation_Home.js';
 
@@ -150,6 +151,8 @@ const Total_Stack = StackNavigator({
   Sign_Up_Home: { screen: Sign_Up_Home },
 
   Confirmation_Home: {screen: Confirmation_Home},
+
+  Messages_Board: {screen: Messages_Board},
 
 }, {
     headerMode: 'none',
