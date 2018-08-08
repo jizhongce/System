@@ -670,16 +670,10 @@ def Get_All_Messages(USER_ID):
                 Shipping_Messages.append({'Message_ID' : Decode_To_String(Message_ID), 'Message_Type' : Decode_To_String(Message_Type), 'Message_Content' : Decode_To_String(Message_Content), 'Message_Time' : Message_Time.strftime("%Y/%m/%d"), 'Message_Status' : Decode_To_String(Message_Status)})
 
 
-        DATA = {'Unread_Price_Messages_Count': Unread_Price_Messages_Count, 'Unread_Customer_Service_Messages_Count' : Unread_Customer_Service_Messages_Count, 'Unread_Account_Messages_Count' : Unread_Account_Messages_Count, 'Unread_Shipping_Messages_Count': Unread_Shipping_Messages_Count, 'Price_Messages': Price_Messages, 'Customer_Service_Messages': Customer_Service_Messages, 'Account_Messages': Account_Messages, 'Shipping_Messages': Shipping_Messages}
+    DATA = {'Unread_Price_Messages_Count': Unread_Price_Messages_Count, 'Unread_Customer_Service_Messages_Count' : Unread_Customer_Service_Messages_Count, 'Unread_Account_Messages_Count' : Unread_Account_Messages_Count, 'Unread_Shipping_Messages_Count': Unread_Shipping_Messages_Count, 'Price_Messages': Price_Messages, 'Customer_Service_Messages': Customer_Service_Messages, 'Account_Messages': Account_Messages, 'Shipping_Messages': Shipping_Messages}
 
-        STATUS = ErrorCode.SUCCESS_CODE
+    STATUS = ErrorCode.SUCCESS_CODE
 
-
-    else:
-
-        DATA = {'Unread_Price_Messages_Count': Unread_Price_Messages_Count, 'Unread_Customer_Service_Messages_Count' : Unread_Customer_Service_Messages_Count, 'Unread_Account_Messages_Count' : Unread_Account_Messages_Count, 'Unread_Shipping_Messages_Count': Unread_Shipping_Messages_Count, 'Price_Messages': Price_Messages, 'Customer_Service_Messages': Customer_Service_Messages, 'Account_Messages': Account_Messages, 'Shipping_Messages': Shipping_Messages}
-
-        STATUS = ErrorCode.NO_MESSAGES
 
     CURSOR.close()
 
@@ -692,6 +686,56 @@ def Get_All_Messages(USER_ID):
 
 # End of Get_All_Messages
 
+
+
+# Start of Get_Single_Message
+
+def Get_Single_Message(USER_ID, MESSAGE_TYPE):
+    '''
+    This is the function which will get all messages of specific user in the database
+    '''
+    STATUS = 0
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    Messages = list()
+
+    QUERYSQL = ('SELECT Messages.Message_ID, Messages.Message_Type, Messages.Message_Content, Messages.Message_Time, Messages.Message_Status  FROM Messages, Messages_User WHERE Messages.Message_ID = Messages_User.Message_ID AND Messages_User.User_ID = \'{}\' AND Messages.Message_Type = \'{}\' ORDER BY Messages.Message_Time DESC;'.format(USER_ID, MESSAGE_TYPE))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        for Message in QUERYLIST:
+            (Message_ID, Message_Type, Message_Content, Message_Time, Message_Status) = Message
+            Messages.append({'Message_ID' : Decode_To_String(Message_ID), 'Message_Type' : Decode_To_String(Message_Type), 'Message_Content' : Decode_To_String(Message_Content), 'Message_Time' :  Message_Time.strftime("%Y/%m/%d %H:%M:%S"), 'Message_Status' : Decode_To_String(Message_Status)})
+
+            QUERYSQL = ('UPDATE Messages SET Message_Status = 1 WHERE Message_ID = \'{}\';'.format(Decode_To_String(Message_ID)))
+
+            CURSOR.execute(QUERYSQL)
+
+    DATA = Messages
+
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of Get_Single_Message
 
 
 

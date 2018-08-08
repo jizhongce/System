@@ -1,5 +1,3 @@
-
-import {CreateParametersForRequest} from './util.js'
 /*
 
 start of User_Home function
@@ -13,6 +11,12 @@ signupsendverifycode
 changepasswordsendverifycode
 
 */
+
+
+function CreateParametersForRequest(Parameter_Name, Parameter) {
+  return(Parameter_Name + "=" +  Parameter)
+}
+
 
 export function login(Log_In_Phone_Number, Log_In_Password, cb) {
   var xhr = new XMLHttpRequest();
@@ -174,6 +178,27 @@ export function getallmessages(User_ID, cb){
   var parameters = CreateParametersForRequest("User_ID", User_ID)
   console.log("http://localhost:8080/get_all_messages" + "?" + parameters);
   xhr.open("GET", "http://localhost:8080/get_all_messages" + "?" + parameters , true);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+export function getsinglemessage(User_ID, Message_Type, cb){
+  var xhr = new XMLHttpRequest();
+
+  var parameters1 = CreateParametersForRequest("User_ID", User_ID)
+  var parameters2 = CreateParametersForRequest("Message_Type", Message_Type)
+  console.log("http://localhost:8080/get_single_message" + "?" + parameters1 + "&" + parameters2);
+  xhr.open("GET", "http://localhost:8080/get_single_message" + "?" + parameters1 + "&" + parameters2 , true);
 
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 

@@ -74,6 +74,8 @@ export default class Messages_Board extends Component<{}> {
     super(props);
     this.state = {
 
+      User_Flag : true,
+
       Messages_Info: null
 
     };
@@ -88,8 +90,11 @@ export default class Messages_Board extends Component<{}> {
 
       if (User_ID == null) {
 
+        this.setState({
 
-        this.props.navigation.goBack('User_Home');
+          User_Flag : false,
+
+        });
 
       }
 
@@ -329,7 +334,38 @@ export default class Messages_Board extends Component<{}> {
 
   render() {
 
-    if (this.state.Messages_Info == null) {
+    if (this.state.User_Flag == false) {
+
+      Alert.alert(
+        'Watch Out!',
+        '您尚未登录，请先登录以便查询消息！',
+        [
+          {text: '前往登录', onPress: ()=>{
+            this.props.navigation.navigate('User_Home')
+          } },
+
+        ],
+      )
+
+
+      return(
+
+          <View style={{backgroundColor: '#ededed'}}>
+            <View>
+
+              <Status_Bar />
+
+            </View>
+
+
+
+          </View>
+
+      )
+
+    }
+
+    else if (this.state.Messages_Info == null) {
 
       return(
         <View>
@@ -378,9 +414,10 @@ export default class Messages_Board extends Component<{}> {
 
             </View>
 
-            <ScrollView style={{height: '89%', backgroundColor: 'white', paddingTop: 10, paddingLeft: 10, paddingTop: 10}}>
+            <ScrollView style={{height: '89%', backgroundColor: 'white', paddingTop: 10, paddingLeft: 10, paddingTop: 10, paddingRight: 10}}>
 
-              <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10}}>
+
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Single_Message_Board', {Message_Type : 1})} activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10}}>
 
                 <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
 
@@ -402,7 +439,7 @@ export default class Messages_Board extends Component<{}> {
               </TouchableOpacity>
 
 
-              <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10, paddingTop: 10}}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Single_Message_Board', {Message_Type : 2})} activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10, paddingTop: 10}}>
 
 
                 <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
@@ -427,7 +464,7 @@ export default class Messages_Board extends Component<{}> {
               </TouchableOpacity>
 
 
-              <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10, paddingTop: 10}}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Single_Message_Board', {Message_Type : 3})} activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10, paddingTop: 10}}>
 
 
                 <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>
@@ -451,7 +488,7 @@ export default class Messages_Board extends Component<{}> {
               </TouchableOpacity>
 
 
-              <TouchableOpacity activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10, paddingTop: 10}}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Single_Message_Board', {Message_Type : 4})} activeOpacity={0.8} style={{width: '100%', flexDirection: 'row', paddingBottom: 10, paddingTop: 10}}>
 
 
                 <View style={{width: '20%', justifyContent: 'center', alignItems: 'center', paddingRight: 10}}>

@@ -133,6 +133,34 @@ export function MessageExistStyle(Message_Flag) {
 }
 
 
+export function MessageTypePrase(Message_Type) {
+
+  var Message_Title =''
+
+  switch (Message_Type) {
+    case 1:
+      Message_Title = '价 格 通 知'
+      break;
+    case 2:
+      Message_Title = '客 服 消 息'
+      break;
+    case 3:
+      Message_Title = '账 户 消 息'
+      break;
+    case 4:
+      Message_Title = '物 流 消 息'
+      break;
+
+    default:
+      Message_Title = '未 知 消 息'
+
+  }
+
+  return(Message_Title)
+
+}
+
+
 
 
 export function ShowPhoneNumber(PhoneNumber) {
@@ -508,9 +536,4 @@ export function StockStatusCheck(Product_Status) {
     return('无库存，需订货')
   }
 
-}
-
-
-export function CreateParametersForRequest(Parameter_Name, Parameter) {
-  return(Parameter_Name + "=" +  Parameter)
 }
