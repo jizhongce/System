@@ -1422,9 +1422,7 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
     elif ORDER_TYPE == "PRO":
 
-        QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Total_Price FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\' AND (Orders.Order_Status =  \'{}\' '.format(USER_ID, ORDER_TYPE))
-
-        QUERYSQL = QUERYSQL + (' OR Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\');'.format("SHP", "PCK", "REV"))
+        QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Total_Price FROM Orders_User, Orders WHERE Orders_User.Order_ID = Orders.Order_ID AND Orders_User.User_ID = \'{}\' AND (Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\' OR Orders.Order_Status =  \'{}\');'.format(USER_ID, ORDER_TYPE, 'SHP', 'PCK', 'REV'))
 
         print(QUERYSQL)
 
@@ -1561,25 +1559,25 @@ def Get_Single_Order(User_ID, Order_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method, Orders.Order_Total_Price, Orders.Order_Paid_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID FROM Orders_User, Orders WHERE Orders.Order_ID = Orders_User.Order_ID AND Orders_User.Order_ID = \'{}\' AND Orders_User.User_ID = \'{}\';'.format(Order_ID, User_ID))
+    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Payment_Method, Orders.Order_Total_Price, Orders.Order_Paid_Price, Orders.Order_Time, Orders.Order_Shipping_Address_ID, Orders.Order_Factory FROM Orders_User, Orders WHERE Orders.Order_ID = Orders_User.Order_ID AND Orders_User.Order_ID = \'{}\' AND Orders_User.User_ID = \'{}\';'.format(Order_ID, User_ID))
 
     CURSOR.execute(QUERYSQL)
 
     QUERYLIST = CURSOR.fetchall()
 
     if QUERYLIST:
-        (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) = QUERYLIST[0]
-        Basic_Info = {"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method": Decode_To_String(Order_Payment_Method), "Order_Total_Price":Decode_To_String(Order_Total_Price), "Order_Paid_Price": Decode_To_String(Order_Paid_Price), "Order_Time": str(Order_Time)}
+        (Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) = QUERYLIST[0]
+        Basic_Info = {"Order_ID": Decode_To_String(Order_ID), "Order_Status": Decode_To_String(Order_Status), "Order_Payment_Method": Decode_To_String(Order_Payment_Method), "Order_Total_Price":Decode_To_String(Order_Total_Price), "Order_Paid_Price": Decode_To_String(Order_Paid_Price), "Order_Time": str(Order_Time), "Order_Factory" : Order_Factory}
 
-        QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address WHERE Address_ID = \'{}\';'.format(Decode_To_String(Order_Shipping_Address_ID)))
+        QUERYSQL = ('SELECT Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude FROM Address WHERE Address_ID = \'{}\';'.format(Decode_To_String(Order_Shipping_Address_ID)))
 
         CURSOR.execute(QUERYSQL)
 
         QUERYLIST = CURSOR.fetchall()
 
         if QUERYLIST:
-            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = QUERYLIST[0]
-            Shipping_Info = {"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), 'District': Decode_To_String(District)}
+            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) = QUERYLIST[0]
+            Shipping_Info = {"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), 'District': Decode_To_String(District), 'Latitude': Decode_To_String(Latitude), 'Longitude': Decode_To_String(Longitude)}
 
             QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Orders_Products.Products_Price, Products.Products_Image_Dir,  Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
 
@@ -1641,7 +1639,7 @@ def Get_Address_Book(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Address.Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District FROM Address, Address_User  WHERE Address.Address_ID = Address_User.Address_ID AND Address_User.User_ID = \'{}\';'.format(USER_ID))
+    QUERYSQL = ('SELECT Address.Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude FROM Address, Address_User  WHERE Address.Address_ID = Address_User.Address_ID AND Address_User.User_ID = \'{}\';'.format(USER_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1651,8 +1649,8 @@ def Get_Address_Book(USER_ID):
 
     if QUERYLIST:
         for Address in QUERYLIST:
-            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) = Address
-            Address_Book.append({"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), "District": Decode_To_String(District)})
+            (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) = Address
+            Address_Book.append({"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), "District": Decode_To_String(District), 'Latitude': Decode_To_String(Latitude), 'Longitude': Decode_To_String(Longitude)})
 
         DATA = Address_Book
 
@@ -1833,12 +1831,17 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
     New_Address_District = NEW_ADDRESS['District']
 
+    New_Latitude = ''
+
+    New_Longitude = ''
+
     if not Phone_Schame_Check(New_Address_Phone_Number):
         STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
         DATA = 0
 
     else:
-        QUERYSQL = ('INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Address_ID, New_Address_Name, New_Address_Phone_Number, New_Address_Street, New_Address_City, New_Address_Province, New_Address_District))
+
+        QUERYSQL = ('INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Address_ID, New_Address_Name, New_Address_Phone_Number, New_Address_Street, New_Address_City, New_Address_Province, New_Address_District, New_Latitude, New_Longitude))
 
         CURSOR.execute(QUERYSQL)
 
@@ -1854,7 +1857,9 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
         CONNECTIONS.close()
 
-        DATA = {"Address_ID" : Decode_To_String(New_Address_ID), "Address_Name": Decode_To_String(New_Address_Name), "Address_Phone_Number": Decode_To_String(New_Address_Phone_Number), "Street" : Decode_To_String(New_Address_Street), "Province" : Decode_To_String(New_Address_Province), "City" : Decode_To_String(New_Address_City), "District" : Decode_To_String(New_Address_District)}
+
+
+        DATA = {"Address_ID" : Decode_To_String(New_Address_ID), "Address_Name": Decode_To_String(New_Address_Name), "Address_Phone_Number": Decode_To_String(New_Address_Phone_Number), "Street" : Decode_To_String(New_Address_Street), "Province" : Decode_To_String(New_Address_Province), "City" : Decode_To_String(New_Address_City), "District" : Decode_To_String(New_Address_District), "Latitude" : Decode_To_String(New_Latitude), 'Longitude': Decode_To_String(New_Longitude)}
         STATUS = ErrorCode.SUCCESS_CODE
 
     return(STATUS, DATA)
@@ -1942,6 +1947,10 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
 
     Address_District = NEW_ADDRESS['District']
 
+    Latitude = ''
+
+    Longitude = ''
+
     QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\';'.format(Address_ID))
 
     CURSOR.execute(QUERYSQL)
@@ -1954,7 +1963,7 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
             DATA = 0
 
         else:
-            QUERYSQL = ('UPDATE Address SET Address_Name = \'{}\', Address_Phone_Number = \'{}\', Street = \'{}\', City = \'{}\', Province = \'{}\', District = \'{}\' WHERE Address_ID = \'{}\';'.format(New_Address_Name, New_Address_Phone_Number, Address_Street, Address_City, Address_Province, Address_District, Address_ID))
+            QUERYSQL = ('UPDATE Address SET Address_Name = \'{}\', Address_Phone_Number = \'{}\', Street = \'{}\', City = \'{}\', Province = \'{}\', District = \'{}\', Latitude = \'{}\', Longitude = \'{}\' WHERE Address_ID = \'{}\';'.format(New_Address_Name, New_Address_Phone_Number, Address_Street, Address_City, Address_Province, Address_District, Latitude, Longitude, Address_ID))
 
             CURSOR.execute(QUERYSQL)
 
@@ -2060,13 +2069,15 @@ def Submit_Order(USER_ID, SHOPPING_CART, SHIPPING_ADDRESS):
 
     Order_Total_Price = 0
 
+    Order_Factory = 0
+
     for Product in SHOPPING_CART:
         Temp_Prodcut_Units = Product['Products_Units']
         Temp_Prodcut_Price = Product['Products_Price']
         Order_Total_Price = Order_Total_Price + Temp_Prodcut_Units*Temp_Prodcut_Price
 
 
-    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, New_Time, Order_Shipping_Address_ID))
+    QUERYSQL = ('INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');'.format(New_Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, New_Time, Order_Shipping_Address_ID, Order_Factory))
 
     CURSOR.execute(QUERYSQL)
 
