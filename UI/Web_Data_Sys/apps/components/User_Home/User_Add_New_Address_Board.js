@@ -347,14 +347,13 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
               <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 15, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
 
-                <View style={{marginRight:10}}>
+                <View style={{width: '25%', paddingRight:10}}>
                   <Text style={{fontSize: 16}}>地 址 名 字:</Text>
                 </View>
 
-                <View style={{}}>
+                <View style={{width: '65%'}}>
                   <TextInput
                     style={{
-                      width: 230,
                       fontSize: 16,
                     }}
                     placeholder={'请输入地址名字'}
@@ -377,14 +376,13 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
               <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center',  borderBottomWidth: 1, borderColor: '#dddddd'}}>
 
-                <View style={{marginRight:10}}>
+                <View style={{width: '25%', paddingRight:10}}>
                   <Text style={{fontSize: 16}}>联 系 方 式:</Text>
                 </View>
 
-                <View style={{}}>
+                <View style={{width: '65%'}}>
                   <TextInput
                     style={{
-                      width: 230,
                       fontSize: 16,
                     }}
                     placeholder={'请输入手机号码'}
@@ -406,22 +404,22 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
               <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, alignItems: 'center', borderBottomWidth: 1, borderColor: '#dddddd'}}>
 
-                <View style={{marginRight:10}}>
+                <View style={{width: '25%', marginRight:10}}>
                   <Text style={{fontSize: 16}}>所 在 地 区:</Text>
                 </View>
 
-                <View style={{flexDirection: 'row'}}>
+                <View style={{width: '75%', flexDirection: 'row', flexWrap: 'wrap'}}>
 
-                  <TouchableOpacity onPress={() => this.Open_Province_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
+                  <TouchableOpacity onPress={() => this.Open_Province_Modal()} style={{marginBottom: 5 ,marginRight: 10, borderColor: "black", borderWidth: 1}}>
                     <Text style={{fontSize: 16}}>{ShowProvinceName(this.state.Address_Province)}</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.Open_City_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
+                  <TouchableOpacity onPress={() => this.Open_City_Modal()} style={{marginBottom: 5 ,marginRight: 10, borderColor: "black", borderWidth: 1}}>
                     <Text style={{fontSize: 16}}>{ShowCityName(this.state.Address_City)}</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.Open_District_Modal()} style={{marginRight: 10, borderColor: "black", borderWidth: 1}}>
-                    <Text style={{fontSize: 16}}>{ShowDistrictName(this.state.Address_District)}</Text>
+                  <TouchableOpacity onPress={() => this.Open_District_Modal()} style={{marginBottom: 5 ,marginRight: 10, borderColor: "black", borderWidth: 1}}>
+                    <Text style={{fontSize: 16, flexWrap: 'wrap'}}>{ShowDistrictName(this.state.Address_District)}</Text>
                   </TouchableOpacity>
 
 
@@ -431,7 +429,7 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
               <View style={{width: '100%', flexDirection: 'row', paddingLeft: 5, paddingBottom: 10, paddingTop: 15, borderBottomWidth: 1, alignItems: 'center', borderColor: '#dddddd'}}>
 
-                <View style={{marginRight:10}}>
+                <View style={{paddingRight:10}}>
                   <Text style={{fontSize: 16}}>详 细 地 址:</Text>
                 </View>
 
@@ -600,7 +598,7 @@ export default class User_Add_New_Address_Board extends Component<{}> {
                style={{ height: '100%', width: '100%' }}
                onValueChange={(itemValue, itemIndex) => this.Address_District_Handler(itemValue)}>
                {
-                 GetDistrictForCity(this.state.Address_City).map((District, i)=>{
+                 GetDistrictForCity(this.state.Address_Province, this.state.Address_City).map((District, i)=>{
                    return(
                      <Picker.Item key={i} label= {District.key} value={District.key} />
                    );

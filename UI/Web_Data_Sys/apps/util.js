@@ -1,3 +1,7 @@
+import Province_City_District_Data from './Province_City_District.json'
+
+const Province_City_District = Province_City_District_Data
+
 const NO_SUCH_USER_CODE = 601
 
 const WORNG_PASSWORD_CODE = 602
@@ -408,80 +412,62 @@ export function ShowDistrictName(District_Value){
   }
 }
 
+
 export function GetProvince(){
-  return([
-    {key: '浙江'},
-    {key: '河北'},
-    {key: '安徽'},
-    {key: '江西'},
-    {key: '江苏'},
-    {key: '上海'},
-  ])
+
+  var Province_List = []
+
+  for (var Province in Province_City_District) {
+    Province_List.push({key : Province})
+  }
+
+  return(Province_List)
 }
 
 
 // This fuction will help to get city for the province
 export function GetCityForProvince(Province_Value){
-  if (Province_Value == '浙江') {
-    return([
-      {key: '杭州'},
-      {key: '宁波'},
-      {key: '温州'},
-      {key: '舟山'},
-      {key: '嘉兴'},
-      {key: '湖州'},
-    ])
+  if (Province_Value == '') {
+
+    return([{key: ''}])
+
+  } else {
+
+    var City_List = []
+
+    for (var City in Province_City_District[Province_Value]) {
+      City_List.push({key : City})
+    }
+
+    return(City_List)
+
   }
-  else if (Province_Value == '河北') {
-    return([
-      {key: '河北1'},
-      {key: '河北2'},
-      {key: '河北3'},
-      {key: '河北4'},
-    ])
-  }
-  else if (Province_Value == '安徽') {
-    return([
-      {key: '安徽1'},
-      {key: '安徽2'},
-      {key: '安徽3'},
-      {key: '安徽4'},
-    ])
-  }
-  else if (Province_Value == '江西') {
-    return([
-      {key: '江西1'},
-      {key: '江西2'},
-      {key: '江西3'},
-      {key: '江西4'},
-    ])
-  }
-  else if (Province_Value == '江苏') {
-    return([
-      {key: '南京'},
-      {key: '苏州'},
-      {key: '南通'},
-      {key: '常州'},
-    ])
-  }
-  else if (Province_Value == '上海') {
-    return([
-      {key: '上海'},
-    ])
-  }
-  else {
-    return([{key: Province_Value}])
-  }
+
+
+
 }
 
 // This fuction will help to get District for the City
-export function GetDistrictForCity(City_Value){
-  return([
-    {key: City_Value + '1'},
-    {key: City_Value + '2'},
-    {key: City_Value + '3'},
-    {key: City_Value + '4'},
-  ])
+export function GetDistrictForCity(Province_Value, City_Value){
+
+  if (Province_Value == '' || City_Value == '') {
+
+    return([{key: ''}])
+
+  } else {
+
+    var District_List = []
+
+    console.log(Province_City_District[Province_Value][City_Value]);
+
+    for (var District in Province_City_District[Province_Value][City_Value]) {
+      District_List.push({key : Province_City_District[Province_Value][City_Value][District]})
+    }
+
+    return(District_List)
+
+  }
+
 }
 
 
