@@ -127,6 +127,8 @@ export default class User_Add_New_Address_Board extends Component<{}> {
     this.setState({
       Address_Province: item,
 
+      Province_Modal_Visible: false,
+
       Address_City: '',
 
       Address_Street: '',
@@ -140,6 +142,8 @@ export default class User_Add_New_Address_Board extends Component<{}> {
     this.setState({
       Address_City: item,
 
+      City_Modal_Visible: false,
+
       Address_Street: '',
       Address_District: ''
 
@@ -150,6 +154,8 @@ export default class User_Add_New_Address_Board extends Component<{}> {
   Address_District_Handler(item){
     this.setState({
       Address_District: item,
+
+      District_Modal_Visible: false,
 
       Address_Street: '',
 
@@ -495,26 +501,50 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
          >
            <View style={{
-             height: '30%',
-             width: '50%',
+             height: '65%',
+             width: '80%',
              backgroundColor: '#ffffff',
              borderRadius: 5,
-             justifyContent: "center", alignItems: "center",
              borderColor: "rgba(0, 0, 0, 0.1)"}}>
 
 
-             <Picker
-               selectedValue={this.state.Address_Province}
-               style={{ height: '100%', width: '100%' }}
-               onValueChange={(itemValue, itemIndex) => this.Address_Province_Handler(itemValue)}>
-               {
-                 GetProvince().map((Province, i)=>{
-                   return(
-                     <Picker.Item key={i} label= {Province.key} value={Province.key} />
-                   );
-                 })
-               }
-             </Picker>
+             <View style={{width: '100%', padding: 10, flexDirection: 'row-reverse', borderBottomWidth: 1, borderColor: '#dddddd', }}>
+
+               <TouchableOpacity onPress={() => this.Close_Province_Modal()} style={{width: '10%', justifyContent: "center", alignItems: "center" }}>
+
+                 <Image style={{width: 20, height: 20}} source={require('../../../img/clear.png')} />
+
+               </TouchableOpacity>
+
+               <View style={{width: '80%', justifyContent: "center", alignItems: "center"}}>
+
+                 <Text style={{fontSize: 18}}>请选择省份</Text>
+
+               </View>
+
+             </View>
+
+             <ScrollView style={{width: '100%'}}>
+
+               <View style={{flexDirection: 'column'}}>
+
+                   {
+                     GetProvince().map((Province, i)=>{
+                       return(
+                         <TouchableOpacity onPress={() => this.Address_Province_Handler(Province.key)} key={i} style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, borderBottomWidth: 1, borderColor: '#dddddd' }}>
+
+                           <Text style={{fontSize: 18}}>{Province.key}</Text>
+
+                         </TouchableOpacity>
+                       );
+                     })
+                   }
+
+               </View>
+
+
+             </ScrollView>
+
 
 
 
@@ -540,27 +570,50 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
          >
            <View style={{
-             height: '30%',
-             width: '50%',
+             height: '65%',
+             width: '80%',
              backgroundColor: '#ffffff',
              borderRadius: 5,
              justifyContent: "center", alignItems: "center",
              borderColor: "rgba(0, 0, 0, 0.1)"}}>
 
 
-             <Picker
-               selectedValue={this.state.Address_City}
-               style={{ height: '100%', width: '100%' }}
-               onValueChange={(itemValue, itemIndex) => this.Address_City_Handler(itemValue)}>
-               {
-                 GetCityForProvince(this.state.Address_Province).map((City, i)=>{
-                   return(
-                     <Picker.Item key={i} label= {City.key} value={City.key} />
-                   );
-                 })
-               }
-             </Picker>
+             <View style={{width: '100%', padding: 10, flexDirection: 'row-reverse', borderBottomWidth: 1, borderColor: '#dddddd', }}>
 
+               <TouchableOpacity onPress={() => this.Close_Province_Modal()} style={{width: '10%', justifyContent: "center", alignItems: "center" }}>
+
+                 <Image style={{width: 20, height: 20}} source={require('../../../img/clear.png')} />
+
+               </TouchableOpacity>
+
+               <View style={{width: '80%', justifyContent: "center", alignItems: "center"}}>
+
+                 <Text style={{fontSize: 18}}>请选择城市</Text>
+
+               </View>
+
+             </View>
+
+             <ScrollView style={{width: '100%'}}>
+
+               <View style={{flexDirection: 'column'}}>
+
+                   {
+                     GetCityForProvince(this.state.Address_Province).map((City, i)=>{
+                       return(
+                         <TouchableOpacity onPress={() => this.Address_City_Handler(City.key)} key={i} style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, borderBottomWidth: 1, borderColor: '#dddddd' }}>
+
+                           <Text style={{fontSize: 18}}>{City.key}</Text>
+
+                         </TouchableOpacity>
+                       );
+                     })
+                   }
+
+               </View>
+
+
+             </ScrollView>
 
 
            </View>
@@ -585,28 +638,51 @@ export default class User_Add_New_Address_Board extends Component<{}> {
 
          >
            <View style={{
-             height: '30%',
-             width: '50%',
+             height: '65%',
+             width: '80%',
              backgroundColor: '#ffffff',
              borderRadius: 5,
              justifyContent: "center", alignItems: "center",
              borderColor: "rgba(0, 0, 0, 0.1)"}}>
 
 
-             <Picker
-               selectedValue={this.state.Address_District}
-               style={{ height: '100%', width: '100%' }}
-               onValueChange={(itemValue, itemIndex) => this.Address_District_Handler(itemValue)}>
-               {
-                 GetDistrictForCity(this.state.Address_Province, this.state.Address_City).map((District, i)=>{
-                   return(
-                     <Picker.Item key={i} label= {District.key} value={District.key} />
-                   );
-                 })
-               }
-             </Picker>
+             <View style={{width: '100%', padding: 10, flexDirection: 'row-reverse', borderBottomWidth: 1, borderColor: '#dddddd', }}>
+
+               <TouchableOpacity onPress={() => this.Close_Province_Modal()} style={{width: '10%', justifyContent: "center", alignItems: "center" }}>
+
+                 <Image style={{width: 20, height: 20}} source={require('../../../img/clear.png')} />
+
+               </TouchableOpacity>
+
+               <View style={{width: '80%', justifyContent: "center", alignItems: "center"}}>
+
+                 <Text style={{fontSize: 18}}>请选择地区</Text>
+
+               </View>
+
+             </View>
+
+             <ScrollView style={{width: '100%'}}>
+
+               <View style={{flexDirection: 'column'}}>
+
+                   {
+                     GetDistrictForCity(this.state.Address_Province, this.state.Address_City).map((District, i)=>{
+                       return(
+                         <TouchableOpacity onPress={() => this.Address_District_Handler(District.key)} key={i} style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, borderBottomWidth: 1, borderColor: '#dddddd' }}>
+
+                           <Text style={{fontSize: 18}}>{District.key}</Text>
+
+                         </TouchableOpacity>
+                       );
+                     })
+                   }
+
+               </View>
 
 
+             </ScrollView>
+             
 
            </View>
 

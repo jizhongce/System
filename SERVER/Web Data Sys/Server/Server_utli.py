@@ -2,6 +2,7 @@ import urllib.parse
 import mysql.connector
 import uuid
 from SMS_utli import SendSMS
+from GEO_utli import GetGEOCODE
 from random import randint
 import passlib.hash
 import re
@@ -789,49 +790,6 @@ def Change_User_Name(USER_ID, NEW_NAME):
 # End of Change_User_Name
 
 
-
-
-
-
-#
-# # This fucntion Clear_TEMPCODE
-#
-# def Clear_TEMPCODE(PHONENUM):
-#     CONNECTIONS = mysql.connector.connect(user='root',
-#     password='jizhongce123',
-#     host='127.0.0.1',
-#     database='Web_Data')
-#
-#     CURSOR = CONNECTIONS.cursor(buffered=True)
-#
-#     QUERYSQL = ('UPDATE Users SET TEMPCODE = NULL WHERE PhoneNum = \'{}\'; ').format(PHONENUM)
-#
-#     CURSOR.execute(QUERYSQL)
-#
-#     CURSOR.close()
-#
-#     CONNECTIONS.commit()
-#
-#     CURSOR = CONNECTIONS.cursor(buffered=True)
-#
-#     #First, we need to check whether the TEMPCODE is already exist in the database
-#
-#     QUERYSQL = ('SELECT TEMPCODE FROM Users WHERE PhoneNum = \'{}\' ').format(PHONENUM)
-#
-#     CURSOR.execute(QUERYSQL)
-#
-#     QUERYLIST = CURSOR.fetchall()
-#
-#     (TEMPCODE, ) = QUERYLIST[0]
-#
-#     print(TEMPCODE)
-#
-#     CONNECTIONS.close()
-#
-#
-# # End of Clear_TEMPCODE
-#
-#
 
 # Start of decode utf-8 function
 
@@ -1835,6 +1793,12 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
 
     New_Longitude = ''
 
+    New_Address_Lon_Lat = GetGEOCODE(New_Address_Province+New_Address_City+New_Address_District+New_Address_Street)
+
+    if New_Address_Lon_Lat['infocode'] == '10000':
+        New_Latitude = New_Address_Lon_Lat['lat']
+        New_Longitude = New_Address_Lon_Lat['lon']
+
     if not Phone_Schame_Check(New_Address_Phone_Number):
         STATUS = ErrorCode.WRONG_PHONE_SCHEMA_CODE
         DATA = 0
@@ -1950,6 +1914,12 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
     Latitude = ''
 
     Longitude = ''
+
+    New_Address_Lon_Lat = GetGEOCODE(New_Address_Province+New_Address_City+New_Address_District+New_Address_Street)
+
+    if New_Address_Lon_Lat['infocode'] == '10000':
+        New_Latitude = New_Address_Lon_Lat['lat']
+        New_Longitude = New_Address_Lon_Lat['lon']
 
     QUERYSQL = ('SELECT * FROM Address WHERE Address_ID = \'{}\';'.format(Address_ID))
 

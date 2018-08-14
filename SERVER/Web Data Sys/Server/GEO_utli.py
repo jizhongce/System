@@ -14,13 +14,9 @@ def GetGEOCODE(Address):
 
     if infocode == '10000':
         location = RESPONSE['geocodes'][0]['location'].split(',')
-        
+
         lat = location[0]
 
         lon = location[1]
 
     return({'infocode' : infocode, 'lat' : lat, 'lon' : lon})
-
-Geo_Info = GetGEOCODE('上海市上海市黄浦区西藏南路778号')
-
-print(Geo_Info)
