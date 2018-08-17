@@ -13,10 +13,11 @@ def GetGEOCODE(Address):
     infocode = RESPONSE['infocode']
 
     if infocode == '10000':
+
         location = RESPONSE['geocodes'][0]['location'].split(',')
 
-        lat = location[0]
+        lat = location[1]
 
-        lon = location[1]
+        lon = location[0]
 
     return({'infocode' : infocode, 'lat' : lat, 'lon' : lon})

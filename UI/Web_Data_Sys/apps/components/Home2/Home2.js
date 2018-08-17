@@ -33,6 +33,8 @@ import {OrderButtonsExistStyle} from '../../util.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
+import MapView from 'react-native-maps';
+import { Marker, Polyline, Callout } from 'react-native-maps';
 import React, { Component } from 'react';
 import {
   Platform,
@@ -72,10 +74,37 @@ export default class Home2 extends Component<{}> {
     super(props);
     this.state = {
 
+      From_Lat : 120.677485,
+      From_Lon : 28.017585,
+
+      To_Lat : 121.488161,
+      To_Lon : 31.207022,
+
 
     };
   }
 
+
+
+    componentWillMount(){
+      //AsyncStorage.clear()
+      // AsyncStorage.setItem('UID123', 'hello', () => {
+      //
+      // });
+      this.props.navigation.addListener('willFocus', ()=>{
+
+        this.setState({
+          From_Lon : 120.677485,
+          From_Lat : 28.017585,
+
+          To_Lon : 121.488161,
+          To_Lat : 31.207022,
+        });
+
+      });
+
+
+    }
 
 
 
@@ -115,47 +144,92 @@ export default class Home2 extends Component<{}> {
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 价 格 通 知 </Text>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 物 流 详 情 </Text>
             </View>
 
           </View>
 
-          <ScrollView style={{height: '89%', backgroundColor: '#ebebeb', paddingTop: 5}}>
+          <View style={{height: '89%'}}>
 
-            <View style={{alignItems: 'center'}}>
+            <MapView
+              style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
+              zoomEnabled={true}
+              region={{
+                latitude: (this.state.From_Lat + this.state.To_Lat)/2.0,
+                longitude: (this.state.From_Lon + this.state.To_Lon)/2.0,
+                latitudeDelta: 4,
+                longitudeDelta: 4,
+              }} >
 
-              <View style={{width: '100%', alignItems: 'center', marginTop: 15, marginBottom: 15}}>
+              <Marker
+                coordinate={{
+                  latitude: this.state.From_Lat,
+                  longitude: this.state.From_Lon,
+                }}
+                >
 
-                  <View style={{alignItems: 'center', paddingLeft: 15, paddingRight: 15, paddingTop: 2, paddingBottom: 2, margin: 10, borderRadius: 10, backgroundColor: '#cdcdcd'}}>
-                    <Text style={{fontSize: 14, color: 'white'}}>2018/09/09 19:12:34</Text>
+                <Image style={{width: 40, height: 40}} source={require('../../../img/Marker.png')} />
+                <Callout>
+                  <View style={{width: 130}}>
+                    <Text style={{fontSize: 16, fontWeight: 'bold'}}>发货仓库</Text>
+                    <Text>company11111</Text>
+
                   </View>
+                </Callout>
 
-                  <View style={{width: '95%', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, borderRadius: 10, backgroundColor: 'white'}}>
-                    <Text style={{fontSize: 16, lineHeight: 25}}>       产品GB987的价格已经发生了浮动，请重新关注产品价格，确认后可以继续购买,新价格由2018年8月10日开始生效!</Text>
-                  </View>
+              </Marker>
 
+              <Marker
+                coordinate={{
+                  latitude: this.state.To_Lat,
+                  longitude: this.state.To_Lon,
+                }}
+                >
+
+                <Image style={{width: 40, height: 40}} source={require('../../../img/Marker.png')} />
+
+                  <Callout>
+                    <View style={{width: 120}}>
+                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>收货地址:</Text>
+                        <Text style={{fontSize: 13}}>company11111</Text>
+                        <Text style={{fontSize: 13}}>138xxxxx788</Text>
+                        <Text style={{fontSize: 13}}>浙江省温州市江滨西路888号</Text>
+                    </View>
+                  </Callout>
+
+              </Marker>
+
+              <Polyline
+                coordinates={[
+                  { latitude: this.state.From_Lat, longitude: this.state.From_Lon },
+                  { latitude: this.state.To_Lat, longitude: this.state.To_Lon }
+                ]}
+                strokeColor='black'
+                strokeWidth={2}
+                />
+
+
+            </MapView>
+
+            {/*
+
+              <View style={{padding: 5, width: '40%', borderWidth: 1, borderRadius: 10, backgroundColor: 'rgba(250, 250, 250, 0.85)', position: 'absolute', top: 5, left: 5}}>
+                <Text style={{fontSize: 16, lineHeight: 25, padding: 5, fontWeight: 'bold'}}>      订单正在处理中，暂时无法获取物流信息</Text>
               </View>
 
-              <View style={{width: '100%', alignItems: 'center', marginTop: 15, marginBottom: 15}}>
+              */}
 
-                  <View style={{alignItems: 'center', paddingLeft: 15, paddingRight: 15, paddingTop: 2, paddingBottom: 2, margin: 10, borderRadius: 10, backgroundColor: '#cdcdcd'}}>
-                    <Text style={{fontSize: 14, color: 'white'}}>2018/09/09 19:12:34</Text>
-                  </View>
-
-                  <View style={{width: '95%', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, borderRadius: 10, backgroundColor: 'white'}}>
-                    <Text style={{fontSize: 16, lineHeight: 25}}>       产品GB987的价格已经发生了浮动，请重新关注产品价格，确认后可以继续购买,新价格由2018年8月10日开始生效!</Text>
-                  </View>
-
-              </View>
-
+            <View style={{padding: 5, width: '40%', borderWidth: 1, borderRadius: 10, backgroundColor: 'rgba(250, 250, 250, 0.85)', position: 'absolute', top: 5, left: 5}}>
+              <Text style={{fontSize: 16, padding: 2, fontWeight: 'bold'}}>订单状态: 出库中</Text>
+              <Text style={{fontSize: 16, padding: 2, fontWeight: 'bold'}}>发货仓库: 江西哈地位仓库1</Text>
+              <Text style={{fontSize: 16, padding: 2, fontWeight: 'bold'}}>预计到达时间: 发货后显示</Text>
             </View>
 
 
 
 
 
-
-          </ScrollView>
+          </View>
 
 
 

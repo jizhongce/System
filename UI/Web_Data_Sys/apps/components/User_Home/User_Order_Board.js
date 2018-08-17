@@ -394,7 +394,7 @@ export default class User_Order_Board extends Component<{}> {
                           <Text style={{fontSize: 14}}>联系客服</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('User_Single_Order_Shipping_Board',{ Order_ID : order.Order_ID})} activeOpacity={0.8} style={{borderWidth: 1, padding: 5, marginLeft: 5, marginRight: 5, borderRadius: 10}}>
                           <Text style={{fontSize: 14}}>查看物流</Text>
                         </TouchableOpacity>
 

@@ -424,6 +424,27 @@ export function getsingleorder(User_ID, Order_ID, cb){
 
 
 
+export function getsingleordershipping(User_ID, Order_ID, cb){
+  var xhr = new XMLHttpRequest();
+  // Next create a parameters
+  var parameters1 = CreateParametersForRequest("User_ID", User_ID)
+  var parameters2 = CreateParametersForRequest("Order_ID", Order_ID)
+  xhr.open("GET", "http://localhost:8080/get_single_order_shipping" + "?" + parameters1 + "&" + parameters2 , true);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
+
+
 export function checkfavoriteexist(User_ID, Product_ID, cb){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8080/check_favorite_exist", true);

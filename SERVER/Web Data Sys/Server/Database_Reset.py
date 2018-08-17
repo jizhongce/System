@@ -2,9 +2,12 @@ import mysql.connector
 import uuid
 import passlib.hash
 import datetime
-from Server_utli import CreateTimeNOW, CreateVerifyCodeTime
 
+def CreateTimeNOW():
+    return(datetime.datetime.now())
 
+def CreateVerifyCodeTime():
+    return(datetime.datetime.now() + datetime.timedelta(minutes=3))
 
 '''
 passlib.hash.sha256_crypt.hash("jizhongce123")
@@ -73,9 +76,9 @@ QUERIES.append(ADD_ADDRESS_USER1)
 QUERIES.append(ADD_ADDRESS_USER2)
 QUERIES.append(ADD_ADDRESS_USER3)
 
-ADD_ORDER1 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'NDP', 0, 352000, 0, \'{}\', \'{}\', 0);".format(ORDER1, CreateTimeNOW(), ADDRESS1))
-ADD_ORDER2 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'PRO', 1, 330509, 150000, \'{}\', \'{}\', 1);".format(ORDER2, CreateTimeNOW(), ADDRESS2))
-ADD_ORDER3 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'SHP', 2, 391690, 391690, \'{}\', \'{}\', 2);".format(ORDER3, CreateTimeNOW(), ADDRESS1))
+ADD_ORDER1 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'NDP', 0, 352000, 0, \'{}\', \'{}\', 0, \'\', \'\');".format(ORDER1, CreateTimeNOW(), ADDRESS1))
+ADD_ORDER2 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'PRO', 1, 330509, 150000, \'{}\', \'{}\', 1, '28.984802', '116.928711');".format(ORDER2, CreateTimeNOW(), ADDRESS2))
+ADD_ORDER3 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'SHP', 2, 391690, 391690, \'{}\', \'{}\', 2, '27.860927', '120.816188');".format(ORDER3, CreateTimeNOW(), ADDRESS1))
 
 QUERIES.append(ADD_ORDER1)
 QUERIES.append(ADD_ORDER2)
@@ -191,15 +194,15 @@ DEFAULT_USER_ADDRESS2 = str(uuid.uuid4())
 
 DEFAULT_USER_ADDRESS3 = str(uuid.uuid4())
 
-DEFAULT_USER_ADD_ADDRESS1 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', '温州哈哈哈公司', '15825679139', '江滨西路118号','温州市', '浙江省', '鹿城区', '120.677485', '28.017585');".format(DEFAULT_USER_ADDRESS1))
+DEFAULT_USER_ADD_ADDRESS1 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', '温州哈哈哈公司', '15825679139', '江滨西路118号','温州市', '浙江省', '鹿城区', '28.017585', '120.677485');".format(DEFAULT_USER_ADDRESS1))
 
 QUERIES.append(DEFAULT_USER_ADD_ADDRESS1)
 
-DEFAULT_USER_ADD_ADDRESS2 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', '温州新疆公司', '15825679139', '新江路329号','温州市', '浙江省', '龙湾区', '120.730039', '27.982123');".format(DEFAULT_USER_ADDRESS2))
+DEFAULT_USER_ADD_ADDRESS2 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', '温州新疆公司', '15825679139', '新江路329号','温州市', '浙江省', '龙湾区', '27.982123', '120.730039');".format(DEFAULT_USER_ADDRESS2))
 
 QUERIES.append(DEFAULT_USER_ADD_ADDRESS2)
 
-DEFAULT_USER_ADD_ADDRESS3 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', '上海标五公司', '15825679139', '西藏南路778号','上海市', '上海市', '黄浦区', '121.488161', '31.207022');".format(DEFAULT_USER_ADDRESS3))
+DEFAULT_USER_ADD_ADDRESS3 = ("INSERT INTO Address(Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) VALUE (\'{}\', '上海标五公司', '15825679139', '西藏南路778号','上海市', '上海市', '黄浦区', '31.207022', '121.488161');".format(DEFAULT_USER_ADDRESS3))
 
 QUERIES.append(DEFAULT_USER_ADD_ADDRESS3)
 
@@ -224,7 +227,7 @@ DEFAULT_USER_ORDER6 = str(uuid.uuid4())
 DEFAULT_USER_ORDER7 = str(uuid.uuid4())
 
 
-DEFAULT_USER_ADD_ORDER1 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'NDP', 1, 8000, 0, \'{}\', \'{}\', 0);".format(DEFAULT_USER_ORDER1, CreateTimeNOW(), DEFAULT_USER_ADDRESS1))
+DEFAULT_USER_ADD_ORDER1 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'NDP', 1, 8000, 0, \'{}\', \'{}\', 0, \'\', \'\');".format(DEFAULT_USER_ORDER1, CreateTimeNOW(), DEFAULT_USER_ADDRESS1))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER1)
 
@@ -234,7 +237,7 @@ DEFAULT_USER_ADD_ORDER1_PRODUCT2 = ("INSERT INTO Orders_Products(Order_ID, Produ
 QUERIES.append(DEFAULT_USER_ADD_ORDER1_PRODUCT1)
 QUERIES.append(DEFAULT_USER_ADD_ORDER1_PRODUCT2)
 
-DEFAULT_USER_ADD_ORDER2 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'PRO', 1, 8000, 8000, \'{}\', \'{}\', 1);".format(DEFAULT_USER_ORDER2, CreateTimeNOW() - datetime.timedelta(minutes=1), DEFAULT_USER_ADDRESS2))
+DEFAULT_USER_ADD_ORDER2 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'PRO', 1, 8000, 8000, \'{}\', \'{}\', 1, '28.984802', '116.928711');".format(DEFAULT_USER_ORDER2, CreateTimeNOW() - datetime.timedelta(minutes=1), DEFAULT_USER_ADDRESS2))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER2)
 
@@ -244,7 +247,7 @@ DEFAULT_USER_ADD_ORDER2_PRODUCT2 = ("INSERT INTO Orders_Products(Order_ID, Produ
 QUERIES.append(DEFAULT_USER_ADD_ORDER2_PRODUCT1)
 QUERIES.append(DEFAULT_USER_ADD_ORDER2_PRODUCT2)
 
-DEFAULT_USER_ADD_ORDER3 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'PCK', 3, 50000, 25000, \'{}\', \'{}\', 1);".format(DEFAULT_USER_ORDER3, CreateTimeNOW() - datetime.timedelta(minutes=2), DEFAULT_USER_ADDRESS1))
+DEFAULT_USER_ADD_ORDER3 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'PCK', 3, 50000, 25000, \'{}\', \'{}\', 1, '28.984802', '116.928711');".format(DEFAULT_USER_ORDER3, CreateTimeNOW() - datetime.timedelta(minutes=2), DEFAULT_USER_ADDRESS1))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER3)
 
@@ -252,7 +255,7 @@ DEFAULT_USER_ADD_ORDER3_PRODUCT1 = ("INSERT INTO Orders_Products(Order_ID, Produ
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER3_PRODUCT1)
 
-DEFAULT_USER_ADD_ORDER4 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'SHP', 4, 32000, 16000, \'{}\', \'{}\', 2);".format(DEFAULT_USER_ORDER4, CreateTimeNOW() - datetime.timedelta(minutes=3), DEFAULT_USER_ADDRESS3))
+DEFAULT_USER_ADD_ORDER4 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'SHP', 4, 32000, 16000, \'{}\', \'{}\', 2, '27.860927', '120.816188');".format(DEFAULT_USER_ORDER4, CreateTimeNOW() - datetime.timedelta(minutes=3), DEFAULT_USER_ADDRESS3))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER4)
 
@@ -260,7 +263,7 @@ DEFAULT_USER_ADD_ORDER4_PRODUCT1 = ("INSERT INTO Orders_Products(Order_ID, Produ
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER4_PRODUCT1)
 
-DEFAULT_USER_ADD_ORDER5 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'ORC', 2, 30000, 30000, \'{}\', \'{}\', 1);".format(DEFAULT_USER_ORDER5, CreateTimeNOW() - datetime.timedelta(minutes=4), DEFAULT_USER_ADDRESS2))
+DEFAULT_USER_ADD_ORDER5 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'ORC', 2, 30000, 30000, \'{}\', \'{}\', 1, '28.984802', '116.928711');".format(DEFAULT_USER_ORDER5, CreateTimeNOW() - datetime.timedelta(minutes=4), DEFAULT_USER_ADDRESS2))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER5)
 
@@ -268,7 +271,7 @@ DEFAULT_USER_ADD_ORDER5_PRODUCT1 = ("INSERT INTO Orders_Products(Order_ID, Produ
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER5_PRODUCT1)
 
-DEFAULT_USER_ADD_ORDER6 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'SHP', 1, 30000, 30000, \'{}\', \'{}\', 2);".format(DEFAULT_USER_ORDER6, CreateTimeNOW() - datetime.timedelta(minutes=1), DEFAULT_USER_ADDRESS1))
+DEFAULT_USER_ADD_ORDER6 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'SHP', 1, 30000, 30000, \'{}\', \'{}\', 2, '27.860927', '120.816188');".format(DEFAULT_USER_ORDER6, CreateTimeNOW() - datetime.timedelta(minutes=1), DEFAULT_USER_ADDRESS1))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER6)
 
@@ -276,7 +279,7 @@ DEFAULT_USER_ADD_ORDER6_PRODUCT1 = ("INSERT INTO Orders_Products(Order_ID, Produ
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER6_PRODUCT1)
 
-DEFAULT_USER_ADD_ORDER7 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory) VALUE (\'{}\', 'PCK', 2, 23000, 23000, \'{}\', \'{}\', 1);".format(DEFAULT_USER_ORDER7, CreateTimeNOW() - datetime.timedelta(minutes=1), DEFAULT_USER_ADDRESS1))
+DEFAULT_USER_ADD_ORDER7 = ("INSERT INTO Orders(Order_ID, Order_Status, Order_Payment_Method, Order_Total_Price, Order_Paid_Price, Order_Time, Order_Shipping_Address_ID, Order_Factory, Factory_Latitude, Factory_Longitude) VALUE (\'{}\', 'PCK', 2, 23000, 23000, \'{}\', \'{}\', 1, '28.984802', '116.928711');".format(DEFAULT_USER_ORDER7, CreateTimeNOW() - datetime.timedelta(minutes=1), DEFAULT_USER_ADDRESS1))
 
 QUERIES.append(DEFAULT_USER_ADD_ORDER7)
 

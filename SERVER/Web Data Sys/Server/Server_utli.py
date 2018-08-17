@@ -1580,6 +1580,54 @@ def Get_Single_Order(User_ID, Order_ID):
 # End of the Get_Single_Order function
 
 
+
+
+# Start of the Get_Single_Order_Shipping function
+
+def Get_Single_Order_Shipping(User_ID, Order_ID):
+    '''
+    This is the function which will get the order info in the database
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT Orders.Order_ID, Orders.Order_Status, Orders.Order_Factory, Orders.Factory_Latitude, Orders.Factory_Longitude, Address.Address_ID, Address.Address_Name, Address.Address_Phone_Number, Address.Street, Address.City, Address.Province, Address.District, Address.Latitude, Address.Longitude FROM Orders_User, Orders, Address WHERE Orders.Order_Shipping_Address_ID = Address.Address_ID AND Orders.Order_ID = Orders_User.Order_ID AND Orders_User.Order_ID = \'{}\' AND Orders_User.User_ID = \'{}\';'.format(Order_ID, User_ID))
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    if QUERYLIST:
+        (Order_ID, Order_Status, Order_Factory, Factory_Latitude, Factory_Longitude, Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) = QUERYLIST[0]
+        Order_Info = {'Order_ID' : Decode_To_String(Order_ID), 'Order_Status' : Decode_To_String(Order_Status), 'Order_Factory' : Decode_To_String(Order_Factory), 'Factory_Latitude' : Decode_To_String(Factory_Latitude), 'Factory_Longitude' : Decode_To_String(Factory_Longitude)}
+        Shipping_Info = {'Address_ID' : Decode_To_String(Address_ID), 'Address_Name' : Decode_To_String(Address_Name), 'Address_Phone_Number' : Decode_To_String(Address_Phone_Number), 'Street' : Decode_To_String(Street), 'City' : Decode_To_String(City), 'Province' : Decode_To_String(Province), 'District' : Decode_To_String(District), 'Latitude' : Decode_To_String(Latitude), 'Longitude' : Decode_To_String(Longitude)}
+        DATA = {'Order_Info': Order_Info, 'Shipping_Info': Shipping_Info}
+        STATUS = ErrorCode.SUCCESS_CODE
+
+    else:
+        STATUS = ErrorCode.NO_SUCH_ORDER_EXIST_ERROR
+        DATA = 0
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, DATA)
+
+
+# End of the Get_Single_Order_Shipping function
+
+
 # Start of the Get_Address_Book function
 
 def Get_Address_Book(USER_ID):
@@ -1796,6 +1844,7 @@ def Add_New_Address(USER_ID, NEW_ADDRESS):
     New_Address_Lon_Lat = GetGEOCODE(New_Address_Province+New_Address_City+New_Address_District+New_Address_Street)
 
     if New_Address_Lon_Lat['infocode'] == '10000':
+        print(New_Address_Lon_Lat)
         New_Latitude = New_Address_Lon_Lat['lat']
         New_Longitude = New_Address_Lon_Lat['lon']
 
@@ -1911,11 +1960,15 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
 
     Address_District = NEW_ADDRESS['District']
 
-    Latitude = ''
+    New_Latitude = ''
 
-    Longitude = ''
+    New_Longitude = ''
 
-    New_Address_Lon_Lat = GetGEOCODE(New_Address_Province+New_Address_City+New_Address_District+New_Address_Street)
+    print(Address_Province)
+
+    New_Address_Lon_Lat = GetGEOCODE(Address_Province+Address_City+Address_District+Address_Street)
+
+    print(New_Address_Lon_Lat)
 
     if New_Address_Lon_Lat['infocode'] == '10000':
         New_Latitude = New_Address_Lon_Lat['lat']
@@ -1933,7 +1986,7 @@ def Edit_Address(USER_ID, NEW_ADDRESS):
             DATA = 0
 
         else:
-            QUERYSQL = ('UPDATE Address SET Address_Name = \'{}\', Address_Phone_Number = \'{}\', Street = \'{}\', City = \'{}\', Province = \'{}\', District = \'{}\', Latitude = \'{}\', Longitude = \'{}\' WHERE Address_ID = \'{}\';'.format(New_Address_Name, New_Address_Phone_Number, Address_Street, Address_City, Address_Province, Address_District, Latitude, Longitude, Address_ID))
+            QUERYSQL = ('UPDATE Address SET Address_Name = \'{}\', Address_Phone_Number = \'{}\', Street = \'{}\', City = \'{}\', Province = \'{}\', District = \'{}\', Latitude = \'{}\', Longitude = \'{}\' WHERE Address_ID = \'{}\';'.format(New_Address_Name, New_Address_Phone_Number, Address_Street, Address_City, Address_Province, Address_District, New_Latitude, New_Longitude, Address_ID))
 
             CURSOR.execute(QUERYSQL)
 

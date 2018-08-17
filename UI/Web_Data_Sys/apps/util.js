@@ -383,6 +383,25 @@ export function StatusPrase(status_value) {
 
 }
 
+
+export function FactoryPrase(Factory_Value) {
+
+  switch (Factory_Value) {
+    case 1:
+      return('江西哈迪威仓库')
+      break;
+    case 2:
+      return('温州哈迪威仓库1')
+      break;
+
+    default:
+      return('温州哈迪威仓库1')
+
+  }
+
+
+}
+
 // Start from here we prase the add new address selection
 
 // This function will help City Modal to show the City name

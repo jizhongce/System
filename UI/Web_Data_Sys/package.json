@@ -12,7 +12,7 @@
     "react-native": "0.53.0",
     "react-native-dropdownalert": "^3.3.0",
     "react-native-elements": "^0.19.1",
-    "react-native-fs": "^2.11.15",
+    "react-native-maps": "^0.21.0",
     "react-native-modal": "^6.1.0",
     "react-native-navbar": "^2.1.0",
     "react-native-navigation": "^1.1.375",
