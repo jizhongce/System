@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {OrderButtonsExistStyle} from '../../util.js';
+import {SearchButtonExist} from '../../util.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -74,38 +74,38 @@ export default class Home2 extends Component<{}> {
     super(props);
     this.state = {
 
-      From_Lat : 120.677485,
-      From_Lon : 28.017585,
-
-      To_Lat : 121.488161,
-      To_Lon : 31.207022,
-
+      Search_Term: '',
+      Search_Button_Flag: false,
+      Search_Result: [],
+      Search_Flag: false,
 
     };
   }
 
+  Search_Term_Handler(text){
+    this.setState({
+      Search_Term: text
+    });
+  }
 
+  Search_Button_Handler(){
 
-    componentWillMount(){
-      //AsyncStorage.clear()
-      // AsyncStorage.setItem('UID123', 'hello', () => {
-      //
-      // });
-      this.props.navigation.addListener('willFocus', ()=>{
+    if (this.state.Search_Result.length == 0) {
 
-        this.setState({
-          From_Lon : 120.677485,
-          From_Lat : 28.017585,
-
-          To_Lon : 121.488161,
-          To_Lat : 31.207022,
-        });
-
+      this.setState({
+        Search_Button_Flag: false,
       });
 
+    } else {
+
+      this.setState({
+        Search_Button_Flag: true,
+      });
 
     }
 
+
+  }
 
 
   render() {
@@ -119,15 +119,15 @@ export default class Home2 extends Component<{}> {
               height: '8%',
               backgroundColor: 'white',
               flexDirection: 'row',
-              borderBottomWidth: 1,
             }} >
 
             <View style={{
                 height: '100%',
-                width: '30%',
+                width: '10%',
                 alignItems: 'center',
+                justifyContent: 'center',
                 flexDirection: 'row',
-                marginLeft: 5
+                paddingLeft: 5
               }} >
 
               <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
@@ -135,101 +135,229 @@ export default class Home2 extends Component<{}> {
                 <Image style={{width: 24, height: 24}} source={require('../../../img/back_arrow.png')} />
 
               </TouchableOpacity>
+
             </View>
 
             <View style={{
                 height: '100%',
-                width: '40%',
+                width: '75%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'row'
               }} >
-              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}> 物 流 详 情 </Text>
-            </View>
 
-          </View>
-
-          <View style={{height: '89%'}}>
-
-            <MapView
-              style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
-              zoomEnabled={true}
-              region={{
-                latitude: (this.state.From_Lat + this.state.To_Lat)/2.0,
-                longitude: (this.state.From_Lon + this.state.To_Lon)/2.0,
-                latitudeDelta: 4,
-                longitudeDelta: 4,
-              }} >
-
-              <Marker
-                coordinate={{
-                  latitude: this.state.From_Lat,
-                  longitude: this.state.From_Lon,
+              <TextInput
+                style={{
+                  width: '100%',
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  padding:5,
                 }}
-                >
+                onFocus={() => this.setState({ Search_Button_Flag: false})}
+                onBlur={() => this.Search_Button_Handler()}
+                autoCapitalize='none'
+                onChangeText = {(text) => this.Search_Term_Handler(text)}
+                placeholder={'请输入产品名字，编号或者规格'}
+                value={this.state.Search_Term}
 
-                <Image style={{width: 40, height: 40}} source={require('../../../img/Marker.png')} />
-                <Callout>
-                  <View style={{width: 130}}>
-                    <Text style={{fontSize: 16, fontWeight: 'bold'}}>发货仓库</Text>
-                    <Text>company11111</Text>
-
-                  </View>
-                </Callout>
-
-              </Marker>
-
-              <Marker
-                coordinate={{
-                  latitude: this.state.To_Lat,
-                  longitude: this.state.To_Lon,
-                }}
-                >
-
-                <Image style={{width: 40, height: 40}} source={require('../../../img/Marker.png')} />
-
-                  <Callout>
-                    <View style={{width: 120}}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>收货地址:</Text>
-                        <Text style={{fontSize: 13}}>company11111</Text>
-                        <Text style={{fontSize: 13}}>138xxxxx788</Text>
-                        <Text style={{fontSize: 13}}>浙江省温州市江滨西路888号</Text>
-                    </View>
-                  </Callout>
-
-              </Marker>
-
-              <Polyline
-                coordinates={[
-                  { latitude: this.state.From_Lat, longitude: this.state.From_Lon },
-                  { latitude: this.state.To_Lat, longitude: this.state.To_Lon }
-                ]}
-                strokeColor='black'
-                strokeWidth={2}
                 />
 
-
-            </MapView>
-
-            {/*
-
-              <View style={{padding: 5, width: '40%', borderWidth: 1, borderRadius: 10, backgroundColor: 'rgba(250, 250, 250, 0.85)', position: 'absolute', top: 5, left: 5}}>
-                <Text style={{fontSize: 16, lineHeight: 25, padding: 5, fontWeight: 'bold'}}>      订单正在处理中，暂时无法获取物流信息</Text>
-              </View>
-
-              */}
-
-            <View style={{padding: 5, width: '40%', borderWidth: 1, borderRadius: 10, backgroundColor: 'rgba(250, 250, 250, 0.85)', position: 'absolute', top: 5, left: 5}}>
-              <Text style={{fontSize: 16, padding: 2, fontWeight: 'bold'}}>订单状态: 出库中</Text>
-              <Text style={{fontSize: 16, padding: 2, fontWeight: 'bold'}}>发货仓库: 江西哈地位仓库1</Text>
-              <Text style={{fontSize: 16, padding: 2, fontWeight: 'bold'}}>预计到达时间: 发货后显示</Text>
             </View>
 
+            <View style={{
+                height: '100%',
+                width: '15%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
+                paddingRight: 5
+              }} >
+
+              <TouchableOpacity style={SearchButtonExist(!this.state.Search_Button_Flag)} onPress={()=> this.Search_Button_Handler()}>
+
+                <Image style={{width: 24, height: 24}} source={require('../../../img/fliter.png')} />
+
+              </TouchableOpacity>
 
 
+              <TouchableOpacity style={SearchButtonExist(this.state.Search_Button_Flag)} onPress={()=> this.Search_Button_Handler()}>
 
+                <Text style={{fontSize: 16}}>搜索</Text>
+
+              </TouchableOpacity>
+            </View>
 
           </View>
+
+          <ScrollView style={{height: '89%', backgroundColor: 'white'}}>
+
+              {/* No search result found */}
+
+              {/*
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+
+                  <Text style={{fontSize: 20}}>抱歉，搜索没有任何结果</Text>
+
+                </View>
+
+                */}
+
+              {/* No search result found */}
+
+
+
+
+              {/* Search Result */}
+              <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+              </View>
+              {/* Search Result */}
+
+
+
+
+              {/* Recommendation */}
+              <View style={{marginBottom:10, marginTop:10, marginLeft:5, marginRight:5, flexDirection:'row', justifyContent: 'space-between',}}>
+
+                <View
+                  style={{
+                    marginTop: 10,
+                    borderTopColor: 'black',
+                    borderTopWidth: 1,
+                    width: '30%'
+                  }}
+                  />
+
+                <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>热门产品</Text>
+
+                <View
+                  style={{
+                    marginTop:10 ,
+                    borderTopColor: 'black',
+                    borderTopWidth: 1,
+                    width: '30%'
+                  }}
+                  />
+              </View>
+
+
+              <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
+
+                  <Image
+                    source={require('../../../img/product1.jpg')}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : GB846-85</Text>
+                  <Text style={{}} >规格 : 32X55</Text>
+                  <Text style={{}} >表色 ： 黑色</Text>
+                  <Text style={{}} >价格 ： 23323</Text>
+
+
+                </TouchableOpacity>
+
+
+              </View>
+
+              {/* Recommendation */}
+
+
+
+
+
+
+          </ScrollView>
 
 
 

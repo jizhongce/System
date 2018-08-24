@@ -194,6 +194,18 @@ export function CancelExistStyle(Cancel_Flag) {
 }
 
 
+export function SearchButtonExist(Search_Button_Flag) {
+  if (Search_Button_Flag == true) {
+
+    return({display: 'none'})
+
+  } else {
+    return({})
+  }
+
+}
+
+
 export function OrderButtonsExistStyle(Button_Flag) {
   if (Button_Flag == true) {
 

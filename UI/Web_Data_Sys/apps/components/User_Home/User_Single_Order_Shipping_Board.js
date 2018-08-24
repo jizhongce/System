@@ -398,10 +398,10 @@ export default class User_Single_Order_Shipping_Board extends Component<{}> {
 
                   <View style={{
                       height: '100%',
-                      width: '30%',
+                      width: '10%',
                       alignItems: 'center',
                       flexDirection: 'row',
-                      marginLeft: 5
+                      paddingLeft: 5
                     }} >
 
                     <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
@@ -413,7 +413,7 @@ export default class User_Single_Order_Shipping_Board extends Component<{}> {
 
                   <View style={{
                       height: '100%',
-                      width: '40%',
+                      width: '80%',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexDirection: 'row'

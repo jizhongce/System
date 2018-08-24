@@ -146,15 +146,13 @@ export default class Product_Home extends Component<{}> {
           </View>
 
           <View style={{width: '15%', justifyContent: 'center', alignItems: 'center',}}>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => this.props.navigation.navigate('Messages_Board')}>
-              <Image style={{width: 25, height: 25}} source={require('../../../img/Message.png')} />
+            <TouchableOpacity activeOpacity={0.8}>
+              <Image style={{width: 25, height: 25}} source={require('../../../img/fliter.png')} />
             </TouchableOpacity>
           </View>
 
         </View>
         {/* Header  */}
-
-
 
         {/* Main Feed */}
         <ScrollView
