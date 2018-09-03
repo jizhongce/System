@@ -174,6 +174,8 @@ QUERIES.append(ADD_SHOPPING_CART_USER2)
 # Start here is new default user
 DEFAULT_USER = str(uuid.uuid4())
 
+DEFAULT_USER_SHOPPING_CART = str(uuid.uuid4())
+
 DEFAULT_USER_PASSWORD = passlib.hash.sha256_crypt.hash("JIzhongce123")
 
 DEFAULT_USER_ADD_PHONE_NUMBER = ("INSERT INTO Phone_Numner_Verify_Code(Phone_Number, Verify_Code, Expiration_Time) VALUE ('15825679139', 123456, \'{}\');".format(CreateVerifyCodeTime()))
@@ -187,6 +189,10 @@ QUERIES.append(DEFAULT_USER_ADD_USER)
 DEFAULT_USER_ADD_PROFILE = ("INSERT INTO Profiles(User_ID, Name, Level) VALUE (\'{}\','Ji Zhongce', 1);".format(DEFAULT_USER))
 
 QUERIES.append(DEFAULT_USER_ADD_PROFILE)
+
+DEFAULT_USER_ADD_SHOPPING_CART = ('INSERT INTO Shopping_Cart_User(User_ID, Shopping_Cart_ID) VALUES (\'{}\', \'{}\');').format(DEFAULT_USER, DEFAULT_USER_SHOPPING_CART)
+
+QUERIES.append(DEFAULT_USER_ADD_SHOPPING_CART)
 
 DEFAULT_USER_ADDRESS1 = str(uuid.uuid4())
 

@@ -298,7 +298,7 @@ export default class Single_Product_Home extends Component<{}> {
 
                 const title = ErrorCodePrase(add_to_shopping_cart_status_code)[0]
 
-                console.log(ErrorCodePrase(add_to_shopping_cart_status_code))
+                console.log(add_to_shopping_cart_status_code)
 
                 Alert.alert(
                     title,

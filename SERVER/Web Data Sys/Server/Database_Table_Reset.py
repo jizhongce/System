@@ -59,7 +59,7 @@ CREATE_FAVORITE_PRODUCTS = ("CREATE TABLE IF NOT EXISTS Favorite_Products ( User
 
 CREATE_SHOPPING_CART = ("CREATE TABLE IF NOT EXISTS Shopping_Cart ( Shopping_Cart_ID VARCHAR(100), Products_ID VARCHAR(100), Products_Units BIGINT UNSIGNED, PRIMARY KEY (Shopping_Cart_ID, Products_ID), FOREIGN KEY (Products_ID) REFERENCES Products(Products_ID));")
 
-CREATE_SHOPPING_CART_USER = ("CREATE TABLE IF NOT EXISTS Shopping_Cart_User ( User_ID VARCHAR(100), Shopping_Cart_ID VARCHAR(100),  PRIMARY KEY (User_ID, Shopping_Cart_ID), FOREIGN KEY (Shopping_Cart_ID) REFERENCES Shopping_Cart(Shopping_Cart_ID), FOREIGN KEY (User_ID) REFERENCES Users(User_ID));")
+CREATE_SHOPPING_CART_USER = ("CREATE TABLE IF NOT EXISTS Shopping_Cart_User ( User_ID VARCHAR(100), Shopping_Cart_ID VARCHAR(100),  PRIMARY KEY (User_ID, Shopping_Cart_ID), FOREIGN KEY (User_ID) REFERENCES Users(User_ID));")
 
 CREATE_MESSAGES = ("CREATE TABLE IF NOT EXISTS Messages ( Message_ID VARCHAR(100), Message_Type INT, Message_Content VARCHAR(1028),  Message_Time DATETIME, Message_Status BOOLEAN, PRIMARY KEY (Message_ID));")
 

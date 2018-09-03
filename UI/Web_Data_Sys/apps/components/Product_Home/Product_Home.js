@@ -135,14 +135,17 @@ export default class Product_Home extends Component<{}> {
           }} >
 
           <View style={{width: '15%', justifyContent: 'center', alignItems: 'center',}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Home2')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Search_Board')}>
               <Image style={{width: 25, height: 25}} source={require('../../../img/Search.png')} />
             </TouchableOpacity>
           </View>
 
 
           <View style={{width: '70%', justifyContent: 'center', alignItems: 'center',}}>
-          <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>产品列表</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Home2')}>
+              <Text style={{fontSize: 20, color: 'black', fontWeight:'bold'}}>产品列表</Text>
+            </TouchableOpacity>
+
           </View>
 
           <View style={{width: '15%', justifyContent: 'center', alignItems: 'center',}}>

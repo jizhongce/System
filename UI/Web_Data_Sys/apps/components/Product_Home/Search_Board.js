@@ -65,7 +65,7 @@ import Status_Bar from '../Status_Bar.js';
 
 
 
-export default class Home2 extends Component<{}> {
+export default class Search_Board extends Component<{}> {
 
   static navigationOptions = {
     header: null

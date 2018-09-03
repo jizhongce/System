@@ -784,7 +784,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
 
           </TouchableOpacity>
 
-          <View style={{backgroundColor: '#ededed', height: '66%', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
+          <View style={{backgroundColor: '#fafafa', height: '66%', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
 
             <TouchableOpacity onPress = {() => this.props.navigation.navigate('Product_Home')} activeOpacity={0.5} style={{borderWidth: 1, borderRadius: 5, borderColor: "#c9cdcb"}}>
               <Text style={{color: 'black', fontWeight:'bold', textAlign: 'center', fontSize: 20}}> 马 上 去 选 购 产 品 </Text>
@@ -872,7 +872,7 @@ export default class Shopping_Cart_Home extends Component<{}> {
               {/* Main Feed for each product in the shopping cart */}
 
 
-              <ScrollView refreshControl={ <RefreshControl onRefresh={this.OnRefresh.bind(this)} refreshing = {this.state.Refreshing_Flag} />} style={{backgroundColor: '#ededed', height: '66%', flexDirection:'column'}}>
+              <ScrollView refreshControl={ <RefreshControl onRefresh={this.OnRefresh.bind(this)} refreshing = {this.state.Refreshing_Flag} />} style={{backgroundColor: '#fafafa', height: '66%', flexDirection:'column'}}>
 
                 {
                   this.state.Shopping_Cart_Product_List.map((product, i) =>{

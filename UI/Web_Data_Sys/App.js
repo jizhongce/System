@@ -54,6 +54,7 @@ import Sign_Up_Home from './apps/components/User_Home/Sign_Up_Home.js';
 
 // Start from here we import the screen for product home
 import Product_Home from './apps/components/Product_Home/Product_Home.js';
+import Search_Board from './apps/components/Product_Home/Search_Board.js';
 import Single_Product_Home from './apps/components/Product_Home/Single_Product_Home.js';
 
 // Start from here we import the screen for the shopping cart home
@@ -151,6 +152,8 @@ const Total_Stack = StackNavigator({
   User_Address_Board: { screen: User_Address_Board },
 
   Single_Product_Home: { screen: Single_Product_Home},
+
+  Search_Board: { screen: Search_Board},
 
   Sign_Up_Home: { screen: Sign_Up_Home },
 

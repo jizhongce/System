@@ -122,6 +122,21 @@ export function MessageContentShow(Message_Content) {
 }
 
 
+export function SearchOverlayExist(Search_Overlay_Flag) {
+
+  if (Search_Overlay_Flag) {
+
+    return({})
+
+  } else {
+
+    return({display: 'none'})
+
+  }
+
+}
+
+
 export function MessageExistStyle(Message_Flag) {
 
   if (Message_Flag == true) {
