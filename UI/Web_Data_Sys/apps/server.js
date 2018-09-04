@@ -494,6 +494,22 @@ export function getAllproducts(cb){
   });
 }
 
+export function searchproduct(Search_Term, cb){
+  var xhr = new XMLHttpRequest();
+  var parameters = CreateParametersForRequest("Search_Term", Search_Term)
+  console.log("http://localhost:8080/search_product" + "?" + parameters);
+  xhr.open("GET", "http://localhost:8080/search_product" + "?" + parameters , true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    var responseDict = {StatusCode : statusCode, ResponseText: JSON.parse(xhr.responseText) }
+    cb(responseDict);
+  });
+}
+
 
 export function getsingleproductinfo(Product_ID, cb){
   var xhr = new XMLHttpRequest();

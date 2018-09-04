@@ -847,6 +847,70 @@ def Get_All_Products():
 #End of the Get_All_Products function
 
 
+# Search function
+def Search_Term_In_String(Search_Term_List, Search_String):
+    Search_Flag = False
+    for Search_Term in Search_Term_List:
+        if Search_String.find(Search_Term) != -1:
+            Search_Flag = True
+    return(Search_Flag)
+
+# Search function
+
+
+# Start the Search_Product function
+
+def Search_Product(Search_Term):
+    '''
+    This is function will search the product in the database to find the product which meets the requirements
+    Before we connect to the database, we need to separate the search terms
+    The main idea is we will combine the features of product into one string and then we search for each search term to find whether the product string contain the search term
+    '''
+    STATUS = ErrorCode.SUCCESS_CODE
+
+    DATA = 0
+
+    Search_Term_List = Search_Term.split(' ')
+
+    CONNECTIONS = mysql.connector.connect(user='root',
+    password='jizhongce123',
+    host='127.0.0.1',
+    database='Web_Data')
+
+    CURSOR = CONNECTIONS.cursor(buffered=True)
+
+    QUERYSQL = ('SELECT * FROM Products')
+
+    CURSOR.execute(QUERYSQL)
+
+    QUERYLIST = CURSOR.fetchall()
+
+    Result_Product_List = []
+
+    if QUERYLIST:
+        for product in QUERYLIST:
+            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
+            Search_String = Decode_To_String(Products_Name) + ' ' + Decode_To_String(Products_Number) + ' ' + Decode_To_String(Products_Spec) + ' ' + Decode_To_String(Products_Color)
+            if Search_Term_In_String(Search_Term_List, Search_String):
+                Result_Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
+
+    else:
+        STATUS = ErrorCode.NO_PRODUCT_ERROR
+
+
+    CURSOR.close()
+
+    CONNECTIONS.commit()
+
+    CONNECTIONS.close()
+
+    return(STATUS, Result_Product_List)
+
+
+
+#End of the Search_Product function
+
+
 # Start the Get_Single_Product_Info function
 
 def Get_Single_Product_Info(Product_ID):

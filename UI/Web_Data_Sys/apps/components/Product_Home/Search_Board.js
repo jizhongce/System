@@ -29,7 +29,8 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {SearchButtonExist, SearchOverlayExist} from '../../util.js';
+import {SearchButtonExist, SearchOverlayExist, DropDownHolder, Product_Image, CancelExistStyle} from '../../util.js';
+import {searchproduct} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import Modal from "react-native-modal";
@@ -83,6 +84,8 @@ export default class Search_Board extends Component<{}> {
 
       Search_Flag: false,
 
+      Search_Term_Cancel_Flag: true,
+
       Search_Overlay_Flag: true,
 
       History_Search: ['GB99888989 30X30', 'GB99', 'GB99 30X30', 'GB9989 30', 'P8877877', 'GB998888889 白色'],
@@ -100,13 +103,9 @@ export default class Search_Board extends Component<{}> {
   }
 
   History_Recommandation_Search_Handler(Search_Term){
-    this.setState({
-      Search_Term: Search_Term,
-      Search_Flag: true,
-      Search_Overlay_Flag: false,
-      Search_Button_Flag: true,
-    });
+    this.Search_Handler(Search_Term)
   }
+
 
   Cancel_Button_Handler(){
 
@@ -126,6 +125,39 @@ export default class Search_Board extends Component<{}> {
     }
 
   }
+
+
+  Search_Handler(Search_Term){
+
+    searchproduct(Search_Term, (response) =>{
+      const search_product_code = response["StatusCode"]
+      const Products = response["ResponseText"]
+      console.log(Products);
+
+      if (search_product_code == 200) {
+
+        this.setState({
+
+          Search_Term: Search_Term,
+          Search_Flag: true,
+          Search_Overlay_Flag: false,
+          Search_Button_Flag: true,
+          Search_Result: Products,
+          Search_Term_Cancel_Flag: true,
+
+        });
+
+
+      } else {
+
+        DropDownHolder.getDropDown().alertWithType('error', 'Error!', search_product_code )
+
+      }
+
+    });
+
+  }
+
 
 
   Search_Header(Search_Button_Flag){
@@ -151,23 +183,31 @@ export default class Search_Board extends Component<{}> {
               borderRadius: 10,
             }} >
 
-            <Image style={{width: 24, height: 24}} source={require('../../../img/Search.png')} />
+            <View style={{width: '10%', alignItems: 'center', justifyContent: 'center',}}>
+              <Image style={{width: 24, height: 24}} source={require('../../../img/Search.png')} />
+            </View>
 
             <TextInput
               style={{
-                width: '100%',
-                padding:5,
+                width: '80%',
+                padding: 5,
               }}
-              onFocus={() => this.setState({ Search_Button_Flag: false, Search_Overlay_Flag: true})}
+              onFocus={() => this.setState({Search_Term_Cancel_Flag: false, Search_Button_Flag: false, Search_Overlay_Flag: true})}
+              onBlur={() => this.setState({Search_Term_Cancel_Flag: true})}
               autoCapitalize='none'
               autoFocus={true}
               onChangeText = {(text) => this.Search_Term_Handler(text)}
               placeholder={'请输入产品名字，编号或者规格'}
               value={this.state.Search_Term}
               returnKeyType="search"
-              onSubmitEditing={() => this.setState({ Search_Flag: true, Search_Overlay_Flag: false, Search_Button_Flag: true,})}
+              onSubmitEditing={() => this.Search_Handler(this.state.Search_Term)}
 
               />
+
+            <TouchableOpacity onPress={() => this.setState({Search_Term: ''})} style={[{width: '10%'}, CancelExistStyle(this.state.Search_Term_Cancel_Flag)]}>
+              <Image style={{width: 20, height: 20}} source={require('../../../img/cancel.png')} />
+            </TouchableOpacity>
+
 
           </View>
 
@@ -233,14 +273,17 @@ export default class Search_Board extends Component<{}> {
               borderRadius: 10,
             }} >
 
-            <Image style={{width: 24, height: 24}} source={require('../../../img/Search.png')} />
+            <View style={{width: '10%', alignItems: 'center', justifyContent: 'center',}}>
+              <Image style={{width: 24, height: 24}} source={require('../../../img/Search.png')} />
+            </View>
 
             <TextInput
               style={{
-                width: '100%',
+                width: '80%',
                 padding:5,
               }}
-              onFocus={() => this.setState({ Search_Button_Flag: false, Search_Overlay_Flag: true})}
+              onFocus={() => this.setState({Search_Term_Cancel_Flag: false, Search_Button_Flag: false, Search_Overlay_Flag: true})}
+              onBlur={() => this.setState({Search_Term_Cancel_Flag: true})}
               autoCapitalize='none'
               onChangeText = {(text) => this.Search_Term_Handler(text)}
               placeholder={'请输入产品名字，编号或者规格'}
@@ -248,6 +291,11 @@ export default class Search_Board extends Component<{}> {
               returnKeyType="search"
 
               />
+
+            <TouchableOpacity onPress={() => this.setState({Search_Term: ''})} style={[{width: '10%'}, CancelExistStyle(this.state.Search_Term_Cancel_Flag)]}>
+              <Image style={{width: 20, height: 20}} source={require('../../../img/cancel.png')} />
+            </TouchableOpacity>
+
 
           </View>
 
@@ -280,6 +328,58 @@ export default class Search_Board extends Component<{}> {
 
 
 
+  Result_Products(Search_Result){
+    if (Search_Result.length == 0) {
+
+      return(
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+
+          <Text style={{fontSize: 20}}>抱歉，搜索没有任何结果</Text>
+
+        </View>
+      )
+
+    } else {
+
+      return(
+
+        <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+
+          {
+            Search_Result.map((Product, i) => {
+
+              return(
+
+                <TouchableOpacity key={i} activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : Product.Products_ID})}>
+
+                  <Image
+                    source={Product_Image[Product.Products_Image_Dir]}
+                    style={{height:160, width:140, marginTop: 10 }}/>
+                  <Text style={{}} >名称 : {Product.Products_Name}</Text>
+                  <Text style={{}} >规格 : {Product.Products_Spec}</Text>
+                  <Text style={{}} >表色 ： {Product.Products_Color}</Text>
+                  <Text style={{}} >价格 ： {Product.Products_Price}</Text>
+
+                </TouchableOpacity>
+
+
+              );
+            })
+          }
+
+
+        </View>
+
+
+
+      )
+
+    }
+  }
+
+
+
+
   render() {
 
     return(
@@ -294,92 +394,12 @@ export default class Search_Board extends Component<{}> {
           <ScrollView style={{height: '89%', backgroundColor: 'white'}}>
 
 
-              {/* No search result found */}
-
-              {/*
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-
-                  <Text style={{fontSize: 20}}>抱歉，搜索没有任何结果</Text>
-
-                </View>
-
-                */}
-
-              {/* No search result found */}
-
 
               {/* Search Result */}
 
-              <View style={{flexDirection:'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+              {this.Result_Products(this.state.Search_Result)}
 
-                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
-
-                  <Image
-                    source={require('../../../img/product1.jpg')}
-                    style={{height:160, width:140, marginTop: 10 }}/>
-                  <Text style={{}} >名称 : GB846-85</Text>
-                  <Text style={{}} >规格 : 32X55</Text>
-                  <Text style={{}} >表色 ： 黑色</Text>
-                  <Text style={{}} >价格 ： 23323</Text>
-
-
-                </TouchableOpacity>
-
-                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
-
-                  <Image
-                    source={require('../../../img/product1.jpg')}
-                    style={{height:160, width:140, marginTop: 10 }}/>
-                  <Text style={{}} >名称 : GB846-85</Text>
-                  <Text style={{}} >规格 : 32X55</Text>
-                  <Text style={{}} >表色 ： 黑色</Text>
-                  <Text style={{}} >价格 ： 23323</Text>
-
-
-                </TouchableOpacity>
-
-                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
-
-                  <Image
-                    source={require('../../../img/product1.jpg')}
-                    style={{height:160, width:140, marginTop: 10 }}/>
-                  <Text style={{}} >名称 : GB846-85</Text>
-                  <Text style={{}} >规格 : 32X55</Text>
-                  <Text style={{}} >表色 ： 黑色</Text>
-                  <Text style={{}} >价格 ： 23323</Text>
-
-
-                </TouchableOpacity>
-
-                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
-
-                  <Image
-                    source={require('../../../img/product1.jpg')}
-                    style={{height:160, width:140, marginTop: 10 }}/>
-                  <Text style={{}} >名称 : GB846-85</Text>
-                  <Text style={{}} >规格 : 32X55</Text>
-                  <Text style={{}} >表色 ： 黑色</Text>
-                  <Text style={{}} >价格 ： 23323</Text>
-
-
-                </TouchableOpacity>
-
-                <TouchableOpacity activeOpacity={1} style={{justifyContent: 'center', alignItems: 'center', width: '50%', borderWidth: 1, borderColor: 'grey', flexDirection:'column', backgroundColor:'white', marginBottom: 5}} onPress={() => this.props.navigation.navigate('Single_Product_Home',{ Products_ID : product.Products_ID})}>
-
-                  <Image
-                    source={require('../../../img/product1.jpg')}
-                    style={{height:160, width:140, marginTop: 10 }}/>
-                  <Text style={{}} >名称 : GB846-85</Text>
-                  <Text style={{}} >规格 : 32X55</Text>
-                  <Text style={{}} >表色 ： 黑色</Text>
-                  <Text style={{}} >价格 ： 23323</Text>
-
-
-                </TouchableOpacity>
-
-              </View>
               {/* Search Result */}
-
 
 
 
