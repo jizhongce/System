@@ -137,6 +137,66 @@ export function SearchOverlayExist(Search_Overlay_Flag) {
 }
 
 
+export function FliterOverlayExist(Fliter_Overlay_Flag) {
+
+  if (Fliter_Overlay_Flag) {
+
+    return({})
+
+  } else {
+
+    return({display: 'none'})
+
+  }
+
+}
+
+
+export function FliterPriceSliderExist(Fliter_Price_Slider_Flag) {
+
+  if (Fliter_Price_Slider_Flag) {
+
+    return({})
+
+  } else {
+
+    return({display: 'none'})
+
+  }
+
+}
+
+
+export function FliterOptionStyle(Fliter_Option_Flag) {
+
+  if (Fliter_Option_Flag) {
+
+    return({backgroundColor: '#d2d2d2'})
+
+  } else {
+
+    return({})
+
+  }
+
+}
+
+
+export function Stock_Status_Prase(Stock_Status) {
+
+  if (Stock_Status == 0) {
+
+    return('需订货')
+
+  } else {
+
+    return('有货')
+
+  }
+
+}
+
+
 export function MessageExistStyle(Message_Flag) {
 
   if (Message_Flag == true) {
