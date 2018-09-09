@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
-from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_All_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_All_Messages, Get_Single_Message, Get_Single_Order_Shipping
+from Server_utli import UrlParse, Log_In, Sign_Up, Sign_Up_Send_Verify_Code, Change_Password_Send_Verify_Code, Change_Password, Get_User_Info, Get_Products, Get_Shopping_Cart, Add_To_Shopping_Cart, Add_To_Favorite_Product, Get_User_Profile, Get_Favorite_Product, Get_All_Messages, Get_Single_Message, Get_Single_Order_Shipping
 from Server_utli import Get_Order, Change_User_Name, Check_Favorite_Exist, Delete_From_Favorite_Product, Get_Single_Product_Info, Shopping_Cart_Quantity_Change, Delete_From_Shopping_Cart, Get_Address_Book, Add_New_Address, Delete_Address, Edit_Address, Get_Single_Order, Submit_Order, Deposit_Payment_Submited, Search_Product
 import json
 import time
@@ -17,8 +17,13 @@ class MyNewhandler(BaseHTTPRequestHandler):
         URL_PATH = UrlParse_Res['path']
 
 
-        if URL_PATH == '/get_all_products':
-            (STATUS_CODE, DATA) = Get_All_Products()
+        if URL_PATH == '/get_products':
+            URL_QUERY = UrlParse_Res['query']
+
+            Products_Index = URL_QUERY['Products_Index'][0]
+
+            (STATUS_CODE, DATA) = Get_Products(Products_Index)
+
             if STATUS_CODE == ErrorCode.SUCCESS_CODE:
 
                 self.send_response(STATUS_CODE)

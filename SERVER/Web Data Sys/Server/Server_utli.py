@@ -804,9 +804,9 @@ def Decode_To_String(Data):
 # End of decode utf-8 function
 
 
-# Start the Get_All_Products function
+# Start the Get_Products function
 
-def Get_All_Products():
+def Get_Products(Products_Index):
     '''
     This is function to get all products from the database
     '''
@@ -821,7 +821,7 @@ def Get_All_Products():
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT * FROM Products')
+    QUERYSQL = ('SELECT * FROM Products LIMIT {}'.format((int(Products_Index)+5)))
 
     CURSOR.execute(QUERYSQL)
 
@@ -844,7 +844,7 @@ def Get_All_Products():
 
 
 
-#End of the Get_All_Products function
+#End of the Get_Products function
 
 
 # Search function

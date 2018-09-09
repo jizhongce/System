@@ -476,13 +476,14 @@ End of User_Home function after log in
 
 start of Home1 function
 
-getAllproducts
+getproducts
 
 */
 
-export function getAllproducts(cb){
+export function getproducts(Products_Index , cb){
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://localhost:8080/get_all_products", true);
+  var parameters = CreateParametersForRequest("Products_Index", Products_Index)
+  xhr.open("GET", "http://localhost:8080/get_products" + "?" + parameters , true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send();
 
