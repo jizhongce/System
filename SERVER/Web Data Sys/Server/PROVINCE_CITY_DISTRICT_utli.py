@@ -5,6 +5,13 @@ import os
 
 
 def Get_District(City_Code):
+    '''
+    The whole function is to get district for each city, The main idea is:
+    1. first we get the whole html page according to the City_Code passed with agrument
+    2. Second, we get the lines which contain each district name
+    3. next, we split the line into the district
+    4. for each district content, we split the front and end to get the name
+    '''
     District_Link = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/%s.html" % City_Code
 
     District_Response = urllib.request.Request(District_Link, headers={'User-Agent': 'Chrome/51.0.2704.103'})
@@ -13,15 +20,18 @@ def Get_District(City_Code):
 
     with urllib.request.urlopen(District_Response) as html:
         for Lines in html:
+            # match the whole line which contain the district
             if re.match('<tr class=\'countytr\'>.{0,}</td></tr>', Lines.decode('GB18030')):
+                # decode with GB18030 is used for decode into chinese
                 District_Content = Lines.decode('GB18030')
 
     District = list()
 
     for district in District_Content.split('</td></tr>'):
         if len(district.split('</td><td>')) == 2:
+            # split the each district contect from front and get second fragment
             Temp_District = district.split('</td><td>')[1]
-
+            # split the each district contect from end
             Temp_District = Temp_District.split('html\'>')
 
             District_Name = Temp_District[(len(Temp_District)-1)].replace('</a>', '')
@@ -33,6 +43,11 @@ def Get_District(City_Code):
 
 
 def Get_City(Province_Code):
+    '''
+    The procedure to get the city according to the province code is same as the function above
+    The only difference is the pattern and the city content is different
+    And in the city function we also need to call the district function to get the district for each city as well 
+    '''
     City_Link = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/%s.html" % Province_Code
 
     City_Response = urllib.request.Request(City_Link, headers={'User-Agent': 'Chrome/51.0.2704.103'})
@@ -93,7 +108,7 @@ def Get_Province_City_District():
 
     return(Province_City_District)
 
-
+#  Here we write the whole data out into json file
 if os.path.isfile('./Province_City_District.json') :
     os.remove('./Province_City_District.json')
 
