@@ -62,7 +62,7 @@ def CreateUserID():
     while True:
         UserID = uuid.uuid4()
 
-        QUERYSQL = ('SELECT User_ID FROM Users WHERE User_Name = \'{}\' ').format(UserID)
+        QUERYSQL = ('SELECT User_ID FROM Users WHERE User_ID = \'{}\' ').format(UserID)
 
         CURSOR.execute(QUERYSQL)
 
@@ -829,9 +829,10 @@ def Get_Products(Products_Index):
 
     Product_List = []
 
+
     if QUERYLIST:
         for product in QUERYLIST:
-            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
+            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir, Products_Category) = product
             Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
 
     CURSOR.close()
