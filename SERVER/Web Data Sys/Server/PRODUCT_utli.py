@@ -3,6 +3,7 @@ import json
 import re
 import os
 import math
+import sys
 
 
 
@@ -97,11 +98,15 @@ def GetProductSpec(Product_Spec_Content):
 
 
 # Get Prodcut Spec list for one product
-def GetProductSpecs(Product_Code, Product_Pages):
+def GetProductSpecs(Product_Code, Product_Pages, Total_Product):
     # Get product spec and price
     # http://www.shhdw.com/category.php?id=88
 
     Product_Spec_List = list()
+
+    Stored_Product = 0
+
+    Bar_Length = 30
 
     for Page in range(Product_Pages):
 
@@ -110,11 +115,16 @@ def GetProductSpecs(Product_Code, Product_Pages):
         with urllib.request.urlopen(Product_Index_Link) as html:
             Product_Spec_Raw_Content = html.read().decode('utf-8').replace('\n', ' ')
             Product_Spec_Content_List = re.search('<table.{1,}</table>', Product_Spec_Raw_Content).group().split('<tr height="30">')
-            index = 0
             for Product_Spec_Content in Product_Spec_Content_List:
                 if re.search('\"goods.php\\?id=\d{1,}\"', Product_Spec_Content) != None:
                     Product_Spec_List.append(GetProductSpec(Product_Spec_Content))
-
+                    # Write a progress bar
+                    Stored_Product = Stored_Product + 1
+                    Bar_Stored = '.' * int(Stored_Product*Bar_Length/Total_Product)
+                    Bar_Unstored = ' ' * (Bar_Length-int(Stored_Product*Bar_Length/Total_Product))
+                    Bar = Bar_Stored + Bar_Unstored
+                    sys.stdout.write('[{}] \033[92m{}%\033[0m\r'.format(Bar ,round(100.0*Stored_Product/ float(Total_Product),1)))
+                    sys.stdout.flush()
 
     return(Product_Spec_List)
 
@@ -131,7 +141,7 @@ def GetProductSpecsPages(Product_Code):
         Total_Product = int(re.search('\d{1,}', Pages_Content).group())
         Pages = math.ceil(Total_Product/40)
 
-    return(Pages)
+    return((Pages, Total_Product))
 
 
 
@@ -147,7 +157,7 @@ def GetProduct():
         Line_Index = 0
         for Lines in html:
             # Here we need to get the lines which contain the category infomation
-            if Line_Index <= 280 and Line_Index >= 143:
+            if Line_Index <= 286 and Line_Index >= 143:
                 Product_Content = Product_Content + Lines.decode('utf-8')
             Line_Index = Line_Index + 1
 
@@ -156,8 +166,6 @@ def GetProduct():
 
     Product_List = dict()
 
-    Index = 0
-
     for Product_Category in Product_Category_Content_List:
         # First, for each category, we need to find category name by using the function GetCategory
         Category_Name = GetCategory(re.search('<dt>.{0,}</dt>', Product_Category).group())
@@ -165,27 +173,43 @@ def GetProduct():
         Product_Content_List = Product_Category.split('</dt>')[1].split('<dd>')
         Product_List[Category_Name] = list()
 
-        for Product_Content in Product_Content_List:
-            if re.search('category.php\\?id=\d{1,}\">.{0,}</a></dd>', Product_Content) != None and Index == 2:
+        print('{} information downloading....'.format(Category_Name))
 
-                print(Product_Content)
+        for Product_Content in Product_Content_List:
+            if re.search('category.php\\?id=\d{1,}\">.{0,}</a></dd>', Product_Content) != None:
 
                 (Product_Name, Product_Code) = GetProductNameCode(Product_Content)
 
-                Product_Pages = GetProductSpecsPages(Product_Code)
+                (Product_Pages, Total_Product) = GetProductSpecsPages(Product_Code)
 
-                print(GetProductSpecs(Product_Code, Product_Pages))
-                print(len(GetProductSpecs(Product_Code, Product_Pages)))
-                # Product_List[Category_Name].append({'Product_Name' : Product_Name, 'Specs' : GetProductSpecs(Product_Code)})
+                print('{} information downloading....'.format(Product_Name))
 
-            Index = Index + 1
+                Product_List[Category_Name].append({'Product_Name' : Product_Name, 'Specs' : GetProductSpecs(Product_Code, Product_Pages, Total_Product)})
+
+                print('\n {} \033[92mDone\033[0m!'.format(Product_Name))
+
+
         # ?P<first_name>
         # for Product_Content in Product_Category.split('</dt>')[1].split('<dd>')[]:
         #     pass
+        print('Category {} \033[92mDone\033[0m!'.format(Category_Name))
+
 
     return(Product_List)
 
 
 Products = GetProduct()
 
-print(Products)
+
+#  Here we write the whole data out into json file
+if os.path.isfile('./Products.json') :
+    os.remove('./Products.json')
+
+print('Writing.....')
+file = open("Products.json", "w")
+
+file.write(json.dumps(Products))
+
+print('Done!')
+
+file.close()

@@ -2,6 +2,7 @@ import mysql.connector
 import uuid
 import passlib.hash
 import datetime
+from Database_Table_Reset import Create_Tables
 
 def CreateTimeNOW():
     return(datetime.datetime.now())
@@ -13,6 +14,10 @@ def CreateVerifyCodeTime():
 passlib.hash.sha256_crypt.hash("jizhongce123")
 
 '''
+
+
+Create_Tables()
+
 
 USER1 = str(uuid.uuid4())
 USER2 = str(uuid.uuid4())
