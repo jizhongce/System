@@ -182,6 +182,21 @@ export function FliterOptionStyle(Fliter_Option_Flag) {
 }
 
 
+export function SpecOptionShowStyle(Spec_Show_Flag) {
+
+  if (Spec_Show_Flag) {
+
+    return({})
+
+  } else {
+
+    return({display: 'none'})
+
+  }
+
+}
+
+
 export function Stock_Status_Prase(Stock_Status) {
 
   if (Stock_Status == 0) {

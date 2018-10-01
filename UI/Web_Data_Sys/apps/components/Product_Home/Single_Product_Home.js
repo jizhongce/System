@@ -662,9 +662,10 @@ export default class Single_Product_Home extends Component<{}> {
 
               <View style={{marginTop:5, marginLeft:5, marginRight:5, marginBottom: 5, flexDirection:'row', justifyContent: 'space-between',}}>
 
+                <Text style={{fontSize: 15}}>类别 : {this.state.product.Products_Category}</Text>
                 <Text style={{fontSize: 15}}>规格 : {this.state.product.Products_Spec}</Text>
                 <Text style={{fontSize: 15}}>表色 : {this.state.product.Products_Color}</Text>
-                <Text style={{fontSize: 15}}>加工处理 : {this.state.product.Products_Color}</Text>
+
 
               </View>
 

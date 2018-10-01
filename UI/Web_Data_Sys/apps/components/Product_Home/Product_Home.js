@@ -30,7 +30,7 @@ rightButton = {<TouchableOpacity>
 
 */
 import {getproducts} from '../../server.js';
-import {Product_Image, StockStatusCheck, FliterOverlayExist, FliterPriceSliderExist, FliterOptionStyle, Stock_Status_Prase} from '../../util.js';
+import {Product_Image, StockStatusCheck, FliterOverlayExist, FliterPriceSliderExist, FliterOptionStyle, Stock_Status_Prase, SpecOptionShowStyle} from '../../util.js';
 import React, { Component } from 'react';
 import Status_Bar from '../Status_Bar.js';
 import {Divider} from 'react-native-elements';
@@ -85,8 +85,14 @@ export default class Product_Home extends Component<{}> {
       Spec_Option: '',
       Spec_Flag: '',
 
+      Spec_show: 0,
+      Spec_Show_Flag: false,
+
       Color_Option: '',
       Color_Flag: '',
+
+      Category_Option: '',
+      Category_Flag: '',
 
     };
   }
@@ -98,6 +104,17 @@ export default class Product_Home extends Component<{}> {
 
     this.setState({
       Stcok_Flag : Stock_Flag
+    }, () =>{this.Update_Product()});
+
+  }
+
+  Category_Option_Handler(Index){
+
+    Category_Flag = this.state.Category_Flag
+    Category_Flag[Index] = !Category_Flag[Index]
+
+    this.setState({
+      Category_Flag : Category_Flag
     }, () =>{this.Update_Product()});
 
   }
@@ -155,6 +172,8 @@ export default class Product_Home extends Component<{}> {
 
     var Stcok_Flag = new Array(this.state.Stock_Option.length)
     Stcok_Flag.fill(false);
+    var Category_Flag = new Array(this.state.Category_Option.length)
+    Category_Flag.fill(false);
     var Spec_Flag = new Array(this.state.Spec_Option.length)
     Spec_Flag.fill(false);
     var Color_Flag = new Array(this.state.Color_Option.length)
@@ -162,6 +181,8 @@ export default class Product_Home extends Component<{}> {
 
     this.setState({
       Stock_Flag: Stcok_Flag,
+
+      Category_Flag: Category_Flag,
 
       Spec_Flag: Spec_Flag,
 
@@ -203,6 +224,26 @@ export default class Product_Home extends Component<{}> {
   }
 
 
+  Spec_Option_Show_More_Handler(){
+
+    this.setState({
+      Spec_show: Fliter_Options.Spec_Option.length,
+      Spec_Show_Flag: true,
+    });
+
+  }
+
+
+  Spec_Option_Show_Less_Handler(){
+
+    this.setState({
+      Spec_show: Fliter_Options.Spec_Option.length < 5 ? Fliter_Options.Spec_Option.length : 5,
+      Spec_Show_Flag: false,
+    });
+
+  }
+
+
   Update_Product(){
 
     // First we need to Match for each Fliter
@@ -211,6 +252,8 @@ export default class Product_Home extends Component<{}> {
     var Stock_Result_List = this.Match_Fliter_List(this.state.Stock_Option, this.state.Stock_Flag)
 
     var Color_Result_List = this.Match_Fliter_List(this.state.Color_Option, this.state.Color_Flag)
+
+    var Category_Result_List = this.Match_Fliter_List(this.state.Category_Option, this.state.Category_Flag)
 
     var Price_High_Limit = this.state.Price_High_Limit
 
@@ -236,12 +279,20 @@ export default class Product_Home extends Component<{}> {
 
           if (Color_Result_List.indexOf(Original_Products[product].Products_Color) > -1) {
 
-            // Forth we need check price
-            if (Original_Products[product].Products_Price >= Price_Low_Limit && Original_Products[product].Products_Price <= Price_High_Limit) {
 
-              Result_Product_List.push(Original_Products[product])
+            if (Category_Result_List.indexOf(Original_Products[product].Products_Category) > -1) {
+
+              // Forth we need check price
+              if (Original_Products[product].Products_Price >= Price_Low_Limit && Original_Products[product].Products_Price <= Price_High_Limit) {
+
+                Result_Product_List.push(Original_Products[product])
+
+              }
+
+
 
             }
+
 
 
           }
@@ -298,9 +349,11 @@ export default class Product_Home extends Component<{}> {
 
   Product_Fliter_Option_Finder(Products){
     var Color_Option = []
+    var Category_Option = []
     var Spec_Option = []
     var Stock_Option = []
     var Color_Option_Flag = []
+    var Category_Option_Flag = []
     var Spec_Option_Flag = []
     var Stock_Option_Flag = []
     for (var product in Products) {
@@ -308,6 +361,13 @@ export default class Product_Home extends Component<{}> {
 
         Color_Option.push(Products[product].Products_Color)
         Color_Option_Flag.push(false)
+
+      }
+
+      if (Category_Option.indexOf(Products[product].Products_Category) == -1) {
+
+        Category_Option.push(Products[product].Products_Category)
+        Category_Option_Flag.push(false)
 
       }
 
@@ -327,7 +387,7 @@ export default class Product_Home extends Component<{}> {
 
     }
 
-    return({"Color_Option" : Color_Option, "Color_Option_Flag": Color_Option_Flag, "Spec_Option" : Spec_Option, "Spec_Option_Flag": Spec_Option_Flag, "Stock_Option" : Stock_Option, "Stock_Option_Flag": Stock_Option_Flag})
+    return({"Color_Option" : Color_Option, "Color_Option_Flag": Color_Option_Flag, "Spec_Option" : Spec_Option, "Spec_Option_Flag": Spec_Option_Flag, "Stock_Option" : Stock_Option, "Stock_Option_Flag": Stock_Option_Flag, "Category_Option": Category_Option, "Category_Option_Flag": Category_Option_Flag})
   }
 
   Refresh_Products(Products_Index){
@@ -340,7 +400,19 @@ export default class Product_Home extends Component<{}> {
 
         Price_Limit = this.Product_Price_Limit_Finder(Products)
 
+        Price_Low_Limit = Price_Limit[0]-1000
+
+        if (Price_Low_Limit < 0) {
+
+          Price_Low_Limit = 1
+
+        }
+
+        console.log(Price_Low_Limit);
+
         Fliter_Options = this.Product_Fliter_Option_Finder(Products)
+
+        console.log(Fliter_Options);
 
 
         this.setState({
@@ -351,16 +423,22 @@ export default class Product_Home extends Component<{}> {
           Fliter_Flag: false,
           Price_Low_Flag: false,
           Price_High_Flag: false,
-          Price_Low_Limit: Price_Limit[0]-1000,
+          Price_Low_Limit: Price_Low_Limit,
           Price_High_Limit: Price_Limit[1]+1000,
-          Price_Lowest_Limit: Price_Limit[0]-1000,
+          Price_Lowest_Limit: Price_Low_Limit,
           Price_Highest_Limit: Price_Limit[1]+1000,
 
           Stock_Option: Fliter_Options.Stock_Option,
           Stock_Flag: Fliter_Options.Stock_Option_Flag,
 
+          Category_Option: Fliter_Options.Category_Option,
+          Category_Flag: Fliter_Options.Category_Option_Flag,
+
           Spec_Option: Fliter_Options.Spec_Option,
           Spec_Flag: Fliter_Options.Spec_Option_Flag,
+
+          Spec_show: Fliter_Options.Spec_Option.length < 5 ? Fliter_Options.Spec_Option.length: 5,
+          Spec_Show_Flag: false,
 
           Color_Option: Fliter_Options.Color_Option,
           Color_Flag: Fliter_Options.Color_Option_Flag,
@@ -467,10 +545,11 @@ export default class Product_Home extends Component<{}> {
                       <Image
                         source={Product_Image[product.Products_Image_Dir]}
                         style={{height:160, width:140, marginTop: 10 }}/>
-                      <Text style={{}} >名称 : {product.Products_Name}</Text>
-                      <Text style={{}} >规格 : {product.Products_Spec}</Text>
-                      <Text style={{}} >表色 ： {product.Products_Color}</Text>
-                      <Text style={{}} >价格 ： {product.Products_Price}</Text>
+                      <Text style={{padding: 5}} >名称 : {product.Products_Name}</Text>
+                      <Text style={{padding: 2}} >种类 : {product.Products_Category}</Text>
+                      <Text style={{padding: 2}} >规格 : {product.Products_Spec}</Text>
+                      <Text style={{padding: 2}} >表色 ： {product.Products_Color}</Text>
+                      <Text style={{padding: 2}} >价格 ： {product.Products_Price}</Text>
 
 
                     </TouchableOpacity>
@@ -506,15 +585,54 @@ export default class Product_Home extends Component<{}> {
                   <Text style={{fontSize: 18}}>规 格</Text>
                 </View>
 
+                <View >
+
+                  <View style={{padding: 10, flexDirection: 'row', flexWrap: 'wrap', width: '100%'}}>
+
+                    {
+                      this.state.Spec_Option.slice(0,this.state.Spec_show).map((Spec_Option, i) => {
+
+                        return(
+
+                          <TouchableOpacity onPress={() => this.Spec_Option_Handler(i)} key={i}  activeOpacity={1} style={[FliterOptionStyle(this.state.Spec_Flag[i]), {padding: 10, borderWidth: 1, borderRadius: 5, margin: 5}]}>
+                            <Text style={{fontSize: 15}}>{Spec_Option}</Text>
+                          </TouchableOpacity>
+
+
+                        );
+                      })
+                    }
+
+                  </View>
+
+                  <TouchableOpacity onPress={() => this.Spec_Option_Show_More_Handler()} style={[SpecOptionShowStyle(!this.state.Spec_Show_Flag) ,{padding: 10, flexDirection: 'row-reverse'}]}>
+                    <Text style={{fontSize: 15}}>更多</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => this.Spec_Option_Show_Less_Handler()} style={[SpecOptionShowStyle(this.state.Spec_Show_Flag) ,{padding: 10, flexDirection: 'row-reverse'}]}>
+                    <Text style={{fontSize: 15}}>收起</Text>
+                  </TouchableOpacity>
+
+
+                </View>
+
+
+
+
+                <View style={{padding: 10, borderBottomWidth: 1, borderColor: '#f5f5f5'}}>
+                  <Text style={{fontSize: 18}}>类 别</Text>
+                </View>
+
                 <View style={{padding: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
 
+
                   {
-                    this.state.Spec_Option.map((Spec_Option, i) => {
+                    this.state.Category_Option.map((Category_Option, i) => {
 
                       return(
 
-                        <TouchableOpacity onPress={() => this.Spec_Option_Handler(i)} key={i}  activeOpacity={1} style={[FliterOptionStyle(this.state.Spec_Flag[i]), {padding: 10, borderWidth: 1, borderRadius: 5, margin: 5}]}>
-                          <Text style={{fontSize: 15}}>{Spec_Option}</Text>
+                        <TouchableOpacity onPress={() => this.Category_Option_Handler(i)} key={i} activeOpacity={1} style={[FliterOptionStyle(this.state.Category_Flag[i]), {padding: 10, borderWidth: 1, borderRadius: 5, margin: 5}]}>
+                          <Text style={{fontSize: 15}}>{Category_Option}</Text>
                         </TouchableOpacity>
 
 
@@ -522,8 +640,8 @@ export default class Product_Home extends Component<{}> {
                     })
                   }
 
-
                 </View>
+
 
 
                 <View style={{padding: 10, borderBottomWidth: 1, borderColor: '#f5f5f5'}}>

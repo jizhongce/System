@@ -29,7 +29,7 @@ rightButton = {<TouchableOpacity>
 
 
 */
-import {SearchButtonExist, SearchOverlayExist, DropDownHolder, Product_Image, CancelExistStyle} from '../../util.js';
+import {SearchButtonExist, SearchOverlayExist, DropDownHolder, Product_Image, CancelExistStyle, SpecOptionShowStyle} from '../../util.js';
 import {searchproduct} from '../../server.js';
 import { Icon, Header } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';

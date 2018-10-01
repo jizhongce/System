@@ -821,7 +821,7 @@ def Get_Products(Products_Index):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT * FROM Products LIMIT {}'.format((int(Products_Index)+5)))
+    QUERYSQL = ('SELECT * FROM Products LIMIT {}'.format((int(Products_Index)+10)))
 
     CURSOR.execute(QUERYSQL)
 
@@ -833,7 +833,7 @@ def Get_Products(Products_Index):
     if QUERYLIST:
         for product in QUERYLIST:
             (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir, Products_Category) = product
-            Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
+            Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Category": Decode_To_String(Products_Category)})
 
     CURSOR.close()
 
@@ -890,10 +890,10 @@ def Search_Product(Search_Term):
 
     if QUERYLIST:
         for product in QUERYLIST:
-            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
-            Search_String = Decode_To_String(Products_Name) + ' ' + Decode_To_String(Products_Number) + ' ' + Decode_To_String(Products_Spec) + ' ' + Decode_To_String(Products_Color)
+            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir, Products_Category) = product
+            Search_String = Decode_To_String(Products_Name) + ' ' + Decode_To_String(Products_Number) + ' ' + Decode_To_String(Products_Spec) + ' ' + Decode_To_String(Products_Color) + ' ' + Decode_To_String(Products_Category)
             if Search_Term_In_String(Search_Term_List, Search_String):
-                Result_Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
+                Result_Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir),"Products_Category": Decode_To_String(Products_Category)})
 
     else:
         STATUS = ErrorCode.NO_PRODUCT_ERROR
@@ -936,8 +936,8 @@ def Get_Single_Product_Info(Product_ID):
     QUERYLIST = CURSOR.fetchall()
 
     if QUERYLIST:
-        (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = QUERYLIST[0]
-        DATA = {"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)}
+        (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir, Products_Category) = QUERYLIST[0]
+        DATA = {"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Category": Decode_To_String(Products_Category)}
 
     else:
         STATUS = ErrorCode.NO_SUCH_PRODUCT_ERROR
@@ -972,7 +972,7 @@ def Get_Shopping_Cart(userid):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Shopping_Cart.Products_Units FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Status, Products.Products_Spec, Products.Products_Color, Products.Products_Price, Products.Products_Image_Dir, Shopping_Cart.Products_Units, Shopping_Cart.Products_Category FROM Products, Shopping_Cart, Shopping_Cart_User WHERE Shopping_Cart_User.User_ID = \'{}\' AND Shopping_Cart_User.Shopping_Cart_ID = Shopping_Cart.Shopping_Cart_ID AND Shopping_Cart.Products_ID = Products.Products_ID;'.format(userid))
 
     CURSOR.execute(QUERYSQL)
 
@@ -982,8 +982,8 @@ def Get_Shopping_Cart(userid):
 
     if QUERYLIST:
         for product in QUERYLIST:
-            (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, ProductUnits) = product
-            Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(ProductUnits)})
+            (Products_ID, Products_Name, Products_Number,  Products_Status, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, ProductUnits, Products_Category) = product
+            Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(ProductUnits), "Products_Category": Decode_To_String(Products_Category)})
 
     CURSOR.close()
 
@@ -1341,7 +1341,7 @@ def Get_Favorite_Product(USER_ID):
 
     CURSOR = CONNECTIONS.cursor(buffered=True)
 
-    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Products.Products_Status, Products.Products_Price, Products.Products_Image_Dir FROM Products, Favorite_Products WHERE Favorite_Products.Products_ID = Products.Products_ID AND User_ID = \'{}\';'.format(USER_ID))
+    QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Products.Products_Status, Products.Products_Price, Products.Products_Image_Dir, Products.Products_Category  FROM Products, Favorite_Products WHERE Favorite_Products.Products_ID = Products.Products_ID AND User_ID = \'{}\';'.format(USER_ID))
 
     CURSOR.execute(QUERYSQL)
 
@@ -1351,8 +1351,8 @@ def Get_Favorite_Product(USER_ID):
 
     if QUERYLIST:
         for product in QUERYLIST:
-            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir) = product
-            Favorite_Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir)})
+            (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Status, Products_Price, Products_Image_Dir, Products_Category) = product
+            Favorite_Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Status": Decode_To_String(Products_Status), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Category": Decode_To_String(Products_Category) })
 
         DATA = Favorite_Product_List
 
@@ -1407,7 +1407,7 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
                 (Order_ID, Order_Status, Order_Total_Price) = Order
 
-                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Products.Products_Category, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
 
                 CURSOR.execute(QUERYSQL)
 
@@ -1419,9 +1419,9 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
                     for product in QUERYLIST:
 
-                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Price, Products_Units) = product
+                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Category, Products_Price, Products_Units) = product
 
-                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units)})
+                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units), "Products_Category": Decode_To_String(Products_Category)})
 
 
                 else:
@@ -1463,7 +1463,7 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
                 (Order_ID, Order_Status, Order_Total_Price) = Order
 
-                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Products.Products_Category, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
 
                 CURSOR.execute(QUERYSQL)
 
@@ -1475,9 +1475,9 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
                     for product in QUERYLIST:
 
-                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Price, Products_Units) = product
+                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Category, Products_Price, Products_Units) = product
 
-                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units)})
+                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units), "Products_Category": Decode_To_String(Products_Category)})
 
 
                 else:
@@ -1517,7 +1517,7 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
                 (Order_ID, Order_Status, Order_Total_Price) = Order
 
-                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+                QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Spec, Products.Products_Color, Products.Products_Image_Dir, Products.Products_Category, Orders_Products.Products_Price, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
 
                 CURSOR.execute(QUERYSQL)
 
@@ -1529,9 +1529,9 @@ def Get_Order(USER_ID, ORDER_TYPE):
 
                     for product in QUERYLIST:
 
-                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Price, Products_Units) = product
+                        (Products_ID, Products_Name, Products_Spec, Products_Color, Products_Image_Dir, Products_Category, Products_Price, Products_Units) = product
 
-                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units)})
+                        Product_List.append({"Products_ID": Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Products_Units), "Products_Category": Decode_To_String(Products_Category)})
 
 
                 else:
@@ -1602,7 +1602,7 @@ def Get_Single_Order(User_ID, Order_ID):
             (Address_ID, Address_Name, Address_Phone_Number, Street, City, Province, District, Latitude, Longitude) = QUERYLIST[0]
             Shipping_Info = {"Address_ID": Decode_To_String(Address_ID), "Address_Name": Decode_To_String(Address_Name), "Address_Phone_Number": Decode_To_String(Address_Phone_Number), "Street": Decode_To_String(Street), "City": Decode_To_String(City), "Province": Decode_To_String(Province), 'District': Decode_To_String(District), 'Latitude': Decode_To_String(Latitude), 'Longitude': Decode_To_String(Longitude)}
 
-            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Orders_Products.Products_Price, Products.Products_Image_Dir,  Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
+            QUERYSQL = ('SELECT Products.Products_ID, Products.Products_Name, Products.Products_Number, Products.Products_Spec, Products.Products_Color, Orders_Products.Products_Price, Products.Products_Image_Dir, Products.Products_Category, Orders_Products.Products_Units FROM Products, Orders_Products WHERE Orders_Products.Order_ID = \'{}\' AND Orders_Products.Products_ID = Products.Products_ID ;'.format(Decode_To_String(Order_ID)))
 
 
             print(QUERYSQL)
@@ -1615,8 +1615,8 @@ def Get_Single_Order(User_ID, Order_ID):
 
             if QUERYLIST:
                 for product in QUERYLIST:
-                    (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, Product_Units) = product
-                    Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Units": Decode_To_String(Product_Units)})
+                    (Products_ID, Products_Name, Products_Number, Products_Spec, Products_Color, Products_Price, Products_Image_Dir, Products_Category, Product_Units) = product
+                    Product_List.append({"Products_ID":Decode_To_String(Products_ID), "Products_Name": Decode_To_String(Products_Name), "Products_Number": Decode_To_String(Products_Number), "Products_Spec": Decode_To_String(Products_Spec), "Products_Color": Decode_To_String(Products_Color), "Products_Price": Decode_To_String(Products_Price), "Products_Image_Dir": Decode_To_String(Products_Image_Dir), "Products_Category": Decode_To_String(Products_Category), "Products_Units": Decode_To_String(Product_Units)})
 
                 Order_Info = {"Basic_Info": Decode_To_String(Basic_Info), "Shipping_Info": Decode_To_String(Shipping_Info), "Product_List": Decode_To_String(Product_List)}
                 DATA = Order_Info
