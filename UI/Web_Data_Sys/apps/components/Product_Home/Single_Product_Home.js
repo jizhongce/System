@@ -656,7 +656,7 @@ export default class Single_Product_Home extends Component<{}> {
 
               <View style={{marginTop:5, marginLeft:5, marginBottom: 10}}>
 
-                <Text style={{fontSize: 25, textAlign: 'left',}}>{this.state.product.Products_Name}(XXXXXXXXXXXXXXXXXXXXX)</Text>
+                <Text style={{fontSize: 25, textAlign: 'left',}}>{this.state.product.Products_Name}</Text>
 
               </View>
 
