@@ -24,7 +24,6 @@ rightButton = {<TouchableOpacity>
 
 <TabBarIOS >
 
-
 </TabBarIOS>
 
 

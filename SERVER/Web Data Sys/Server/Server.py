@@ -608,7 +608,7 @@ class MyNewhandler(BaseHTTPRequestHandler):
 
 def Start_Server(server_class, handler_class):
 
-    print("Welcome to System Board Server!\n")
+    print("Welcome to System Board Server! Listen from port number : 8080\n")
 
     httpd = server_class(("", 8080), handler_class)
     httpd.serve_forever()
