@@ -1,14 +1,14 @@
 //
-//  HardwareUITests.swift
-//  HardwareUITests
+//  Hardware_IOSUITests.swift
+//  Hardware_IOSUITests
 //
-//  Created by Tim.Ji on 11/29/18.
-//  Copyright © 2018 Zhongce Ji. All rights reserved.
+//  Created by Tim.Ji on 1/30/19.
+//  Copyright © 2019 Zhongce Ji. All rights reserved.
 //
 
 import XCTest
 
-class HardwareUITests: XCTestCase {
+class Hardware_IOSUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

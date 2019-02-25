@@ -1,15 +1,15 @@
 //
-//  HardwareTests.swift
-//  HardwareTests
+//  Hardware_IOSTests.swift
+//  Hardware_IOSTests
 //
-//  Created by Tim.Ji on 11/29/18.
-//  Copyright © 2018 Zhongce Ji. All rights reserved.
+//  Created by Tim.Ji on 1/30/19.
+//  Copyright © 2019 Zhongce Ji. All rights reserved.
 //
 
 import XCTest
-@testable import Hardware
+@testable import Hardware_IOS
 
-class HardwareTests: XCTestCase {
+class Hardware_IOSTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
