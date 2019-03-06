@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2251C6C5222370C3009D4797 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251C6C4222370C3009D4797 /* UserViewController.swift */; };
+		2251C6C72223B98F009D4797 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251C6C62223B98F009D4797 /* SignUpViewController.swift */; };
+		2251C6CA2223BCF7009D4797 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2251C6C92223BCF7009D4797 /* logo.png */; };
+		2251C6CC2225D35A009D4797 /* SMSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251C6CB2225D35A009D4797 /* SMSSignInViewController.swift */; };
+		2251C6CE22267B5D009D4797 /* SignedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251C6CD22267B5D009D4797 /* SignedInViewController.swift */; };
+		2251C6D1222F40F2009D4797 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2251C6CF222F40F2009D4797 /* UserTableViewCell.swift */; };
+		2251C6D2222F40F2009D4797 /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2251C6D0222F40F2009D4797 /* UserTableViewCell.xib */; };
 		22C7A0DA2202883F007913CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C7A0D92202883F007913CF /* AppDelegate.swift */; };
 		22C7A0DC2202883F007913CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C7A0DB2202883F007913CF /* ViewController.swift */; };
 		22C7A0DF2202883F007913CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22C7A0DD2202883F007913CF /* Main.storyboard */; };
@@ -34,6 +41,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2251C6C4222370C3009D4797 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		2251C6C62223B98F009D4797 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		2251C6C92223BCF7009D4797 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		2251C6CB2225D35A009D4797 /* SMSSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSSignInViewController.swift; sourceTree = "<group>"; };
+		2251C6CD22267B5D009D4797 /* SignedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedInViewController.swift; sourceTree = "<group>"; };
+		2251C6CF222F40F2009D4797 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		2251C6D0222F40F2009D4797 /* UserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
 		22C7A0D62202883F007913CF /* Hardware_IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hardware_IOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C7A0D92202883F007913CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22C7A0DB2202883F007913CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +88,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2251C6C82223BCCC009D4797 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				2251C6C92223BCF7009D4797 /* logo.png */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		22C7A0CD2202883F007913CF = {
 			isa = PBXGroup;
 			children = (
@@ -97,8 +119,15 @@
 		22C7A0D82202883F007913CF /* Hardware_IOS */ = {
 			isa = PBXGroup;
 			children = (
+				2251C6C82223BCCC009D4797 /* Image */,
 				22C7A0D92202883F007913CF /* AppDelegate.swift */,
+				2251C6C4222370C3009D4797 /* UserViewController.swift */,
 				22C7A0DB2202883F007913CF /* ViewController.swift */,
+				2251C6CB2225D35A009D4797 /* SMSSignInViewController.swift */,
+				2251C6CD22267B5D009D4797 /* SignedInViewController.swift */,
+				2251C6CF222F40F2009D4797 /* UserTableViewCell.swift */,
+				2251C6D0222F40F2009D4797 /* UserTableViewCell.xib */,
+				2251C6C62223B98F009D4797 /* SignUpViewController.swift */,
 				22C7A0DD2202883F007913CF /* Main.storyboard */,
 				22C7A0E022028841007913CF /* Assets.xcassets */,
 				22C7A0E222028841007913CF /* LaunchScreen.storyboard */,
@@ -229,9 +258,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2251C6CA2223BCF7009D4797 /* logo.png in Resources */,
 				22C7A0E422028841007913CF /* LaunchScreen.storyboard in Resources */,
 				22C7A0E122028841007913CF /* Assets.xcassets in Resources */,
 				22C7A0DF2202883F007913CF /* Main.storyboard in Resources */,
+				2251C6D2222F40F2009D4797 /* UserTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +288,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				22C7A0DC2202883F007913CF /* ViewController.swift in Sources */,
+				2251C6CE22267B5D009D4797 /* SignedInViewController.swift in Sources */,
+				2251C6D1222F40F2009D4797 /* UserTableViewCell.swift in Sources */,
+				2251C6C5222370C3009D4797 /* UserViewController.swift in Sources */,
+				2251C6CC2225D35A009D4797 /* SMSSignInViewController.swift in Sources */,
+				2251C6C72223B98F009D4797 /* SignUpViewController.swift in Sources */,
 				22C7A0DA2202883F007913CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
