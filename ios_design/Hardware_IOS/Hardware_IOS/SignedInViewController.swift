@@ -75,15 +75,26 @@ class SignedInViewController: UIViewController, UITableViewDelegate, UITableView
         
         User_Info.Table_Cell_Label.text = Temp_Name
         
-        var Temp_Image : UIImage
+        var Temp_Image : UIImage = UIImage(named: "blank-20")!
         
         switch Temp_Name {
+        case "个 人 信 息":
+            Temp_Image = UIImage(named: "profile-20")!
+        case "订 单 信 息":
+            Temp_Image = UIImage(named: "order-20")!
+        case "地 址 簿":
+            Temp_Image = UIImage(named: "address-20")!
+        case "收 藏 夹":
+            Temp_Image = UIImage(named: "favorite-20")!
+        case "设 置":
+            Temp_Image = UIImage(named: "setting-20")!
         case "退 出 登 录":
             Temp_Image = UIImage(named: "log_out-20")!
-            User_Info.Table_Cell_Pic.image = Temp_Image
         default:
             print(Temp_Name)
         }
+        
+        User_Info.Table_Cell_Pic.image = Temp_Image
         
         if indexPath.section != Sections.count-1  {
             User_Info.Table_Cell_Forward_Pic.image = Table_Cell_Forward_Pic
