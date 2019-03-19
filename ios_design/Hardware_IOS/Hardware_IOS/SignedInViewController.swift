@@ -104,6 +104,63 @@ class SignedInViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let Temp_Name = Section_Names[indexPath.section][indexPath.row]
+        
+        switch Temp_Name {
+        case "个 人 信 息":
+            
+            let Personal_Info_View: PersonalInfoViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonalInfoView") as! PersonalInfoViewController
+            
+            self.navigationController?.pushViewController(Personal_Info_View, animated: true)
+            
+        case "订 单 信 息":
+            
+            let Order_View: OrderViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrderView") as! OrderViewController
+            
+            self.navigationController?.pushViewController(Order_View, animated: true)
+            
+            
+        case "地 址 簿":
+            
+            let Address_View: AddressViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddressView") as! AddressViewController
+            
+            self.navigationController?.pushViewController(Address_View, animated: true)
+            
+            
+        case "收 藏 夹":
+            
+            let Favorite_View: FavoriteViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FavoriteView") as! FavoriteViewController
+            
+            self.navigationController?.pushViewController(Favorite_View, animated: true)
+            
+            
+        case "设 置":
+            
+            let Setting_View: SettingViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingView") as! SettingViewController
+            
+            self.navigationController?.pushViewController(Setting_View, animated: true)
+            
+        case "退 出 登 录":
+            self.navigationController?.popViewController(animated: true)
+        default:
+            print(Temp_Name)
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Section_Height
     }
