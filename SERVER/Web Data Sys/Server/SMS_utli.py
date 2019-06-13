@@ -67,9 +67,9 @@ import requests
 
 def SendSMS(PhoneNum, CODE):
     # This is the accesskey and accessSecret
-    accessKeyId = "LTAIWAFaI2a8kv8n"
+    accessKeyId = "put you id"
 
-    accessSecret = "PX0FiQFOTauO0rt7WAtZR4l7s7FILw"
+    accessSecret = "put your secret"
 
     PARAMETER = "{\"Code\":" + "\"" + str(CODE) + "\"}"
 
